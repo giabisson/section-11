@@ -34,10 +34,14 @@ Monotony: [X.XX] ([primary sport] [X.XX], total [X.XX]); [note]
 Total hours, last 7 days: [XhYm]
 Total activities, last 7 days: [XX]
 Total TSS, last 7 days: [XXX]
+sRPE 7d: [weekly_au] AU (bike [bike_7d] + run [run_7d]); monotony [X.XX] [omit block if srpe null]
+Run thresholds: CS [X.XXX] m/s (threshold pace [M:SS/km]), D′ [XXX] m ([confidence]) [omit if run thresholds unconfigured]
+Run spike: ratio [X.XX] (baseline [XXX] AU, n=[X]) — context only, never a readiness input [omit if run_spike unavailable]
 
 Planned Workouts for Today (Planned TSS: [XXX]):
 [WorkoutType] [Duration]: [main set condensed, e.g., "3×12m @260W"]
 [Use workout_summary as source. Condense to main set; omit warmup/cooldown/recovery steps. If workout_summary is null, use description_preview.]
+[Brick legs (session_template BRICK-1/BRICK-2): bike [W, duration] + transition [≤90 s] + run [pace/duration, first 500–1000 m at/below average]. Two sRPE entries planned.]
 
 [If rest day: "Rest day: no sessions scheduled."]
 [If rest day: "Next session: [Day]: [workout preview]"]

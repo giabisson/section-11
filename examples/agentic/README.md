@@ -320,6 +320,17 @@ Maps Section 11 Workout Reference template IDs to Intervals.icu description synt
 | AN-1 | Anaerobic 8x30s | `- 15m ramp 50%-75%\n\n8x\n- 30s 150%\n- 4m30s Z1\n\n- 10m 50%` |
 | AN-2 | Anaerobic 10x1m | `- 15m ramp 50%-75%\n\n10x\n- 1m 130-150%\n- 3m Z1\n\n- 10m 50%` |
 
+Run/brick rows use the same syntax pushed with `--type Run --target PACE`, so `%` resolves to the athlete's threshold pace (never absolute pace). Bricks are two events pushed together via the `brick` subcommand.
+
+| R-VO2-1 | Run 30/30 | `- 10m Z1\n\n12x\n- 30s 100%\n- 30s 50%\n\n- 10m Z1` |
+| R-VO2-2 | Run 15/15 | `- 10m Z1\n\n2x\n- 8m 90%/80% 15s/15s\n- 5m Z1\n\n- 10m Z1` |
+| R-VO2-3 | Run long reps | `- 15m Z1\n\n5x\n- 3m 95-100%\n- 2m Z1\n\n- 10m Z1` |
+| R-EASY-1 | Easy run | `- 45m Z1` |
+| R-TH-1 | Threshold 30m | `- 15m Z1\n- 30m 100%\n- 10m Z1` |
+| R-TT-1 | 5K TT | `- 15m Z1\n- 5km max\n- 10m Z1` |
+| R-HILL-1 | Uphill reps | `- 15m Z1\n\n8x\n- 75s hill\n- 3m Z1\n\n- 10m Z1` |
+| BRICK-1/2/3 | Brick legs | Bike leg + run leg as two events (`brick --bike bike.json --run run.json`); run leg opens easy per template |
+
 ### What NOT To Do
 
 - **Don't use absolute watts**: use `%FTP` ranges so workouts stay correct if FTP changes

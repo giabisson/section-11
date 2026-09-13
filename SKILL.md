@@ -1,6 +1,6 @@
 ---
 name: section-11
-description: Evidence-based endurance coaching protocol (v11.66). Use when analyzing training data, reviewing sessions, generating pre/post-workout reports, planning workouts, answering training questions, or giving endurance coaching advice. Always read or fetch athlete JSON data before responding to any training question.
+description: Evidence-based endurance coaching protocol (v11.68). Use when analyzing training data, reviewing sessions, generating pre/post-workout reports, planning workouts, answering training questions, or giving endurance coaching advice. Always read or fetch athlete JSON data before responding to any training question.
 ---
 
 # Section 11 - AI Coaching Protocol
@@ -69,7 +69,7 @@ Load the coaching protocol using this precedence:
 
 If both root and `section11/` copies exist, prefer the root copy.
 
-**Current version:** 11.66
+**Current version:** 11.68
 
 ## External Sources
 
@@ -101,7 +101,8 @@ All external files referenced by this skill (`sync.py`, `SECTION_11.md`, templat
 ## Write Capabilities
 
 If `push.py` is available (`section11/examples/agentic/push.py` or in the data repo), the skill can manage the athlete's Intervals.icu calendar and training data:
-- **push**: write planned workouts to calendar
+- **push**: write planned workouts to calendar (run workouts use `--type Run --target PACE`; run/brick template IDs `R-*`/`BRICK-*` in `examples/workout-library/WORKOUT_REFERENCE.md`)
+- **brick**: push a same-day bike+run brick pair (`--bike` + `--run` JSON, validated as a pair)
 - **list**: show planned workouts for a date range
 - **move**: reschedule a workout to a different date
 - **delete**: remove a workout from the calendar

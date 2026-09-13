@@ -1,10 +1,21 @@
 # Section 11 - AI Coach Protocol
 
-**Protocol Version:** 11.66  
-**Last Updated:** 2026-09-10
+**Protocol Version:** 11.68  
+**Last Updated:** 2026-09-13
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 ### Changelog
+
+**v11.68 - Run library completed (13 run-choosable templates):** §1I aerobic (`R-EASY-1`/`R-RECOVERY-1`/`R-LONG-1`, Z1 + RPE-capped, durations are defaults under §5.2), §1J threshold (`R-TH-1` 30-min dual test/workout at 100% CS), §1K anchor (`R-TT-1` 5K TT supplying V_anchor), §1L neuromuscular (`R-HILL-1` uphill reps, `R-STRIDES-1` primer appended to easy runs only), `BRICK-3` race-simulation (competition only, VAR cost stated in prescription). All intensities derive from CS/vVO2max/LTHR/RPE — no new physiological cutoffs. Cycling templates, formulas, and bands untouched.
+
+**v11.67 - Run+bike coach: same-rigor run leg alongside byte-identical cycling (doc + additive schema + exporter v3.132 / push v0.6):**
+- **Load currency:** session-RPE block (`duration_min × RPE`, T+30 min collection, brick two-entry sum, cross-sport total, sample-SD monotony/strain mirror). AU never converts to TSS; TSS alert bands never apply to AU. TSS/CTL/ATL/TSB/ACWR path unchanged.
+- **Concurrent rules:** cross-sport hard-day 48 h supremacy with ≥2 h same-day separation (only tested value); VO2max non-interference (Hickson 1980; Wilson et al. 2012, 21 studies / 422 ES).
+- **Run thresholds:** CS/D′ hyperbola + Tlim for V>CS only; `threshold_pace := CS`; run LTHR/HR run-measured only (+5–10 bpm expectation, never written). VDOT single-anchor concept, no book numbers. CS test ≥3 bouts of 2–15 min on separate days; validity reuses existing gates; never auto-updates, never enters P0–P3.
+- **Run TID:** per-sport view through the unchanged Treff/5-class classifier; pyramidal base → polarized competition (Esteve-Lanao 2007; Muñoz 2014; Stöggl-Sperlich 2014; Casado 2022; Kenneally 2017). Kenneally-2018 covered by Casado, not fetched.
+- **Workouts:** run templates R-VO2-1 (Billat 30/30 → 7:51 vs 2:42) / R-VO2-2 (15/15 small-amplitude → 14 vs 7 min) / R-VO2-3 (Buchheit long ≥95%, ≤6–8 km cap) + bricks BRICK-1 (CON 65% MAP skill) / BRICK-2 (6-session LONG block → post-bike 5K −64±59 s); VAR 40–140% (+42±37 s/9.3 km) prohibited before quality runs.
+- **Guardrails:** descriptive run-spike ratio (RUNSAFE same-site 6.9% @7 d / 11.1% @28 d) with 48 h remodel + conservative return (no % ramp); economy levers advisory-only (Barnes-Kilding 2015). Readiness supremacy, Tier-2 ACWR treatment, and DFA-a1 run `validated: false` unchanged. Bike-only inputs reproduce prior outputs exactly.
+- **Schema:** additive optional keys only (`run.anchor`, `srpe{}`, `run_spike{}`, `bricks[]`, per-activity `srpe_au`, `econ_advisory[]`, new `session_template` IDs); `intervals.json schema_version` stays 1. Exporter v3.132 emits `srpe`/`run_spike`/`bricks` in `derived_metrics` + `srpe_au` per activity; push v0.6 adds the `brick` subcommand (same-day pair validation). `run.cs_ms`/`dprime_m`/`vvo2max_ms` stay AI-layer (fitting needs exhaustive bouts the activity list cannot identify).
 
 **v11.66 - Sleep quality scale labels corrected, and the quality/score exclusion rationale restated (`sync.py` v3.131):**
 - **The exporter's sleep quality labels did not match Intervals.icu.** `wellness_field_scales.sleep_quality` labelled the 1–4 scale GREAT / OK / POOR / WORST, while Intervals.icu labels the same positions Great, Good, Average, Poor. Labels at positions 2–4 differed from Intervals.icu; notably, position 3 was labelled POOR instead of AVERAGE, so a recorded 3 reached the AI layer as POOR. Raw values and scale direction are unchanged: 1 is best and 4 is worst in both. Labels only: JSON keys, readiness scoring and every other field's labels are untouched, and the legend in `examples/json-examples/latest.json` is aligned to match.
@@ -353,6 +364,12 @@ If multiple Intervals.icu sport settings map to the same family:
 2. If tied, select by activity type name (alphabetical) for deterministic stability
 3. Record in audit metadata which entry was selected
 
+**Run extension (v11.67, cycling behavior unchanged):**
+- `threshold_pace` (m/s) is the speed at LT2/RCT/vLT2. `CS` (m/s, asymptote) + `D′` (m, curvature) are the run FTP/W′ twins: `(V−CS)·t = D′`, `V = D′/t + CS`, `Tlim = D′/(V−CS)` for V>CS only; no Tlim claim at/below CS (Jones 2010; Poole 2016: CP ~80% VO2max, typical error ~5%).
+- `lthr`/`max_hr` are run-measured only; cross-sport copy is prohibited (`"No thresholds configured for run"`). Expectation only (never written): run ≈ cycling +5–10 bpm (Millet-Vleck-Bentley 2009 §1.2.4).
+- VDOT-style anchor (concept only, book not sourced): one validated recent run result → `V_anchor = distance_m / time_s`; it selects/validates the CS derivation, never writes thresholds. Kenneally-2018 covered by Casado 2022, not fetched/cited.
+- Optional additive keys (null/omitted = unknown): `cs_ms`, `dprime_m`, `vvo2max_ms`, `anchor{dist_m, time_s, v_ms, date}`.
+
 #### Athlete Profile Schema
 
 `athlete_profile` is a stable identity block sourced from the Intervals.icu athlete endpoint at sync time. Fields:
@@ -575,6 +592,15 @@ All AI analyses, interpretations, and recommendations must be grounded in valida
 |   Saw, Main & Gastin (2016), Br J Sports Med 50(5):281–291 | Subjective self-report sensitivity vs objective markers for acute training response; basis for athlete-reported state ranking high in same-day continuation |
 |   Haddad, Stylianides, Djaoui, Dellal & Chamari (2017), Front Neurosci 11:612 | Session-RPE validity and influencing factors; basis for RPE as supporting evidence rather than a standalone stop |
 |   Plews, Laursen, Stanley, Kilding & Buchheit (2013), Sports Med 43(9):773–781 | HRV monitoring requires standardized resting measurement; basis for excluding intra-day post-exercise HRV from the readiness decision |
+|   Hickson (1980), Eur J Appl Physiol 45:255–263 (n=23, 10 wk) | Concurrent-training anchor: VO2max gains preserved under S+E; strength diverges wk7–10; basis for ≥2 h separation and no VO2max penalty |
+|   Wilson et al. (2012), J Strength Cond Res 26(8) (21 studies / 422 ES) | Quantified interference: power S 0.91 / E 0.11 / C 0.55 (all differ); VO2max E 1.37 vs C 1.41 NS; running (not cycling) drives leg strength/hypertrophy loss; frequency/duration dose |
+|   Foster et al. (2001), J Strength Cond Res 15(1) (n=12 cycle + n=14 basketball) | Session-RPE currency: duration × RPE vs Edwards 5-zone TRIMP; systematically larger scores, overlapping regressions; mode/intensity-independent bike+run aggregator |
+|   Jones (2010) / Poole (2016), MSSE (CP/CS) | CP/CS = heavy/severe boundary; (P−CP)·t = W′, Tlim = W′/(P−CP); run form (V−CS)·t = D′; tests 2–15 min; typical CP error ~5% |
+|   Millet-Vleck-Bentley (2009), Sports Med 39(3) §1.2.4 | Per-sport HR mandate: run HRmax ~5% higher; tri cycling 6–10 bpm lower; VT/LT deltas 8–20 bpm; never copy cycling thresholds |
+|   Esteve-Lanao (2007) / Muñoz (2014) / Stöggl-Sperlich (2014) / Casado (2022) / Kenneally (2017) | Run TID: pyramidal base → polarized competition; Z1-emphasis beats Z2-emphasis (−157±13 s vs −121.5±7.1 s); rec polarized 5.0% vs 3.6% (strict d=1.29); POL +11.7%/+17.4%/+5.1%; elite 110–195 km/wk. Kenneally-2018 covered by Casado, not fetched; Daniels = single-anchor concept only |
+|   Buchheit-Laursen (2013) I+II; Billat (2000) 30/30 → 7:51 vs 2:42 (n=8); Billat (2001) 15/15 → 14 vs 7 min (n=7) | Run intervals: 9 prescription variables; ≥90% VO2max criterion; 6–8 km @vVO2max neuromuscular cap; small-amplitude 15/15 lowest-lactate path |
+|   Millet-Vleck (2000); Etxebarria (2013: 1 h VAR 40–140% vs CON 65% MAP → +42±37 s/9.3 km, n=12; 2014: LONG 6×/3 wk → post-bike 5K −64±59 s, n=14) | Bricks as own category: CR +1.6–11.6%; trunk-lean cue; CON skill bricks; VAR prohibited before quality runs |
+|   Hreljac (2004); Frandsen/Nielsen (2025) RUNSAFE (1666: 28% overload / 64% sudden-repetitive / 8% gradual; same-site 6.9% @7 d / 11.1% @28 d); Barnes-Kilding (2015) | Guardrails: fatigue-curve rest/remodeling; descriptive single-session spike (never ACWR bands); economy levers advisory-only |
 
 ---
 
@@ -719,6 +745,8 @@ Where Z1, Z2, Z3 are fractional time in each Seiler zone (0–1).
 If no condition matches (e.g., polarized structure but PI ≤ 2.0), classify as Pyramidal.
 
 **Dual Calculation:** TID is computed twice: for all sports combined and for the primary sport only (like monotony). This catches cases where multi-sport training inflates easy time.
+
+**Run TID targets (v11.67, classifier unchanged — Treff PI + 5-class order, 7d/28d drift, Tier-3 posture):** the run leg is read as a per-sport view through the same code path. Base/preparatory: pyramidal Z1>Z2>Z3 (~80% Z1; Esteve-Lanao 2007: 80.5/11.8/8.3 beats 66.8/24.7/8.5; marathon 75.85/15.99/8.16). Competition: polarized Z1>Z3>Z2 with PI>2.0 (Casado 2022 shift; Stöggl-Sperlich 2014: POL +11.7% VO2peak / +17.4% TTE / +5.1% peak; Muñoz 2014 recreational ~77/3/20 envelope: 5.0% vs 3.6%, strict-adherer d=1.29). Elite context informational only (110–195 km/wk; 1500 m more polarized). Threshold-model flag (>35% Z2, or ≥20% Z2 at the expense of Z1) → existing ≥2-week grey-zone response, applied per-sport.
 
 **Dual-Timeframe TID (7d vs 28d):**
 
@@ -1249,6 +1277,19 @@ When recommendation is `modify`, the output includes trigger categories and adju
 **Race week interaction:** Readiness can escalate (Go → Modify → Skip) during race week but cannot loosen race protocol targets. When `race_week_defers: true`, modification guidance defers to the race-week protocol's day-by-day targets. The race protocol sets the ceiling; readiness can only push it down.
 
 **JSON output location:** Top-level `readiness_decision` object in `latest.json`, alongside `alerts` and `derived_metrics`.
+
+---
+
+### Run Spike + Remodeling (v11.67)
+
+Cycling ACWR bands/logic are unchanged and never apply to running (Tier-2 treatment per Impellizzeri et al. 2020 stays).
+
+- `R-SPIKE-1` (descriptive, never a readiness gate): `session_spike_ratio = session_sRPE / mean(prior-14d run session_sRPE)`, today excluded, n≥3 else `unavailable` (round 2dp). Basis: Garmin-RUNSAFE 18-mo cohort, 1666 first injuries = 467 overload-acute-sudden (28%) + 1199 overuse (72%), of which sudden-repetitive 1065 (64% of all) and gradual 134 (8%); same-site prior problem 6.9% (95% CI 5.5–8.4) at 7 d, 11.1% (9.4–13.0) at 28 d — absence of prior pain does not clear. Report ratio + n + baseline only; P0–P3 alone decides go/modify/skip.
+- `R-REST-1`: any run with `is_hard_session=true` → next hard run ≥48 h later (adequate-rest half of the Hreljac 2004 fatigue curve; sub-tensile stress + rest → stronger, curve shifts up; disuse shifts it down; optimal-not-minimal stress; running impacts 1.5–5 BW over 10–30 ms).
+- `R-REST-2` (remodeling window): after any `RUN_SPIKE_OBSERVED` report or same-site problem/pain, next 48 h run = rest or `is_hard_session=false` only; second hard run requires morning readiness `go` + solicited Feel. A low ratio never loosens readiness.
+- `R-REST-3` (return): after prolonged zero or any injury/illness marker, next run = conservative initial placement under the existing placement rule; no percentage ramp is adopted (the familiar 10% rule is unsourced).
+- Economy levers (Barnes-Kilding 2015, `ECON_ADVISORY`, never gates/inputs/threshold modifiers): cumulative history/volume (weak); level+uphill HIIT at 93–120% vVO2max / vOBLA, typically 1–7% RE, equivocal, 132% ineffective; short-term heavy/explosive resistance + plyometrics 6–14 wk via neuromuscular stiffness (typically 4–8%); altitude-responder 2–7% RE; stiffness optimal-not-maximal; nitrates ~5% VO2 in non-run modes + caffeine 7 mg/kg modest lift.
+- Audit on every application: `reason_code` (`RUN_SPIKE_OBSERVED` / `RUN_SPIKE_UNAVAILABLE` / `RUN_REMOTELED_REST` / `RUN_RETURN_PLACEMENT` / `ECON_ADVISORY`), `confidence` (high n≥5 / medium n=3–4 / unavailable), `scope: run_only`, `readiness_eligible: false`.
 
 ---
 
@@ -2288,7 +2329,7 @@ A test during non-go readiness produces a number that anchors future training on
 | Ramp test (e.g., FTP Ramp) | ~25–35 min | Shorter, less pacing skill required, reproducible indoor protocol | Tends to overestimate for endurance athletes (VO₂max-biased); produces a number that over-prescribes threshold work |
 | 2×8-min test | ~45 min | Less fatiguing than 20-min, better for mid-block checks, pacing easier than 20-min | Less common; athlete less familiar with effort; single-day dependency still applies |
 
-**Running equivalents** (30-min threshold run, 5K time trial, critical speed test): deferred to a later version. Owner: pace curve extension when running data becomes available.
+**Running equivalents** (v11.67): critical-speed test (primary: ≥3 constant-speed runs to exhaustion, each Tlim 2–15 min, separate days, flat course; fit `distance = CS·t + D′` by least squares; `threshold_pace := CS`) + 5K / 30-min threshold run (anchor/confirmation: `V_anchor = distance_m / time_s`; `|CS − V_anchor|` >5% → investigate, same tolerance class as the pacing rule). Validity reuses the Interpretation Rules above (readiness `go`, no illness/injury ≤14 d, not Peak/Taper/race-week, heat tier <2, pacing ±5%, severe-bout RPE 8–9/9–10, environment-matched; fail → reject/retest). Result surfaces number + delta; the athlete decides the update. Audit: `confidence` high (≥4 bouts) / medium (3) / unavailable, `scope: run`, `readiness_eligible: false`.
 
 All cycling protocols are outdoor-or-indoor; the result inherits the environment. Indoor tests produce an indoor FTP; outdoor tests produce an outdoor FTP. The shipped `ftp_indoor` / `ftp` split in `current_status.thresholds.sports[family]` already supports this; both should be recorded upstream if both environments are trained.
 
@@ -2415,6 +2456,19 @@ These metrics are **secondary** to the primary readiness markers defined in Sect
 3. **Tertiary diagnostics:** Zone Distribution Metrics, Durability Sub-Metrics, Capability Metrics (Aggregate Durability, TID Drift, Power Curve Delta, HR Curve Delta, Sustainability Profile)
 
 Do not override primary readiness signals with secondary load metrics.
+
+#### Session-RPE Load Currency (v11.67, bike+run aggregator)
+
+The TSS/CTL/ATL/TSB/ACWR path above is unchanged and remains authoritative for cycling load. Session-RPE is a parallel cross-sport reporter (Foster et al. 2001):
+
+- `sRPE_TL (AU) = duration_min × RPE`. Scale: modified Borg CR 0–10 (0 Rest, 1 Very Very Easy, 2 Easy, 3 Moderate, 4 Somewhat Hard, 5 Hard, 7 Very Hard, 10 Maximal). `duration_min` = total session minutes including warm-up, recoveries, and rests.
+- Collection: ask `How was your workout?` at T_end + 30 min. Single global number default; fractionated part-ratings summed only if the athlete insists. Missing/RPE ≤ 0 → `null`, never estimated.
+- Brick rule: bike leg and run leg are two session entries with own `duration_min × RPE`; `brick_sRPE = sum(legs)`.
+- Aggregation: `daily_sRPE = sum(sessions that calendar day)`; `weekly_sRPE = sum(7 calendar daily totals, zeros included)`. Per-sport subtotals (`bike_sRPE_7d`, `run_sRPE_7d`) are context only.
+- HR-TRIMP reference (validation anchor only): `TRIMP_HR = Σ time_zone_i × i` over 50–60%=1 … 90–100% HRpeak. sRPE scores run systematically larger than HR-TRIMP with overlapping regressions: valid independent currency, never converted AU↔TSS.
+- `monotony_sRPE = mean(daily_sRPE_7d) / sample_stdev(daily_sRPE_7d)` (null if <2 days, all-zero, or stdev=0; 2dp); `strain_sRPE = round(weekly_sRPE × monotony_sRPE, 0)`; per-sport monotony requires ≥3 active days. TSS alert thresholds (2.5/2.3/3500) are TSS-calibrated and do not apply to AU.
+- Concurrent rules: no VO2max penalty for bike+run (Hickson; Wilson VO2max E 1.37 vs concurrent 1.41 NS). `is_hard_session=true` in either sport counts toward the 48 h spacing, §4 slots, and the back-to-back rule (`TSB>0 AND RI≥0.85`); same-day hard+easy permitted with ≥2 h separation (only tested value), ordered by race priority, second session `is_hard_session=false`.
+- Audit on every sRPE object: `reason_code` (`SRPE_COLLECTED` / `SRPE_FRACTIONATED` / `SRPE_MISSING` / `SRPE_OUT_OF_WINDOW`), `confidence` (high/medium/unavailable), `scope` (`cross_sport_total` / `per_sport` / `single_session`), `readiness_eligible: false` (Tier-2 retrospective context; never enters P0–P3; empirical sRPE never auto-updates thresholds).
 
 ---
 
@@ -2973,6 +3027,7 @@ See https://github.com/CrankAddict/section-11/tree/main/examples/reports for ann
 - Weather and coach note (if athlete location is available)
 - Phase context (when confidence is high or medium)
 - Readiness assessment (HRV, RHR, Sleep vs baselines)
+- Run/brick lines (when a run or brick is planned: run CS/D′ + confidence, bike CON W for bricks, run TID per-sport + drift, spike ratio + n as context only, sRPE legs planned)
 - Load context (TSB, ACWR, Load/Recovery, Monotony if > 2.3)
 - Capability snapshot (Durability 7d mean + trend; TID drift if not consistent)
 - Today's planned workout with duration and targets (or rest day + next session preview)
@@ -2981,8 +3036,8 @@ See https://github.com/CrankAddict/section-11/tree/main/examples/reports for ann
 See `PRE_WORKOUT_REPORT_TEMPLATE.md` in the examples directory for conditional fields and readiness decision logic.
 
 **Post-Workout Reports must include:**
-- One-line session summary
-- Completed session metrics (power, HR, zones, decoupling, VI, TSS vs planned)
+- One-line session summary (brick legs reported separately: bike leg + run leg + transition_s)
+- Completed session metrics (power, HR, zones, decoupling, VI, TSS vs planned; run/brick adds sRPE per leg + brick total, CS pace held vs opening constraint, end-bike lactate+RPE, spike report + 48 h remodel note, econ advisory ≤1 strength-labeled line)
 - Plan compliance assessment
 - Weekly running totals (phase context, polarization, durability 7d/28d + trend, TID 28d + drift, CTL, ATL, TSB, ACWR, hours, TSS)
 - Overall coach note (2-4 sentences: compliance, key quality observations, load context, recovery note)
@@ -3208,7 +3263,7 @@ Human-review override requires athlete confirmation and metadata flag "override"
 
 ### 8 - Workout Reference Interface
 
-When a plan requires a structured session (per Section 4), the AI must select from the **Workout Reference Library** (`examples/workout-library/WORKOUT_REFERENCE.md`).
+When a plan requires a structured session (per Section 4), the AI must select from the **Workout Reference Library** (`examples/workout-library/WORKOUT_REFERENCE.md`). Valid run/brick IDs (v11.68): `R-VO2-1`, `R-VO2-2`, `R-VO2-3`, `R-EASY-1`, `R-RECOVERY-1`, `R-LONG-1`, `R-TH-1`, `R-TT-1`, `R-HILL-1`, `R-STRIDES-1` (appended to an easy run, never standalone), `BRICK-1`, `BRICK-2`, `BRICK-3` (competition only). Interval formats state all 9 Buchheit variables; §5.2 precedence + compatibility guard apply per-sport; bricks count as one hard session each.
 
 **Selection rules:**
 - Match target adaptation (Sweet Spot, VO₂max, Endurance, etc.) to the session slot identified by the plan.
@@ -3392,6 +3447,11 @@ This subsection defines the formal self-validation and audit metadata structure 
 | `acwr_scope`                   | string   | `"live_retrospective"`: states the basis of `acwr` explicitly so the raw field is not mistaken for a decision input. |
 | `acwr_readiness_eligible`      | boolean  | `false`: `acwr` must not approve, modify or veto a session. Readiness uses `acwr_start_of_day`. |
 | `acwr_start_of_day`            | object   | Readiness basis for ACWR. Same 7d/28d windows and divisors as `acwr`, with activities dated `as_of_date` excluded, recomputed from current source data on every sync. Keys: `value` (number/null, null on a zero 28-day chronic mean, same rule as `acwr`), `interpretation` (same enum, same retrospective-label caveat), `scope` (`"start_of_day"`), `as_of_date` (ISO date emitted by the producer, the exclusion date, from the producing machine's local clock, not necessarily the athlete's timezone), `current_day_load_included` (`false`), `acute_days` (7), `chronic_days` (28). Does not move when a workout is completed today; does move when an earlier day's activity is backfilled or corrected. Identical to `acwr` on any sync with no activity dated `as_of_date`. See *Readiness Decision*. |
+| `srpe`                         | object/null | Additive v11.67. Cross-sport session-RPE block: `session_au`, `daily_au`, `weekly_au`, `bike_7d`, `run_7d`, `monotony`, `strain`, `reason_code`, `confidence`, `scope`; always carries `readiness_eligible: false`. Null/omitted = unknown; old consumers ignore. |
+| `run_spike`                    | object/null | Additive v11.67. Descriptive run spike: `session_ratio`, `baseline`, `n`, `reason_code`, `confidence`; `scope: run_only`, `readiness_eligible: false`. Never a readiness input. |
+| `bricks`                       | array  | Additive v11.67 (exporter v3.132). Same-day bike+run pairs: `date`, `bike_id`, `run_id`, `bike_tss`, `transition_s` (null when unparseable), `reason_code: BRICK_OBSERVED`, `scope: brick`, `readiness_eligible: false`. |
+| `srpe_au` (per activity)       | int/null | Additive v11.67 (exporter v3.132). Session sRPE = moving minutes × `icu_rpe`; null when RPE unusable (never estimated). |
+| `thresholds.sports.run.anchor` | object/null | Additive v11.67. Single-performance anchor `{dist_m, time_s, v_ms, date}`. `cs_ms` / `dprime_m` / `vvo2max_ms` stay AI-layer (no exporter source). Null/omitted = unknown. |
 | `seasonal_context`             | string   | Current position in annual training cycle                                           |
 | `consistency_index`            | number/null | Planned-date adherence over the display window: matched days / planned days (0–1). Null when no planned days exist. Coarse date matching; see *Plan Adherence Monitoring* |
 | `stress_tolerance`             | number   | Current load absorption capacity                                                    |

@@ -1,8 +1,8 @@
 # Section 11: Workout Reference Library
 
-**Version:** 0.7  
+**Version:** 0.9  
 **Companion to:** Section 11 B: AI Training Plan Protocol  
-**Last updated:** 2026-08-20
+**Last updated:** 2026-09-13
 
 ---
 
@@ -456,6 +456,223 @@ est_total_minutes: 75
 
 ---
 
+### 1G. Run VO₂max (Seiler Z3, run basis — never cycling FTP)
+
+Target adaptation: maximal aerobic power via time ≥90% VO₂max. All 9 Buchheit variables stated per template. Reference speeds are vVO₂max / critical velocity (Section 11 A run thresholds).
+
+#### R-VO2-1: Billat 30/30 (default run VO₂ format)
+```yaml
+id: R-VO2-1
+domain: vo2max
+is_hard_session: true
+work_minutes: 20
+est_total_minutes: 60
+```
+- **Zones:** Seiler Z3 (run basis)
+- **Structure:** 30 s @100% vVO₂max / 30 s @50% vVO₂max; straight-line run; reps to form failure (observed 19±5, n=8); 1–2 series; 4–5 min @≤60–70% vVO₂max between series
+- **Work:rest ratio:** 1:1
+- **Duration:** ~19 min work at 19 reps
+- **Coaching notes:** Protocol mean 7:51 at VO₂max vs 2:42 continuous vΔ50 (91.3% vVO₂max), lactate 6.8 vs 7.5 mmol/L NS (Billat 2000). Running counterpart to VO2-2. Stop on >5% pace drop.
+- **Select when:** Default run VO₂ session in Build; threshold base established.
+
+#### R-VO2-2: Billat 15/15 small-amplitude (low-lactate VO₂ format)
+```yaml
+id: R-VO2-2
+domain: vo2max
+is_hard_session: true
+work_minutes: 18
+est_total_minutes: 55
+```
+- **Zones:** Seiler Z3 (run basis)
+- **Structure:** 15 s/15 s, mean = critical velocity (~85% vVO₂max); preferred 90%/80% (amp 11%), allowed 100%/70% (amp 35%); 110%/60% (amp 59%) prohibited; straight-line run; reps to exhaustion; 1–2 series; 4–5 min @≤60–70% between series
+- **Work:rest ratio:** 1:1
+- **Duration:** session ends at exhaustion (protocol 14 min at VO₂max small/med amp vs 7 min wide; lactate 9 vs 11, n=7 — Billat 2001)
+- **Coaching notes:** Small amplitude is the low-lactate path to the same stimulus. Wide amplitude halves stimulus and raises lactate; it is not a progression.
+- **Select when:** Masters / LSD-background entry to VO₂ work, or fatigue-sensitive weeks.
+
+#### R-VO2-3: Buchheit long reps (high-neuromuscular VO₂ format)
+```yaml
+id: R-VO2-3
+domain: vo2max
+is_hard_session: true
+work_minutes: 20
+est_total_minutes: 65
+```
+- **Zones:** Seiler Z3 (run basis)
+- **Structure:** 2–4 min @≥95% vVO₂max (5–8×3 min or 4–6×4 min); relief ≤2 min passive; straight-line run, grass/treadmill preferred; single series
+- **Work:rest ratio:** ~3:2 to 2:1
+- **Duration:** 15–24 min work; expected T@VO₂max >10 min (Buchheit Table-1)
+- **Coaching notes:** Highest musculoskeletal cost of the three run formats. Cap fast volume ≤6–8 km @vVO₂max/session; max once/week; never with same-day strength/sprint work.
+- **Select when:** ≥3 R-VO2-1/R-VO2-2 completions; late Build / early Peak.
+
+### 1H. Bricks (domain: brick — one hard session each)
+
+Transition is its own stress (Millet & Vleck 2000: CR +1.6–11.6% ability-dependent; trunk-lean cue). Bike-pacing constraints (Etxebarria 2013, n=12): quality-brick bike = constant @65% MAP; stochastic 40–140% distribution (+42±37 s/9.3 km, first-half loaded) prohibited before quality runs. End-bike lactate/RPE recorded (r=0.51–0.55, no cutoff).
+
+#### BRICK-1: Transition-skill brick (default)
+```yaml
+id: BRICK-1
+domain: brick
+is_hard_session: true
+work_minutes: 65
+est_total_minutes: 80
+```
+- **Zones:** bike Z1–Z2 @65% MAP; run Z1→Z2 opening
+- **Structure:** bike 40–60 min constant @65% MAP; transition ≤90 s; run 15–25 min with first 500–1000 m at/below session-average pace; trunk-lean cue; flat road
+- **Duration:** 55–85 min combined
+- **Coaching notes:** Technique + economy session. Elevated end-bike lactate/RPE vs baseline → extend conservative opening to 1000 m. Two sRPE entries (bike leg + run leg).
+- **Select when:** First brick of a block; pre-race familiarization; any quality-run-off-bike week.
+
+#### BRICK-2: LONG-block brick (post-bike 5K adaptation block)
+```yaml
+id: BRICK-2
+domain: brick
+is_hard_session: true
+work_minutes: 55
+est_total_minutes: 90
+```
+- **Zones:** bike Z3–Z4 @80% VO₂peak power; run per plan, first half conservative
+- **Structure:** bike 6–8×5 min @80% VO₂peak power + 1 min recovery (+1 rep/wk, 6 sessions over 3 wk); transition ≤90 s; 5 km run TT
+- **Duration:** 30–40 min bike work + 5 km run
+- **Coaching notes:** Block prescription (only LONG substantially improved post-bike 5K, −64±59 s; both SHORT/LONG VO₂peak ~7% — Etxebarria 2014, n=14). Not a single-session fix. Don't combine with R-VO2-3 same week.
+- **Select when:** Post-bike run is the limiter; athlete tolerates 5-min reps; readiness `go`.
+
+#### BRICK-3: Race-simulation brick (competition only)
+```yaml
+id: BRICK-3
+domain: brick
+is_hard_session: true
+work_minutes: 90
+est_total_minutes: 110
+```
+- **Zones:** bike stochastic (surges into Z4–Z5); run at goal race pace, first 1 km capped at/below average
+- **Structure:** bike 60 min variable (surges to 120–140% MAP inside the Etxebarria 40–140% band); transition ≤90 s; run 20–30 min at goal pace
+- **Work:rest ratio:** n/a (continuous legs + transition)
+- **Duration:** 80–90 min combined
+- **Coaching notes:** Race reality (position fight) overrides the ideal progressive tactic (Millet & Vleck 2000) — this session rehearses it at the known price: expect ~42±37 s/9.3 km-class run cost vs a CON bike; state the cost in the prescription. End-bike lactate/RPE recorded.
+- **Select when:** Final 3 wk pre-race only; athlete has ≥2 BRICK-1 completions; readiness `go`. Never with R-VO2-3 in the same week.
+
+---
+
+### 1I. Run aerobic (Seiler Z1, RPE-capped)
+
+The bulk of run volume (~80% Z1 — Esteve-Lanao 2007). Intensities derive from CS, run LTHR/VT, or Foster RPE bands. Durations below are template defaults governed by §5.2 progression + readiness, not physiological thresholds.
+
+#### R-EASY-1: Easy aerobic run (default run filler)
+```yaml
+id: R-EASY-1
+domain: endurance
+is_hard_session: false
+work_minutes: 45
+est_total_minutes: 55
+```
+- **Zones:** Seiler Z1 (HR below VT / run LTHR; pace below CS), RPE ≤3
+- **Structure:** Continuous 30–60 min (default 45); flat-to-rolling, soft surface preferred for low impact (Hreljac 2004); no surges
+- **Work:rest ratio:** n/a (continuous)
+- **Duration:** 30–60 min
+- **Coaching notes:** The volume carrier of the pyramidal base. Shorten or stop on pain (R-REST-2); a drift above RPE 3 converts it to a different session — re-label, don't average.
+- **Select when:** Default filler between hard days; base-phase volume; the easy half of a hard+easy double.
+
+#### R-RECOVERY-1: Recovery jog
+```yaml
+id: R-RECOVERY-1
+domain: endurance
+is_hard_session: false
+work_minutes: 25
+est_total_minutes: 35
+```
+- **Zones:** Seiler Z1, RPE ≤2 (Foster: Easy)
+- **Structure:** Continuous 20–30 min (default 25); flat, soft surface
+- **Work:rest ratio:** n/a (continuous)
+- **Duration:** 20–30 min
+- **Coaching notes:** Satisfies the 48 h remodeling window (R-REST-2) with movement. If RPE 2 cannot be held, walk or rest instead — never push through.
+- **Select when:** Day after a hard run or brick; any 48 h remodeling window.
+
+#### R-LONG-1: Long aerobic run
+```yaml
+id: R-LONG-1
+domain: endurance
+is_hard_session: false
+work_minutes: 90
+est_total_minutes: 100
+```
+- **Zones:** Seiler Z1 throughout (pyramidal discipline; marathon profiles carry ~76% Z1 — Casado 2022), RPE ≤4
+- **Structure:** Continuous 60–120 min (default 90); rolling course allowed; even pacing, conservative opening per the brick rule
+- **Work:rest ratio:** n/a (continuous)
+- **Duration:** 60–120 min
+- **Coaching notes:** Extend only when the prior week's long run completed at RPE ≤4 with morning readiness `go`. Fuelling per existing rules on 75+ min efforts. Impact loading is the limiter (Hreljac), not cardio.
+- **Select when:** Weekly aerobic anchor in Base/Build; marathon-directed blocks.
+
+### 1J. Run threshold (at CS)
+
+#### R-TH-1: 30-min threshold run (dual test/workout)
+```yaml
+id: R-TH-1
+domain: threshold
+is_hard_session: true
+work_minutes: 30
+est_total_minutes: 55
+```
+- **Zones:** 100% CS (threshold pace), HR settling at run LTHR
+- **Structure:** Continuous 30 min at CS after standard warm-up; flat course, same shoes/surface for comparability; pacing stable ±5%
+- **Work:rest ratio:** n/a (continuous)
+- **Duration:** 30 min
+- **Coaching notes:** Doubles as threshold confirmation: |CS − V_anchor| >5% → investigate (Section 11 A test rule; cf. FT-1 dual-use precedent). RPE 5–7 expected (Foster: Hard to Very Hard).
+- **Select when:** Threshold development or confirmation in Build; never in taper/race week.
+
+### 1K. Run time trial (anchor)
+
+#### R-TT-1: 5K time trial (dual test/workout)
+```yaml
+id: R-TT-1
+domain: threshold
+is_hard_session: true
+work_minutes: 20
+est_total_minutes: 50
+```
+- **Zones:** Maximal steady effort (severe domain, V>CS by the Tlim formula)
+- **Structure:** 5 km time trial; first 1 km at/below session-average pace (progressive-opening evidence); flat road or track; standard warm-up
+- **Work:rest ratio:** n/a (continuous)
+- **Duration:** ~5 km (≈16–30 min by level)
+- **Coaching notes:** Supplies V_anchor = distance/time for the single-anchor prescription and CS validation (Section 11 A). Requires readiness `go` and valid conditions (no illness/injury ≤14 d, heat tier <2).
+- **Select when:** Anchor needed for a new block; pre-block baseline; post-block reassessment.
+
+### 1L. Run neuromuscular (low metabolic cost)
+
+Same-cardio formats differ in neuromuscular cost (Buchheit-II): these maintain recruitment without moving the TID needle.
+
+#### R-HILL-1: Uphill reps
+```yaml
+id: R-HILL-1
+domain: vo2max
+is_hard_session: true
+work_minutes: 15
+est_total_minutes: 55
+```
+- **Zones:** Hard uphill effort, RPE 7–8 (Foster: Very Hard), HR reaching Z3 by rep end (HR lags — effort leads)
+- **Structure:** 8–10 × 60–90 s steady climb; jog-down recovery 2–3 min; 1 series
+- **Work:rest ratio:** ~1:2
+- **Duration:** 8–15 min work
+- **Coaching notes:** Uphill + level HIIT improves running economy (Barnes-Kilding 2015) with less impact pounding than flat reps (Hreljac). Never with R-VO2-3 in the same week (neuromuscular-cost guard).
+- **Select when:** Build-phase power without track access; dry footing; established easy base.
+
+#### R-STRIDES-1: Strides (primer, not a session)
+```yaml
+id: R-STRIDES-1
+domain: endurance
+is_hard_session: false
+work_minutes: 5
+est_total_minutes: 40
+```
+- **Zones:** Relaxed-fast, ~90% of max sprint (MSS concept — Buchheit-II), RPE 6–7 over 20 s only
+- **Structure:** 6–8 × 20 s with 60–90 s walk/jog recovery; flat, soft surface; stop on form decay; appended to an R-EASY-1
+- **Work:rest ratio:** ~1:3
+- **Duration:** ~2–3 min fast running inside an easy run
+- **Coaching notes:** Recruitment maintenance, not fitness stimulus — never prescribed standalone. Keeps the easy day easy (TID-neutral by design).
+- **Select when:** 1–2×/wk in Base/Build; pre-race-week primer.
+
+---
+
 ## 2. Warm-Up & Cool-Down Protocols
 
 All structured sessions (§1B, 1C, 1D, 1E, 1F) require warm-up and cool-down. Endurance sessions (§1A) should use the ramp-in/ramp-out pattern described in the §1A pacing note: 10–15 min easing into target power at the start and stepping down at the end. This replaces a formal WU/CD and is recommended for all endurance rides regardless of duration.
@@ -719,6 +936,8 @@ The catalog above is cycling-focused. For multi-sport or alternative-sport athle
 | 0.5.0 | 2026-02-25 | Added machine-readable YAML metadata to all 26 templates (id, domain, is_hard_session, work_minutes, est_total_minutes). Updated catalog header with metadata schema description. |
 | 0.6.0 | 2026-02-28 | Hard-session classification split into the five-rung power ladder and two-rung HR fallback, with HR-classified hard days identified by `intensity_basis: "hr"`. (History row backfilled 2026-08-20; header had already read 0.6.) |
 | 0.7.0 | 2026-08-20 | §5.2 precedence clarified: a template's own progression note governs which progression variable changes and in what order; failing that the applicable Section 11 A progression pathway (§*1 for endurance, or the VO₂max or Sweet Spot rules in §*2); the generic duration/recovery/intensity ordering applies only when neither defines an order. Section 11 A gates unaffected. |
+| 0.8.0 | 2026-09-12 | Added §1G run VO₂max (R-VO2-1/R-VO2-2/R-VO2-3, run basis, all 9 Buchheit variables) + §1H bricks (BRICK-1/BRICK-2, one hard session each, CON 65% MAP / VAR prohibition). Cycling templates untouched. |
+| 0.9.0 | 2026-09-13 | Added §1I run aerobic (R-EASY-1/R-RECOVERY-1/R-LONG-1, Z1 + RPE-capped) + §1J threshold (R-TH-1 30-min dual test/workout) + §1K time trial (R-TT-1 5K anchor) + §1L neuromuscular (R-HILL-1/R-STRIDES-1) + BRICK-3 race-simulation. Intensities derive from CS/vVO2max/LTHR/RPE only. Cycling templates untouched. |
 
 ---
 

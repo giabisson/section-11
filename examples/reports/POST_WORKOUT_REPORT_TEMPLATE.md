@@ -37,7 +37,9 @@ Carbs used: [XXX] g
 TSS: [XXX] (planned [XXX])
 Feel: [X/5] ([label])
 RPE: [X/10]
+sRPE: [duration_min × RPE = XXX AU] [brick legs reported as two entries + brick total]
 Effort response: [positive/neutral/negative] [omit line if null]
+Brick: bike [W, duration] + transition [XX s] + run [pace/duration; opening constraint met/violated] [omit block unless brick session]
 Note: [description or chat_notes text]
 
 [Repeat block for every completed activity whose date falls on the report day (athlete local time). One block per activity ID; never merge. Include walks, ski-erg, short rides, aborted rides, commutes. Never drop secondary sessions. Within a block, omit only fields the activity type does not have (e.g., no power for a walk).]
@@ -57,6 +59,9 @@ ACWR: [X.XX] ([assessment]); live, includes today's completed load; retrospectiv
 Recovery Index: [X.XX]
 Hours: [XhYm]
 TSS: [XXX]
+sRPE 7d: [weekly_au] AU (bike [bike_7d] + run [run_7d]); monotony [X.XX]; strain [XXXX] [omit if srpe null]
+Run TID 28d: [Classification] (PI: [X.XX]); drift: [consistent/shifting/acute_depolarization] [omit if no run zone data]
+Run spike: ratio [X.XX] (baseline [XXX] AU, n=[X]); 48 h remodel note [as applicable; context only]
 
 Interpretation:
 [2-4 sentences: compliance check, key quality metrics, load context, recovery note if applicable.]

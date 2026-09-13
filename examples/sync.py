@@ -307,7 +307,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.131"
+    VERSION = "3.132"
     INTERVALS_FILE = "intervals.json"
     ROUTES_FILE = "routes.json"
 
@@ -331,6 +331,16 @@ class IntervalsSync:
     # Only structured sessions in these families are worth fetching
     # per-interval detail for. Walk, strength, yoga, other excluded.
     INTERVAL_SPORT_FAMILIES = {"cycling", "run", "ski", "rowing", "swim"}
+    # --- Session-RPE currency + run guardrails (v3.132, Section 11 v11.67) ---
+    # Additive only: the TSS/ACWR/readiness paths are untouched. sRPE basis is
+    # MOVING minutes (elapsed time is not emitted upstream); the T+30 min RPE
+    # collection timing is unverifiable from the API, so collected sessions
+    # report confidence "medium", never "high".
+    SRPE_RUN_SPIKE_BASELINE_DAYS = 14
+    SRPE_MIN_PRIOR_SESSIONS = 3
+    SRPE_HIGH_CONFIDENCE_SESSIONS = 5
+    BRICK_CYCLING_TYPES = {"Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide"}
+    BRICK_RUN_TYPES = {"Run", "VirtualRun", "TrailRun"}
     INTERVAL_SCAN_HOURS = 72    # Only scan recent activities for new intervals
     # v3.121 retry policy. Ladder is (through_attempt, delay_secs); the final row's
     # None means "all further attempts". Deadlines derive from ACTIVITY START, never
@@ -3838,7 +3848,15 @@ class IntervalsSync:
         # Formula: 7-day total TSS × Monotony
         # Reference: Foster (1998) - values >3500-4000 associated with overtraining
         strain = round(tss_7d_total * monotony, 0) if monotony else None
-        
+
+        # === SESSION-RPE CURRENCY + RUN GUARDRAILS (v3.132, additive) ===
+        # TSS/ACWR/readiness untouched. CS/D' stay AI-layer: fitting them needs
+        # exhaustive bouts the activity list cannot identify, so sync emits no
+        # cs_ms/dprime_m (those keys remain documented, null/omitted = unknown).
+        srpe = self._build_srpe_block(activities_7d)
+        run_spike = self._build_run_spike(activities_28d, today_str)
+        bricks = self._build_bricks(activities_7d)
+
         # === BASELINES (7-day and extended) ===
         hrv_values_7d = [w.get("hrv") for w in wellness_7d if self._is_valid_hrv(w.get("hrv"))]
         rhr_values_7d = [w.get("restingHR") for w in wellness_7d if w.get("restingHR")]
@@ -4133,6 +4151,9 @@ class IntervalsSync:
             "effective_monotony": effective_monotony,
             "multi_sport_detected": is_multi_sport,
             "strain": strain,
+            "srpe": srpe,
+            "run_spike": run_spike,
+            "bricks": bricks,
             "stress_tolerance": stress_tolerance,
             "load_recovery_ratio": load_recovery_ratio,
             "tss_7d_total": round(tss_7d_total, 0),
@@ -4444,6 +4465,165 @@ class IntervalsSync:
             result[sport_family] = daily_array
 
         return result
+
+    @staticmethod
+    def _session_srpe(act: Dict) -> Optional[int]:
+        """Session sRPE in AU (moving minutes x RPE), or None when unusable.
+
+        RPE reads act["icu_rpe"]; absent or <= 0 means "not usable" and is
+        never estimated. Basis is MOVING minutes (elapsed is not emitted).
+        """
+        rpe = act.get("icu_rpe")
+        if not isinstance(rpe, (int, float)) or rpe <= 0:
+            return None
+        moving_secs = act.get("moving_time") or 0
+        if not isinstance(moving_secs, (int, float)) or moving_secs <= 0:
+            return None
+        return int(round((moving_secs / 60.0) * rpe))
+
+    def _get_daily_srpe(self, activities: List[Dict], days: int) -> List[int]:
+        """Aggregate session sRPE by day for the last N days (zeros included)."""
+        daily_srpe = defaultdict(int)
+        for act in activities:
+            au = self._session_srpe(act)
+            if au is None:
+                continue
+            daily_srpe[act.get("start_date_local", "")[:10]] += au
+        result = []
+        for i in range(days - 1, -1, -1):
+            date = (datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d")
+            result.append(daily_srpe.get(date, 0))
+        return result
+
+    def _build_srpe_block(self, activities_7d: List[Dict]) -> Dict:
+        """Cross-sport session-RPE reporter (Tier-2 context, never readiness input)."""
+        daily = self._get_daily_srpe(activities_7d, 7)
+        weekly = sum(daily)
+        bike = run = 0
+        with_rpe = total = 0
+        for act in activities_7d:
+            total += 1
+            au = self._session_srpe(act)
+            if au is None:
+                continue
+            with_rpe += 1
+            fam = self.SPORT_FAMILIES.get(act.get("type", ""), "other")
+            if fam == "cycling":
+                bike += au
+            elif fam == "run":
+                run += au
+        monotony = None
+        try:
+            if len(daily) > 1 and any(daily):
+                sd = statistics.stdev(daily)
+                monotony = round(statistics.mean(daily) / sd, 2) if sd > 0 else None
+        except Exception:
+            monotony = None
+        strain = round(weekly * monotony, 0) if monotony else None
+        if with_rpe == 0:
+            reason, confidence = "SRPE_MISSING", "unavailable"
+        else:
+            # Timing unverifiable from the API, so never "high".
+            reason, confidence = "SRPE_COLLECTED", "medium"
+        return {
+            "weekly_au": weekly,
+            "bike_7d": bike,
+            "run_7d": run,
+            "daily_au_7d": daily,
+            "monotony": monotony,
+            "strain": strain,
+            "sessions_with_rpe": with_rpe,
+            "sessions_total": total,
+            "reason_code": reason,
+            "confidence": confidence,
+            "scope": "cross_sport_total",
+            "readiness_eligible": False,
+            "basis": "moving_minutes",
+        }
+
+    def _build_run_spike(self, activities_28d: List[Dict], today_str: str) -> Dict:
+        """Descriptive single-session run spike (never a readiness input).
+
+        Baseline = mean run session sRPE over the prior 14 calendar days
+        (today excluded); candidate = today's run daily total (0 when no run
+        today, in which case no ratio is reported). No cutoff is applied; the
+        AI layer reports the ratio only.
+        """
+        base: List[int] = []
+        candidate = 0
+        cutoff = (datetime.strptime(today_str, "%Y-%m-%d")
+                  - timedelta(days=self.SRPE_RUN_SPIKE_BASELINE_DAYS)).strftime("%Y-%m-%d")
+        for act in activities_28d:
+            if self.SPORT_FAMILIES.get(act.get("type", ""), "other") != "run":
+                continue
+            au = self._session_srpe(act)
+            if au is None:
+                continue
+            day = act.get("start_date_local", "")[:10]
+            if day == today_str:
+                candidate += au
+            elif cutoff <= day < today_str:
+                base.append(au)
+        n = len(base)
+        baseline = round(sum(base) / n, 1) if n >= self.SRPE_MIN_PRIOR_SESSIONS else None
+        ratio = round(candidate / baseline, 2) if baseline and candidate > 0 else None
+        if baseline is None or candidate <= 0:
+            reason = "RUN_SPIKE_UNAVAILABLE"
+        else:
+            reason = "RUN_SPIKE_OBSERVED"
+        if baseline is None:
+            confidence = "unavailable"
+        elif n >= self.SRPE_HIGH_CONFIDENCE_SESSIONS:
+            confidence = "high"
+        else:
+            confidence = "medium"
+        return {
+            "session_ratio": ratio,
+            "candidate_au": candidate,
+            "baseline_au": baseline,
+            "n": n,
+            "reason_code": reason,
+            "confidence": confidence,
+            "scope": "run_only",
+            "readiness_eligible": False,
+        }
+
+    @staticmethod
+    def _brick_transition_s(bike: Dict, run: Dict) -> Optional[int]:
+        """Seconds from bike end (start + moving_time) to run start; None if unparseable."""
+        try:
+            bike_start = datetime.fromisoformat(str(bike.get("start_date_local", "")))
+            run_start = datetime.fromisoformat(str(run.get("start_date_local", "")))
+            bike_end = bike_start + timedelta(seconds=int(bike.get("moving_time") or 0))
+            delta = (run_start - bike_end).total_seconds()
+            return int(delta) if delta >= 0 else None
+        except (ValueError, TypeError):
+            return None
+
+    def _build_bricks(self, activities_7d: List[Dict]) -> List[Dict]:
+        """Same-day bike+run pairs (transition-skill context, descriptive only)."""
+        by_day: Dict[str, List[Dict]] = defaultdict(list)
+        for act in activities_7d:
+            by_day[act.get("start_date_local", "")[:10]].append(act)
+        bricks = []
+        for day in sorted(by_day):
+            acts = by_day[day]
+            bikes = [a for a in acts if a.get("type") in self.BRICK_CYCLING_TYPES]
+            runs = [a for a in acts if a.get("type") in self.BRICK_RUN_TYPES]
+            if not bikes or not runs:
+                continue
+            bike, run = bikes[0], runs[0]
+            bricks.append({
+                "date": day,
+                "bike_id": bike.get("id"),
+                "run_id": run.get("id"),
+                "bike_tss": bike.get("icu_training_load"),
+                "transition_s": self._brick_transition_s(bike, run),
+                "reason_code": "BRICK_OBSERVED",
+                "scope": "brick",
+                "readiness_eligible": False,
+            })
+        return bricks
 
     # === ZONE EXTRACTION & HARD DAY CLASSIFICATION ===
     # Shared helpers used by _aggregate_zones, derived metrics, and all tier builders.
@@ -8747,6 +8927,7 @@ class IntervalsSync:
                 },
                 "feel": act.get("feel"),
                 "rpe": act.get("icu_rpe"),
+                "srpe_au": self._session_srpe(act),
                 "effort_response": self._classify_effort_response(
                     act.get("icu_intensity"), act.get("icu_rpe")
                 ),

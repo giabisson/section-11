@@ -24,6 +24,8 @@ Usage:
   python push.py list --newest +13                    # next two weeks
   python push.py move --event-id 123 --date 2026-03-06 --confirm
   python push.py delete --event-id 123 --confirm
+  python push.py brick --bike bike.json --run run.json            # preview pair
+  python push.py brick --bike bike.json --run run.json --confirm  # execute
   python push.py set-threshold --sport Ride --ftp 295 --confirm
   python push.py annotate --activity-id abc --message "Knee pain" --confirm
   python push.py annotate --activity-id abc --message "Knee pain" --chat --confirm
@@ -73,7 +75,13 @@ class IntervalsPush:
     """Manage planned workouts on Intervals.icu calendar."""
 
     BASE_URL = "https://intervals.icu/api/v1"
-    VERSION = "0.5"
+    VERSION = "0.6"
+
+    # Brick leg types (Section 11 v11.67 §1H). A brick is two same-day events:
+    # one cycling leg + one run leg. Pace-vs-CS validation stays AI-layer:
+    # push.py has no access to the athlete's CS estimate at push time.
+    BRICK_CYCLING_TYPES = {"Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide"}
+    BRICK_RUN_TYPES = {"Run", "VirtualRun", "TrailRun"}
 
     VALID_TYPES = {
         "Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide",
@@ -326,6 +334,49 @@ class IntervalsPush:
             return {"success": True, "count": len(results), "events": results}
         except Exception as e:
             return {"success": False, "error": self._handle_error(e)}
+
+    def validate_brick(self, bike: dict, run: dict):
+        """Validate a brick as a same-day cycling + run leg pair."""
+        for label, w in (("bike", bike), ("run", run)):
+            valid, error = self.validate_workout(w)
+            if not valid:
+                return False, f"{label} leg: {error}"
+        if bike.get("date") != run.get("date"):
+            return False, (
+                f"brick legs must share a date "
+                f"(bike {bike.get('date')} vs run {run.get('date')})"
+            )
+        if bike.get("type", "Ride") not in self.BRICK_CYCLING_TYPES:
+            return False, f"bike leg type must be cycling, got: {bike.get('type')}"
+        if run.get("type") not in self.BRICK_RUN_TYPES:
+            return False, f"run leg type must be running, got: {run.get('type')}"
+        return True, None
+
+    def preview_brick(self, bike: dict, run: dict) -> dict:
+        """Validate a brick pair and return preview without writing."""
+        valid, error = self.validate_brick(bike, run)
+        if not valid:
+            return {"success": False, "mode": "preview", "error": error}
+        return {
+            "success": True,
+            "mode": "preview",
+            "brick": {
+                "date": bike.get("date"),
+                "bike": {"name": bike.get("name"), "type": bike.get("type")},
+                "run": {"name": run.get("name"), "type": run.get("type")},
+            },
+            "message": "Preview only - add --confirm to write both legs to calendar",
+        }
+
+    def push_brick(self, bike: dict, run: dict) -> dict:
+        """Validate and push a brick pair (bike leg first, then run leg)."""
+        valid, error = self.validate_brick(bike, run)
+        if not valid:
+            return {"success": False, "error": error}
+        result = self.push_workouts([bike, run])
+        if result.get("success"):
+            result["brick"] = {"date": bike.get("date"), "legs": 2}
+        return result
 
     def preview_push(self, workouts: list) -> dict:
         """Validate workouts and return preview without writing."""
@@ -826,6 +877,28 @@ def _cmd_delete(args, pusher: IntervalsPush):
         _output(pusher.delete_event(args.event_id))
 
 
+def _load_single_workout(path: str) -> dict:
+    """Load one workout object from a JSON file (rejects lists)."""
+    try:
+        with open(path) as f:
+            data = json.load(f)
+    except Exception as e:
+        _output({"success": False, "error": f"Failed to read {path}: {e}"})
+    if isinstance(data, list):
+        _output({"success": False, "error": f"{path}: brick legs must be single objects, got a list"})
+    return data
+
+
+def _cmd_brick(args, pusher: IntervalsPush):
+    """Handle brick subcommand (same-day bike leg + run leg)."""
+    bike = _load_single_workout(args.bike)
+    run = _load_single_workout(args.run)
+    if not args.confirm:
+        _output(pusher.preview_brick(bike, run))
+    else:
+        _output(pusher.push_brick(bike, run))
+
+
 def _cmd_set_threshold(args, pusher: IntervalsPush):
     """Handle set-threshold subcommand."""
     updates = {}
@@ -909,6 +982,12 @@ def main():
     delete_parser.add_argument("--event-id", type=int, required=True, help="Event ID to delete")
     delete_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
 
+    # ── brick ──
+    brick_parser = subparsers.add_parser("brick", help="Push a same-day bike+run brick pair")
+    brick_parser.add_argument("--bike", required=True, help="JSON file with the bike-leg workout (single object)")
+    brick_parser.add_argument("--run", required=True, help="JSON file with the run-leg workout (single object)")
+    brick_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
+
     # ── set-threshold ──
     thresh_parser = subparsers.add_parser("set-threshold", help="Update sport thresholds")
     thresh_parser.add_argument("--sport", required=True, help="Sport family (cycling, run, swim) or activity type (Ride, Run)")
@@ -930,7 +1009,7 @@ def main():
     # Backward compatibility: if no subcommand in argv, default to push.
     # Must insert 'push' at the right position (after top-level flags like
     # --athlete-id/--api-key, before subcommand-specific flags like --json).
-    known_commands = {"push", "list", "move", "delete", "set-threshold", "annotate"}
+    known_commands = {"push", "list", "move", "delete", "brick", "set-threshold", "annotate"}
     # Top-level flags that consume a value
     top_level_value_flags = {"--athlete-id", "--api-key"}
 
@@ -976,6 +1055,8 @@ def main():
         _cmd_move(args, pusher)
     elif args.command == "delete":
         _cmd_delete(args, pusher)
+    elif args.command == "brick":
+        _cmd_brick(args, pusher)
     elif args.command == "set-threshold":
         _cmd_set_threshold(args, pusher)
     elif args.command == "annotate":
