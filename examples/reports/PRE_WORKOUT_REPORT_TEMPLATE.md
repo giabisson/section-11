@@ -135,7 +135,11 @@ The attribution is one line, last in the report text, with linked provider/licen
 
 The `readiness_decision` object in `latest.json` provides a pre-computed go/modify/skip recommendation with priority level and individual signal statuses. Use this as the baseline.
 
+HRV, RHR and device-recorded sleep are optional. Missing overnight HRV and its derived RI alone do not restrict ordinary training or progression. Read `input_context` when present: `no_signals_available` means no physiological evidence was evaluated, not a green light. Use completed training, available observations, current athlete feedback and health context. Ask only what could change the decision and has not already been answered; do not require nightly device use or repeat a questionnaire for missing HRV. A `go` is not confirmation of recovery. Preserve P0/P1 protections and Health Context clarification; see Optional wearable data and athlete feedback in SECTION_11.md.
+
 **Signal statuses** are in `readiness_decision.signals` (hrv, rhr, sleep, tsb, acwr, ri, each with green/amber/red/unavailable and raw values).
+
+Check `derived_metrics.readiness_observations` for dates, current status, baseline coverage and issues. Mention limitations only when they affect the decision; do not turn sparse HRV into demands for more nights. Device/protocol provenance may be unknown. `input_context.health_clarification_required: true` requires the existing Health Context clarification regardless of a physiological `go`; null is unknown, not no illness. `signal_count_review` is an audit-only comparison and must not replace the active recommendation. Current Feel must come from the athlete, with relevant current answers reused.
 
 **Phase-adjusted thresholds** are in `readiness_decision.phase_context` (shows which phase modifier shifted the amber threshold).
 

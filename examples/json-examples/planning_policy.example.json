@@ -1,0 +1,193 @@
+{
+  "synthetic": true,
+  "planning_policy": "athlete_specific_v1",
+  "scope": "Manual coaching expectations and arithmetic, not executed LLM outputs, full workout-step validation or published plans.",
+  "cases": [
+    {
+      "id": "limited_time_moderate_work",
+      "goal": "General cycling fitness",
+      "availability_minutes": 240,
+      "recent_weekly_minutes": 210,
+      "coverage": "complete",
+      "hrv_available": false,
+      "distribution_intent": "pyramidal",
+      "demanding_sessions": 1,
+      "sessions": [
+        {
+          "date": "2026-10-27",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        },
+        {
+          "date": "2026-10-29",
+          "budgeted_minutes": 60,
+          "purpose": "moderate"
+        },
+        {
+          "date": "2026-10-31",
+          "budgeted_minutes": 120,
+          "purpose": "endurance"
+        }
+      ],
+      "planned_minutes": 240,
+      "expected_policy_result": "feasible_candidate",
+      "rationale": "Purposeful moderate work is allowed; neither two demanding sessions nor HRV is required. The 14.3% increase is a review question, not an automatic failure.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    },
+    {
+      "id": "experienced_event_preparation",
+      "goal": "Prepare for a long cycling event",
+      "availability_minutes": 720,
+      "recent_weekly_minutes": 660,
+      "coverage": "complete",
+      "hrv_available": true,
+      "distribution_intent": "polarized",
+      "demanding_sessions": 2,
+      "sessions": [
+        {
+          "date": "2026-10-27",
+          "budgeted_minutes": 90,
+          "purpose": "demanding"
+        },
+        {
+          "date": "2026-10-28",
+          "budgeted_minutes": 90,
+          "purpose": "easy"
+        },
+        {
+          "date": "2026-10-29",
+          "budgeted_minutes": 90,
+          "purpose": "demanding"
+        },
+        {
+          "date": "2026-10-30",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        },
+        {
+          "date": "2026-10-31",
+          "budgeted_minutes": 180,
+          "purpose": "endurance"
+        },
+        {
+          "date": "2026-11-01",
+          "budgeted_minutes": 150,
+          "purpose": "endurance"
+        }
+      ],
+      "planned_minutes": 660,
+      "expected_policy_result": "feasible_candidate",
+      "rationale": "This athlete selects two demanding sessions and longer rides for a reason. Spare availability is not a requirement to add training.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    },
+    {
+      "id": "availability_reduced",
+      "goal": "Maintain consistency during a busy week",
+      "availability_minutes": 120,
+      "recent_weekly_minutes": 480,
+      "coverage": "complete",
+      "hrv_available": false,
+      "distribution_intent": "easy_only",
+      "demanding_sessions": 0,
+      "sessions": [
+        {
+          "date": "2026-10-27",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        },
+        {
+          "date": "2026-10-30",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        }
+      ],
+      "planned_minutes": 120,
+      "expected_policy_result": "feasible_candidate",
+      "rationale": "A lower-volume easy week fits changed availability. Do not reject it for leaving an old volume band or create catch-up debt.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    },
+    {
+      "id": "short_goal_no_long_ride",
+      "goal": "Improve repeatable short-climb performance",
+      "availability_minutes": 180,
+      "recent_weekly_minutes": 180,
+      "coverage": "complete",
+      "hrv_available": false,
+      "distribution_intent": "goal_specific_mix",
+      "demanding_sessions": 1,
+      "sessions": [
+        {
+          "date": "2026-10-27",
+          "budgeted_minutes": 60,
+          "purpose": "demanding"
+        },
+        {
+          "date": "2026-10-29",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        },
+        {
+          "date": "2026-10-31",
+          "budgeted_minutes": 60,
+          "purpose": "easy"
+        }
+      ],
+      "planned_minutes": 180,
+      "expected_policy_result": "feasible_candidate",
+      "rationale": "Do not require two-hour rides or their durability measurements for unrelated progression. Use completion and current response.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    },
+    {
+      "id": "essential_context_unknown",
+      "goal": "General fitness",
+      "availability_minutes": null,
+      "recent_weekly_minutes": null,
+      "coverage": "unknown",
+      "hrv_available": false,
+      "distribution_intent": null,
+      "demanding_sessions": null,
+      "sessions": [],
+      "planned_minutes": null,
+      "expected_policy_result": "needs_context_before_full_plan_publication",
+      "rationale": "Ask for a useful recent-training account and current availability. Do not invent a 15-hour baseline or require wearable data. A specific session can still be discussed if its relevant context is known.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    },
+    {
+      "id": "over_budget",
+      "goal": "General fitness",
+      "availability_minutes": 240,
+      "recent_weekly_minutes": 240,
+      "coverage": "complete",
+      "hrv_available": true,
+      "distribution_intent": "polarized",
+      "demanding_sessions": 2,
+      "sessions": [
+        {
+          "date": "2026-10-27",
+          "budgeted_minutes": 100,
+          "purpose": "demanding"
+        },
+        {
+          "date": "2026-10-29",
+          "budgeted_minutes": 100,
+          "purpose": "demanding"
+        },
+        {
+          "date": "2026-10-31",
+          "budgeted_minutes": 100,
+          "purpose": "endurance"
+        }
+      ],
+      "planned_minutes": 300,
+      "expected_policy_result": "revise_before_publication",
+      "rationale": "Reject the known time-budget breach regardless of the intensity label or favorable wearables. Choose a feasible proposal.",
+      "current_athlete_feedback": "Synthetic athlete reports the proposed dose is compatible with current recovery and constraints; revisit if that changes.",
+      "safeguards": "Illustrative policy case only; active readiness/health restrictions and template constraints still apply."
+    }
+  ]
+}

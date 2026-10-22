@@ -1,0 +1,59 @@
+{
+  "bundle_ready": true,
+  "live_runtime_verified": false,
+  "checks": [
+    {
+      "check": "manifest_hashes",
+      "state": "pass",
+      "detail": "161 installed files match"
+    },
+    {
+      "check": "coaching_dependencies",
+      "state": "pass",
+      "detail": "all runtime modules and matching library/catalog are shipped"
+    },
+    {
+      "check": "workout_catalog",
+      "state": "pass",
+      "detail": "library hash and all 26 template constraints"
+    },
+    {
+      "check": "private_and_publisher_exclusion",
+      "state": "pass",
+      "detail": "no private store or publisher research copies in distribution"
+    },
+    {
+      "check": "requests_dependency",
+      "state": "pass",
+      "detail": "calendar transport needs requests; local review/store uses stdlib"
+    },
+    {
+      "check": "current_data_contract",
+      "state": "unverified",
+      "detail": "no actual latest.json supplied; fictional examples are never athlete data"
+    },
+    {
+      "check": "private_store",
+      "state": "unverified",
+      "detail": "no runtime data directory supplied"
+    },
+    {
+      "check": "openclaw_executable",
+      "state": "unverified",
+      "detail": "not found here; remote deployments may differ"
+    },
+    {
+      "check": "runtime_workspace",
+      "state": "unverified",
+      "detail": "no actual agent workspace supplied"
+    },
+    {
+      "check": "telegram_models_schedule_live_api",
+      "state": "unverified",
+      "detail": "requires actual configuration/log evidence; no messages, model calls, calendar writes or schedules were triggered"
+    }
+  ],
+  "calendar_writes": 0,
+  "messages_sent": 0,
+  "scope": "Local artifact/path checks only. Present files and configuration are not proof of live service behavior."
+}

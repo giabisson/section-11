@@ -18,7 +18,7 @@ run does not reach.
 manifest itself, after checking each file against the hash the manifest records.
 `--update` refreshes the same list. The manifest generator excludes `.github`,
 other hidden paths, this repository-root `dev/` folder, dependency directories and
-cache directories, so none of them reaches an athlete installation. New tests are
+cache directories. It also excludes `literature/cycling-training/sources/` and private coaching database/journal filenames; reviewed summaries remain distributed. None of the maintainer or local research/private records reaches an athlete installation. New tests are
 still committed here; they are not shipped through athlete updates.
 
 Installations created by an older `--init` may still hold `section11/.github` and
@@ -36,6 +36,55 @@ as a complete current repository. This distinction requires no change to athlete
 setup.
 
 ## Running
+
+`test_coaching_release.py` checks explicit taper arithmetic without a required subgroup percentage, unknown event duration, mechanical work versus dietary calories, qualified durability windows, strength tradeoffs and actual new module bytes through fresh initialization/update. It checks publisher/private-record exclusion, installed-path plan/catalog imports and the read-only artifact audit; it does not contact a live runtime.
+
+`test_coaching_review.py` replays successful progression, costly sessions, work-related misses, health uncertainty, changing availability/event dates and a multiweek plan. It tests exact pairing/publication-version selection, unknown formal adherence, preserved historical selections, current-day guards, optional wearables, atomic revision/review commits, opted-in scheduled execution and semantic idempotency without duplicate notifications or calendar writes. It executes no LLM or live service.
+
+`test_coaching_plan.py` checks private transactional plan persistence, reloads,
+immutable historical prescriptions, goal/date/availability revisions, request
+idempotency, stale-parent and process-lock conflicts, session/day/week capacity,
+explicit time overlap, rest weeks, optional wearables and other-sport accounting.
+The real push outcome helpers run against synthetic HTTP verbs: exact previews,
+single-use approval binding, stable event updates, removals, partial/refused/
+unknown writes, post-send disk failures and process interruption, read-only
+reconciliation and explicit externally attested manual resolution. It verifies
+no duplicate writes, no retrospective deletion/rewriting, catalog/payload drift
+rejection, selective context retrieval and local CLI use without credentials.
+No live calendar, OpenClaw runtime or real athlete data is accessed.
+
+`test_workout_validation.py` checks complete step expansion, final recoveries,
+work/set counts, every checked catalog entry, time budgets, template/version/hash
+binding, power denominators, absolute/relative targets, reference uncertainty,
+native-description consistency, bounded expansion and the common preview/write
+boundary. It verifies local rejection before HTTP, exact confirmed payload and a
+single send with synthetic transport, and distinguishes FTP setting dates from
+unknown assessment provenance. No server parser or trainer is contacted.
+The catalog coverage check requires all 26 library IDs. Eleven complex worked
+examples have independently counted totals and one-second budget failures;
+negative cases exercise cadence/technique, progressive targets, over-under
+ordering, descending recoveries, free-effort sprint bounds/reference, mixed-ride
+Z2 recovery and opener sequences. AN-3's full dose is 90.5–103.5 minutes, not the
+old approximate hour. Labels cannot inject executable target/mode overrides.
+
+`test_training_distribution.py` checks that changes in intensity distribution
+emit informational context rather than automatic fatigue warnings, moderate time
+alone does not trigger a restriction, and independent safety stops remain active.
+It does not execute an LLM or certify complete training plans. The synthetic
+planning-policy examples document expected coaching behavior for manual review.
+
+`test_readiness_quality.py` checks calendar-aligned current readings, prior-day
+baselines and coverage, duplicates/conflicts, invalid/future dates and values,
+gaps in HRV/RHR persistence, yesterday's RI, and unknown device provenance. It
+checks that grouped counts remain audit-only, health clarification reaches the
+decision alongside favorable physiology, and completed-session Feel is not used
+as current feedback. Full-producer wiring is also covered by `test_sync_facts.py`.
+
+`test_optional_wearables.py` checks intermittent/missing overnight HRV, unavailable RI,
+RHR and device sleep, absent physiological evidence, and preservation of adverse
+RHR/sleep observations and P0/P1 stops. It uses synthetic inputs and no network.
+The additive input context reports availability, not health clearance; athlete
+feedback and health clarification remain consumer responsibilities.
 
 `test_weather_demand_workflows.py` covers new point/hour demand through a closed refresh gate, unchanged-demand throttling, failure/Retry-After migration, point batching, bounded timeout splitting and cached repeats. It also checks optional repository-variable wiring and the push workflow's time argument construction, including malformed inputs. The bounded shell check runs only the extracted argument builder with synthetic inputs, never push.py or a dispatched workflow.
 

@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "review_id": "weekly-one",
+  "parent_revision": "rev-cd452fd13565fe5ffa22fd86cb339fdf1a8bb462bff6230c0792b937c5edcc49",
+  "trigger": "athlete",
+  "schedule_opt_in": false,
+  "assessed_date": "2026-10-29",
+  "period": {
+    "start": "2026-10-26",
+    "end": "2026-10-28"
+  },
+  "snapshot": {
+    "athlete_id": "i123456",
+    "source": "Synthetic Intervals API read",
+    "as_of": "2026-10-29",
+    "coverage": "complete",
+    "activities": [
+      {
+        "id": "activity-one",
+        "paired_event_id": 100,
+        "start_date": "2026-10-27T18:00:00+00:00"
+      }
+    ],
+    "events": [
+      {
+        "category": "WORKOUT",
+        "start_date_local": "2026-10-27T18:00:00",
+        "name": "Synthetic short intervals",
+        "type": "Ride",
+        "description": "- warmup 1140s 125w\n- warmup 60s 250w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- set_recovery 300s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- work 30s 300w\n- recovery 15s 125w\n- cooldown 600s 125w",
+        "target": "POWER",
+        "moving_time": 3000,
+        "indoor": true,
+        "external_id": "s11-173075a4effd22789dcf5d229fffc7a9",
+        "id": 100,
+        "paired_activity_id": "activity-one"
+      }
+    ],
+    "readiness": {
+      "date": "2026-10-29",
+      "recommendation": "go",
+      "priority": 3,
+      "health_clarification_required": false
+    }
+  },
+  "observations": [
+    {
+      "session_id": "intervals",
+      "prescription_id": "rx-a5a61d42c469e418f017f1d2bb0c94c4138c678860dd7aa81fc0ad0d3f520c21",
+      "activity_id": "activity-one",
+      "status": "completed",
+      "cause": "none",
+      "goal_attainment": "met",
+      "response": "tolerated",
+      "source": "Synthetic athlete feedback and paired activity",
+      "date": "2026-10-28",
+      "note": "Tolerable familiar dose; no symptom report"
+    }
+  ],
+  "current_feedback": {
+    "date": "2026-10-29",
+    "state": "normal",
+    "source": "Synthetic current athlete statement",
+    "note": "Feeling healthy and rested; HRV not measured",
+    "health_clarification": null
+  },
+  "decisions": [
+    {
+      "action": "progress",
+      "session_ids": [
+        "endurance"
+      ],
+      "observation_ids": [
+        "intervals"
+      ],
+      "reason": "Apply an explained future dose change after reviewing the athlete's response",
+      "next_observation": "Review execution and response after the next comparable session"
+    }
+  ],
+  "candidate_plan": {
+    "athlete_id": "i123456",
+    "block": {
+      "change_conditions": [
+        "Availability changes",
+        "Symptoms or unusually difficult sessions",
+        "Goal/event changes"
+      ],
+      "end_date": "2026-11-22",
+      "goal_ids": [
+        "sustainable-fitness"
+      ],
+      "objective": "Build consistent, tolerable aerobic work with one familiar interval dose",
+      "planned_phase": "Base",
+      "progression": "Hold intervals; consider extending easy riding only after reviewing completed work and response",
+      "recovery": "Easy/rest days between demanding sessions; reduce earlier if symptoms or poor tolerance appear",
+      "review_date": "2026-11-01",
+      "start_date": "2026-10-26",
+      "starting_evidence": [
+        {
+          "as_of": "2026-10-22",
+          "source": "Synthetic completed training and athlete feedback",
+          "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+        }
+      ]
+    },
+    "detected_phase": {
+      "as_of": "2026-10-22",
+      "source": "Synthetic descriptive phase observation",
+      "value": "Base"
+    },
+    "goals": [
+      {
+        "constraints": [
+          "Current availability varies; preserve sleep comfort"
+        ],
+        "date": null,
+        "demands": [
+          "Aerobic endurance",
+          "Repeatable sustained efforts"
+        ],
+        "description": "Improve sustainable cycling fitness and maintain consistency",
+        "goal_id": "sustainable-fitness",
+        "priority": "general",
+        "success_measure": "Repeat comparable sessions with sustainable effort and good recovery"
+      }
+    ],
+    "plan_id": "cycling-development",
+    "planning_policy": "athlete_specific_v1",
+    "revision": {
+      "evidence": [
+        {
+          "as_of": "2026-10-22",
+          "source": "Synthetic completed training and athlete feedback",
+          "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+        }
+      ],
+      "parent_revision": "rev-cd452fd13565fe5ffa22fd86cb339fdf1a8bb462bff6230c0792b937c5edcc49",
+      "reason": "Synthetic changed context",
+      "request_id": "review-candidate"
+    },
+    "schema_version": 1,
+    "sessions": [
+      {
+        "prescription_id": "rx-a5a61d42c469e418f017f1d2bb0c94c4138c678860dd7aa81fc0ad0d3f520c21",
+        "session_id": "intervals"
+      },
+      {
+        "prescription_id": "rx-fe0279568abe3421b311d1ec659ce9f56aa8baee5cba66c5cee27aa398cb39a2",
+        "session_id": "easy-short"
+      },
+      {
+        "session_id": "endurance",
+        "purpose": "Build sustainable aerobic endurance",
+        "alternatives": [
+          "Choose a shorter permitted endurance template if availability falls"
+        ],
+        "session_budget_minutes": 120,
+        "workout": {
+          "name": "Synthetic endurance ride",
+          "date": "2026-10-31",
+          "indoor": true,
+          "coaching_prescription": {
+            "schema_version": 1,
+            "session_template": "AE-2",
+            "template_version": "0.9.0",
+            "available_minutes": 120,
+            "fitness_reference": {
+              "metric": "ftp",
+              "value_watts": 250,
+              "date": "2026-10-01",
+              "method": "synthetic_test",
+              "equipment": "synthetic_trainer",
+              "environment": "indoor",
+              "source": "synthetic fixture",
+              "status": "current",
+              "zone_bounds_watts": {
+                "1": [
+                  0,
+                  150
+                ],
+                "2": [
+                  150,
+                  200
+                ],
+                "3": [
+                  200,
+                  230
+                ],
+                "4": [
+                  230,
+                  265
+                ],
+                "5": [
+                  265,
+                  315
+                ],
+                "6": [
+                  315,
+                  400
+                ],
+                "7": [
+                  400,
+                  1000
+                ]
+              }
+            },
+            "steps": [
+              {
+                "role": "work",
+                "seconds": 6000,
+                "target": {
+                  "basis": "watts",
+                  "low": 175,
+                  "zones": [
+                    2
+                  ]
+                }
+              }
+            ]
+          },
+          "synthetic": true,
+          "time": "10:00"
+        }
+      }
+    ],
+    "weeks": [
+      {
+        "compromises": [
+          "Only the near-term week is fully prescribed; later weeks remain flexible"
+        ],
+        "intensity_approach": {
+          "basis": "planned_power_time",
+          "intent": "Mostly easy work with one familiar interval session",
+          "rationale": "Preserve tolerable volume and a purposeful stimulus without a fixed intensity ratio",
+          "zone_model": "athlete_configured_7_zone"
+        },
+        "session_windows": [
+          {
+            "date": "2026-10-27",
+            "max_minutes": 60
+          },
+          {
+            "date": "2026-10-29",
+            "max_minutes": 60
+          },
+          {
+            "date": "2026-10-31",
+            "max_minutes": 120
+          }
+        ],
+        "start_date": "2026-10-26",
+        "weekly_minutes": 240
+      }
+    ]
+  }
+}

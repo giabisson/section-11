@@ -43,7 +43,7 @@ Quality Session Detail:
 
 Polarization:
   Z1+Z2: 83%
-  Z3 (Grey Zone): 3% (target <5%)
+  Z3 (Grey Zone): 3% (interpret against the planned objective)
   Z4+ (Quality): 14% (target ~20% of intensity sessions)
   TID 7d: Polarized (PI: 2.92)
   TID 28d: Polarized (PI: 3.05), drift: consistent
@@ -133,7 +133,7 @@ Quality Session Detail:
 
 Polarization:
   Z1+Z2: 91%
-  Z3 (Grey Zone): 7% (target <5%) ⚠️
+  Z3 (Grey Zone): 7% (interpret against the planned objective)
   Z4+ (Quality): 2%
   TID 7d: Pyramidal (PI: 1.85)
   TID 28d: Polarized (PI: 2.90), drift: acute_depolarization ⚠️
@@ -175,21 +175,21 @@ Wellness Trends:
   Avg RPE: 6.8/10 (4 sessions) ↑ elevated; monitor
 
 Section 11 Flags:
-  - HRV below 7-day baseline by >15% on Thu → triggered rest day
-  - Grey Zone >5% for the week → review Tuesday pacing
-  - TID acute depolarization: 7d PI 1.85 vs 28d PI 2.90 → fatigue shifting distribution
+  - HRV below baseline by >15% on Thu plus the athlete’s current report of marked fatigue → rest day
+  - Z3 time differs from the intended easy work → review Tuesday pacing and reported effort
+  - TID change: 7d PI 1.85 vs 28d PI 2.90 → informational; compare with planned sessions and response
   - Durability declining: 7d mean 4.80% vs 28d 2.90% → aerobic efficiency slipping
 
 Interpretation:
 Fatigue accumulated from weeks 1-2 surfaced mid-week. HRV dropped 15%
-Thursday morning, prompting an unplanned rest day (correct decision per
-Section 11 Tier 1 readiness hierarchy). Tuesday's tempo was modified
+Thursday morning; the athlete also reported current marked fatigue, so a rest
+day was chosen. The HRV change alone did not mandate rest. Tuesday's tempo was modified
 mid-session (cut third interval) due to elevated perceived effort, and
-grey zone crept to 7% as a result of pacing drift. Durability declined
+recorded moderate time was 7%; compare it with the intended work before labeling drift. Durability declined
 noticeably (4.8% vs 2.9% 28d average) and TID shifted from Polarized to
-Pyramidal, both consistent with accumulated fatigue rather than a training
-design issue. TSB recovering from -16 to -7, which was needed. Sleep
-quality was the likely root cause. Address sleep hygiene before next week.
+Pyramidal. The distribution change alone does not establish fatigue; use
+the reported response and other valid observations. TSB recovering from -16 to -7, which was needed. The sleep and effort reports warrant a focused check-in; the cause is not
+established by the distribution change or a wearable score.
 
 Next Week Preview:
 Week 4 was planned as continued base build but recommending a partial

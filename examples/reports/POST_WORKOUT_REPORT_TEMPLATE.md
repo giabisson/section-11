@@ -121,7 +121,7 @@ Round report durations to the nearest whole minute (30 seconds rounds up), retai
 | Max power / Peaks | Exact points present in the activity power_curve | Max power is key "1"; Peaks uses "5", "60", "300", "1200", "3600" in that order. Include each present duration, omit missing ones and omit Peaks if none. Never use icu_pm_p_max or interpolate. These describe this activity only, never tests, bests or capability, and never derive FTP, zones or readiness from them |
 | HR / HR zones | Available HR data | Average and maximum separated by a comma; omit missing values. Zone labels first on one line with the same ≥1% rounding rule |
 | IF | Activities with `intensity_factor` present | Intensity Factor (session-level, NP ÷ FTP). Rendered to 2 decimals (divide the stored percentage by 100). Omit line when null. Source for Effort Response band lookup |
-| Grey Zone / Quality | Always for cycling | Highlights polarization compliance |
+| Grey Zone / Quality | Always for cycling | Describes intensity exposure against session purpose; no universal polarization pass/fail |
 | Session profile | Activities with zone data | Per-session intensity classification based on **executed** zone distribution (e.g., Recovery, Endurance, Tempo, Sweetspot, Threshold, VO2max, Anaerobic, Neuromuscular, Mixed). When the planned workout name and the executed character disagree, classify by what was actually done (IF and zone-time distribution), not by the planned label. Sweetspot requires VI ≤ 1.05; sessions averaging IF 0.88–0.94 with VI > 1.05 classify by dominant power zone instead |
 | Cadence | Cycling, running | Omit for SkiErg, strength |
 | Decoupling | Activities with power + HR | Key aerobic efficiency marker. Display the value whenever present; interpret or label it only when the session passes the per-session gate: ≥ 90 min (5400 s) with `variability_index` ≤ 1.05 and > 0, checked against `duration_formatted`, not rounded hours (SECTION_11.md §Evidence handling). A short or surgy session still carries a decoupling number; it is not evidence. Per-session scale (<5% good) per Friel/Coggan. Aggregate durability uses tighter scale (<3% good) |
@@ -162,11 +162,11 @@ The 90-minute rule uses 5400 original DFA slots with verified 1 Hz timing, not r
 | Decoupling (per-session, gated sessions only) | < 5% | 5–10% | > 10% |
 | Variability Index | ≤ 1.05 | 1.05–1.10 | > 1.10 |
 | ACWR (live retrospective) | 0.8–<1.3 | 1.3–<1.5 | ≥1.5 |
-| Grey Zone (Z3) | < 5% (base) | 5–10% | > 10% (base phase) |
+| Grey Zone (Z3) | Matches intended purpose | Unexplained difference from prescription | No percentage-only flag |
 | Durability (7d mean) | < 3% (good) | 3–5% (moderate) | > 5% (declining) |
 | EF trend | improving/stable | — | declining |
 | DFA a1 (cycling, sufficient) | Internal response matches prescription (very-easy/recovery → predominantly `tiz_easy`; endurance/Z2 → a `tiz_easy`/`tiz_endurance` mix, `tiz_endurance` = working toward LT1; SS/tempo → `tiz_tempo`) | Mild mismatch; note in Interpretation | Significant mismatch OR eligible drift below -0.2 on confirmed steady easy/endurance cycling, with the context checks above |
-| TID drift | consistent | shifting | acute_depolarization |
+| TID drift | Descriptive comparison | Compare planned intent and basis | No distribution-only fatigue flag |
 
 ACWR <0.8 is reduced-load context, not a Watch/Flag classification.
 

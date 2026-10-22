@@ -1,0 +1,100 @@
+{
+  "recordType": "journal-article",
+  "pmid": "34639599",
+  "title": "Heart Rate Variability-Guided Training for Enhancing Cardiac-Vagal Modulation, Aerobic Fitness, and Endurance Performance: A Methodological Systematic Review with Meta-Analysis.",
+  "abstractText": "PURPOSE: This systematic review with meta-analysis was conducted to establish whether heart rate variability (HRV)-guided training enhances cardiac-vagal modulation, aerobic fitness, or endurance performance to a greater extent than predefined training while accounting for methodological factors.\n\nMETHODS: We searched Web of Science Core Collection, Pubmed, and Embase databases up to October 2020. A random-effects model of standardized mean difference (SMD) was estimated for each outcome measure. Chi-square and the I² index were used to evaluate the degree of homogeneity.\n\nRESULTS: Accounting for methodological factors, HRV-guided training was superior for enhancing vagal-related HRV indices (SMD₊ = 0.50 (95% confidence interval (CI) = 0.09, 0.91)), but not resting HR (SMD₊ = 0.04 (95% CI = -0.34, 0.43)). Consistently small but non-significant (p > 0.05) SMDs in favor of HRV-guided training were observed for enhancing maximal aerobic capacity (SMD₊ = 0.20 (95% CI = -0.07, 0.47)), aerobic capacity at second ventilatory threshold (SMD₊ = 0.26 (95% CI = -0.05, 0.57)), and endurance performance (SMD₊ = 0.20 (95% CI = -0.09, 0.48)), versus predefined training. No heterogeneity was found for any of the analyzed aerobic fitness and endurance performance outcomes.\n\nCONCLUSION: Best methodological practices pertaining to HRV index selection, recording position, and approaches for establishing baseline reference values and daily changes (i.e., fixed or rolling HRV averages) require further study. HRV-guided training may be more effective than predefined training for maintaining and improving vagal-mediated HRV, with less likelihood of negative responses. However, if HRV-guided training is superior to predefined training for producing group-level improvements in fitness and performance, current data suggest it is only by a small margin.",
+  "affiliations": [
+    "Sports Research Centre, Department of Sport Sciences, Miguel Hernández University of Elche, 03202 Elche, Spain.",
+    "Institute for Health and Biomedical Research (ISABIAL Foundation), Miguel Hernandez University, 03550 Alicante, Spain.",
+    "Department of Health Sciences and Kinesiology, Georgia Southern University (Armstrong Campus), Savannah, GA 31419, USA."
+  ],
+  "authors": [
+    {
+      "lastName": "Manresa-Rocamora",
+      "firstName": "Agustín",
+      "initials": "A",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0002-1399-2411"
+    },
+    {
+      "lastName": "Sarabia",
+      "firstName": "José Manuel",
+      "initials": "JM",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0002-1917-6634"
+    },
+    {
+      "lastName": "Javaloyes",
+      "firstName": "Alejandro",
+      "initials": "A",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0003-2689-4244"
+    },
+    {
+      "lastName": "Flatt",
+      "firstName": "Andrew A",
+      "initials": "AA",
+      "affiliationIndices": [
+        2
+      ],
+      "orcid": "0000-0003-2998-8537"
+    },
+    {
+      "lastName": "Moya-Ramón",
+      "firstName": "Manuel",
+      "initials": "M",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0002-2291-5899"
+    }
+  ],
+  "journalInfo": {
+    "title": "International journal of environmental research and public health",
+    "isoAbbreviation": "Int J Environ Res Public Health",
+    "eIssn": "1660-4601",
+    "volume": "18",
+    "issue": "19",
+    "elocationId": "10299",
+    "elocationIdType": "pii",
+    "publicationDate": {
+      "year": "2021",
+      "month": "Sep",
+      "day": "29"
+    }
+  },
+  "doi": "10.3390/ijerph181910299",
+  "pmcId": "PMC8507742",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34639599/",
+  "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8507742/",
+  "publicationTypes": [
+    "Journal Article",
+    "Meta-Analysis",
+    "Research Support, Non-U.S. Gov't",
+    "Systematic Review"
+  ],
+  "keywords": [
+    "autonomic nervous system",
+    "cardiorespiratory fitness",
+    "heart rate recovery",
+    "parasympathetic activity",
+    "resting heart rate"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2021",
+      "month": "9",
+      "day": "29"
+    }
+  ]
+}

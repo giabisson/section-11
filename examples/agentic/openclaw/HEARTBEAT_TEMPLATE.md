@@ -32,7 +32,7 @@ Copy this file to your agent workspace as `HEARTBEAT.md` and fill in the bracket
 - Look for patterns and trends over time, good and bad
 - Flag anything per Section 11 protocol
 - Reference goals from DOSSIER.md
-- Share observations even if minor: athlete wants to hear your thinking
+- Follow the athlete's configured notification preference. By default stay quiet when unchanged/non-actionable; notify on a material change or a decision-relevant unresolved question.
 
 ---
 
@@ -46,7 +46,9 @@ Copy this file to your agent workspace as `HEARTBEAT.md` and fill in the bracket
 - Note long-term CTL trends (building, plateauing, declining)
 - Identify recurring patterns (e.g., always tired on Mondays)
 - Ask athlete about changes in sleep, travel, stress, or illness when you see unexplained shifts
-- If any new patterns, open questions, or anomalies emerge, add them to `topics.md`
+- With a configured durable private plan store, use `coaching_plan.py show --compact` and the shared [adaptive review](../ADAPTIVE_REVIEWS.md) command. Persist reviewed data/revision identities; unchanged reruns produce no duplicate revision/message. Never infer a private path or enable scheduling implicitly.
+- Review intended work, authoritative completion pairing, response and causes; keep formal adherence separate. Use a concrete candidate revision when warranted, then obtain separate calendar-publication approval.
+- If materially new patterns, decision-relevant questions or anomalies emerge, add them to `topics.md`; do not repeat an already pending question merely because HRV is absent.
 
 ### Open Topics (when active topics exist)
 - Read `topics.md`

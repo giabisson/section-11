@@ -1,0 +1,82 @@
+{
+  "recordType": "journal-article",
+  "pmid": "41028151",
+  "title": "Individual training prescribed by heart rate variability, heart rate and well-being scores in experienced cyclists.",
+  "abstractText": "Optimizing the training of endurance athletes involves the nuanced balance between overload and recovery. Monitoring recovery effectively requires integrating multiple variables. This study evaluates the efficacy of training protocols guided by vagally-mediated heart rate variability (vmHRV), resting heart rate (RHR), and subjective well-being (WB) scores in improving cycling performance. It also explores the relationships between physiological and subjective measures. Twenty-eight experienced male cyclists were divided into three groups: vmHRV-only (Group 1), vmHRV + WB (Group 2), and vmHRV + WB + RHR (Group 3). Over 40 days, participants recorded daily vmHRV, RHR, and WB scores and followed customised training protocols. Pre- and post-intervention cycling tests assessed maximal power (Pmax), 1-min, 5-min, 20-min, and functional threshold power (FTP™). Daily data analysis included correlation and autocorrelation function (ACF) assessments to evaluate trends and individual variability. Across all groups, significant performance improvements were observed for 1-min, 5-min, 20-min, FTP™, and FTP™/kg. Group 3 showed the greatest improvements, particularly in 5-min and 20-min efforts (310.5 ± 60 to 337.9 ± 71 watts, and 260.9 ± 55 to 284.5 ± 64 watts, respectively). ACF revealed stress as having the highest day-to-day consistency among subjective measures. Individual correlations revealed diverse strengths of the relationships between physiological and subjective markers. Combining vmHRV, RHR, and WB offers a more nuanced assessment of athlete readiness and enhances training outcomes compared to vmHRV-only guidance. The study underscores the value of integrating physiological and subjective measures for personalising training protocols and highlights future directions for improving monitoring systems with advanced analytics.",
+  "affiliations": [
+    "Laboratory of Sport Psychology, Department of Basic Psychology, Universitat Autònoma de Barcelona (UAB), Barcelona, Spain. Carla.alfonso@uab.cat.",
+    "Sport Research Institute, Universitat Autònoma de Barcelona (UAB), Barcelona, Spain. Carla.alfonso@uab.cat.",
+    "Department of Biomedical Physiology and Kinesiology and Sports Analytics Group, Simon Fraser University, Burnaby, BC, Canada.",
+    "Laboratory of Sport Psychology, Department of Basic Psychology, Universitat Autònoma de Barcelona (UAB), Barcelona, Spain.",
+    "Sport Research Institute, Universitat Autònoma de Barcelona (UAB), Barcelona, Spain."
+  ],
+  "authors": [
+    {
+      "lastName": "Alfonso",
+      "firstName": "Carla",
+      "initials": "C",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0001-7977-6474"
+    },
+    {
+      "lastName": "Clarke",
+      "firstName": "David C",
+      "initials": "DC",
+      "affiliationIndices": [
+        2
+      ],
+      "orcid": "0000-0002-1520-5426"
+    },
+    {
+      "lastName": "Capdevila",
+      "firstName": "Lluis",
+      "initials": "L",
+      "affiliationIndices": [
+        3,
+        4
+      ],
+      "orcid": "0000-0002-7319-4745"
+    }
+  ],
+  "journalInfo": {
+    "title": "Scientific reports",
+    "isoAbbreviation": "Sci Rep",
+    "eIssn": "2045-2322",
+    "volume": "15",
+    "issue": "1",
+    "pages": "34023",
+    "elocationId": "34023",
+    "elocationIdType": "pii",
+    "publicationDate": {
+      "year": "2025",
+      "month": "Sep",
+      "day": "30"
+    }
+  },
+  "doi": "10.1038/s41598-025-13540-z",
+  "pmcId": "PMC12485039",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41028151/",
+  "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12485039/",
+  "publicationTypes": [
+    "Journal Article"
+  ],
+  "keywords": [
+    "Autonomic nervous system",
+    "Fatigue",
+    "HRV",
+    "Periodization",
+    "Psychophysiology",
+    "Recovery"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2025",
+      "month": "9",
+      "day": "30"
+    }
+  ]
+}

@@ -1,0 +1,1766 @@
+[
+  {
+    "name": "Synthetic AE-5 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "AE-5",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 3,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 300,
+              "target": {
+                "basis": "watts",
+                "low": 175,
+                "zones": [
+                  2
+                ]
+              },
+              "cadence_rpm": 105,
+              "technique": "high_cadence"
+            },
+            {
+              "role": "recovery",
+              "seconds": 180,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "work",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          },
+          "cadence_rpm": 105,
+          "technique": "high_cadence"
+        },
+        {
+          "role": "endurance",
+          "seconds": 660,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic AE-6 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "AE-6",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "endurance",
+          "seconds": 4800,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 1800,
+          "target": {
+            "basis": "watts",
+            "low": 220,
+            "zones": [
+              3
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic AE-7 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "AE-7",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "work",
+          "seconds": 2400,
+          "target": {
+            "basis": "watts",
+            "low": 170,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 2400,
+          "target": {
+            "basis": "watts",
+            "low": 185,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 2400,
+          "target": {
+            "basis": "watts",
+            "low": 195,
+            "zones": [
+              2
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic SS-3 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "SS-3",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 900,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 3,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 120,
+              "target": {
+                "basis": "watts",
+                "low": 250,
+                "zones": [
+                  4
+                ]
+              }
+            },
+            {
+              "role": "work",
+              "seconds": 60,
+              "target": {
+                "basis": "watts",
+                "low": 280,
+                "zones": [
+                  5
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "set_recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 3,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 120,
+              "target": {
+                "basis": "watts",
+                "low": 250,
+                "zones": [
+                  4
+                ]
+              }
+            },
+            {
+              "role": "work",
+              "seconds": 60,
+              "target": {
+                "basis": "watts",
+                "low": 280,
+                "zones": [
+                  5
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "set_recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 3,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 120,
+              "target": {
+                "basis": "watts",
+                "low": 250,
+                "zones": [
+                  4
+                ]
+              }
+            },
+            {
+              "role": "work",
+              "seconds": 60,
+              "target": {
+                "basis": "watts",
+                "low": 280,
+                "zones": [
+                  5
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic VO2-3 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "VO2-3",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 1140,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 60,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 150,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 90,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic AN-2 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "AN-2",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 1180,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 10,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 10,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "repeat": 3,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 10,
+              "target": {
+                "basis": "max_effort",
+                "zones": [
+                  7
+                ]
+              }
+            },
+            {
+              "role": "recovery",
+              "seconds": 300,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "work",
+          "seconds": 10,
+          "target": {
+            "basis": "max_effort",
+            "zones": [
+              7
+            ]
+          }
+        },
+        {
+          "role": "endurance",
+          "seconds": 740,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic AN-3 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "AN-3",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 1180,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 10,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "warmup",
+          "seconds": 10,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "repeat": 4,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 10,
+              "target": {
+                "basis": "max_effort",
+                "zones": [
+                  7
+                ]
+              }
+            },
+            {
+              "role": "recovery",
+              "seconds": 180,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "work",
+          "seconds": 10,
+          "target": {
+            "basis": "max_effort",
+            "zones": [
+              7
+            ]
+          }
+        },
+        {
+          "role": "set_recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 4,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 10,
+              "target": {
+                "basis": "max_effort",
+                "zones": [
+                  7
+                ]
+              }
+            },
+            {
+              "role": "recovery",
+              "seconds": 180,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "work",
+          "seconds": 10,
+          "target": {
+            "basis": "max_effort",
+            "zones": [
+              7
+            ]
+          }
+        },
+        {
+          "role": "set_recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "repeat": 4,
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 10,
+              "target": {
+                "basis": "max_effort",
+                "zones": [
+                  7
+                ]
+              }
+            },
+            {
+              "role": "recovery",
+              "seconds": 180,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "work",
+          "seconds": 10,
+          "target": {
+            "basis": "max_effort",
+            "zones": [
+              7
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 1200,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ],
+      "sprint_reference": {
+        "value_watts": 700,
+        "duration_seconds": 10,
+        "date": "2026-10-01",
+        "source": "Synthetic comparable ten-second efforts, same power meter",
+        "set_targets_watts": [
+          700,
+          721,
+          735
+        ]
+      }
+    }
+  },
+  {
+    "name": "Synthetic MIX-1 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "MIX-1",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 900,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "endurance",
+          "seconds": 780,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 120,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic MIX-2 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "MIX-2",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 60,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 60,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 60,
+          "target": {
+            "basis": "watts",
+            "low": 300,
+            "zones": [
+              5
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 30,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "role": "recovery",
+          "seconds": 180,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 30,
+          "target": {
+            "basis": "watts",
+            "low": 350,
+            "zones": [
+              6
+            ]
+          }
+        },
+        {
+          "role": "endurance",
+          "seconds": 540,
+          "target": {
+            "basis": "watts",
+            "low": 175,
+            "zones": [
+              2
+            ]
+          }
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic SE-1 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "SE-1",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 900,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 220,
+            "zones": [
+              3
+            ]
+          },
+          "cadence_rpm": 55
+        },
+        {
+          "role": "recovery",
+          "seconds": 240,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          },
+          "cadence_rpm": 90
+        },
+        {
+          "role": "work",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 220,
+            "zones": [
+              3
+            ]
+          },
+          "cadence_rpm": 55
+        },
+        {
+          "role": "recovery",
+          "seconds": 240,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          },
+          "cadence_rpm": 90
+        },
+        {
+          "role": "work",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 220,
+            "zones": [
+              3
+            ]
+          },
+          "cadence_rpm": 55
+        },
+        {
+          "role": "recovery",
+          "seconds": 240,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          },
+          "cadence_rpm": 90
+        },
+        {
+          "role": "work",
+          "seconds": 480,
+          "target": {
+            "basis": "watts",
+            "low": 220,
+            "zones": [
+              3
+            ]
+          },
+          "cadence_rpm": 55
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Synthetic SE-2 validation example",
+    "date": "2026-10-27",
+    "indoor": true,
+    "coaching_prescription": {
+      "schema_version": 1,
+      "session_template": "SE-2",
+      "template_version": "0.9.0",
+      "available_minutes": 180,
+      "fitness_reference": {
+        "metric": "ftp",
+        "value_watts": 250,
+        "date": "2026-10-01",
+        "method": "synthetic_test",
+        "equipment": "synthetic_trainer",
+        "environment": "indoor",
+        "source": "synthetic fixture",
+        "status": "current",
+        "zone_bounds_watts": {
+          "1": [
+            0,
+            150
+          ],
+          "2": [
+            150,
+            200
+          ],
+          "3": [
+            200,
+            230
+          ],
+          "4": [
+            230,
+            265
+          ],
+          "5": [
+            265,
+            315
+          ],
+          "6": [
+            315,
+            400
+          ],
+          "7": [
+            400,
+            1000
+          ]
+        }
+      },
+      "steps": [
+        {
+          "role": "warmup",
+          "seconds": 900,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        },
+        {
+          "role": "work",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          },
+          "cadence_rpm": 60
+        },
+        {
+          "role": "recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          },
+          "cadence_rpm": 90
+        },
+        {
+          "role": "work",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          },
+          "cadence_rpm": 60
+        },
+        {
+          "role": "recovery",
+          "seconds": 300,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          },
+          "cadence_rpm": 90
+        },
+        {
+          "role": "work",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 250,
+            "zones": [
+              4
+            ]
+          },
+          "cadence_rpm": 60
+        },
+        {
+          "role": "cooldown",
+          "seconds": 600,
+          "target": {
+            "basis": "watts",
+            "low": 125,
+            "zones": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

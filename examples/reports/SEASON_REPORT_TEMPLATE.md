@@ -93,7 +93,7 @@ prior years (see Notes).]
 | **Data gaps** | `data_gaps[*]` within span | Period and `days_missing` |
 | **A-races completed** | `race_calendar.all_races[*]` filtered to span where priority == "A" | Only A-races; B/C surface in Block reports |
 | **Next A-race** | `race_calendar.next_race` if priority == "A" | Date, name, D-XX countdown |
-| **Deviations** | One line max: count-based observation derived from `weekly_180d` flags | Examples: grey-zone week count, deload-shortfall count. If nothing notable, write "None notable" |
+| **Deviations** | One line max: count-based observation derived from `weekly_180d` flags | State the comparison criterion, such as a chosen plan or descriptive legacy threshold; exceeding a Z3 percentage alone is not a training failure. If nothing relevant, write "None notable" |
 | **Interpretation** | 2-4 sentences synthesizing trajectory + YoY + notable patterns | No phase claims about prior years (see Notes) |
 
 ---

@@ -1,0 +1,494 @@
+{
+  "schema_version": 1,
+  "planning_policy": "athlete_specific_v1",
+  "athlete_id": "i123456",
+  "plan_id": "cycling-development",
+  "revision": {
+    "request_id": "initial-example",
+    "parent_revision": null,
+    "reason": "Establish the next block and one detailed week within current availability",
+    "evidence": [
+      {
+        "source": "Synthetic completed training and athlete feedback",
+        "as_of": "2026-10-22",
+        "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+      }
+    ]
+  },
+  "goals": [
+    {
+      "goal_id": "sustainable-fitness",
+      "description": "Improve sustainable cycling fitness and maintain consistency",
+      "priority": "A",
+      "date": "2026-11-02",
+      "demands": [
+        "Aerobic endurance",
+        "Repeatable sustained efforts"
+      ],
+      "success_measure": "Repeat comparable sessions with sustainable effort and good recovery",
+      "constraints": [
+        "Current availability varies; preserve sleep comfort"
+      ]
+    }
+  ],
+  "block": {
+    "objective": "Build consistent, tolerable aerobic work with one familiar interval dose",
+    "goal_ids": [
+      "sustainable-fitness"
+    ],
+    "planned_phase": "Base",
+    "start_date": "2026-10-26",
+    "end_date": "2026-11-22",
+    "starting_evidence": [
+      {
+        "source": "Synthetic completed training and athlete feedback",
+        "as_of": "2026-10-22",
+        "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+      }
+    ],
+    "progression": "Hold intervals; consider extending easy riding only after reviewing completed work and response",
+    "recovery": "Easy/rest days between demanding sessions; reduce earlier if symptoms or poor tolerance appear",
+    "review_date": "2026-11-01",
+    "change_conditions": [
+      "Availability changes",
+      "Symptoms or unusually difficult sessions",
+      "Goal/event changes"
+    ],
+    "event_preparation": {
+      "goal_id": "sustainable-fitness",
+      "expected_duration_minutes": 60,
+      "terrain": "flat",
+      "decisive_demands": [
+        "Sustained power"
+      ],
+      "recent_training_reference": [
+        {
+          "source": "Synthetic completed training and athlete feedback",
+          "as_of": "2026-10-22",
+          "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+        }
+      ],
+      "taper": {
+        "start_date": "2026-10-26",
+        "end_date": "2026-11-01",
+        "reference_minutes": 250,
+        "planned_minutes": 200,
+        "rationale": "A modest reduction suited to recent completed training",
+        "familiar_intensity": true
+      }
+    },
+    "durability_context": {
+      "fresh": {
+        "source": "Synthetic matched power windows",
+        "date": "2026-10-20",
+        "assessment": "Comparable sustained effort",
+        "assessment_seconds": 300,
+        "power_watts": 300,
+        "prior_minutes": 15,
+        "prior_work": {
+          "value": 100,
+          "unit": "kJ_mechanical"
+        },
+        "prior_intensity": "easy",
+        "environment": "indoor",
+        "pacing": "steady",
+        "fueling": "fed",
+        "conditions": "cool with fan"
+      },
+      "fatigued": {
+        "source": "Synthetic matched power windows",
+        "date": "2026-10-20",
+        "assessment": "Comparable sustained effort",
+        "assessment_seconds": 300,
+        "power_watts": 270,
+        "prior_minutes": 120,
+        "prior_work": {
+          "value": 1000,
+          "unit": "kJ_mechanical"
+        },
+        "prior_intensity": "easy",
+        "environment": "indoor",
+        "pacing": "steady",
+        "fueling": "fed",
+        "conditions": "cool with fan"
+      },
+      "interpretation": "Descriptive comparison; not a causal fitness estimate"
+    },
+    "strength_context": {
+      "goal": "Optional goal-specific strength",
+      "experience": "experienced",
+      "equipment": "gym",
+      "technique": "reviewed",
+      "soreness": "none reported",
+      "arrangement": "replace",
+      "displaced_sessions": [
+        "endurance: reduced by 30 minutes"
+      ],
+      "recovery_plan": "Monitor soreness and cycling quality; preserve recovery",
+      "evidence_certainty": "low"
+    }
+  },
+  "detected_phase": {
+    "value": "Base",
+    "as_of": "2026-10-22",
+    "source": "Synthetic descriptive phase observation"
+  },
+  "weeks": [
+    {
+      "start_date": "2026-10-26",
+      "weekly_minutes": 240,
+      "session_windows": [
+        {
+          "date": "2026-10-27",
+          "max_minutes": 60
+        },
+        {
+          "date": "2026-10-29",
+          "max_minutes": 60
+        },
+        {
+          "date": "2026-10-31",
+          "max_minutes": 120
+        },
+        {
+          "date": "2026-10-28",
+          "max_minutes": 30
+        }
+      ],
+      "intensity_approach": {
+        "intent": "Mostly easy work with one familiar interval session",
+        "zone_model": "athlete_configured_7_zone",
+        "basis": "planned_power_time",
+        "rationale": "Preserve tolerable volume and a purposeful stimulus without a fixed intensity ratio"
+      },
+      "compromises": [
+        "Only the near-term week is fully prescribed; later weeks remain flexible"
+      ]
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "intervals",
+      "purpose": "Maintain a previously tolerated interval stimulus",
+      "alternatives": [
+        "Replace with an appropriate easy session if actual readiness requires modification"
+      ],
+      "session_budget_minutes": 60,
+      "workout": {
+        "name": "Synthetic short intervals",
+        "date": "2026-10-27",
+        "indoor": true,
+        "coaching_prescription": {
+          "schema_version": 1,
+          "session_template": "VO2-2",
+          "template_version": "0.9.0",
+          "available_minutes": 50,
+          "fitness_reference": {
+            "metric": "ftp",
+            "value_watts": 250,
+            "date": "2026-10-01",
+            "method": "synthetic_test",
+            "equipment": "synthetic_trainer",
+            "environment": "indoor",
+            "source": "synthetic fixture",
+            "status": "current",
+            "zone_bounds_watts": {
+              "1": [
+                0,
+                150
+              ],
+              "2": [
+                150,
+                200
+              ],
+              "3": [
+                200,
+                230
+              ],
+              "4": [
+                230,
+                265
+              ],
+              "5": [
+                265,
+                315
+              ],
+              "6": [
+                315,
+                400
+              ],
+              "7": [
+                400,
+                1000
+              ]
+            }
+          },
+          "steps": [
+            {
+              "role": "warmup",
+              "seconds": 1140,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            },
+            {
+              "role": "warmup",
+              "seconds": 60,
+              "target": {
+                "basis": "watts",
+                "low": 250,
+                "zones": [
+                  4
+                ]
+              }
+            },
+            {
+              "repeat": 10,
+              "steps": [
+                {
+                  "role": "work",
+                  "seconds": 30,
+                  "target": {
+                    "basis": "watts",
+                    "low": 300,
+                    "zones": [
+                      5
+                    ]
+                  }
+                },
+                {
+                  "role": "recovery",
+                  "seconds": 15,
+                  "target": {
+                    "basis": "watts",
+                    "low": 125,
+                    "zones": [
+                      1
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "role": "set_recovery",
+              "seconds": 300,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            },
+            {
+              "repeat": 10,
+              "steps": [
+                {
+                  "role": "work",
+                  "seconds": 30,
+                  "target": {
+                    "basis": "watts",
+                    "low": 300,
+                    "zones": [
+                      5
+                    ]
+                  }
+                },
+                {
+                  "role": "recovery",
+                  "seconds": 15,
+                  "target": {
+                    "basis": "watts",
+                    "low": 125,
+                    "zones": [
+                      1
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "role": "cooldown",
+              "seconds": 600,
+              "target": {
+                "basis": "watts",
+                "low": 125,
+                "zones": [
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        "synthetic": true,
+        "time": "18:00"
+      }
+    },
+    {
+      "session_id": "easy-short",
+      "purpose": "Maintain easy aerobic riding",
+      "alternatives": [
+        "Rest if symptoms require it"
+      ],
+      "session_budget_minutes": 60,
+      "workout": {
+        "name": "Synthetic easy ride",
+        "date": "2026-10-29",
+        "indoor": true,
+        "coaching_prescription": {
+          "schema_version": 1,
+          "session_template": "AE-1",
+          "template_version": "0.9.0",
+          "available_minutes": 60,
+          "fitness_reference": {
+            "metric": "ftp",
+            "value_watts": 250,
+            "date": "2026-10-01",
+            "method": "synthetic_test",
+            "equipment": "synthetic_trainer",
+            "environment": "indoor",
+            "source": "synthetic fixture",
+            "status": "current",
+            "zone_bounds_watts": {
+              "1": [
+                0,
+                150
+              ],
+              "2": [
+                150,
+                200
+              ],
+              "3": [
+                200,
+                230
+              ],
+              "4": [
+                230,
+                265
+              ],
+              "5": [
+                265,
+                315
+              ],
+              "6": [
+                315,
+                400
+              ],
+              "7": [
+                400,
+                1000
+              ]
+            }
+          },
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 3600,
+              "target": {
+                "basis": "watts",
+                "low": 175,
+                "zones": [
+                  2
+                ]
+              }
+            }
+          ]
+        },
+        "synthetic": true,
+        "time": "10:00"
+      }
+    },
+    {
+      "session_id": "endurance",
+      "purpose": "Build sustainable aerobic endurance",
+      "alternatives": [
+        "Choose a shorter permitted endurance template if availability falls"
+      ],
+      "session_budget_minutes": 120,
+      "workout": {
+        "name": "Synthetic endurance ride",
+        "date": "2026-10-31",
+        "indoor": true,
+        "coaching_prescription": {
+          "schema_version": 1,
+          "session_template": "AE-1",
+          "template_version": "0.9.0",
+          "available_minutes": 90,
+          "fitness_reference": {
+            "metric": "ftp",
+            "value_watts": 250,
+            "date": "2026-10-01",
+            "method": "synthetic_test",
+            "equipment": "synthetic_trainer",
+            "environment": "indoor",
+            "source": "synthetic fixture",
+            "status": "current",
+            "zone_bounds_watts": {
+              "1": [
+                0,
+                150
+              ],
+              "2": [
+                150,
+                200
+              ],
+              "3": [
+                200,
+                230
+              ],
+              "4": [
+                230,
+                265
+              ],
+              "5": [
+                265,
+                315
+              ],
+              "6": [
+                315,
+                400
+              ],
+              "7": [
+                400,
+                1000
+              ]
+            }
+          },
+          "steps": [
+            {
+              "role": "work",
+              "seconds": 3600,
+              "target": {
+                "basis": "watts",
+                "low": 175,
+                "zones": [
+                  2
+                ]
+              }
+            }
+          ]
+        },
+        "synthetic": true,
+        "time": "10:00"
+      }
+    },
+    {
+      "session_id": "optional-strength",
+      "purpose": "Optional goal-specific strength within the same time budget",
+      "alternatives": [
+        "Keep the cycling-only arrangement if preferred"
+      ],
+      "session_budget_minutes": 30,
+      "workout": {
+        "name": "Synthetic optional strength",
+        "date": "2026-10-28",
+        "type": "WeightTraining",
+        "duration_minutes": 30
+      }
+    }
+  ]
+}

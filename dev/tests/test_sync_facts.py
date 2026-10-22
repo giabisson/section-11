@@ -291,6 +291,9 @@ class PeriodFacts(FactsCase):
         self.assertEqual(output["fun_facts"]["rolling_7d"]["cycling_activity_count"], 1)
         self.assertEqual(output["fun_facts"]["rolling_28d"]["cycling_activity_count"], 2)
         self.assertEqual(output["fun_facts"]["rolling_28d"]["max_power"]["activity_id"], "i102")
+        self.assertEqual(output["derived_metrics"]["readiness_observations"]["as_of_date"], "2026-10-21")
+        self.assertEqual(output["readiness_decision"]["input_context"]["observation_quality"], "dated")
+        self.assertFalse(output["readiness_decision"]["input_context"]["health_clarification_required"])
         self.assertNotIn("activity-power-curves", calls)
         self.assertNotIn("fun_facts", output["derived_metrics"])
         chunks = output["rolling_7d_chunks"]

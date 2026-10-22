@@ -1,0 +1,7 @@
+OBJECTIVE: To assess the responses to taper in endurance athletes using meta-analysis.
+
+METHODS: Systematic searches were conducted in China National Knowledge Infrastructure, PubMed, Web of Science, SPORTDiscus, and EMBASE databases. Standardized mean difference (SMD) and 95% confidence interval (CI) of outcome measures were calculated as effect sizes.
+
+RESULTS: 14 studies were included in this meta-analysis. Significant improvements were found between pre- and post-tapering in time-trial (TT) performance (SMD = -0.45; P < 0.05) and time to exhaustion (TTE) performance (SMD = 1.28; P < 0.05). However, There were no improvements in maximal oxygen consumption ([Formula: see text]) and economy of movement (EM) (P > 0.05) between pre- and post-tapering. Further subgroup analysis showed that tapering combined with pre-taper overload training had a more significant effect on TT performance than conventional tapering (P < 0.05). A tapering strategy that reduced training volume by 41-60%, maintained training intensity and frequency, lasted ≤7 days, 8-14 days, or 15-21 days, used a progressive or step taper could significantly improve TT performance (P < 0.05).
+
+CONCLUSIONS: The tapering applied in conjunction with pre-taper overload training seems to be more conducive to maximize performance gains. Current evidence suggests that a ≤21-day taper, in which training volume is progressively reduced by 41-60% without changing training intensity or frequency, is an effective tapering strategy.

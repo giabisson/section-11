@@ -1,0 +1,960 @@
+{
+  "schema_version": 2,
+  "review_date": "2026-10-22",
+  "scope": "Original 15-paper generic cycling-coaching selection plus two user-supplied supporting papers; not a systematic review.",
+  "eth_network_detected": true,
+  "access_note": "ETH network detection is not proof of subscription entitlement. Full local retrieval responses are ignored; no public IP is included here.",
+  "counts": {
+    "papers": 17,
+    "core_reading_set": 15,
+    "additional_supporting_papers": 2,
+    "full_text": 16,
+    "original_pdf": 14,
+    "abstract_only": 1
+  },
+  "papers": [
+    {
+      "pmid": "36640771",
+      "title": "Training Periodization, Intensity Distribution, and Volume in Trained Cyclists: A Systematic Review.",
+      "doi": "10.1123/ijspp.2022-0302",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36640771/",
+      "publisher_url": "https://journals.humankinetics.com/view/journals/ijspp/18/2/article-p112.xml",
+      "metadata_path": "papers/36640771/metadata.json",
+      "abstract_path": "papers/36640771/abstract.txt",
+      "notes_path": "papers/36640771/notes.md",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://journals.humankinetics.com/view/journals/ijspp/18/2/article-p112.xml",
+      "local_source_directory": "sources/36640771",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 3,
+          "checked": "Figure 1, inconsistent screening labels/counts, and participant characteristics",
+          "render_path": "sources/36640771/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Table 2 and intensity distribution summaries; do not normalize inconsistent listed totals",
+          "render_path": "sources/36640771/verification/manual-page-06.png"
+        }
+      ],
+      "pdf_verification_incomplete": false,
+      "selection_role": "core_reading_set",
+      "current_access_method": "user_supplied_local_files",
+      "pdf_path": "sources/36640771/original.pdf",
+      "pdf_sha256": "9ce8caaf80ca641e30e1142c13db4d2c6bfbe016e9ab2d147ea21b13941f3a4d",
+      "extracted_text_path": "sources/36640771/original-extracted.txt",
+      "full_text_path": "sources/36640771/galan-rioja-2023-cycling-periodization.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "c60f49e4f4afac3ac33bcf75c3792c681c4c9333b122ba4f1150570a5e03eb7e",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_ijspp-article-p112_2113223437810831360.md",
+        "original_pdf_filename": "ijspp-article-p112.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "pdf_pages": 11,
+      "text_extraction_usable_for_body": true
+    },
+    {
+      "pmid": "39888556",
+      "title": "Which Training Intensity Distribution Intervention will Produce the Greatest Improvements in Maximal Oxygen Uptake and Time-Trial Performance in Endurance Athletes? A Systematic Review and Network Meta-analysis of Individual Participant Data.",
+      "doi": "10.1007/s40279-024-02149-3",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39888556/",
+      "publisher_url": "https://doi.org/10.1007/s40279-024-02149-3",
+      "metadata_path": "papers/39888556/metadata.json",
+      "abstract_path": "papers/39888556/abstract.txt",
+      "notes_path": "papers/39888556/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://link.springer.com/content/pdf/10.1007/s40279-024-02149-3.pdf",
+      "local_source_directory": "sources/39888556",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "b3abc70672bf709f0107",
+      "pdf_path": "sources/39888556/original.pdf",
+      "extracted_text_path": "sources/39888556/original-extracted.txt",
+      "pdf_pages": 19,
+      "pdf_sha256": "0044ee7624ced74575c595c4550c2b51dbcd9c083f0f7d9d09100c3651dcac31",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 24000,
+          "total_characters": 109939,
+          "characters": 24000
+        },
+        {
+          "offset": 24000,
+          "next_offset": 48000,
+          "total_characters": 109939,
+          "characters": 24000
+        },
+        {
+          "offset": 48000,
+          "next_offset": 72000,
+          "total_characters": 109939,
+          "characters": 24000
+        },
+        {
+          "offset": 72000,
+          "next_offset": 96000,
+          "total_characters": 109939,
+          "characters": 24000
+        },
+        {
+          "offset": 96000,
+          "next_offset": null,
+          "total_characters": 109939,
+          "characters": 13939
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 11,
+          "checked": "Figure 3: overall contrasts and confidence intervals",
+          "render_path": "sources/39888556/verification/page-11.png"
+        },
+        {
+          "pdf_page_1_based": 12,
+          "checked": "Figure 4: subgroup interaction versus nonsignificant within-subgroup contrasts",
+          "render_path": "sources/39888556/verification/page-12.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "21812820",
+      "title": "Adaptations to aerobic interval training: interactive effects of exercise intensity and total work duration.",
+      "doi": "10.1111/j.1600-0838.2011.01351.x",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/21812820/",
+      "publisher_url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1600-0838.2011.01351.x",
+      "metadata_path": "papers/21812820/metadata.json",
+      "abstract_path": "papers/21812820/abstract.txt",
+      "notes_path": "papers/21812820/notes.md",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1600-0838.2011.01351.x",
+      "local_source_directory": "sources/21812820",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 3,
+          "checked": "Training intervention, 2-minute recoveries for 4x8/4x4; 3 minutes for 4x16",
+          "render_path": "sources/21812820/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 4,
+          "checked": "Table 2: training volume, achieved intensity and group sex composition",
+          "render_path": "sources/21812820/verification/manual-page-04.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "Table 3 and composite result",
+          "render_path": "sources/21812820/verification/manual-page-05.png"
+        },
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Figures 1–2: outcome-specific intervals and individual-response categories",
+          "render_path": "sources/21812820/verification/manual-page-06.png"
+        }
+      ],
+      "pdf_verification_incomplete": false,
+      "selection_role": "core_reading_set",
+      "current_access_method": "user_supplied_local_files",
+      "pdf_path": "sources/21812820/original.pdf",
+      "pdf_sha256": "0fa431073f5792bc974940cc448c574443cb59fbaef7beffd7fb68df72ca0132",
+      "extracted_text_path": "sources/21812820/original-extracted.txt",
+      "full_text_path": "sources/21812820/seiler-2013-interval-intensity-duration.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "efd01e3ffab7bc61f118de8fb569be395f10956a789ad012ad1402440856f9d6",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_Scandinavian_Med_Sci_Sports_-_2011_-_Seiler_-_Adaptations_to_aerobic_interval_training_interactive_effects_of_exercise_2113223383658168320.md",
+        "original_pdf_filename": "Scandinavian Med Sci Sports - 2011 - Seiler - Adaptations to aerobic interval training interactive effects of exercise.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "pdf_pages": 10,
+      "text_extraction_usable_for_body": false
+    },
+    {
+      "pmid": "24382021",
+      "title": "Short intervals induce superior training adaptations compared with long intervals in cyclists - an effort-matched approach.",
+      "doi": "10.1111/sms.12165",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/24382021/",
+      "publisher_url": "https://onlinelibrary.wiley.com/doi/10.1111/sms.12165",
+      "metadata_path": "papers/24382021/metadata.json",
+      "abstract_path": "papers/24382021/abstract.txt",
+      "notes_path": "papers/24382021/notes.md",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://onlinelibrary.wiley.com/doi/10.1111/sms.12165",
+      "local_source_directory": "sources/24382021",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 2,
+          "checked": "Methods and Tables 1–2: sets/reps, rest and session-duration arithmetic",
+          "render_path": "sources/24382021/verification/manual-page-02.png"
+        },
+        {
+          "pdf_page_1_based": 3,
+          "checked": "Individual intensity progression and Figure 1",
+          "render_path": "sources/24382021/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "Figures 2–3: individual outcomes and significance markings",
+          "render_path": "sources/24382021/verification/manual-page-05.png"
+        }
+      ],
+      "pdf_verification_incomplete": false,
+      "selection_role": "core_reading_set",
+      "current_access_method": "user_supplied_local_files",
+      "pdf_path": "sources/24382021/original.pdf",
+      "pdf_sha256": "e579617485341be5e10582be0958a2bf78fc69a258c3a2e5d965172b42884871",
+      "extracted_text_path": "sources/24382021/original-extracted.txt",
+      "full_text_path": "sources/24382021/ronnestad-2015-short-versus-long-intervals.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "a53b539e6fe142f5974beca96eadd1f0ce13f3f9090c8f318e8ffa6f5ba130e9",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_Scandinavian_Med_Sci_Sports_-_2014_-_Rønnestad_-_Short_intervals_induce_superior_training_adaptations_compared_with_long_2113223356206448640.md",
+        "original_pdf_filename": "Scandinavian Med Sci Sports - 2014 - Rønnestad - Short intervals induce superior training adaptations compared with long.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "pdf_pages": 9,
+      "text_extraction_usable_for_body": true
+    },
+    {
+      "pmid": "40632222",
+      "title": "Heavy strength training effects on physiological determinants of endurance cyclist performance: a systematic review with meta-analysis.",
+      "doi": "10.1007/s00421-025-05883-2",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40632222/",
+      "publisher_url": "https://doi.org/10.1007/s00421-025-05883-2",
+      "metadata_path": "papers/40632222/metadata.json",
+      "abstract_path": "papers/40632222/abstract.txt",
+      "notes_path": "papers/40632222/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://link.springer.com/content/pdf/10.1007/s00421-025-05883-2.pdf",
+      "local_source_directory": "sources/40632222",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "e60d90c71e7ac9db9f87",
+      "pdf_path": "sources/40632222/original.pdf",
+      "extracted_text_path": "sources/40632222/original-extracted.txt",
+      "pdf_pages": 30,
+      "pdf_sha256": "239eea96ee56355e18bb43dd81ac3920d227a6962555cc12cf4cf2e42cbbb4fe",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 40000,
+          "total_characters": 192616,
+          "characters": 40001
+        },
+        {
+          "offset": 40000,
+          "next_offset": 80000,
+          "total_characters": 192616,
+          "characters": 40000
+        },
+        {
+          "offset": 80000,
+          "next_offset": 120000,
+          "total_characters": 192616,
+          "characters": 40000
+        },
+        {
+          "offset": 120000,
+          "next_offset": 160000,
+          "total_characters": 192616,
+          "characters": 40000
+        },
+        {
+          "offset": 160000,
+          "next_offset": null,
+          "total_characters": 192616,
+          "characters": 32616
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Equations (1)–(5): change, pooled post SD, Hedges g and correction",
+          "render_path": "sources/40632222/verification/page-06.png"
+        },
+        {
+          "pdf_page_1_based": 18,
+          "checked": "Figure 3: negative beneficial direction for efficiency",
+          "render_path": "sources/40632222/verification/page-18.png"
+        },
+        {
+          "pdf_page_1_based": 19,
+          "checked": "Figure 4: positive beneficial direction for performance",
+          "render_path": "sources/40632222/verification/page-19.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "40613880",
+      "title": "Is intensity the most important factor in determining the amount of prior work accumulated that affects cyclists' acute durability? A systematic review.",
+      "doi": "10.1007/s00421-025-05885-0",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40613880/",
+      "publisher_url": "https://doi.org/10.1007/s00421-025-05885-0",
+      "metadata_path": "papers/40613880/metadata.json",
+      "abstract_path": "papers/40613880/abstract.txt",
+      "notes_path": "papers/40613880/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://link.springer.com/content/pdf/10.1007/s00421-025-05885-0.pdf",
+      "local_source_directory": "sources/40613880",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "80f273edec48f4e961aa",
+      "pdf_path": "sources/40613880/original.pdf",
+      "extracted_text_path": "sources/40613880/original-extracted.txt",
+      "pdf_pages": 17,
+      "pdf_sha256": "73c5d61cc170b49ad722627cbdec7dd9b39799673888e02c22850f3969d5e7e4",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 30000,
+          "total_characters": 104084,
+          "characters": 30000
+        },
+        {
+          "offset": 30000,
+          "next_offset": 60000,
+          "total_characters": 104084,
+          "characters": 30000
+        },
+        {
+          "offset": 60000,
+          "next_offset": 90000,
+          "total_characters": 104084,
+          "characters": 30000
+        },
+        {
+          "offset": 90000,
+          "next_offset": null,
+          "total_characters": 104084,
+          "characters": 14084
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 14,
+          "checked": "Work equation: W × s yields J, divide by 1000 for kJ",
+          "render_path": "sources/40613880/verification/page-14.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "34001184",
+      "title": "Performance effects of periodized carbohydrate restriction in endurance trained athletes - a systematic review and meta-analysis.",
+      "doi": "10.1186/s12970-021-00435-3",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34001184/",
+      "publisher_url": "https://doi.org/10.1186/s12970-021-00435-3",
+      "metadata_path": "papers/34001184/metadata.json",
+      "abstract_path": "papers/34001184/abstract.txt",
+      "notes_path": "papers/34001184/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://link.springer.com/content/pdf/10.1186/s12970-021-00435-3.pdf",
+      "local_source_directory": "sources/34001184",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "ac873ac0f2b6077c12f9",
+      "pdf_path": "sources/34001184/original.pdf",
+      "extracted_text_path": "sources/34001184/original-extracted.txt",
+      "pdf_pages": 12,
+      "pdf_sha256": "da3376c205039be47c784227ee2959c03ee286474f13d8aec041be0a2a5021af",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 30000,
+          "total_characters": 81093,
+          "characters": 30000
+        },
+        {
+          "offset": 30000,
+          "next_offset": 60000,
+          "total_characters": 81093,
+          "characters": 30000
+        },
+        {
+          "offset": 60000,
+          "next_offset": null,
+          "total_characters": 81093,
+          "characters": 21093
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Figure 2: pooled SMD 0.17, CI −0.15 to 0.49",
+          "render_path": "sources/34001184/verification/page-06.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "26423706",
+      "title": "Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review.",
+      "doi": "10.1136/bjsports-2015-094758",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/26423706/",
+      "publisher_url": "https://bjsm.bmj.com/content/50/5/281",
+      "metadata_path": "papers/26423706/metadata.json",
+      "abstract_path": "papers/26423706/abstract.txt",
+      "notes_path": "papers/26423706/notes.md",
+      "evidence_basis": "full_text_html_xml",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": false,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://bjsm.bmj.com/content/50/5/281.full.pdf",
+      "local_source_directory": "sources/26423706",
+      "manual_download_needed": true,
+      "manual_download_reason": "original_pdf_missing",
+      "visual_checks": [],
+      "pdf_verification_incomplete": true,
+      "full_text_path": "sources/26423706/fulltext.txt",
+      "full_text_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4789708/",
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "20100740",
+      "title": "A practical model of low-volume high-intensity interval training induces mitochondrial biogenesis in human skeletal muscle: potential mechanisms.",
+      "doi": "10.1113/jphysiol.2009.181743",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20100740/",
+      "publisher_url": "https://onlinelibrary.wiley.com/doi/10.1113/jphysiol.2009.181743",
+      "metadata_path": "papers/20100740/metadata.json",
+      "abstract_path": "papers/20100740/abstract.txt",
+      "notes_path": "papers/20100740/notes.md",
+      "evidence_basis": "full_text_html_xml",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": false,
+      "eth_status": "full_text_not_retrieved",
+      "eth_http_status": null,
+      "eth_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2849965/",
+      "local_source_directory": "sources/20100740",
+      "manual_download_needed": true,
+      "manual_download_reason": "original_pdf_missing",
+      "visual_checks": [],
+      "pdf_verification_incomplete": true,
+      "full_text_path": "sources/20100740/fulltext.txt",
+      "full_text_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2849965/",
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "23264537",
+      "title": "Six weeks of a polarized training-intensity distribution leads to greater physiological and performance adaptations than a threshold model in trained cyclists.",
+      "doi": "10.1152/japplphysiol.00652.2012",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23264537/",
+      "publisher_url": "https://journals.physiology.org/doi/10.1152/japplphysiol.00652.2012",
+      "metadata_path": "papers/23264537/metadata.json",
+      "abstract_path": "papers/23264537/abstract.txt",
+      "notes_path": "papers/23264537/notes.md",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://journals.physiology.org/doi/10.1152/japplphysiol.00652.2012",
+      "local_source_directory": "sources/23264537",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 3,
+          "checked": "Prescriptions, progression rules and protocol-specific PPO interpolation equation",
+          "render_path": "sources/23264537/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 4,
+          "checked": "11 completers and Table 1 volume/load differences",
+          "render_path": "sources/23264537/verification/manual-page-04.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "Table 3, Figure 2 and 40-km performance comparison",
+          "render_path": "sources/23264537/verification/manual-page-05.png"
+        }
+      ],
+      "pdf_verification_incomplete": false,
+      "publication_notice": {
+        "kind": "linked_erratum_unresolved",
+        "citation": "J Appl Physiol (1985). 2013 May 15;114(10):1490.",
+        "contents_retrieved": false,
+        "impact": "unknown"
+      },
+      "selection_role": "core_reading_set",
+      "current_access_method": "user_supplied_local_files",
+      "pdf_path": "sources/23264537/original.pdf",
+      "pdf_sha256": "4275f8bdc7c49e2d161b9136e8327a1ba318a367a66008cd1c2bdea16294aa1f",
+      "extracted_text_path": "sources/23264537/original-extracted.txt",
+      "full_text_path": "sources/23264537/neal-2013-polarized-versus-threshold.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "fd97197249d94985983b951f1b2879cda6175a399f3b4ee2fd76cff8297567ca",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_neal-et-al-2013-six-weeks-of-a-polarized-training-intensity-distribution-leads-to-greater-physiological-and-performance_2113223319267217408.md",
+        "original_pdf_filename": "neal-et-al-2013-six-weeks-of-a-polarized-training-intensity-distribution-leads-to-greater-physiological-and-performance.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "pdf_pages": 11,
+      "text_extraction_usable_for_body": true
+    },
+    {
+      "pmid": "29809080",
+      "title": "Training Prescription Guided by Heart-Rate Variability in Cycling.",
+      "doi": "10.1123/ijspp.2018-0122",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/29809080/",
+      "publisher_url": "https://journals.humankinetics.com/view/journals/ijspp/14/1/article-p23.xml",
+      "metadata_path": "papers/29809080/metadata.json",
+      "abstract_path": "papers/29809080/abstract.txt",
+      "notes_path": "papers/29809080/notes.md",
+      "evidence_basis": "abstract_only",
+      "full_text_retrieved": false,
+      "original_pdf_retrieved": false,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://journals.humankinetics.com/view/journals/ijspp/14/1/article-p23.xml",
+      "local_source_directory": "sources/29809080",
+      "manual_download_needed": true,
+      "manual_download_reason": "full_text_missing",
+      "visual_checks": [],
+      "pdf_verification_incomplete": true,
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "36803419",
+      "title": "Functional threshold power is not a valid marker of the maximal metabolic steady state.",
+      "doi": "10.1080/02640414.2023.2176045",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36803419/",
+      "publisher_url": "https://www.tandfonline.com/doi/full/10.1080/02640414.2023.2176045",
+      "metadata_path": "papers/36803419/metadata.json",
+      "abstract_path": "papers/36803419/abstract.txt",
+      "notes_path": "papers/36803419/notes.md",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "blocked_or_login_required",
+      "eth_http_status": 403,
+      "eth_source_url": "https://www.tandfonline.com/doi/full/10.1080/02640414.2023.2176045",
+      "local_source_directory": "sources/36803419",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 4,
+          "checked": "FTP protocol and typographically ambiguous oxygen-kinetics equation",
+          "render_path": "sources/36803419/verification/manual-page-04.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "40-minute cap, results and Figure 2",
+          "render_path": "sources/36803419/verification/manual-page-05.png"
+        },
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Figure 3 and protocol-specific interpretation",
+          "render_path": "sources/36803419/verification/manual-page-06.png"
+        }
+      ],
+      "pdf_verification_incomplete": false,
+      "selection_role": "core_reading_set",
+      "current_access_method": "user_supplied_local_files",
+      "pdf_path": "sources/36803419/original.pdf",
+      "pdf_sha256": "1bedc5f3958fe9e44f5a86a1677a9b01718130bbbfb401e78d7db5fdd9b019bf",
+      "extracted_text_path": "sources/36803419/original-extracted.txt",
+      "full_text_path": "sources/36803419/wong-2023-ftp-metabolic-steady-state.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "2305d51f8b119b986c05099814fba55508c355f4de86739abf9e984f33019993",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_Functional_threshold_power_is_not_a_valid_marker_of_the_maximal_metabolic_steady_state_2113223261331292160.md",
+        "original_pdf_filename": "Functional threshold power is not a valid marker of the maximal metabolic steady state.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "pdf_pages": 8,
+      "text_extraction_usable_for_body": true
+    },
+    {
+      "pmid": "34639599",
+      "title": "Heart Rate Variability-Guided Training for Enhancing Cardiac-Vagal Modulation, Aerobic Fitness, and Endurance Performance: A Methodological Systematic Review with Meta-Analysis.",
+      "doi": "10.3390/ijerph181910299",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34639599/",
+      "publisher_url": "https://doi.org/10.3390/ijerph181910299",
+      "metadata_path": "papers/34639599/metadata.json",
+      "abstract_path": "papers/34639599/abstract.txt",
+      "notes_path": "papers/34639599/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://mdpi-res.com/d_attachment/ijerph/ijerph-18-10299/article_deploy/ijerph-18-10299.pdf",
+      "local_source_directory": "sources/34639599",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "5cf5448fec14a0f49b87",
+      "pdf_path": "sources/34639599/original.pdf",
+      "extracted_text_path": "sources/34639599/original-extracted.txt",
+      "pdf_pages": 23,
+      "pdf_sha256": "c09f4e6931297ec5771d5c74c225757eab7a735fbc9d96afc711cb37bdf4581e",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 50000,
+          "total_characters": 119706,
+          "characters": 50000
+        },
+        {
+          "offset": 50000,
+          "next_offset": 100000,
+          "total_characters": 119706,
+          "characters": 50000
+        },
+        {
+          "offset": 100000,
+          "next_offset": null,
+          "total_characters": 119706,
+          "characters": 19706
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 8,
+          "checked": "Table 2: recording and baseline methods",
+          "render_path": "sources/34639599/verification/page-08.png"
+        },
+        {
+          "pdf_page_1_based": 15,
+          "checked": "Figure 6: performance CI crosses zero",
+          "render_path": "sources/34639599/verification/page-15.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "37163550",
+      "title": "Effects of tapering on performance in endurance athletes: A systematic review and meta-analysis.",
+      "doi": "10.1371/journal.pone.0282838",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37163550/",
+      "publisher_url": "https://doi.org/10.1371/journal.pone.0282838",
+      "metadata_path": "papers/37163550/metadata.json",
+      "abstract_path": "papers/37163550/abstract.txt",
+      "notes_path": "papers/37163550/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0282838&type=printable",
+      "local_source_directory": "sources/37163550",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "efcdd46c38a88503f8d6",
+      "pdf_path": "sources/37163550/original.pdf",
+      "extracted_text_path": "sources/37163550/original-extracted.txt",
+      "pdf_pages": 20,
+      "pdf_sha256": "b61e164c219a9efb138aafc1c1e7f840066449148dff699f3c90a04b870c3092",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 40000,
+          "total_characters": 113977,
+          "characters": 40000
+        },
+        {
+          "offset": 40000,
+          "next_offset": 70000,
+          "total_characters": 113977,
+          "characters": 30000
+        },
+        {
+          "offset": 70000,
+          "next_offset": 96000,
+          "total_characters": 113977,
+          "characters": 26000
+        },
+        {
+          "offset": 96000,
+          "next_offset": null,
+          "total_characters": 113977,
+          "characters": 17977
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 8,
+          "checked": "Figures 3–4; narrative frequency p-value discrepancy",
+          "render_path": "sources/37163550/verification/page-08.png"
+        },
+        {
+          "pdf_page_1_based": 9,
+          "checked": "Table 2: inter-group p-values and sample sizes",
+          "render_path": "sources/37163550/verification/page-09.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "23247672",
+      "title": "Prevention, diagnosis, and treatment of the overtraining syndrome: joint consensus statement of the European College of Sport Science and the American College of Sports Medicine.",
+      "doi": "10.1249/MSS.0b013e318279a10a",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23247672/",
+      "publisher_url": "https://doi.org/10.1249/MSS.0b013e318279a10a",
+      "metadata_path": "papers/23247672/metadata.json",
+      "abstract_path": "papers/23247672/abstract.txt",
+      "notes_path": "papers/23247672/notes.md",
+      "evidence_basis": "full_paper_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "eth_status": "downloaded",
+      "eth_http_status": null,
+      "eth_source_url": "https://www.ovid.com/jnls/acsm-msse/pdf/10.1249/mss.0b013e318279a10a~prevention-diagnosis-and-treatment-of-the-overtraining",
+      "local_source_directory": "sources/23247672",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "paper_id": "1edac8ca8c058d220f9d",
+      "pdf_path": "sources/23247672/original.pdf",
+      "extracted_text_path": "sources/23247672/original-extracted.txt",
+      "pdf_pages": 20,
+      "pdf_sha256": "0a731eb0b727a712406764845a3e0d7c45b85d56d7a29334db98923ba17d24ba",
+      "eth_reader_complete": true,
+      "eth_read_log": [
+        {
+          "offset": 0,
+          "next_offset": 30000,
+          "total_characters": 157871,
+          "characters": 30000
+        },
+        {
+          "offset": 30000,
+          "next_offset": 62000,
+          "total_characters": 157871,
+          "characters": 32000
+        },
+        {
+          "offset": 62000,
+          "next_offset": 94000,
+          "total_characters": 157871,
+          "characters": 32000
+        },
+        {
+          "offset": 94000,
+          "next_offset": 124000,
+          "total_characters": 157871,
+          "characters": 30000
+        },
+        {
+          "offset": 124000,
+          "next_offset": null,
+          "total_characters": 157871,
+          "characters": 33871
+        }
+      ],
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 13,
+          "checked": "Figure 3: clinical flowchart, not chatbot diagnosis",
+          "render_path": "sources/23247672/verification/page-13.png"
+        },
+        {
+          "pdf_page_1_based": 14,
+          "checked": "Session-RPE load, monotony and strain definitions",
+          "render_path": "sources/23247672/verification/page-14.png"
+        },
+        {
+          "pdf_page_1_based": 16,
+          "checked": "Tables 1–2: assessment checklist, not safe weekly ramp thresholds",
+          "render_path": "sources/23247672/verification/page-16.png"
+        }
+      ],
+      "selection_role": "core_reading_set"
+    },
+    {
+      "pmid": "31490431",
+      "title": "Training Prescription Guided by Heart Rate Variability Vs. Block Periodization in Well-Trained Cyclists.",
+      "doi": "10.1519/JSC.0000000000003337",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31490431/",
+      "publisher_url": "https://doi.org/10.1519/JSC.0000000000003337",
+      "metadata_path": "papers/31490431/metadata.json",
+      "abstract_path": "papers/31490431/abstract.txt",
+      "notes_path": "papers/31490431/notes.md",
+      "local_source_directory": "sources/31490431",
+      "eth_status": "not_attempted_user_supplied",
+      "selection_role": "additional_user_supplied_supporting_paper",
+      "does_not_replace_pmid": "29809080",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "current_access_method": "user_supplied_local_files",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "pdf_verification_incomplete": false,
+      "pdf_path": "sources/31490431/original.pdf",
+      "pdf_sha256": "777edc09d869a592d0a338a033cf6e247334e2947d0b0484801b91e85d808382",
+      "extracted_text_path": "sources/31490431/original-extracted.txt",
+      "full_text_path": "sources/31490431/javaloyes-2020-hrv-versus-block-periodization.mineru.md",
+      "full_text_source": "User-supplied MinerU conversion, preserved byte-for-byte, with original PDF available",
+      "markdown_sha256": "33d37615398c4cb690dcdf7c12c8270b1a1a8bdf801d8e0c1b40fb56849f8fd1",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; selected figures/tables/equations checked visually. References are not independently verified.",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Not applicable to this manual import; the PDF was read locally, not downloaded through ETH MCP.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_training-prescription-guided-by-heart-rate-variability-vs_2113223294881529856.md",
+        "original_pdf_filename": "training-prescription-guided-by-heart-rate-variability-vs.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 2,
+          "checked": "Methods and Table 1 conflict on group sizes; HRV baseline definition",
+          "render_path": "sources/31490431/verification/manual-page-02.png"
+        },
+        {
+          "pdf_page_1_based": 3,
+          "checked": "TRIMP formula errors present in original; training program and attrition",
+          "render_path": "sources/31490431/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 4,
+          "checked": "Figure 2 decision schema, Table 2 and between-group results",
+          "render_path": "sources/31490431/verification/manual-page-04.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "Figures 3–4 distinguish performance changes and HRV indices",
+          "render_path": "sources/31490431/verification/manual-page-05.png"
+        }
+      ],
+      "pdf_pages": 8,
+      "text_extraction_usable_for_body": true
+    },
+    {
+      "pmid": "41028151",
+      "title": "Individual training prescribed by heart rate variability, heart rate and well-being scores in experienced cyclists.",
+      "doi": "10.1038/s41598-025-13540-z",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41028151/",
+      "publisher_url": "https://www.nature.com/articles/s41598-025-13540-z",
+      "metadata_path": "papers/41028151/metadata.json",
+      "abstract_path": "papers/41028151/abstract.txt",
+      "notes_path": "papers/41028151/notes.md",
+      "selection_role": "additional_user_supplied_supporting_paper",
+      "does_not_replace_pmid": "29809080",
+      "evidence_basis": "full_paper_user_supplied_mineru_and_pdf",
+      "full_text_retrieved": true,
+      "original_pdf_retrieved": true,
+      "current_access_method": "user_supplied_local_files",
+      "eth_status": "not_attempted_user_supplied",
+      "manual_download_needed": false,
+      "manual_download_reason": null,
+      "pdf_verification_incomplete": false,
+      "pdf_path": "sources/41028151/original.pdf",
+      "pdf_sha256": "4100398542eafe91040b5436de586db51ae6f0de7ae80f0284fd845d02107e0c",
+      "pdf_pages": 14,
+      "full_text_path": "sources/41028151/alfonso-2025-hrv-heart-rate-wellbeing.mineru.md",
+      "markdown_sha256": "a66da86827cc564cd5701184fea4ab054a05aad5a7f89000b19f336a66497132",
+      "extracted_text_path": "sources/41028151/original-extracted.txt",
+      "text_extraction_usable_for_body": true,
+      "local_source_directory": "sources/41028151",
+      "eth_reader_complete": null,
+      "eth_reader_note": "Manual import, read locally; no ETH reader pagination claim.",
+      "review_scope": "Methods, results and coaching-relevant discussion assessed; original PDF pages checked. Supplementary Materials A/B and OSF dataset not reviewed.",
+      "manual_import": {
+        "date": "2026-10-22",
+        "original_markdown_filename": "MinerU_markdown_s41598-025-13540-z_2113225841331572736.md",
+        "original_pdf_filename": "s41598-025-13540-z.pdf",
+        "markdown_moved_from_downloads": true,
+        "original_pdf_copied_from_downloads": true,
+        "mineru_remote_images_archived": false
+      },
+      "visual_checks": [
+        {
+          "pdf_page_1_based": 2,
+          "checked": "Attrition totals",
+          "render_path": "sources/41028151/verification/manual-page-02.png"
+        },
+        {
+          "pdf_page_1_based": 3,
+          "checked": "Well-being formula/range and participants",
+          "render_path": "sources/41028151/verification/manual-page-03.png"
+        },
+        {
+          "pdf_page_1_based": 5,
+          "checked": "Table 2 within-group changes",
+          "render_path": "sources/41028151/verification/manual-page-05.png"
+        },
+        {
+          "pdf_page_1_based": 6,
+          "checked": "Figure 2 and between-group tests/effect-size reporting",
+          "render_path": "sources/41028151/verification/manual-page-06.png"
+        }
+      ]
+    }
+  ]
+}

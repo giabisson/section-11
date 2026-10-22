@@ -1,0 +1,200 @@
+{
+  "recordType": "journal-article",
+  "pmid": "39888556",
+  "title": "Which Training Intensity Distribution Intervention will Produce the Greatest Improvements in Maximal Oxygen Uptake and Time-Trial Performance in Endurance Athletes? A Systematic Review and Network Meta-analysis of Individual Participant Data.",
+  "abstractText": "BACKGROUND: Endurance athletes tend to accumulate large training volumes, the majority of which are performed at a low intensity and a smaller portion at moderate and high intensity. However, different training intensity distributions (TID) are employed to maximize physiological and performance adaptations.\n\nOBJECTIVE: The objective of this study was to conduct a systematic review and network meta-analysis of individual participant data to compare the effect of different TID models on maximal oxygen uptake (VO_2max) and time-trial (TT) performance in endurance-trained athletes.\n\nMETHODS: Studies were included if: (1) they were published in peer reviewed academic journals, (2) they were in English, (3) they were experimental or quasi-experimental studies, (4) they included trained endurance athletes, (5) they compared a polarized (POL) TID intervention to a comparator group that utilized a different TID model, (6) the duration in each intensity domain could be quantified, and (7) they reported VO_2max or TT performance. Medline and SPORTDiscus were searched from inception until 11 February 2024.\n\nRESULTS: We included 13 studies with 348 (n = 296 male, n = 52 female) recreational (n = 150) and competitive (n = 198) endurance athletes. Mean age ranged from 17.6 to 41.5 years and VO_2max ranged from 46.6 to 68.3 mL·kg⁻¹·min⁻¹, across studies respectively. Based on the time in heart rate zone approach, there was no difference in VO_2max (SMD = - 0.06, p = 0.68) or TT performance (SMD = - 0.05, p = 0.34) between POL and pyramidal (PYR) interventions. There were no statistically significant differences between POL and any of the other TID interventions. Subgroup analysis showed a statistically significant difference in the response of VO_2max between recreational and competitive athletes for POL and PYR (SMD = - 0.63, p < 0.05). Competitive athletes may have greater improvements to VO_2max with POL, while recreational athletes may improve more with a PYR TID.\n\nCONCLUSIONS: Our results indicate that the adaptations to VO_2max following different TID interventions are dependent on performance level. Athletes at a more competitive level may benefit from a POL TID intervention and recreational athletes from a PYR TID intervention.",
+  "affiliations": [
+    "Sylvan Adams Sport Institute, Tel Aviv University, Tel Aviv, Israel. michael@evidencebasedcoaching.ca.",
+    "Evidence-Based Coaching, Toronto, ON, Canada. michael@evidencebasedcoaching.ca.",
+    "Knowledge Translation Program, Li Ka Shing Knowledge Institute, St Michael's Hospital, Toronto, ON, Canada.",
+    "Division of Geriatric Medicine, Department of Medicine, University of Toronto, Toronto, ON, Canada.",
+    "Institute of Health Policy, Management and Evaluation, Dalla Lana School of Public Health, University of Toronto, Toronto, ON, Canada.",
+    "School of Kinesiology, University of British Columbia, Vancouver, BC, Canada.",
+    "Institute for Molecular Sports and Rehabilitation Medicine, Paracelsus Medical University, Salzburg, Austria.",
+    "Department of Neuromedicine and Movement Science, Centre for Elite Sports Research, Norwegian University of Science and Technology, 7491, Trondheim, Norway.",
+    "All In Your Mind Training System, Mérida, Yucatán, Mexico.",
+    "Italian Cycling Federation FCI, Rome, Italy.",
+    "Department of Biomedical Sciences for Health, Università degli Studi di Milano, Milan, Italy.",
+    "TotalEnergies Pro Cycling Team, Essarts-en-Bocage, France.",
+    "Physiology, Exercise and Nutrition Research Group, Faculty of Health Sciences and Sport, University of Stirling, Stirling, Scotland, UK.",
+    "Department of Physical Activity and Sports, Faculty of Education and Sports, University of Deusto, Bilbao, Spain.",
+    "LFE Research Group, Department of Health and Human Performance, Faculty of Physical Activity and Sport Science-INEF, Universidad Politécnica de Madrid, Madrid, Spain.",
+    "Medical Clinic, Department of Sports Medicine, University of Tübingen, 72076, Tübingen, Germany.",
+    "Interfaculty Research Institute for Sports and Physical Activity, University of Tübingen, 72074, Tübingen, Germany.",
+    "General Didactic and Specific Didactics Department, Faculty of Education, University of Alicante, Alicante, Spain.",
+    "Red Bull Athlete Performance Center, Salzburg, Austria.",
+    "Department of Sport, University of Applied Sciences for Police and Administration of Hesse, Wiesbaden, Germany.",
+    "Department of Sport Science and Physical Education, Faculty of Health and Sport Sciences, University of Agder, Kristiansand, Norway."
+  ],
+  "authors": [
+    {
+      "lastName": "Rosenblat",
+      "firstName": "Michael A",
+      "initials": "MA",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0002-3045-2177"
+    },
+    {
+      "lastName": "Watt",
+      "firstName": "Jennifer A",
+      "initials": "JA",
+      "affiliationIndices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "lastName": "Arnold",
+      "firstName": "Jem I",
+      "initials": "JI",
+      "affiliationIndices": [
+        5
+      ]
+    },
+    {
+      "lastName": "Treff",
+      "firstName": "Gunnar",
+      "initials": "G",
+      "affiliationIndices": [
+        6
+      ]
+    },
+    {
+      "lastName": "Sandbakk",
+      "firstName": "Øyvind B",
+      "initials": "ØB",
+      "affiliationIndices": [
+        7
+      ]
+    },
+    {
+      "lastName": "Esteve-Lanao",
+      "firstName": "Jonathan",
+      "initials": "J",
+      "affiliationIndices": [
+        8
+      ]
+    },
+    {
+      "lastName": "Festa",
+      "firstName": "Luca",
+      "initials": "L",
+      "affiliationIndices": [
+        9
+      ]
+    },
+    {
+      "lastName": "Filipas",
+      "firstName": "Luca",
+      "initials": "L",
+      "affiliationIndices": [
+        10,
+        11
+      ]
+    },
+    {
+      "lastName": "Galloway",
+      "firstName": "Stuart D",
+      "initials": "SD",
+      "affiliationIndices": [
+        12
+      ]
+    },
+    {
+      "lastName": "Muñoz",
+      "firstName": "Iker",
+      "initials": "I",
+      "affiliationIndices": [
+        13
+      ]
+    },
+    {
+      "lastName": "Ramos-Campo",
+      "firstName": "Domingo J",
+      "initials": "DJ",
+      "affiliationIndices": [
+        14
+      ]
+    },
+    {
+      "lastName": "Schneeweiss",
+      "firstName": "Patrick",
+      "initials": "P",
+      "affiliationIndices": [
+        15,
+        16
+      ]
+    },
+    {
+      "lastName": "Sellés-Pérez",
+      "firstName": "Sergio",
+      "initials": "S",
+      "affiliationIndices": [
+        17
+      ]
+    },
+    {
+      "lastName": "Stöggl",
+      "firstName": "Thomas",
+      "initials": "T",
+      "affiliationIndices": [
+        18
+      ]
+    },
+    {
+      "lastName": "Talsnes",
+      "firstName": "Rune K",
+      "initials": "RK",
+      "affiliationIndices": [
+        7
+      ]
+    },
+    {
+      "lastName": "Zinner",
+      "firstName": "Christoph",
+      "initials": "C",
+      "affiliationIndices": [
+        19
+      ]
+    },
+    {
+      "lastName": "Seiler",
+      "firstName": "Stephen",
+      "initials": "S",
+      "affiliationIndices": [
+        20
+      ]
+    }
+  ],
+  "journalInfo": {
+    "title": "Sports medicine (Auckland, N.Z.)",
+    "isoAbbreviation": "Sports Med",
+    "eIssn": "1179-2035",
+    "volume": "55",
+    "issue": "3",
+    "pages": "655-673",
+    "publicationDate": {
+      "year": "2025",
+      "month": "Mar"
+    }
+  },
+  "doi": "10.1007/s40279-024-02149-3",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39888556/",
+  "publicationTypes": [
+    "Journal Article",
+    "Systematic Review",
+    "Network Meta-Analysis"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2025",
+      "month": "1",
+      "day": "31"
+    }
+  ]
+}

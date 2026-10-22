@@ -337,6 +337,14 @@ re-run provably safe.
 
 **Valid activity types:** Ride, VirtualRide, MountainBikeRide, GravelRide, EBikeRide, Run, VirtualRun, TrailRun, Swim, NordicSki, VirtualSki, Rowing, WeightTraining, Walk, Hike, Workout, Other
 
+### Checked coaching prescriptions
+
+Use the [structured prescription validator](WORKOUT_VALIDATION.md) for checked cycling-power creation. It compiles full steps, applies the installed checked-template catalog, checks the supplied session budget and shows reference/provenance warnings. Preview and confirmed creation use the same code. Install `workout_validation.py` next to `push.py` plus the matching library/catalog; root-script installations can use the `section11/examples/workout-library/` mirror. The legacy single-file/native interface remains usable but returns `not_checked`, never coaching validation. Do not remove a failed prescription to bypass checking. Complete plan capacity, health and suitability remain coaching responsibilities.
+
+### Persistent coaching plans
+
+For a coherent plan with durable revisions, use [Persistent coaching plans](COACHING_PLANS.md). `coaching_plan.py` stores private goals, availability and immutable prescriptions, checks session/day/week capacity, and publishes explicitly approved creates/updates/removals through the existing push transport with a crash-recovery journal. Standalone push calls do not populate that store. The [adaptive review path](ADAPTIVE_REVIEWS.md) validates completion/response and concrete future revisions; it never publishes automatically. See [event context](EVENT_PREPARATION.md) and [deployment checks](COACHING_DEPLOYMENT.md). Repository installation tests do not verify live service behavior.
+
 ### Intervals.icu Workout Syntax
 
 The `description` field uses Intervals.icu's native workout builder syntax. When provided, Intervals.icu parses the description into structured workout steps server-side.
@@ -392,7 +400,7 @@ Other clear forms work too, such as `- 5m 55% - Recovery` or `- Recovery 5m 55%`
 
 ### Template Mappings
 
-Maps Section 11 Workout Reference template IDs to Intervals.icu description syntax. **Adapt these examples to the athlete within the referenced template's permitted variants and constraints**. Follow Section 11's readiness and progression rules. Don't copy-paste templates without considering current fitness, goals, and constraints. **Always use %FTP ranges, not absolute watts**. Intervals.icu resolves % to the athlete's current FTP.
+Maps Section 11 Workout Reference template IDs to Intervals.icu description syntax. **Adapt these examples to the athlete within the referenced template's permitted variants and constraints**. Follow Section 11's readiness and progression rules. Don't copy-paste templates without considering current fitness, goals, and constraints. These legacy native examples use relative %FTP ranges, which resolve against athlete settings. The checked path instead compiles from a named reference to explicit watts, preserving its intended denominator and showing provenance. Neither form establishes a measured physiological threshold.
 
 | Template ID | Name | Description Syntax |
 |-------------|------|--------------------|
@@ -414,7 +422,7 @@ Maps Section 11 Workout Reference template IDs to Intervals.icu description synt
 
 ### What NOT To Do
 
-- **Don't use absolute watts**: use `%FTP` ranges so workouts stay correct if FTP changes
+- **Keep the target basis explicit**: relative FTP targets and fixed watts have different update behavior. For checked prescriptions, use the compiler and deliberately revise targets when fitness changes
 - **Don't use `m` for meters**: `m` means minutes. Use `km`, `mi`, or `mtr` for distance
 - **Don't nest repeats**: Intervals.icu doesn't support it
 - **Don't push past dates**: validation rejects them. Planned workouts are future events

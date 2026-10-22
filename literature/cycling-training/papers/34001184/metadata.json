@@ -1,0 +1,73 @@
+{
+  "recordType": "journal-article",
+  "pmid": "34001184",
+  "title": "Performance effects of periodized carbohydrate restriction in endurance trained athletes - a systematic review and meta-analysis.",
+  "abstractText": "Endurance athletes typically consume carbohydrate-rich diets to allow for optimal performance during competitions and intense training. However, acute exercise studies have revealed that training or recovery with low muscle glycogen stimulates factors of importance for mitochondrial biogenesis in addition to favourable metabolic adaptations in trained athletes. Compromised training quality and particularly lower intensities in peak intervals seem to be a major drawback from dietary interventions with chronic carbohydrate (CHO) restriction. Therefore, the concept of undertaking only selected training sessions with restricted CHO availability (periodized CHO restriction) has been proposed for endurance athletes. However, the overall performance effect of this concept has not been systematically reviewed in highly adapted endurance-trained athletes. We therefore conducted a meta-analysis of training studies that fulfilled the following criteria: a) inclusion of females and males demonstrating a VO₂max ≥ 55 and 60 ml · kg^- 1 · min^- 1, respectively; b) total intervention and training periods ≥ 1 week, c) use of interventions including training and/or recovery with periodized carbohydrate restriction at least three times per week, and d) measurements of endurance performance before and after the training period. The literature search resulted in 407 papers of which nine studies fulfilled the inclusion criteria. The subsequent meta-analysis demonstrated no overall effect of CHO periodization on endurance performance compared to control endurance training with normal (high) CHO availability (standardized mean difference = 0.17 [- 0.15, 0.49]; P = 0.29). Based on the available literature, we therefore conclude that periodized CHO restriction does not per se enhance performance in endurance-trained athletes. The review discusses different approaches to CHO periodization across studies with a focus on identifying potential physiological benefits.",
+  "affiliations": [
+    "Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Campusvej 55, 5230, Odense, Denmark. kgejl@health.sdu.dk.",
+    "Department of Nutrition, Exercise and Sports, University of Copenhagen, Copenhagen, Denmark."
+  ],
+  "authors": [
+    {
+      "lastName": "Gejl",
+      "firstName": "Kasper Degn",
+      "initials": "KD",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0001-9350-7879"
+    },
+    {
+      "lastName": "Nybo",
+      "firstName": "Lars",
+      "initials": "L",
+      "affiliationIndices": [
+        1
+      ]
+    }
+  ],
+  "journalInfo": {
+    "title": "Journal of the International Society of Sports Nutrition",
+    "isoAbbreviation": "J Int Soc Sports Nutr",
+    "eIssn": "1550-2783",
+    "volume": "18",
+    "issue": "1",
+    "pages": "37",
+    "elocationId": "37",
+    "elocationIdType": "pii",
+    "publicationDate": {
+      "year": "2021",
+      "month": "May",
+      "day": "17"
+    }
+  },
+  "doi": "10.1186/s12970-021-00435-3",
+  "pmcId": "PMC8127206",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34001184/",
+  "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8127206/",
+  "publicationTypes": [
+    "Journal Article",
+    "Meta-Analysis",
+    "Systematic Review"
+  ],
+  "keywords": [
+    "Carbohydrate periodization",
+    "Cycling",
+    "Diet manipulation",
+    "Elite athletes",
+    "Endurance performance",
+    "Endurance sport",
+    "Glycogen",
+    "Race walking",
+    "Train-low",
+    "Triathlon"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2021",
+      "month": "5",
+      "day": "17"
+    }
+  ]
+}

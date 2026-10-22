@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-22",
+  "note": "Five imports match missing core papers; Javaloyes 2020 and Alfonso 2025 are additional supporting papers, not the missing 2019 Javaloyes paper. All seven Markdown files moved after hash comparison; PDFs copied with Downloads originals retained.",
+  "files": [
+    {
+      "pmid": "36640771",
+      "markdown_path": "sources/36640771/galan-rioja-2023-cycling-periodization.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_ijspp-article-p112_2113223437810831360.md",
+      "markdown_sha256": "c60f49e4f4afac3ac33bcf75c3792c681c4c9333b122ba4f1150570a5e03eb7e",
+      "original_pdf_filename": "ijspp-article-p112.pdf",
+      "pdf_path": "sources/36640771/original.pdf",
+      "pdf_sha256": "9ce8caaf80ca641e30e1142c13db4d2c6bfbe016e9ab2d147ea21b13941f3a4d",
+      "text_path": "sources/36640771/original-extracted.txt",
+      "text_characters": 82088
+    },
+    {
+      "pmid": "21812820",
+      "markdown_path": "sources/21812820/seiler-2013-interval-intensity-duration.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_Scandinavian_Med_Sci_Sports_-_2011_-_Seiler_-_Adaptations_to_aerobic_interval_training_interactive_effects_of_exercise_2113223383658168320.md",
+      "markdown_sha256": "efd01e3ffab7bc61f118de8fb569be395f10956a789ad012ad1402440856f9d6",
+      "original_pdf_filename": "Scandinavian Med Sci Sports - 2011 - Seiler - Adaptations to aerobic interval training interactive effects of exercise.pdf",
+      "pdf_path": "sources/21812820/original.pdf",
+      "pdf_sha256": "0fa431073f5792bc974940cc448c574443cb59fbaef7beffd7fb68df72ca0132",
+      "text_path": "sources/21812820/original-extracted.txt",
+      "text_characters": 6284
+    },
+    {
+      "pmid": "24382021",
+      "markdown_path": "sources/24382021/ronnestad-2015-short-versus-long-intervals.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_Scandinavian_Med_Sci_Sports_-_2014_-_Rønnestad_-_Short_intervals_induce_superior_training_adaptations_compared_with_long_2113223356206448640.md",
+      "markdown_sha256": "a53b539e6fe142f5974beca96eadd1f0ce13f3f9090c8f318e8ffa6f5ba130e9",
+      "original_pdf_filename": "Scandinavian Med Sci Sports - 2014 - Rønnestad - Short intervals induce superior training adaptations compared with long.pdf",
+      "pdf_path": "sources/24382021/original.pdf",
+      "pdf_sha256": "e579617485341be5e10582be0958a2bf78fc69a258c3a2e5d965172b42884871",
+      "text_path": "sources/24382021/original-extracted.txt",
+      "text_characters": 65392
+    },
+    {
+      "pmid": "23264537",
+      "markdown_path": "sources/23264537/neal-2013-polarized-versus-threshold.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_neal-et-al-2013-six-weeks-of-a-polarized-training-intensity-distribution-leads-to-greater-physiological-and-performance_2113223319267217408.md",
+      "markdown_sha256": "fd97197249d94985983b951f1b2879cda6175a399f3b4ee2fd76cff8297567ca",
+      "original_pdf_filename": "neal-et-al-2013-six-weeks-of-a-polarized-training-intensity-distribution-leads-to-greater-physiological-and-performance.pdf",
+      "pdf_path": "sources/23264537/original.pdf",
+      "pdf_sha256": "4275f8bdc7c49e2d161b9136e8327a1ba318a367a66008cd1c2bdea16294aa1f",
+      "text_path": "sources/23264537/original-extracted.txt",
+      "text_characters": 87379
+    },
+    {
+      "pmid": "36803419",
+      "markdown_path": "sources/36803419/wong-2023-ftp-metabolic-steady-state.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_Functional_threshold_power_is_not_a_valid_marker_of_the_maximal_metabolic_steady_state_2113223261331292160.md",
+      "markdown_sha256": "2305d51f8b119b986c05099814fba55508c355f4de86739abf9e984f33019993",
+      "original_pdf_filename": "Functional threshold power is not a valid marker of the maximal metabolic steady state.pdf",
+      "pdf_path": "sources/36803419/original.pdf",
+      "pdf_sha256": "1bedc5f3958fe9e44f5a86a1677a9b01718130bbbfb401e78d7db5fdd9b019bf",
+      "text_path": "sources/36803419/original-extracted.txt",
+      "text_characters": 52845
+    },
+    {
+      "pmid": "31490431",
+      "markdown_path": "sources/31490431/javaloyes-2020-hrv-versus-block-periodization.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_training-prescription-guided-by-heart-rate-variability-vs_2113223294881529856.md",
+      "markdown_sha256": "33d37615398c4cb690dcdf7c12c8270b1a1a8bdf801d8e0c1b40fb56849f8fd1",
+      "original_pdf_filename": "training-prescription-guided-by-heart-rate-variability-vs.pdf",
+      "pdf_path": "sources/31490431/original.pdf",
+      "pdf_sha256": "777edc09d869a592d0a338a033cf6e247334e2947d0b0484801b91e85d808382",
+      "text_path": "sources/31490431/original-extracted.txt",
+      "text_characters": 61438
+    },
+    {
+      "pmid": "41028151",
+      "markdown_path": "sources/41028151/alfonso-2025-hrv-heart-rate-wellbeing.mineru.md",
+      "original_markdown_filename": "MinerU_markdown_s41598-025-13540-z_2113225841331572736.md",
+      "markdown_sha256": "a66da86827cc564cd5701184fea4ab054a05aad5a7f89000b19f336a66497132",
+      "original_pdf_filename": "s41598-025-13540-z.pdf",
+      "pdf_path": "sources/41028151/original.pdf",
+      "pdf_sha256": "4100398542eafe91040b5436de586db51ae6f0de7ae80f0284fd845d02107e0c",
+      "text_path": "sources/41028151/original-extracted.txt",
+      "text_characters": 105660
+    }
+  ]
+}

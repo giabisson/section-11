@@ -1,0 +1,205 @@
+{
+  "synthetic": true,
+  "commands": [
+    "coaching_plan.py --data-dir <private temporary directory> propose --json coaching_plan.example.json",
+    "coaching_plan.py --data-dir <same private directory> show --compact"
+  ],
+  "proposal": {
+    "success": true,
+    "revision_id": "rev-684dfcd9e477283a89b42e4e8c16ecffe1c50077f83ac9c78ee3c012716773e8",
+    "affected_sessions": [
+      "easy-short",
+      "endurance",
+      "intervals"
+    ],
+    "state": "proposed"
+  },
+  "current_plan": {
+    "success": true,
+    "revision_id": "rev-684dfcd9e477283a89b42e4e8c16ecffe1c50077f83ac9c78ee3c012716773e8",
+    "affected_sessions": [
+      "easy-short",
+      "endurance",
+      "intervals"
+    ],
+    "plan": {
+      "athlete_id": "i123456",
+      "block": {
+        "change_conditions": [
+          "Availability changes",
+          "Symptoms or unusually difficult sessions",
+          "Goal/event changes"
+        ],
+        "end_date": "2026-11-22",
+        "goal_ids": [
+          "sustainable-fitness"
+        ],
+        "objective": "Build consistent, tolerable aerobic work with one familiar interval dose",
+        "planned_phase": "Base",
+        "progression": "Hold intervals; consider extending easy riding only after reviewing completed work and response",
+        "recovery": "Easy/rest days between demanding sessions; reduce earlier if symptoms or poor tolerance appear",
+        "review_date": "2026-11-01",
+        "start_date": "2026-10-26",
+        "starting_evidence": [
+          {
+            "as_of": "2026-10-22",
+            "source": "Synthetic completed training and athlete feedback",
+            "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+          }
+        ]
+      },
+      "detected_phase": {
+        "as_of": "2026-10-22",
+        "source": "Synthetic descriptive phase observation",
+        "value": "Base"
+      },
+      "goals": [
+        {
+          "constraints": [
+            "Current availability varies; preserve sleep comfort"
+          ],
+          "date": null,
+          "demands": [
+            "Aerobic endurance",
+            "Repeatable sustained efforts"
+          ],
+          "description": "Improve sustainable cycling fitness and maintain consistency",
+          "goal_id": "sustainable-fitness",
+          "priority": "general",
+          "success_measure": "Repeat comparable sessions with sustainable effort and good recovery"
+        }
+      ],
+      "plan_id": "cycling-development",
+      "planning_policy": "athlete_specific_v1",
+      "revision": {
+        "evidence": [
+          {
+            "as_of": "2026-10-22",
+            "source": "Synthetic completed training and athlete feedback",
+            "summary": "Consistent recent riding; this interval dose previously tolerated; overnight HRV intermittent by choice"
+          }
+        ],
+        "parent_revision": null,
+        "reason": "Establish the next block and one detailed week within current availability",
+        "request_id": "initial-example"
+      },
+      "schema_version": 1,
+      "sessions": [
+        {
+          "prescription_id": "rx-cbc28a561022374398ec2df18b3efb52ae3042c501207678ec9f955c3be7991c",
+          "session_id": "intervals"
+        },
+        {
+          "prescription_id": "rx-e418009e6fe24437cf3463521cc56bddd070177f0c56c32318b0e4f73795937b",
+          "session_id": "easy-short"
+        },
+        {
+          "prescription_id": "rx-3ec0c5b9889c1d94fa13ce43d897882176769f60217a1a40e6460cb4d4d3ac2d",
+          "session_id": "endurance"
+        }
+      ],
+      "weeks": [
+        {
+          "compromises": [
+            "Only the near-term week is fully prescribed; later weeks remain flexible"
+          ],
+          "intensity_approach": {
+            "basis": "planned_power_time",
+            "intent": "Mostly easy work with one familiar interval session",
+            "rationale": "Preserve tolerable volume and a purposeful stimulus without a fixed intensity ratio",
+            "zone_model": "athlete_configured_7_zone"
+          },
+          "session_windows": [
+            {
+              "date": "2026-10-27",
+              "max_minutes": 60
+            },
+            {
+              "date": "2026-10-29",
+              "max_minutes": 60
+            },
+            {
+              "date": "2026-10-31",
+              "max_minutes": 120
+            }
+          ],
+          "start_date": "2026-10-26",
+          "weekly_minutes": 240
+        }
+      ]
+    },
+    "request_hash": "e37f3de555ca7d05e48f58d11b4c0d9e8b16cb168bf8f75ac21d5d226e5c76f3",
+    "context_assessment": {
+      "policy_version": "event_specific_v1",
+      "questions": [],
+      "event": null,
+      "durability": null,
+      "strength": null
+    },
+    "is_current": true,
+    "publication": {
+      "state": "proposed",
+      "sessions": [
+        {
+          "session_id": "intervals",
+          "prescription_id": "rx-cbc28a561022374398ec2df18b3efb52ae3042c501207678ec9f955c3be7991c",
+          "state": "proposed",
+          "calendar": null,
+          "ever_published": false
+        },
+        {
+          "session_id": "easy-short",
+          "prescription_id": "rx-e418009e6fe24437cf3463521cc56bddd070177f0c56c32318b0e4f73795937b",
+          "state": "proposed",
+          "calendar": null,
+          "ever_published": false
+        },
+        {
+          "session_id": "endurance",
+          "prescription_id": "rx-3ec0c5b9889c1d94fa13ce43d897882176769f60217a1a40e6460cb4d4d3ac2d",
+          "state": "proposed",
+          "calendar": null,
+          "ever_published": false
+        }
+      ],
+      "pending_operations": [],
+      "removed_sessions_still_on_calendar": [],
+      "completion": "not_inferred",
+      "calendar_freshness": "last_verification_only"
+    },
+    "prescription_summaries": {
+      "rx-cbc28a561022374398ec2df18b3efb52ae3042c501207678ec9f955c3be7991c": {
+        "session_id": "intervals",
+        "name": "Synthetic short intervals",
+        "date": "2026-10-27",
+        "time": "18:00",
+        "duration_minutes": 50.0,
+        "purpose": "Maintain a previously tolerated interval stimulus",
+        "session_template": "VO2-2",
+        "validation_status": "checked"
+      },
+      "rx-e418009e6fe24437cf3463521cc56bddd070177f0c56c32318b0e4f73795937b": {
+        "session_id": "easy-short",
+        "name": "Synthetic easy ride",
+        "date": "2026-10-29",
+        "time": "10:00",
+        "duration_minutes": 60.0,
+        "purpose": "Maintain easy aerobic riding",
+        "session_template": "AE-1",
+        "validation_status": "checked"
+      },
+      "rx-3ec0c5b9889c1d94fa13ce43d897882176769f60217a1a40e6460cb4d4d3ac2d": {
+        "session_id": "endurance",
+        "name": "Synthetic endurance ride",
+        "date": "2026-10-31",
+        "time": "10:00",
+        "duration_minutes": 90.0,
+        "purpose": "Build sustainable aerobic endurance",
+        "session_template": "AE-2",
+        "validation_status": "checked"
+      }
+    }
+  },
+  "calendar_writes": 0,
+  "note": "Local CLI output only; fresh stores have distinct namespaces/identities. No real athlete data, credentials or calendar transport used."
+}

@@ -1,0 +1,89 @@
+{
+  "recordType": "journal-article",
+  "pmid": "36803419",
+  "title": "Functional threshold power is not a valid marker of the maximal metabolic steady state.",
+  "abstractText": "Functional Threshold Power (FTP) has been considered a valid alternative to other performance markers that represent the upper boundary of the heavy intensity domain. However, such a claim has not been empirically examined from a physiological perspective.This study examined the blood lactate and VO₂ response when exercising at and 15 W above the FTP (FTP_+15W). Thirteen cyclists participated in the study. The VO₂ was recorded continuously throughout FTP and FTP_+15W, with blood lactate measured before the test, every 10 minutes and at task failure. Data were subsequently analysed using two-way ANOVA. The time to task failure at FTP and FTP_+15W were 33.7 ± 7.6 and 22.0 ± 5.7 minutes (p < 0.001), respectively. The VO_2peak was not attained when exercising at FTP_+15W (VO_2peak: 3.61 ± 0.81 vs FTP_+15W 3.33 ± 0.68 L·min⁻¹, p < 0.001). The VO₂ stabilised during both intensities. However, the end test blood lactate corresponding to FTP and FTP_+15W was significantly different (6.7 ± 2.1 mM vs 9.2 ± 2.9 mM; p < 0.05). The VO₂ response corresponding to FTP and FTP_+15W suggests that FTP should not be considered a threshold marker between heavy and severe intensity.",
+  "affiliations": [
+    "School of Sport and Exercise Sciences, University of Kent, Chipperfield Building, Canterbury Campus, Canterbury, UK.",
+    "Department of Health and Physical Education, Education University of Hong Kong, Tai Po, Hong Kong."
+  ],
+  "authors": [
+    {
+      "lastName": "Wong",
+      "firstName": "Stephen",
+      "initials": "S",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0002-3737-495X"
+    },
+    {
+      "lastName": "Burnley",
+      "firstName": "Mark",
+      "initials": "M",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0003-3407-561X"
+    },
+    {
+      "lastName": "Mauger",
+      "firstName": "Alexis",
+      "initials": "A",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0001-6685-5800"
+    },
+    {
+      "lastName": "Fenghua",
+      "firstName": "Sun",
+      "initials": "S",
+      "affiliationIndices": [
+        1
+      ],
+      "orcid": "0000-0001-5251-4087"
+    },
+    {
+      "lastName": "Hopker",
+      "firstName": "James",
+      "initials": "J",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0002-4786-7037"
+    }
+  ],
+  "journalInfo": {
+    "title": "Journal of sports sciences",
+    "isoAbbreviation": "J Sports Sci",
+    "eIssn": "1466-447X",
+    "volume": "40",
+    "issue": "23",
+    "pages": "2578-2584",
+    "publicationDate": {
+      "year": "2022",
+      "month": "Dec"
+    }
+  },
+  "doi": "10.1080/02640414.2023.2176045",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36803419/",
+  "publicationTypes": [
+    "Journal Article"
+  ],
+  "keywords": [
+    "Cycling",
+    "VO2 slow component",
+    "exercise intensity domains",
+    "functional threshold power",
+    "oxygen kinetics"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2023",
+      "month": "2",
+      "day": "20"
+    }
+  ]
+}

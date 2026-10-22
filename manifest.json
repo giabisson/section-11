@@ -1,6 +1,12 @@
 {
-  "scope": "Files installed by sync.py --init and managed by --update; excludes .github, hidden paths, the repository-root dev folder, and generated dependency/cache directories.",
+  "scope": "Files installed by sync.py --init and managed by --update; excludes .github, hidden paths, the repository-root dev folder, generated dependency/cache directories, local publisher research copies and private coaching records.",
   "files": {
+    "COACHING_EVIDENCE.md": {
+      "hash": "a5438beaf28afa3bc193a86c3b0e534360a6bdb72e1495b1608cc82393366556"
+    },
+    "COACHING_UPDATE_PLAN.md": {
+      "hash": "6750d73a2ff5a6bc6d190fbc2f5c237c9c8f94b9afe8b01ff0430012dca7be10"
+    },
     "CONTRIBUTING.md": {
       "hash": "f302b1ef5b3c8ead56325e5f449776cd43fb663d945f8c23ab293880e8f92151"
     },
@@ -11,16 +17,16 @@
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
-      "hash": "02eb4005eed2dcf3546b9d70873c663120ab8c11f58f49e5874ce807bdf1aebf"
+      "hash": "3468408a73f8b9541623039871d1bcaa504f3d5f528830d60421f72159433b09"
     },
     "PROJECT_INSTRUCTIONS_WEB.md": {
-      "hash": "7e42e1c975ee5625fdd57fe15e87afbeb7697c5295c245a62ae4156e2ffcdbd5"
+      "hash": "ea94f476cdc1946fc98ebcfe9d7256f91191dbe7e76e7f970da699bd762f72a3"
     },
     "README.md": {
-      "hash": "35d459ba53b88fa588af408bf3e59b7d8327b33d48b909325cc8ff9215ef0c60"
+      "hash": "fd3e2bc65f729f5ae8254e6342581e0c768f1095d326334464b16b7cc3074432"
     },
     "SECTION_11.md": {
-      "hash": "0bd0475198a91340a6cb7fd8f781147d2641d0ff639fdf860730848b326b385b",
+      "hash": "7f06d1d4ef505842cc088b1f89221af2074a69c6aab8ee3f37f4e6a1e0fd8354",
       "description": "Coaching protocol"
     },
     "SECURITY.md": {
@@ -30,22 +36,49 @@
       "hash": "ab6fdc2649d50752f8770650893db59980355086834ca544a2a4fa6aa40ef91f"
     },
     "SKILL.md": {
-      "hash": "d7c5bd178ffe94ba11310f2f43628ea6f09e9beae8233da7443dca9736a7c2ff"
+      "hash": "205bb767c5448919b96e47064ab62189c78f6a161007489d7694e2efd2f13d09"
     },
     "THIRD_PARTY_NOTICES.md": {
       "hash": "2d9fa3fc0fe1477ab66d63f9edebe758f329fcda3f439702bbe5a8ff78b9b53e"
     },
     "changelog.json": {
-      "hash": "8768f879e311c3f6aff56331e62b17c1bd637ef70673468d8e35a69e9a0dd348"
+      "hash": "3984e2b183fd8d00a79a37cbc9bdef20070a6d2e0ad282a6c245160cd02aca52"
     },
     "examples/README.md": {
       "hash": "25a90b9959074c895263696746e6a69e47adcabff3acec9055bc806e6fb01177"
+    },
+    "examples/agentic/ADAPTIVE_REVIEWS.md": {
+      "hash": "9defb23c886a616ecc5dbd4cc62cdb06d29863e3d0ab6910f88acb1c6b43c413"
+    },
+    "examples/agentic/COACHING_DEPLOYMENT.md": {
+      "hash": "3840e28f6376a00e2d808fdf6049f5e96b2c8977a1ae781296687d607b1c7e51"
+    },
+    "examples/agentic/COACHING_PLANS.md": {
+      "hash": "6e3af853999b7c95a8e05adb5cca24035f5f2b480a78f857499351cc4b5c74a2"
+    },
+    "examples/agentic/EVENT_PREPARATION.md": {
+      "hash": "d3f303a15279099a28ffd8033efe019bf6db25105f9145d253e064722e5e9638"
     },
     "examples/agentic/EXTERNAL_APIS.md": {
       "hash": "6511399734d3a7a95a4147079d8c0e72efed5e9a55f1a557a78791e2be079710"
     },
     "examples/agentic/README.md": {
-      "hash": "1cbccfd6b454349c53590c3c35c0da875c8b5d4384115a5faa18acda0bd8fde1"
+      "hash": "76b71e730da5425837133c458e02e00c26c46a313af86654475a275a167f666f"
+    },
+    "examples/agentic/WORKOUT_VALIDATION.md": {
+      "hash": "508dfa590e841ee55fbd522c87d154e68e60d7a41470c0bfa3e004359945c0c3"
+    },
+    "examples/agentic/coaching_check.py": {
+      "hash": "777fa2db2abb004eb5346d9f457be38d8f90d86ea490f54b6c0b9fe79fbee5a9"
+    },
+    "examples/agentic/coaching_context.py": {
+      "hash": "d757337a8ba227d6a1e415c7e7483d7096626ed909b27e7db93954bc91d5ae66"
+    },
+    "examples/agentic/coaching_plan.py": {
+      "hash": "46fef008ff9b9bd07019964871b911b88a8ff1b591a78d77358a08727378789f"
+    },
+    "examples/agentic/coaching_review.py": {
+      "hash": "de764354b5fbdaafa5c155b7a4ef15bb870aa275364d5ccdc26db29c86b06fc9"
     },
     "examples/agentic/fit-file-and-merger/ARCHITECTURE.md": {
       "hash": "3ddaa2522ccb6cc80f28ef5613278c6257bd2de09cd7221f2f690fc335087e4c"
@@ -63,7 +96,7 @@
       "hash": "08dd88684cc55633a80c1e13b5363d218e6b6fb2d3abdcd498a098582779b3d7"
     },
     "examples/agentic/openclaw/HEARTBEAT_TEMPLATE.md": {
-      "hash": "aaaf2d76bda59577864a3da13c5ad9b36db9e8da5b09e8c02453aa5c2ad46116"
+      "hash": "e79084e57de65c0ea7cacbdba494c4793d548d9d66dbe50712c9486a9085087d"
     },
     "examples/agentic/pull.py": {
       "hash": "0128c6888083f543ed4f4fe2af8e6341960ecdd1b486fc924d527b554eb250f7"
@@ -72,7 +105,10 @@
       "hash": "8f11e8abe80bf57550248eeace00a5b9967e814e8fcac2a32dfdc88ef896198d"
     },
     "examples/agentic/push.py": {
-      "hash": "63151c0e7659994c55b5cb4cb9f27ed972c6ba9b3baf04767987b7b3a82137ef"
+      "hash": "0d3e4306e377ab1359f8eba451e58114697973c65688c1651fa0fe33a21c1a74"
+    },
+    "examples/agentic/workout_validation.py": {
+      "hash": "d3bf9f73927c39a577e304624dafa9d231fa30818525bc49ff7bd0bf790ae671"
     },
     "examples/dfa_a1/NON_GARMIN.md": {
       "hash": "a4d629dc2831e11211e8d295046d4b0d483df0651cf34ad216246d0fd28aa1ea"
@@ -87,7 +123,43 @@
       "hash": "e8c5cea9f3db433727e6528f703dd7f1239545d6a569a7a001a390654aa354ad"
     },
     "examples/json-examples/README.md": {
-      "hash": "02bb1e38829b4377d1b17cad1b0f1459f2b38bc46dfd8b790ad0b4a7161a4758"
+      "hash": "f8478b583b12890dcf402c4258df1ffefcbe4082c1713ee79c789c1cdcee28bc"
+    },
+    "examples/json-examples/checked_complex_workouts.example.json": {
+      "hash": "389a1eb50ab66ea25e7a2d72bb3b61accaa3e36b01277e171dfc4650e38d563d"
+    },
+    "examples/json-examples/checked_complex_workouts_output.example.json": {
+      "hash": "a485ededa0b958549885ce5183c46b8558058cf59d216ba93124234a9e4a0c22"
+    },
+    "examples/json-examples/checked_workout.example.json": {
+      "hash": "8cf828741327c8a850a0d63c3d39ba99c6daada20315d04ccf3e12b4e2c56273"
+    },
+    "examples/json-examples/checked_workout_output.example.json": {
+      "hash": "2370624b7de8ddaebfad157853e22af9576d0136b1e42d7cb157934ce64489eb"
+    },
+    "examples/json-examples/coaching_check_output.example.json": {
+      "hash": "76c2071da71685d8be47ddef63d1df745c43283e5e70aef77621ae2b5f4f576f"
+    },
+    "examples/json-examples/coaching_conversations.example.json": {
+      "hash": "abe94516166761d120fb47340ee2eb5e029e93b167a86abffbf889d332dfa98f"
+    },
+    "examples/json-examples/coaching_plan.example.json": {
+      "hash": "e6c0d12ac7945de5a361c8c11402cd66fe89fe2114a60e5341811b956347faf8"
+    },
+    "examples/json-examples/coaching_plan_output.example.json": {
+      "hash": "a2f718728774418ff117c0be98e1136156d1c6626e30207aca0894e42ebbb9cc"
+    },
+    "examples/json-examples/coaching_review.example.json": {
+      "hash": "f2fe83d791d7af89bfd186d145976986c43f66320c4135b87bfe5e6b7825ff15"
+    },
+    "examples/json-examples/coaching_review_output.example.json": {
+      "hash": "0cd8f4e8738ffac9ea912a9081fc67b03dab35065afea5e90e3b87bfb73d6dee"
+    },
+    "examples/json-examples/event_context.example.json": {
+      "hash": "70f75e526fdcbfb25400ef5edc521de2b8bbcf2e31e778303a5913552e0ced7c"
+    },
+    "examples/json-examples/event_context_output.example.json": {
+      "hash": "aa417a21dd87e2a86039185c4f5cf1486f10d25d7fd782400f59070592eba357"
     },
     "examples/json-examples/ftp_history.example.json": {
       "hash": "b2f2d569327c7b030c02969efdadd224bcc6d3df4c63857c3f4e614a75cfcb75"
@@ -99,7 +171,13 @@
       "hash": "e11384942f006b3959d61ceb0ecacd0d5d5722622212b0f217543b0308d9bf9c"
     },
     "examples/json-examples/latest.example.json": {
-      "hash": "fdeaad7e4ca0a3ca1b282d2b30326e180263f65643155a1dc6c31c43233f6913"
+      "hash": "270f1891c64b5b2e2f447a40b933f358ef3cc37bd72381e94becc8f8a8af6bdc"
+    },
+    "examples/json-examples/planning_policy.example.json": {
+      "hash": "deb385dc0d7aabd2a254037ea022b374b6ed8f5291605de76ad139613d4b0582"
+    },
+    "examples/json-examples/readiness_quality.example.json": {
+      "hash": "141fd8cdb456c9c4f2da3d81e6dbadc3163c9319a67022c5aced5c5f262929d7"
     },
     "examples/json-examples/route_eta_history.example.json": {
       "hash": "14ca456a86921a7d3745b44291a17a9bf1fd06999b2d99107b72de4ff2ac1194"
@@ -120,34 +198,34 @@
       "hash": "592bc8267ae6dda38e4cace1007847f69e8c5f607259a9a786f4ef4664c5064c"
     },
     "examples/reports/BLOCK_REPORT_EXAMPLES.md": {
-      "hash": "a36ac9dc95841eeac824bf2edb3058664d0023c39c7acbca6cda5a543a8e4eb9"
+      "hash": "bfcb59a72b70287023c2369474c5b4bf6ed1ecc5f4c394591237e3af5267ab32"
     },
     "examples/reports/BLOCK_REPORT_TEMPLATE.md": {
-      "hash": "7f2cfc5e63532498f83aebfd26c0260b8a7439836c8b8a27d947556dffd86f1b"
+      "hash": "c569c133b40536d5e82a290ddc5810b92c72883dbbf30001dd93f3d313aef911"
     },
     "examples/reports/POST_WORKOUT_REPORT_EXAMPLES.md": {
       "hash": "b541200bd5994481a49d23cfe2d301a1e9265726fba584f212342f5e4b853c5d"
     },
     "examples/reports/POST_WORKOUT_REPORT_TEMPLATE.md": {
-      "hash": "bb00af974467ccfc6659457a3d7d4f096c95d9da8aac5c68af04a2b6a6fc28d7"
+      "hash": "ec94ae9e66b48874dc711492a6a7e894037dd03107c3b772c5a07c85664e6d01"
     },
     "examples/reports/PRE_WORKOUT_REPORT_EXAMPLES.md": {
       "hash": "12ab816863fe0e1f16c93a7187fdf8b1cb93e28eba1a739c36695b093d7ca655"
     },
     "examples/reports/PRE_WORKOUT_REPORT_TEMPLATE.md": {
-      "hash": "949f9b1007e54be110722b94eda6f590e907850dddce04a483739929b0d56375"
+      "hash": "58f69f07cc33f9f2c10ae974d3fc088b4f7732dfb7aa219f438d8afa361799b6"
     },
     "examples/reports/README.md": {
-      "hash": "b5b87f48ee735dac40444e8469358cb7c9a60b82c21da4d5cb84043d0578c2f8"
+      "hash": "d63b01c84da22667325c3ab8d3546a89ea529d412051765b5f16fffc891f2550"
     },
     "examples/reports/REPORT_HIERARCHY.md": {
       "hash": "b55e318d33242e46e0807048a0971077c127aefd94e43e508efd33da12e96c91"
     },
     "examples/reports/SEASON_REPORT_EXAMPLES.md": {
-      "hash": "72044d03a359faafe1d2283019eb813ce447fe7959349bff73cd09df094bb187"
+      "hash": "40b2848422a56bf98f9c9040982555ff8c192cc48b95066350e4c4193f0f9123"
     },
     "examples/reports/SEASON_REPORT_TEMPLATE.md": {
-      "hash": "7b94bb7d3dc38762a85f6f2ead34aac2651cca8b760ba14bec082818005d679a"
+      "hash": "1f0b1c5c93c0c7ca7c953bb96113104b5e71027e0d450c42b7a164f54f5e1011"
     },
     "examples/reports/WEATHER_REPORT_EXAMPLES.md": {
       "hash": "190eb7aebb6ea907e1928995c976243dac49f5db18c224afd808dbb6f30d75f2"
@@ -156,22 +234,256 @@
       "hash": "26efac515c596a5e9b3f0c6173730c2ad8f247662dd228813057a8f618ba44e9"
     },
     "examples/reports/WEEKLY_REPORT_EXAMPLES.md": {
-      "hash": "a211f9fafefdebce09efcce654de0226d25b9d051da8ad779f012333a5c5d82c"
+      "hash": "48eb8071d95ab581c1563cc73a877090443efe817e305a950da074824b08a2e9"
     },
     "examples/reports/WEEKLY_REPORT_TEMPLATE.md": {
-      "hash": "35b5397465e5544925265b22381a4da87476401b876437c907368d6044622c4f"
+      "hash": "1054f72c1a02f2c4f516378c9040c0f6895e6fadb604b6f9e7371541e867cb80"
     },
     "examples/reports/example-route-weather-map.png": {
       "hash": "53b5f2cc457baab0f89dde417003572e221aea8852873be91fb88317447347a9"
     },
     "examples/sync.py": {
-      "hash": "e382087fb874e4ef13e6fc2e91c6655ac9fb36f46f185d81cd8d205d298fad98"
+      "hash": "c5332b8a28605b8e8bc15126880174681dd348426faab92cfc32f2d6112f684e"
     },
     "examples/workout-library/README.md": {
       "hash": "4d6f5ee1d7b87c8306d4dcbf9ea80bd305ff827f7d3b3c6629b9dd665a811208"
     },
     "examples/workout-library/WORKOUT_REFERENCE.md": {
-      "hash": "5277406accd4ba3eef9e01311bb121c8efa3b0557b489d1defa1e72d49aad4b0"
+      "hash": "cd25b2a8502e3669232cc1b32b3b1477b017e7ae514103dd96ddd6454c4b55a4"
+    },
+    "examples/workout-library/workout_constraints.json": {
+      "hash": "565a4d34afbf04d1867918d196ad0366575cf0145b391ddfc85ddb0d2ace76f9"
+    },
+    "literature/cycling-training/PDF-VERIFICATION.md": {
+      "hash": "3b0b20d7a7d4533116f33cea3c7fd9683a0f244b9950148f29085c2d7ee80897"
+    },
+    "literature/cycling-training/README.md": {
+      "hash": "02192434ed50a3a14af19f501c48249266b35481580531b3a4686ea3b68c63d8"
+    },
+    "literature/cycling-training/REFERENCES.md": {
+      "hash": "7e0d916edea91e6d3f83efa8f16f5a4d070e948a646b023735c339230529f68a"
+    },
+    "literature/cycling-training/TAKEAWAYS.md": {
+      "hash": "eda8b4c0fab16fd1be33724e4024389086b85c1388a2e9598fbcb764558ca2b6"
+    },
+    "literature/cycling-training/UNAVAILABLE.md": {
+      "hash": "84e053620f269e7fbc5d81e2262551964e2d3b3a7c95363f76f8b170cebc983b"
+    },
+    "literature/cycling-training/access-status.json": {
+      "hash": "2806ac4b0a86d75f77f7e400970fdcceaaa06f104500285437ebd5514704d3ab"
+    },
+    "literature/cycling-training/bibliography.bib": {
+      "hash": "095d5d63127af91c3c011cdabf97b67fa72804fc9ca5de5bc68eb8e3179d212f"
+    },
+    "literature/cycling-training/manual-import.json": {
+      "hash": "c5512b0c5e2766eabf4a543c74e7d9d7c05bd29da85aca9afc31d7e335ae18ea"
+    },
+    "literature/cycling-training/papers/20100740/abstract.txt": {
+      "hash": "bab56ec6cfea79bb8e2ba02f34fbcc442c349cf5fecb6dc8020ade30f6babec5"
+    },
+    "literature/cycling-training/papers/20100740/metadata.json": {
+      "hash": "38132a25566724ed2451bcb80003f30d42314341519fae3148dc78856e883bda"
+    },
+    "literature/cycling-training/papers/20100740/notes.md": {
+      "hash": "cdf1acb60745df986b050e38ce81bbaa6c3d89c3e0002ba1a624f348696e93d8"
+    },
+    "literature/cycling-training/papers/20100740/takeaways.md": {
+      "hash": "d4b2cb08d0cd099b4c50180853fa7ea5690e862ae5157af98cd764799cee9bb9"
+    },
+    "literature/cycling-training/papers/21812820/abstract.txt": {
+      "hash": "c4dbe2a39169c8ec53c7c36beb373748e6ab2159bee3a764bd26cac057994336"
+    },
+    "literature/cycling-training/papers/21812820/metadata.json": {
+      "hash": "8b283c7d97f66b8a96b6b4f174f9af1a94cf0b34e6edae898fee14b28c95fd8e"
+    },
+    "literature/cycling-training/papers/21812820/notes.md": {
+      "hash": "8ac3b73303b11c77babb1b8feee188efaffae24131a94942056711dddea042be"
+    },
+    "literature/cycling-training/papers/21812820/takeaways.md": {
+      "hash": "353cd0b5c3fae3f3dfd9d5eaed6a1eead5c4f0160a810afe960626efe8acc7d2"
+    },
+    "literature/cycling-training/papers/23247672/abstract.txt": {
+      "hash": "6dded02b4667254e813061cb9842f607b2ecddd40fced7a254aa31b707c50131"
+    },
+    "literature/cycling-training/papers/23247672/metadata.json": {
+      "hash": "2e788a322260e4ab6b3eaf3a60fb5ae1a2a9603f2974d90a27a64baca9de35f3"
+    },
+    "literature/cycling-training/papers/23247672/notes.md": {
+      "hash": "165787e42976b39e499840547494f4943882ea8c41587f48e176bf255baa8449"
+    },
+    "literature/cycling-training/papers/23247672/takeaways.md": {
+      "hash": "4e9ba306e6ee1fe56d9272fab8592293dcc2f17d9b0af0ecc7623a0c0e57b45e"
+    },
+    "literature/cycling-training/papers/23264537/abstract.txt": {
+      "hash": "402d5cd435b78a357fb3740069972337121c1f15017a8ae0849aebe029a50436"
+    },
+    "literature/cycling-training/papers/23264537/metadata.json": {
+      "hash": "ea26bfa28ddfb71fa296bfab67499d87d16b7d2089c7528dce4af1d1aa71ef44"
+    },
+    "literature/cycling-training/papers/23264537/notes.md": {
+      "hash": "1d1538e909ce5df4e2c4fb8e93343e27bd21c4b50ad84b4af95ceef694fe74db"
+    },
+    "literature/cycling-training/papers/23264537/takeaways.md": {
+      "hash": "28b40f907f253e75ae43a6e692b3c5f9d10e91fa3825e69a503271e07d54d4e5"
+    },
+    "literature/cycling-training/papers/24382021/abstract.txt": {
+      "hash": "203dd14e0ae527109b69ebaccbc12b011f2672f280cc7bf29471c3b0fba7a34d"
+    },
+    "literature/cycling-training/papers/24382021/metadata.json": {
+      "hash": "27fa4e3713668e63d0dd29c3ccf1d7d2634a64bc05a0c4e943691b43de512681"
+    },
+    "literature/cycling-training/papers/24382021/notes.md": {
+      "hash": "a9cec4b4c5fe96477054d7d6e05069e0b8d30c92ce4c7438c660184a4afa8b35"
+    },
+    "literature/cycling-training/papers/24382021/takeaways.md": {
+      "hash": "37ce06a7f561aa0eb446ea5be806c4622ef7ebf6a4e0a506e7a523fe3c01298b"
+    },
+    "literature/cycling-training/papers/26423706/abstract.txt": {
+      "hash": "3849b35c901c039dc23bbcfdc7dacbad9044abac69047d3fba9535c7d4855407"
+    },
+    "literature/cycling-training/papers/26423706/metadata.json": {
+      "hash": "db7b8bc56e2cc53c1aab2b95139a1d97463bd19ea6d22e82ae9068134fb60b95"
+    },
+    "literature/cycling-training/papers/26423706/notes.md": {
+      "hash": "7dac65f3b5f6e30ca788d55c3f33c08405a62f3cef517f36ff077cc9505398e4"
+    },
+    "literature/cycling-training/papers/26423706/takeaways.md": {
+      "hash": "625aa3440c365efe822bb43e73d5e70266149b75f1b25463f195c617b98a48b6"
+    },
+    "literature/cycling-training/papers/29809080/abstract.txt": {
+      "hash": "ea17030b5ebbae5b6a0850d13e582504ec47198f5fdc76820b522697dcc97c9d"
+    },
+    "literature/cycling-training/papers/29809080/metadata.json": {
+      "hash": "5520e0d5cc9a018171152ec2efbcd4037ce9f6a23987b9e708786e664e8d1f35"
+    },
+    "literature/cycling-training/papers/29809080/notes.md": {
+      "hash": "421f2347e2a68691558f5435d82559cc7c328bcebf3a5b46e1c8028522e0b5c2"
+    },
+    "literature/cycling-training/papers/29809080/takeaways.md": {
+      "hash": "a84d40694ee56f1d3649b0ca4a08fc2a54335343d914edfb0b9e96bab8798ab3"
+    },
+    "literature/cycling-training/papers/31490431/abstract.txt": {
+      "hash": "5b095a085f68edb5d2becab554b964212989179901935aad7dc1fbf0349047b0"
+    },
+    "literature/cycling-training/papers/31490431/metadata.json": {
+      "hash": "401e29384f4bb9b6a096cfa0509ce76a7b899493a900512034e4ea8e35042733"
+    },
+    "literature/cycling-training/papers/31490431/notes.md": {
+      "hash": "760be3ca0f774fc28a8b7aae6df68ac34f3b042893f6b35276d20c512647eb98"
+    },
+    "literature/cycling-training/papers/31490431/takeaways.md": {
+      "hash": "5133a0714967f33935857b42502433467b39abc9d56673049442105ee9656701"
+    },
+    "literature/cycling-training/papers/34001184/abstract.txt": {
+      "hash": "4d23ed673018562b3309698a8dcc8e192fbd4af86497e2bb4e845e8fd3d52117"
+    },
+    "literature/cycling-training/papers/34001184/metadata.json": {
+      "hash": "0a0fa0f862cf76b78486bb09f9508539cb8991fa45cdba71e102f920b0624f02"
+    },
+    "literature/cycling-training/papers/34001184/notes.md": {
+      "hash": "4f19224d04a8dfbd9fe499823586b33b8fa73974411634971b3570d7efe79df5"
+    },
+    "literature/cycling-training/papers/34001184/takeaways.md": {
+      "hash": "6939eb739a36d7e97aaf2617bed642db1e7baba8fd4bc190032cafe27e5fe8d6"
+    },
+    "literature/cycling-training/papers/34639599/abstract.txt": {
+      "hash": "1b26967c3edc214a8b13d66b7cbccb2b57dbe362fb241ea6a34dd74fde640cc5"
+    },
+    "literature/cycling-training/papers/34639599/metadata.json": {
+      "hash": "48d533a4b72d3d6474c34e294f0ac1b51b76b740b84236d8995067a9258a43fa"
+    },
+    "literature/cycling-training/papers/34639599/notes.md": {
+      "hash": "79507dc48b6c21ad909e92b3e01fd003149a4e4d62cf5dfe8bdca557ad5608c0"
+    },
+    "literature/cycling-training/papers/34639599/takeaways.md": {
+      "hash": "dd1a5f7132530df5b79042ba57420ef2a324134c5775bbf4e578e6f448054a85"
+    },
+    "literature/cycling-training/papers/36640771/abstract.txt": {
+      "hash": "7f4c7ce0a5b15e3021e6f2a742426d51dd2aa58153655955dea8a055563a63ca"
+    },
+    "literature/cycling-training/papers/36640771/metadata.json": {
+      "hash": "e56d08347eb5a0abf915604105c517af65fed52b531f97b63f60adfc7b5c302b"
+    },
+    "literature/cycling-training/papers/36640771/notes.md": {
+      "hash": "8ce55edab32fecfbae0f6d01049aa97e47d9eaa3a0ce203ff6484dd48aaaf228"
+    },
+    "literature/cycling-training/papers/36640771/takeaways.md": {
+      "hash": "dcb32ca507b725845a6f9833206feaf810d17e25fb70d2ddb719caecdc46ace1"
+    },
+    "literature/cycling-training/papers/36803419/abstract.txt": {
+      "hash": "37bdd0cb526743781c8a1ef40ee2a6e10b41e9ee5e0ab93aef8528a4635307a1"
+    },
+    "literature/cycling-training/papers/36803419/metadata.json": {
+      "hash": "e23cc6b3f39d954746d9118fd68adc661250cc7c7ebb5061fa017946685abef4"
+    },
+    "literature/cycling-training/papers/36803419/notes.md": {
+      "hash": "f815dbd4da181133b48fa40fab9e49443030be878570637fd341a3aad4bba6f1"
+    },
+    "literature/cycling-training/papers/36803419/takeaways.md": {
+      "hash": "60e787b453873b394404fd3f81ddc331cc535b5be5600b7d18c312b169c3bc72"
+    },
+    "literature/cycling-training/papers/37163550/abstract.txt": {
+      "hash": "d42d26ce15f144f62bd3afeee9eab171d6e652e772a1e528b17daaa76a9bfb50"
+    },
+    "literature/cycling-training/papers/37163550/metadata.json": {
+      "hash": "ef28424c36ea332b60ef345712bc49e873d711a00f4bb943097a699d182fda9d"
+    },
+    "literature/cycling-training/papers/37163550/notes.md": {
+      "hash": "bcc8bcab5d7f5eac392f66c067de4b71cfb2a04671b0ede05b309d706bf5bb05"
+    },
+    "literature/cycling-training/papers/37163550/takeaways.md": {
+      "hash": "3da94f63dd520a7231076fb79ca53c37c963905fa0656463cc4d4d1116b4ccf0"
+    },
+    "literature/cycling-training/papers/39888556/abstract.txt": {
+      "hash": "0fa5cb81eb7ebed3418332ef7411d800a02eaa6161da2397d15a15d81aa0a7d1"
+    },
+    "literature/cycling-training/papers/39888556/metadata.json": {
+      "hash": "858ef3f976780af7a9340f1bba33217feb0f45952f23f86bc0d4437db331404d"
+    },
+    "literature/cycling-training/papers/39888556/notes.md": {
+      "hash": "51fb10183ee2e2d8dca0d7c709005f3bcfeb3ff4beca3245b40e9fc1deedbcda"
+    },
+    "literature/cycling-training/papers/39888556/takeaways.md": {
+      "hash": "88fd6227e50adf328856d8edacc2548a0416bd065bc16f42f1d45304ec3f75b4"
+    },
+    "literature/cycling-training/papers/40613880/abstract.txt": {
+      "hash": "2c26540f395a81c98be498864b80161c5e08ddb65ea21b01b533a691f30206d9"
+    },
+    "literature/cycling-training/papers/40613880/metadata.json": {
+      "hash": "f04ba9fba6dec403a0f354c56b617b0824f9bd180027160fbc0d2e2d135c087e"
+    },
+    "literature/cycling-training/papers/40613880/notes.md": {
+      "hash": "81b5c4a4df845286741d5dca6e4ce5c45f02a67287896942665d3434407963c8"
+    },
+    "literature/cycling-training/papers/40613880/takeaways.md": {
+      "hash": "f30452add45439ea4411b608dd5d19fa815e2f8433d202e69d8e6e48d36de4b6"
+    },
+    "literature/cycling-training/papers/40632222/abstract.txt": {
+      "hash": "5d88c958e6527a9eeb499517641433f2236179808f109d32ba873f96ac2f5f22"
+    },
+    "literature/cycling-training/papers/40632222/metadata.json": {
+      "hash": "d2d97e421e7bd46fb91fce5b9e603c4f26599a4bea13055c2593782d8878ba5d"
+    },
+    "literature/cycling-training/papers/40632222/notes.md": {
+      "hash": "05c45aeace208c71832167a7cba27da26ee05651443ecdf05f3cf20e2fbf870d"
+    },
+    "literature/cycling-training/papers/40632222/takeaways.md": {
+      "hash": "6637bbe718ebc0384d9459dc2079bf54aa9a94422b5e9cbbd245fad6adbcf91f"
+    },
+    "literature/cycling-training/papers/41028151/abstract.txt": {
+      "hash": "345f123a95653a51ba8185a59fc1de12bb52b6bd28644a0c1d2fe0afb4075dd3"
+    },
+    "literature/cycling-training/papers/41028151/metadata.json": {
+      "hash": "fc9b34ba0728b1c820dd15863d10180fe2682b19ed210c78f79332721f5c748c"
+    },
+    "literature/cycling-training/papers/41028151/notes.md": {
+      "hash": "54683d16c7fd1f1b8ff3d1f50bd5ea27ecae832d1e2ad982ecb7304a9607694f"
+    },
+    "literature/cycling-training/papers/41028151/takeaways.md": {
+      "hash": "392babc62364d5613ce5be393df0729f95d5085f7ee82699e42dfe0d01fac373"
+    },
+    "literature/cycling-training/search-log.json": {
+      "hash": "5c372e0f28e0ea21e23b917db835cc567439514bac698b2882fa103fbd43d258"
     }
   }
 }

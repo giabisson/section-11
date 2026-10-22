@@ -1,0 +1,79 @@
+{
+  "recordType": "journal-article",
+  "pmid": "37163550",
+  "title": "Effects of tapering on performance in endurance athletes: A systematic review and meta-analysis.",
+  "abstractText": "OBJECTIVE: To assess the responses to taper in endurance athletes using meta-analysis.\n\nMETHODS: Systematic searches were conducted in China National Knowledge Infrastructure, PubMed, Web of Science, SPORTDiscus, and EMBASE databases. Standardized mean difference (SMD) and 95% confidence interval (CI) of outcome measures were calculated as effect sizes.\n\nRESULTS: 14 studies were included in this meta-analysis. Significant improvements were found between pre- and post-tapering in time-trial (TT) performance (SMD = -0.45; P < 0.05) and time to exhaustion (TTE) performance (SMD = 1.28; P < 0.05). However, There were no improvements in maximal oxygen consumption ([Formula: see text]) and economy of movement (EM) (P > 0.05) between pre- and post-tapering. Further subgroup analysis showed that tapering combined with pre-taper overload training had a more significant effect on TT performance than conventional tapering (P < 0.05). A tapering strategy that reduced training volume by 41-60%, maintained training intensity and frequency, lasted ≤7 days, 8-14 days, or 15-21 days, used a progressive or step taper could significantly improve TT performance (P < 0.05).\n\nCONCLUSIONS: The tapering applied in conjunction with pre-taper overload training seems to be more conducive to maximize performance gains. Current evidence suggests that a ≤21-day taper, in which training volume is progressively reduced by 41-60% without changing training intensity or frequency, is an effective tapering strategy.",
+  "affiliations": [
+    "Sports Big-data Research Center, Wuhan Sports University, Wuhan, HuBei, China.",
+    "Hubei Sports and Health Research Center, Wuhan, HuBei, China.",
+    "Rochester Institute of Technology, College of Health Sciences and Technology, New York, Rochester, United States of America."
+  ],
+  "authors": [
+    {
+      "lastName": "Wang",
+      "firstName": "Zhiqiang",
+      "initials": "Z",
+      "affiliationIndices": [
+        0,
+        1
+      ]
+    },
+    {
+      "lastName": "Wang",
+      "firstName": "Yong Tai",
+      "initials": "YT",
+      "affiliationIndices": [
+        2
+      ]
+    },
+    {
+      "lastName": "Gao",
+      "firstName": "Weifeng",
+      "initials": "W",
+      "affiliationIndices": [
+        0
+      ]
+    },
+    {
+      "lastName": "Zhong",
+      "firstName": "Yaping",
+      "initials": "Y",
+      "affiliationIndices": [
+        0,
+        1
+      ],
+      "orcid": "0000-0002-3010-5001"
+    }
+  ],
+  "journalInfo": {
+    "title": "PloS one",
+    "isoAbbreviation": "PLoS One",
+    "eIssn": "1932-6203",
+    "volume": "18",
+    "issue": "5",
+    "pages": "e0282838",
+    "elocationId": "e0282838",
+    "elocationIdType": "pii",
+    "publicationDate": {
+      "year": "2023"
+    }
+  },
+  "doi": "10.1371/journal.pone.0282838",
+  "pmcId": "PMC10171681",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37163550/",
+  "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10171681/",
+  "publicationTypes": [
+    "Meta-Analysis",
+    "Systematic Review",
+    "Journal Article",
+    "Research Support, Non-U.S. Gov't"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2023",
+      "month": "5",
+      "day": "10"
+    }
+  ]
+}

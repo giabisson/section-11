@@ -1,0 +1,217 @@
+{
+  "synthetic": true,
+  "description": "Intermittent optional HRV; no reading carried into today.",
+  "wellness_input": [
+    {
+      "id": "2026-10-18",
+      "hrv": 60,
+      "restingHR": 50
+    },
+    {
+      "id": "2026-10-20",
+      "restingHR": 50
+    },
+    {
+      "id": "2026-10-21",
+      "restingHR": 50
+    },
+    {
+      "id": "2026-10-22",
+      "restingHR": 50
+    }
+  ],
+  "current_athlete_feedback": "I feel rested and have no new symptoms.",
+  "health_context": {
+    "source_status": "ok",
+    "clarification_required": false,
+    "current": [],
+    "recent": []
+  },
+  "derived_metrics": {
+    "readiness_observations": {
+      "schema_version": 1,
+      "as_of_date": "2026-10-22",
+      "baseline_definition": "prior_calendar_days_excluding_assessed_day",
+      "invalid_date_rows": 0,
+      "future_rows_excluded": 0,
+      "hrv": {
+        "metric": "RMSSD",
+        "unit": "ms",
+        "source": "Intervals.icu.wellness.hrv",
+        "device": null,
+        "measurement_protocol": null,
+        "status": "stale",
+        "value": null,
+        "date": null,
+        "last_observation_date": "2026-10-18",
+        "conflicting_dates": [],
+        "invalid_dates": [],
+        "baseline_7d": {
+          "mean": 60,
+          "sample_days": 1,
+          "window_days": 7,
+          "window_start": "2026-10-15",
+          "window_end": "2026-10-21",
+          "coverage": 0.143,
+          "status": "single_observation"
+        },
+        "baseline_28d": {
+          "mean": 60,
+          "sample_days": 1,
+          "window_days": 28,
+          "window_start": "2026-09-24",
+          "window_end": "2026-10-21",
+          "coverage": 0.036,
+          "status": "single_observation"
+        },
+        "readiness_eligible": false
+      },
+      "rhr": {
+        "metric": "resting_heart_rate",
+        "unit": "bpm",
+        "source": "Intervals.icu.wellness.restingHR",
+        "device": null,
+        "measurement_protocol": null,
+        "status": "current",
+        "value": 50,
+        "date": "2026-10-22",
+        "last_observation_date": "2026-10-22",
+        "conflicting_dates": [],
+        "invalid_dates": [],
+        "baseline_7d": {
+          "mean": 50,
+          "sample_days": 3,
+          "window_days": 7,
+          "window_start": "2026-10-15",
+          "window_end": "2026-10-21",
+          "coverage": 0.429,
+          "status": "multiple_observations"
+        },
+        "baseline_28d": {
+          "mean": 50,
+          "sample_days": 3,
+          "window_days": 28,
+          "window_start": "2026-09-24",
+          "window_end": "2026-10-21",
+          "coverage": 0.107,
+          "status": "multiple_observations"
+        },
+        "readiness_eligible": true
+      },
+      "sleep": {
+        "metric": "sleep_duration",
+        "unit": "seconds",
+        "source": "Intervals.icu.wellness.sleepSecs",
+        "device": null,
+        "measurement_protocol": null,
+        "status": "missing",
+        "value": null,
+        "date": null,
+        "last_observation_date": null,
+        "conflicting_dates": [],
+        "invalid_dates": [],
+        "readiness_eligible": false
+      }
+    },
+    "latest_hrv": null,
+    "latest_rhr": 50,
+    "hrv_baseline_7d": 60,
+    "rhr_baseline_7d": 50,
+    "hrv_baseline_28d": 60,
+    "rhr_baseline_28d": 50,
+    "recovery_index": null,
+    "recovery_index_yesterday": null,
+    "acwr_start_of_day": {
+      "value": 1.0,
+      "as_of_date": "2026-10-22"
+    }
+  },
+  "readiness_decision": {
+    "recommendation": "go",
+    "priority": 3,
+    "signals": {
+      "hrv": {
+        "status": "unavailable",
+        "value": null,
+        "baseline_7d": 60,
+        "delta_pct": null
+      },
+      "rhr": {
+        "status": "green",
+        "value": 50,
+        "baseline_7d": 50,
+        "delta_bpm": 0
+      },
+      "sleep": {
+        "status": "unavailable",
+        "hours": null,
+        "quality": null
+      },
+      "acwr": {
+        "status": "green",
+        "value": 1.0,
+        "scope": "start_of_day",
+        "as_of_date": "2026-10-22",
+        "current_day_load_included": false
+      },
+      "ri": {
+        "status": "unavailable",
+        "value": null,
+        "value_yesterday": null
+      },
+      "tsb": {
+        "status": "green",
+        "value": 0
+      }
+    },
+    "signal_summary": {
+      "green": 3,
+      "amber": 0,
+      "red": 0,
+      "unavailable": 3
+    },
+    "phase_context": {
+      "phase": null,
+      "phase_week": null,
+      "amber_threshold": 2,
+      "modifier_applied": "default"
+    },
+    "race_week_defers": false,
+    "modification": null,
+    "reason": "P3 no restriction triggered by available signals. 3 green, 0 amber (threshold 2), 0 red.",
+    "alarm_refs": [],
+    "input_context": {
+      "policy_version": "optional_wearables_v1",
+      "wearables_required": false,
+      "available_signals": [
+        "acwr",
+        "rhr",
+        "tsb"
+      ],
+      "unavailable_signals": [
+        "hrv",
+        "ri",
+        "sleep"
+      ],
+      "evidence_status": "some_signals_available",
+      "observation_quality": "dated",
+      "health_clarification_required": false
+    },
+    "signal_count_review": {
+      "mode": "audit_only",
+      "groups": {
+        "autonomic": "green",
+        "sleep": "unavailable",
+        "load": "green"
+      },
+      "counts": {
+        "unavailable": 1,
+        "green": 2,
+        "amber": 0,
+        "red": 0
+      },
+      "p2_candidate": "go"
+    }
+  },
+  "coaching_expectation": "Use the existing plan and training context with current feedback. Missing HRV/RI alone does not require rest, more measured nights or a repeated questionnaire. This expectation is a manual coaching scenario, not a tested LLM output."
+}

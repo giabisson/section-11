@@ -1,8 +1,9 @@
 # Section 11: Workout Reference Library
 
-**Version:** 0.7.1  
+**Version:** 0.9.0
+
 **Companion to:** Section 11 B: AI Training Plan Protocol  
-**Last updated:** 2026-10-13
+**Last updated:** 2026-10-22
 
 ---
 
@@ -17,12 +18,18 @@ This document is the **normative source of evidence-based session structures** f
 ### Design Principles
 
 - **Section 11 A readiness logic always has final say.** No template in this document overrides go/modify/skip decisions.
-- **Zone references use the athlete's Intervals.icu zone configuration.** Power targets are expressed as zone ranges, not hardcoded %FTP values, because athlete zones are individually calibrated and update with fitness changes.
+- **Zone references use the athlete's Intervals.icu zone configuration.** Power targets use configured zone ranges. Configuration does not prove individual physiological calibration; retain its basis and fitness-test provenance, and do not treat it as measured LT1/LT2.
 - **This is a living catalog.** Athletes and human coaches may adapt, extend, or replace templates in the library to match individual needs, equipment, and sport demands. Extending or replacing templates is a human library-maintenance decision; the AI must flag gaps rather than make those changes on its own.
 - **Adapt the prescription within the template.** The AI should adjust interval count, duration, rest periods, and intensity to match the athlete's current state while preserving the template's target adaptation and execution constraints. A Sweet Spot 3x15 might become 3x12 for a fatigued athlete or 3x18 for a fresh one approaching peak, only when the applicable readiness and progression rules permit it (§5.2).
 - **Optional/advanced templates are clearly marked.** Templates flagged as *(Optional)* or *(Advanced)* are not necessary for every athlete and should not be prescribed by default. The AI should only select these when the athlete's goals, phase, and readiness specifically warrant them.
 
 ---
+
+## Checked prescriptions
+
+`examples/agentic/workout_validation.py` and `workout_constraints.json` define checked prescriptions for all 26 templates in library version 0.9.0. The catalog binds to this document's SHA-256. Unknown formats fail explicitly; matching a label is insufficient. Non-numeric suitability, technique execution and health decisions remain coaching responsibilities. The machine checks do not validate the physiology of the library or a full training plan.
+
+The supplied `coaching_prescription` step tree is the executable dose: every recovery that appears executes, including a final recovery. A repeat does not silently omit its final step. Work, background endurance, recovery, warm-up, cool-down and full duration are reported separately. `work_minutes` and `est_total_minutes` below remain descriptive estimates, never exact budgets. The checked constraints are listed in the catalog. Numerical interpretations below resolve ambiguous prose as coaching/engineering judgment, not research-validated cutoffs. Qualitative terms such as low/mid-zone, subtle progression, normal cadence and exact technique still require coaching review.
 
 ## 1. Workout Type Catalog
 
@@ -33,7 +40,7 @@ Each entry includes: session name, target adaptation, zone targets, interval str
 **Template metadata:** Each template includes a machine-readable YAML block with the following fields:
 - `id`: stable template code, used in the `session_template` audit field (Section 11 B §6/§8)
 - `domain`: adaptation category: `endurance`, `tempo`, `sweet_spot`, `threshold`, `vo2max`, `anaerobic`, `race_specific`, `strength_endurance`
-- `is_hard_session`: `true` if the session counts toward the 48h spacing rule (§3.1) and takes a structured session slot per Section 11 B §4
+- `is_hard_session`: `true` if the session informs the conservative spacing guidance (§3.1) and takes a structured session slot per Section 11 B §4
 - `work_minutes`: approximate work duration (midpoint of range, excludes WU/CD for structured sessions; includes ramp-in/ramp-out for endurance sessions)
 - `est_total_minutes`: estimated total session time. For structured sessions (§1B–1F): includes WU/CD. For endurance sessions (§1A): same as `work_minutes` because the ramp-in/ramp-out is built into the ride, not a separate WU/CD
 
@@ -112,6 +119,7 @@ est_total_minutes: 65
 - **Zones:** Z1–Z2
 - **Structure:** 4–6 × 5 min single-leg drills or high-cadence (100–110 rpm) intervals within Z2 power, with 3 min easy spinning between
 - **Duration:** 60–75 min total
+- **Checked form:** Mark each work step as `high_cadence` with a 100–110 rpm target, or explicitly as `single_leg`. Use Z2 background steps outside the drill sequence to fill the ride; three-minute Z1 recoveries remain explicit. The compiler checks the instruction, not the rider's technique execution.
 - **Coaching notes:** Focus is neuromuscular efficiency, not power output. Keep effort conversational.
 - **Select when:** Base phase variety, or when pedalling efficiency metrics indicate room for improvement.
 
@@ -126,8 +134,9 @@ est_total_minutes: 140
 - **Zones:** Z1–Z2 for first 60–120 min, steady Z3 for final 30–45 min
 - **Structure:** Long continuous ride with a deliberate intensity increase in the final block
 - **Duration:** 120–165 min total
+- **Checked form:** The 60–120 minute easy lead-in includes ramp-in warm-up. It must precede the 30–45 minute Z3 finish; an optional easy cool-down follows. Total time includes all three components.
 - **Coaching notes:** The Z3 finish deliberately targets durability under accumulated fatigue: the athlete must sustain tempo-range power when glycogen is depleted and cardiac drift is present. This is a harder session than AE-3 and counts toward weekly Z3+ time in TID calculations. Fueling critical.
-- **Select when:** Late Base and Build phase, especially for athletes preparing for gran fondos, long climbing events, or any event where the decisive effort comes under fatigue. Requires RI ≥ 0.8. **This session takes a hard session slot**. It replaces (not supplements) one of the week's structured sessions from §1B or §1C in the weekly pattern, to preserve Section 11 B intensity distribution constraints.
+- **Select when:** Late Base and Build phase, especially for athletes preparing for gran fondos, long climbing events, or any event where the decisive effort comes under fatigue. Use current feedback and available readiness data; missing RI alone is not disqualifying. **This session takes a hard session slot**. It replaces (not supplements) one of the week's structured sessions from §1B or §1C in the weekly pattern, to fit the athlete-specific intensity and recovery budget.
 
 #### AE-7: Progressive Endurance
 ```yaml
@@ -138,7 +147,7 @@ work_minutes: 120
 est_total_minutes: 120
 ```
 - **Zones:** Start mid-Z2, finish upper Z2/low Z3, stepping up every 30–45 min
-- **Structure:** Continuous ride with 2–3 planned step-ups in power (e.g., 3 × 40 min at progressively higher Z2 targets)
+- **Structure:** Continuous ride with 2–3 planned step-ups in power: 3–4 blocks of 30–45 min (e.g., 3 × 40 min at progressively higher Z2 targets). Targets must increase between blocks; only the final block may extend into Z3. Separate ramp-in/out steps, if supplied, count toward the total time.
 - **Duration:** 90–150 min total
 - **Coaching notes:** A gentler durability stimulus than AE-6. The progression is subtle: each step-up is small enough that the session stays aerobic throughout. Monitor HR:power ratio across steps to assess durability.
 - **Select when:** When you want durability stress without committing to a Z3 fast finish: moderate readiness days, or as a stepping stone before introducing AE-6.
@@ -194,7 +203,8 @@ est_total_minutes: 82
 ```
 - **Zones:** Alternating Z4 (under) and low Z5 (over)
 - **Structure:** 3–4 × 8–10 min blocks. Within each block: 2 min Z4 / 1 min low Z5, repeating. 5 min Z1 recovery between blocks.
-- **Duration:** 45–60 min of work
+- **Duration:** 24–40 min of alternating work, plus 10–15 min between-block recovery, warm-up and cool-down
+- **Checked form:** Start each block with the two-minute under, repeat the two/one-minute cycle, and truncate only the last segment at the chosen 8–10 minute block boundary. Both under and over segments are work; five-minute Z1 rests separate the blocks. Low-Z5 suitability remains a coaching check.
 - **Coaching notes:** Develops lactate clearance at threshold. The "over" segments should be uncomfortable but sustainable. If the athlete blows up, the overs are too high. Reduce over-segment intensity before reducing block count.
 - **Select when:** Mid-to-late Build phase. Requires good threshold tolerance (athlete should be comfortable with SS-1 first).
 
@@ -208,6 +218,7 @@ est_total_minutes: 110
 ```
 - **Zones:** Z3
 - **Structure:** 2–3 × 20–30 min, with 5 min Z1 recovery between blocks
+- **Reduced variant (coaching judgment):** 2 × 10–15 min with 3–5 min Z1 between efforts, for a smaller dose or time budget. This is an explicit permitted adaptation, not a research-protocol reproduction.
 - **Duration:** 60–100 min of work
 - **Coaching notes:** For athletes building toward sweet spot who aren't ready for sustained Z4. Also suitable when readiness metrics suggest a moderate rather than hard day.
 - **Select when:** Early Base/Build transition, or when Section 11 A readiness indicates "modify" rather than "go" for a structured day.
@@ -253,7 +264,7 @@ est_total_minutes: 68
 - **Structure:** 4–5 × 8 min, with 2 min Z1 recovery between intervals
 - **Duration:** 32–40 min of work
 - **Coaching notes:** Sits at the threshold/VO₂max border. These intervals are long enough and hard enough to drive significant cardiac output, while the power target is closer to threshold than classic VO₂max intervals. The short 2-minute recoveries are deliberate. The athlete should not be fully recovered before the next effort. HR will progressively climb across intervals; reaching 90–92 % HRmax in the final 1–2 intervals indicates correct intensity. This format provides combined VO₂ and threshold gains, making it extremely time-efficient.
-- **Select when:** Mid-to-late Build phase when you want combined threshold and VO₂ adaptation without committing to full Z5 intervals. High value for athletes with limited weekly training time who need maximum stimulus from 2 hard sessions. Requires established threshold fitness (SS-1/SS-5 completed consistently).
+- **Select when:** Mid-to-late Build phase when you want combined threshold and VO₂ adaptation without committing to full Z5 intervals. High value for athletes with limited weekly training time who need a purposeful sustained-interval option. Requires established threshold fitness (SS-1/SS-5 completed consistently).
 
 ---
 
@@ -274,7 +285,7 @@ est_total_minutes: 70
 - **Work:rest ratio:** ~1:1
 - **Duration:** 30–40 min of work
 - **Coaching notes:** The gold standard VO₂max format. Target is accumulating time at >90 % VO₂max. The recovery must be easy enough to allow full engagement on the next interval. If power drops >5 % across intervals, stop the session.
-- **Select when:** Default VO₂max format for Build phase. Athlete should have ≥4 weeks of threshold work (SS-1/SS-2) before progressing here.
+- **Select when:** Default VO₂max format for Build phase. Establish tolerability of demanding work before progressing here; four weeks of threshold work is not a universal prerequisite.
 
 #### VO2-2: Short-Short Intervals (30/15 or 40/20)
 ```yaml
@@ -331,7 +342,7 @@ est_total_minutes: 90
 - **Structure:** 3 sets × 13 repetitions of 30 s on / 15 s off. 5 min Z1 between sets.
 - **Work:rest ratio:** 2:1
 - **Duration:** ~19.5 min of accumulated work (29.25 min total set time)
-- **Coaching notes:** A high-volume variant of VO2-2. The 13-rep sets are substantially more demanding than the 8–10 rep sets in VO2-2. Each set accumulates 6.5 min of Z5–Z6 work with only brief micro-recoveries. By the final reps of each set, the athlete should be operating at genuine VO₂max. The extended set duration also develops mental tolerance for sustained high-intensity discomfort. Power quality in the final set is the key indicator. If the athlete cannot maintain target power in set 3, reduce to 10–11 reps per set before reverting to VO2-2. Include an extended cool-down (~30 min Z1) to facilitate recovery.
+- **Coaching notes:** A high-volume variant of VO2-2. The 13-rep sets are substantially more demanding than the 8–10 rep sets in VO2-2. Each set accumulates 6.5 min of Z5–Z6 work with only brief micro-recoveries. By the final reps of each set, the athlete should be operating at genuine VO₂max. The extended set duration also develops mental tolerance for sustained high-intensity discomfort. Power quality in the final set is the key indicator. If the athlete cannot maintain target power in set 3, reduce to 10–12 reps per set before reverting to VO2-2. Include an extended cool-down (~30 min Z1) to facilitate recovery.
 - **Select when:** Progression from VO2-2 once the athlete consistently completes 3 × 10 at target power. Also suitable for athletes who have adapted to the short-short format and need increased stimulus without changing interval structure. Not for athletes new to VO₂max work. Establish the format with VO2-2 first.
 
 ---
@@ -361,12 +372,13 @@ est_total_minutes: 50
 id: AN-2
 domain: anaerobic
 is_hard_session: true
-work_minutes: 8
+work_minutes: 1
 est_total_minutes: 70
 ```
 - **Zones:** Z7 (maximal)
 - **Structure:** 4–6 × 10–15 s all-out sprints, with 5 min Z1 recovery between efforts
-- **Duration:** ~5–8 min of work (embedded in a longer Z1–Z2 ride)
+- **Duration:** 40–90 s of sprint work, plus explicit recoveries, embedded in a 60–75 min total Z1–Z2 ride
+- **Checked form:** Sprints use maximal free effort, without a fixed FTP multiple or ERG setpoint. Place them immediately after the sprint-specific warm-up; remaining background riding follows. Verify trainer mode/device support before riding.
 - **Coaching notes:** True neuromuscular work, full rest, maximal recruitment. These should be done fresh, typically early in a session after warm-up. Total session including Z2 riding: 60–75 min.
 - **Select when:** Rarely. Sprint-finish events, or to maintain neuromuscular recruitment during a Base phase. Maximum once per week.
 
@@ -376,12 +388,12 @@ id: AN-3
 domain: anaerobic
 is_hard_session: true
 work_minutes: 3
-est_total_minutes: 60
+est_total_minutes: 95
 ```
 - **Zones:** Z7 (maximal)
-- **Structure:** 3 sets × 5 × 10 s maximal sprints. 3 min Z1 recovery between reps, 5 min Z1 between sets. Power target ascends between sets (e.g., Set 1 at reference power, Sets 2–3 at reference +3–5 %).
-- **Duration:** ~2.5 min of work, ~60 min total session with warm-up and Z1 riding
-- **Coaching notes:** The set structure with ascending power is a deliberate progression. The athlete must produce their highest power when fatigued from the previous sets. This develops both neuromuscular capacity and the ability to sprint under cumulative fatigue, which is race-specific for attacking scenarios. The 3-minute between-rep recovery is enough for partial ATP-CP restoration but not full recovery, so power quality within each set reveals true repeatability. If power in Set 3 drops >10 % below Set 1 despite ascending targets, the athlete is over-reaching on the target: maintain Set 1 power across all sets before progressing. Include extended cool-down (~15–20 min Z1).
+- **Structure:** 3 sets × 5 × 10 s maximal free-effort sprints. 3 min Z1 recovery between reps, 5 min Z1 between sets, replacing the final between-rep rest. Use a dated comparable ten-second power reference, with advisory set targets at reference, reference +3–5 %, reference +3–5 % (nondecreasing); the existing maintain-reference regression is also allowed. These are quality goals, not ERG setpoints or a guarantee that maximal power will increase under fatigue.
+- **Duration:** 2.5 min sprint work + 36 min between-rep recovery + 10 min between-set recovery + 22–25 min warm-up + 20–30 min cool-down = 90.5–103.5 min total. The earlier ~60 min estimate did not fit the listed steps.
+- **Coaching notes:** This is an advanced repeated-sprint option selected by coaching judgment. Evaluate repeatability, fatigue and relevance to the event; increasing maximal power across sets is not assured. If Set 3 power falls materially (the existing >10 % rule is a coaching heuristic), review the target, recovery and dose rather than diagnosing over-reaching. Maintain reference targets before progressing. Include the extended 20–30 min Z1 cool-down in §2.
 - **Select when:** Peak phase for athletes preparing for events requiring repeated accelerations (criteriums, road races with attacks). Progression from AN-2 once the athlete demonstrates consistent sprint quality across 6 single efforts. Maximum once per week.
 
 ---
@@ -400,6 +412,7 @@ est_total_minutes: 105
 ```
 - **Zones:** Z2 base with programmed surges to Z4–Z5
 - **Structure:** 90–120 min Z2 ride with 6–8 × 2–3 min surges to Z4–Z5 at irregular intervals (every 10–20 min). Recovery back to Z2 between surges (no Z1).
+- **Checked form:** The 90–120 minutes is the complete ride, including preparation/cool-down. Surge starts are 10–20 minutes apart; equal spacing is allowed as a predictable variant. Background and recovery in the main set stay Z2, while preparation/cool-down may be easier.
 - **Coaching notes:** Simulates the variable demands of road racing or group rides. The key stimulus is repeated transitions from steady to hard and back. Z2 segments should feel genuinely comfortable. If they don't, reduce surge frequency.
 - **Select when:** Mid-to-late Build or Peak phase. Athlete has established threshold and VO₂max fitness. Not for Base phase.
 
@@ -414,6 +427,7 @@ est_total_minutes: 52
 - **Zones:** Z2 base with short Z5–Z6 openers
 - **Structure:** 45–60 min easy Z2 ride with 3 × 1 min at Z5, 2 × 30 s at Z6. Full recovery (3–5 min Z2) between efforts.
 - **Duration:** 45–60 min total
+- **Checked form:** Place the three Z5 efforts before the two Z6 efforts; count 3–5 min Z2 between each effort. Use a 10–15 min easy warm-up and 10–15 min cool-down within the total budget.
 - **Coaching notes:** Activation session, not a training session. Primes neuromuscular and cardiovascular systems without generating meaningful fatigue. Should feel sharp and easy. Reference Section 11 A race-week protocol.
 - **Select when:** 1–2 days before target event, per race-week protocol.
 
@@ -438,6 +452,7 @@ est_total_minutes: 85
 - **Duration:** 45–65 min of work
 - **Coaching notes:** The low cadence forces higher torque per pedal stroke at the same power output, recruiting more type II muscle fibres. Knee stress is higher than normal-cadence work. Any knee discomfort is an immediate stop signal. Keep upper body relaxed; the effort should feel muscular rather than cardiovascular.
 - **Position note:** Particularly effective executed in seated climbing position (70–80 rpm range acceptable for climbing simulation). Useful for athletes preparing for long alpine-style climbs.
+- **Checked form:** Select either 50–60 rpm or the seated-climbing 70–80 rpm variant consistently for work. Recovery cadence must be supplied and higher than the selected work band; this is an explicit numerical proxy, not a universal definition of normal cadence. Knee comfort and actual seated technique remain athlete/coaching checks.
 - **Select when:** Early-to-mid Base or Build phase for athletes targeting hilly events. Maximum once per week. Not a substitute for SS-1/SS-4. Use alongside, not instead of, normal-cadence threshold development.
 
 #### SE-2: Low-Cadence Sweet Spot *(Optional/Advanced)*
@@ -451,6 +466,7 @@ est_total_minutes: 75
 - **Zones:** Low Z4 (Sweet Spot)
 - **Structure:** 3 × 10–12 min at low Z4, 55–65 rpm, with 5–6 min Z1 (normal cadence) between intervals
 - **Duration:** 40–50 min of work
+- **Checked form:** Supply 55–65 rpm targets for every work interval and higher cadence for each Z1 recovery. Low-Z4 suitability, prior experience, symptoms and weekly placement require coaching review.
 - **Coaching notes:** Combines the muscular demands of low-cadence work with sweet spot metabolic stress. More demanding than SE-1 on both muscular and cardiovascular systems. Only appropriate when the athlete has experience with both low-cadence work (SE-1) and sweet spot efforts (SS-1/SS-5) separately.
 - **Select when:** Mid-Build phase for athletes with established base in both SE-1 and SS-1. Readiness must be full "go". Do not prescribe on "modify" days. Maximum once per week, and this replaces (not supplements) one of the week's structured sessions.
 
@@ -512,7 +528,7 @@ All structured sessions (§1B, 1C, 1D, 1E, 1F) require warm-up and cool-down. En
 These rules govern the placement of sessions within a microcycle (training week). They supplement Section 11 B §4 (Session Composition Rules).
 
 ### 3.1 Minimum Spacing Between Hard Sessions
-- **Hard session definition (zone ladder):** A day qualifies as hard if ANY of the following cumulative thresholds are met (per Seiler/Foster, matching sync.py's `is_hard_day` logic):
+- **Hard session definition (zone ladder):** A day qualifies as hard if ANY of the following cumulative thresholds are met (operational heuristic matching sync.py's `is_hard_day` logic, not a validated equivalence of training costs):
   - **Power ladder** (preferred, 5 rungs):
     - Z3+ ≥ 30 min (tempo and above, cumulative)
     - Z4+ ≥ 10 min (threshold and above)
@@ -523,9 +539,9 @@ These rules govern the placement of sessions within a microcycle (training week)
     - Z4+ ≥ 10 min (sustained above LT2)
     - Z5+ ≥ 5 min (VO₂max)
   - HR zones are too wide and lagged for fine-grained classification. Short-duration rungs (Z6+/Z7) and the Z3 tempo trigger are invalid for HR due to cardiac lag and false-positive risk on steady-state runs. HR-classified hard days are flagged with `intensity_basis: "hr"` in daily tier output.
-  - Higher zones need less time to qualify: 1 min of Z7 sprints is as "hard" as 30 min of Z3 tempo. Each template's YAML metadata (`is_hard_session: true/false`) reflects the power ladder.
-- **Minimum gap:** 48 hours between hard sessions (i.e., at least one easy/rest day between).
-- **Exception:** Back-to-back hard days permitted only when **TSB > 0 and RI ≥ 0.85** (per Section 11 B §4).
+  - Higher zones need less time to qualify: 1 min of Z7 and 30 min of Z3 each meet the operational hard-day flag; that does not make their physiological or recovery cost equivalent. Each template's YAML metadata (`is_hard_session: true/false`) reflects the power ladder.
+- **Conservative default:** Allow an easy/rest day, commonly about 48 hours, between demanding sessions; this is coaching guidance, not a universal biological cutoff.
+- **Deliberate clustering:** Requires a goal, prior tolerability, current feedback and planned recovery under Section 11 B §4. Positive TSB/RI alone is not permission, and missing HRV alone does not prevent ordinary scheduling. Active readiness and health restrictions still apply.
 
 ### 3.2 Ordering Logic
 - **VO₂max before Sweet Spot/Threshold** when both occur in the same week and are closely spaced (e.g., consecutive days or with only one rest day between). When sessions are separated by 2+ recovery days (e.g., Tuesday VO₂max / Thursday SS, or the reverse), order matters less. Adequate recovery between sessions neutralises the freshness advantage.
@@ -547,9 +563,11 @@ These rules govern the placement of sessions within a microcycle (training week)
 
 ### 3.5 Example Weekly Patterns
 
+These are examples of arrangements, not minimum session counts or schedules to copy. Select only the slots that fit the athlete’s goal, prior capacity and current availability; use Section 11 B when a different structure is appropriate.
+
 > These are illustrations, not prescriptions. Section 11 readiness logic always has final say.
 
-**Build Phase: Standard Pattern:**
+**Illustrative Build Pattern:**
 
 | Day | Session | Notes |
 |-----|---------|-------|
@@ -561,7 +579,7 @@ These rules govern the placement of sessions within a microcycle (training week)
 | Sat | AE-3 or AE-6 | Long durability ride (AE-6 if fast-finish week) |
 | Sun | AE-1 or Rest | Easy spin or full rest |
 
-**Base Phase: Standard Pattern:**
+**Illustrative Base Pattern:**
 
 | Day | Session | Notes |
 |-----|---------|-------|
@@ -577,43 +595,28 @@ These rules govern the placement of sessions within a microcycle (training week)
 
 ## 4. Block Periodisation Sketches
 
-These are guideline patterns for mesocycle (block) structure. Section 11 A's phase detection is reactive by design. These sketches inform planning but do not override detected phase state.
+These are optional sketches, governed by `athlete_specific_v1` in Section 11 B. Detected phase describes training; planned intent comes from goals and context. A mismatch prompts review, not automatic replacement of the plan.
 
-### 4.1 Build:Deload Ratios
+### 4.1 Build and Recovery Structure
 
-- **Standard:** 3:1 (three progressive weeks, one deload week)
-- **High-responder / younger athlete:** 4:1 may be tolerated if RI remains ≥ 0.8 throughout
-- **Master athlete / high-stress periods:** 2:1 is appropriate
-- **Selection guidance:** Default to 3:1. Move to 2:1 if Section 11 A triggers regression/deload criteria before week 3. Move to 4:1 only if the athlete consistently shows RI ≥ 0.85 and positive HRV trend at week 3.
+Choose a block objective, recovery opportunities and a review date from completed training, current response and availability. Patterns such as 2:1, 3:1 or 4:1 are possible coaching arrangements, not a default selected by age or RI. Recovery can occur earlier, and repeating a week can be appropriate. Do not require measured HRV nights to choose or revise a block.
 
-### 4.2 Volume Trajectory Across a Block
+### 4.2 Volume and Session Trajectory
 
-- **Week 1:** Baseline volume (~95–100 % of target)
-- **Week 2:** Moderate increase (~100–105 %)
-- **Week 3:** Peak load (~105–110 %)
-- **Deload week:** Reduce to ~60–70 % of peak week volume. Maintain 1 short structured session at reduced duration but similar intensity (keeps top-end fitness without load).
+Start from the athlete's recent completed training and current time budget. Do not impose a minimum volume, a 15-hour reference, a fixed weekly percentage ramp or a mandatory number of demanding sessions. More available time does not establish more tolerable load. Explain proposed changes and evaluate completion, stimulus and response before progressing.
 
-**Deload session modifications:** When prescribing the deload-week structured session, reduce interval count or duration while maintaining target zone:
-- Sweet Spot: SS-5 at 2×10 min (instead of 4×10), or SS-1 at 1×15 min
-- VO₂max: VO2-2 at 2×6 reps (instead of 3×10), or VO2-1 at 3×3 min
-- Threshold: TH-1 at 1×15 min (instead of 2×20)
-- Long ride: Replace AE-3 with AE-2 (cap at 90–120 min)
-- All other sessions: AE-1 or AE-4 only
+When reducing load, shorten or remove work within template constraints while preserving the purpose of retained sessions. Possible choices include fewer permitted sweet-spot repetitions, a shorter endurance option, easy riding or rest. No universal deload percentage, mandatory hard session or minimum duration applies. Do not compress prescribed preparation/recovery steps merely to fit a time window; choose a suitable alternative.
 
-Volume changes must remain within Section 11 B §2 tolerance (±10 % of validated baseline). If baseline is 15 h, peak week should not exceed ~16.5 h without meeting expansion criteria.
+### 4.3 Changes in Block Objective
 
-### 4.3 Phase-to-Phase Transitions
+- **Toward more demanding work:** Introduce or progress only the work needed for the objective and supported by prior tolerability. A phase label does not mandate VO2max sessions or a particular template sequence.
+- **Toward event specificity:** Select relevant demands and review any availability compromise; avoid treating high-intensity work as a complete replacement for event-specific endurance.
+- **Toward taper:** Use the priority-event context and Section 11 A race-week safeguards. Tapering and ordinary recovery are distinct decisions; exact taper settings remain subject to their evidence limits.
+- **Toward recovery:** Address actual symptoms, fatigue, performance decline and health context. Choose rest/easy work and reassessment individually rather than applying a universal five-day reduction. Active readiness stops remain in force.
 
-- **Base → Build:** Introduce first VO₂max session (VO2-4 or VO2-1 at reduced volume). Replace one tempo session (SS-4) with sweet spot (SS-1/SS-5). Optionally introduce TH-2 as a combined stimulus.
-- **Build → Peak:** Reduce total volume by ~10–15 %. Increase proportion of race-specific work (MIX-1). Maintain intensity but reduce session count. Introduce AN-3 if event demands sprint repeatability.
-- **Peak → Taper:** Follow Section 11 A race-week protocol. Reference MIX-2 for openers. Note: race-week taper has its own day-by-day decision tree (D-7 through D-0) with event-type-specific TSB targets and opener timing that override the standard deload patterns in §4.2. Always defer to the race-week protocol when it is active.
-- **Any phase → Recovery:** Triggered by Section 11 A regression rules. All sessions drop to Z1–Z2 only (AE-1, AE-4). Duration reduced to 50–60 % of baseline. Minimum 5 days before reassessing.
+### 4.4 Assessing Adaptation
 
-### 4.4 Adaptation Timelines
-- **Aerobic base adaptations:** 4–8 weeks of consistent Z2 volume before measurable changes in efficiency/durability.
-- **Threshold/sweet spot gains:** 3–6 weeks of structured threshold work to see FTP movement.
-- **VO₂max response:** 2–4 weeks of dedicated VO₂max intervals for measurable improvement, but only if aerobic base is established.
-- **Implication:** Don't abandon a stimulus too early. If the athlete is responding (power stable, RPE decreasing, or power increasing at same RPE), continue the current block structure.
+Evaluate consistent, goal-relevant performance and tolerability over an appropriate period. The reviewed interventions often lasted weeks, but do not establish a universal deadline for FTP, VO2max or durability gains, or a requirement to complete an arbitrary base period before every interval program. Hold a useful stimulus when response supports it; investigate persistent underperformance rather than progressing solely because time has elapsed.
 
 ---
 
@@ -626,8 +629,8 @@ When Section 11 determines a structured session is needed, use this guide to sel
 | Situation | Recommended Format | Rationale |
 |-----------|-------------------|-----------|
 | First VO₂max session of a block | VO2-4 (pyramid) | Psychologically manageable introduction |
-| Established VO₂max fitness | VO2-1 (classic 4×4) | Maximum time at VO₂max |
-| Athlete struggles with long intervals | VO2-2 (short-short) | Equivalent stimulus, better tolerance |
+| Established VO₂max fitness | VO2-1 (classic 4×4) | One sustained-interval option; assess completed dose and response |
+| Athlete struggles with long intervals | VO2-2 (short-short) | Alternative format; verify dose, tolerability and goal fit |
 | Progressed beyond VO2-2 | VO2-5 (high-volume 30/15) | Increased stimulus, same format |
 | Late Build / early Peak | VO2-3 (descending rest) | Progressive overload on recovery capacity |
 | First sweet spot work of season | SS-4 (tempo) or SS-2 (progressive) | Build tolerance before sustained blocks |
@@ -720,6 +723,8 @@ The catalog above is cycling-focused. For multi-sport or alternative-sport athle
 | 0.6.0 | 2026-02-28 | Hard-session classification split into the five-rung power ladder and two-rung HR fallback, with HR-classified hard days identified by `intensity_basis: "hr"`. (History row backfilled 2026-08-20; header had already read 0.6.) |
 | 0.7.0 | 2026-08-20 | §5.2 precedence clarified: a template's own progression note governs which progression variable changes and in what order; failing that the applicable Section 11 A progression pathway (§*1 for endurance, or the VO₂max or Sweet Spot rules in §*2); the generic duration/recovery/intensity ordering applies only when neither defines an order. Section 11 A gates unaffected. |
 | 0.7.1 | 2026-10-13 | Library role aligned with Section 11 B §8: templates are the binding session structures, adapted to the athlete within each template's permitted variants and constraints, not optional inspiration. Extending or replacing templates is a human library-maintenance decision; the AI flags gaps. The 3x18 progression example now defers to readiness and progression rules. No template content, IDs or metadata changed. |
+| 0.8.0 | 2026-10-22 | Added a version/hash-bound checked power-prescription subset and explicit recovery semantics; reduced SS-4 variant; clarified estimate versus executable duration. Athlete-specific scheduling and evidence limits retained. |
+| 0.9.0 | 2026-10-22 | Checked coverage extended to all 26 templates. Explicit cadence, progression, over-under, descending-rest, mixed and maximal free-effort forms; AN-3 comparable-power advisory targets; corrected sprint dose/time estimates and documented operational interpretations. No claim of scientific validation or live trainer compatibility. |
 
 ---
 

@@ -26,6 +26,20 @@ Read the planned summary's `detail_file`, match event ID, route_ref, departure, 
 | File | Description |
 |------|-------------|
 | `latest.example.json` | Legacy 7-day snapshot plus current data_overview, planned-route weather/map discovery and passed/unset-start examples |
+| `readiness_quality.example.json` | Worked synthetic dated-readiness case: intermittent HRV, current RHR, optional-data context, health clarification flag and audit-only grouped counts; not a complete latest export |
+| `planning_policy.example.json` | Synthetic planning scenarios across time budgets, goals and changed availability; manual policy expectations and budget arithmetic, not executed LLM outputs or published plans |
+| `checked_workout.example.json` | Synthetic executable `coaching_prescription`: two 10-repetition 30/15 sets, explicit final recoveries, named fitness reference and 50-minute budget |
+| `checked_workout_output.example.json` | Saved offline compiler output: 3,000 seconds total, component durations, canonical watts description and provenance/hash report; not a live calendar response |
+| `checked_complex_workouts.example.json` | Eleven synthetic executable prescriptions covering cadence drills, progressive/fast-finish rides, over-unders, descending rests, maximal sprints, mixed rides and low-cadence work |
+| `checked_complex_workouts_output.example.json` | Saved offline output for all eleven; includes complete duration components and AN-3's 5,430-second minimum full dose, with free-effort/device warnings; no live calendar response |
+| `event_context.example.json` | Synthetic event/durability/strength context within a private plan; 20% chosen taper reduction and 30 minutes of replacement strength, not a recommended routine |
+| `event_context_output.example.json` | Saved local context assessment with explicit units, matched windows and evidence limits; no calendar writes |
+| `coaching_check_output.example.json` | Saved read-only candidate-bundle audit; live runtime remains unverified and no service call/message is triggered |
+| `coaching_conversations.example.json` | Fixed manual conversation rubric across budgets, experience and constraints; explicitly unexecuted LLM evaluation with unknown model/version |
+| `coaching_review.example.json` | Synthetic sourced observation review with explicit decisions and a concrete future revision; identities belong to its temporary demonstration store |
+| `coaching_review_output.example.json` | Saved review result: pairing versus unknown adherence, response, guarded revision and notification metadata; no calendar write by the review |
+| `coaching_plan.example.json` | Synthetic schema-1 persistent plan: generic goal, flexible block intent, dated capacity, exact sessions and revision evidence; no wearable requirement |
+| `coaching_plan_output.example.json` | Saved local propose/compact-show output from a temporary private store; immutable prescription references and proposed publication state, no HTTP/calendar write |
 | `history.example.json` | Longitudinal data: daily (90d), weekly (180d), monthly (up to 3y) |
 | `intervals.example.json` | Per-interval segment data for recent structured sessions |
 | `routes.example.json` | Legacy terrain examples plus a synthetic forecast with bands/pages and two unavailable-weather briefs retaining assumed-start metadata |
@@ -39,6 +53,10 @@ The core examples originated with sync.py v3.86 / Section 11 v11.17; the excepti
 
 - `data_overview` (sync 3.146, illustrated here): bounded companion file/folder presence, file-write time, purpose and locations relative to the latest export; route validity/climb inventory, weather status/tier/fetch/expiry/summary and ordered map-page availability. It retains all routed rides from the 90-day fetch, regardless of route status; beyond 120 h weather status and map reason are `beyond_horizon`. Unrouted rides beyond 120 h are excluded and counted in `rides_without_route_beyond_horizon`. `rides_total` counts eligible rides before the 64-ride cap; `rides_omitted` counts only cap overflow. No route geometry or coordinates are added to latest.json. `managed_files` is the publication list derived from the same registry. See the [Weather Data Source](../../SECTION_11.md#weather-data-source) for the discovery and path contract.
 - `readiness_decision`: pre-computed go/modify/skip recommendation with signal breakdown
+- `derived_metrics.readiness_observations`: schema version 1, illustrated separately in `readiness_quality.example.json`. HRV/RHR baselines use distinct prior 7/28 calendar days, excluding the assessed day; `baseline_definition` identifies this change from older exports. The current raw valid values remain in `latest_hrv`/`latest_rhr`; comparison requires a prior baseline. Coverage/sample counts, current/stale/missing/conflicting/invalid status and provenance are explicit. Device and measurement protocol are unknown, not inferred from values. Yesterday's RI and alert persistence require actual calendar dates; missing nights impose no training restriction.
+- `readiness_decision.input_context.observation_quality`: `dated` with the quality block, otherwise `not_provided` for legacy callers; not a confidence score. `health_clarification_required` mirrors the supplied health context boolean, or null if unavailable. True requires health clarification despite a physiological go; false is not proof of health.
+- `readiness_decision.signal_count_review`: audit-only worst-status grouping of HRV/RHR/RI (`autonomic`), ACWR/TSB (`load`) and sleep. Includes counts and `p2_candidate`; P0/P1 emit `not_evaluated_p0_p1`. The candidate never overrides the active decision and is not a validated alternative algorithm.
+- `readiness_decision.input_context`: additive optional-wearables policy metadata, illustrated in `latest.example.json`. `policy_version` is `optional_wearables_v1`; `wearables_required` is false. Sorted `available_signals`/`unavailable_signals` describe the signals evaluated on this decision path, not independent evidence or freshness. `evidence_status` is `some_signals_available` or `no_signals_available`; neither is health clearance. Missing HRV/RI alone does not restrict ordinary training or progression. Use current athlete feedback with available training data and existing health safeguards. Older exports may omit this metadata; numeric thresholds and priority meanings are unchanged.
 - `health_context`: calendar SICK / INJURED markers (current / recent / upcoming) plus the current wellness injury value; context only, never a readiness input
 - `workout_summary_stats`: planned-summary rendering statistics, including flat lists; not execution matching
 - `recent_activities[].structure_summary`: compact plan-match status and ordered duration/target/actual mean W/match rows, retained through 28 days. `has_structure` indicates detailed `session_structure` in intervals.json (14-day retention); its metric rows or descriptive fallback are independent of DFA. See the protocol's Completed Session Structure contract. The legacy JSON examples omit these additive fields; absence means unavailable
@@ -66,6 +84,8 @@ The core examples originated with sync.py v3.86 / Section 11 v11.17; the excepti
 - `weather_status`: `"unavailable"` when Intervals hasn't computed weather for the activity; re-evaluated each sync (never copied forward)
 
 For the full field reference, see [SECTION_11.md](../../SECTION_11.md) (Derived Metrics table).
+
+`history.json.ftp_timeline[]` now distinguishes `date_kind: setting_recorded` (tracked setting history) from `setting_observed` (current setting seen on sync). `assessment_date`, `assessment_method` and `equipment` are null because this source does not establish them. Never use the setting date as the age of a fitness test. Older examples may omit these additive fields; their assessment provenance remains unknown. See [checked workout validation](../agentic/WORKOUT_VALIDATION.md) for current target-reference handling and limits.
 
 ## Post-workout Activity Additions (sync 3.147)
 

@@ -1,0 +1,1799 @@
+{
+  "search_date": "2026-10-22",
+  "method": "Targeted narrative reading set; not a systematic review. Results manually screened because some broad queries returned irrelevant records or dropped phrase clauses.",
+  "queries": [
+    {
+      "id": "time-efficient",
+      "result": {
+        "query": "(cycling OR cyclists) AND (\"low volume\" OR \"time efficient\" OR \"time-efficient\" OR \"reduced volume\") AND (training OR interval)",
+        "offset": 0,
+        "pmids": [
+          "23832851",
+          "28401638",
+          "28214041",
+          "29127602",
+          "32874101",
+          "38569204",
+          "35744152",
+          "33801958",
+          "39003682",
+          "26575622",
+          "35071605",
+          "37083228"
+        ],
+        "summaries": [
+          {
+            "pmid": "23832851",
+            "title": "High-intensity interval training, solutions to the programming puzzle. Part II: anaerobic energy, neuromuscular load and practical applications.",
+            "authors": "Buchheit M, Laursen PB",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2013-10-01",
+            "doi": "10.1007/s40279-013-0066-5",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23832851/"
+          },
+          {
+            "pmid": "28401638",
+            "title": "The effects of high-intensity interval training vs. moderate-intensity continuous training on body composition in overweight and obese adults: a systematic review and meta-analysis.",
+            "authors": "Wewege M, van den Berg R, Ward RE, et al.",
+            "source": "Obes Rev",
+            "docType": "citation",
+            "pubDate": "2017-06-01",
+            "doi": "10.1111/obr.12532",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28401638/"
+          },
+          {
+            "pmid": "28214041",
+            "title": "Why intensity is not a bad word: Optimizing health status at any age.",
+            "authors": "Hunter GR, Plaisance EP, Carter SJ, et al.",
+            "source": "Clin Nutr",
+            "docType": "citation",
+            "pubDate": "2018-02-01",
+            "doi": "10.1016/j.clnu.2017.02.004",
+            "pmcId": "PMC5550361",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5550361/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28214041/"
+          },
+          {
+            "pmid": "29127602",
+            "title": "Effect of High-Intensity Interval Training on Total, Abdominal and Visceral Fat Mass: A Meta-Analysis.",
+            "authors": "Maillard F, Pereira B, Boisseau N",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2018-02-01",
+            "doi": "10.1007/s40279-017-0807-y",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/29127602/"
+          },
+          {
+            "pmid": "32874101",
+            "title": "Effects of Plyometric Jump Training on Vertical Jump Height of Volleyball Players: A Systematic Review with Meta-Analysis of Randomized-Controlled Trial.",
+            "authors": "Ramirez-Campillo R, Andrade DC, Nikolaidis PT, et al.",
+            "source": "J Sports Sci Med",
+            "docType": "citation",
+            "pubDate": "2020-09-01",
+            "pmcId": "PMC7429440",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7429440/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/32874101/"
+          },
+          {
+            "pmid": "38569204",
+            "title": "Exercise snacks are a time-efficient alternative to moderate-intensity continuous training for improving cardiorespiratory fitness but not maximal fat oxidation in inactive adults: a randomized controlled trial.",
+            "authors": "Yin M, Deng S, Chen Z, et al.",
+            "source": "Appl Physiol Nutr Metab",
+            "docType": "citation",
+            "pubDate": "2024-07-01",
+            "doi": "10.1139/apnm-2023-0593",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38569204/"
+          },
+          {
+            "pmid": "35744152",
+            "title": "Conventional Meso-Scale and Time-Efficient Sub-Track-Scale Thermomechanical Model for Directed Energy Deposition.",
+            "authors": "Nain V, Engel T, Carin M, et al.",
+            "source": "Materials (Basel)",
+            "docType": "citation",
+            "pubDate": "2022-06-09",
+            "doi": "10.3390/ma15124093",
+            "pmcId": "PMC9230620",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9230620/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35744152/"
+          },
+          {
+            "pmid": "33801958",
+            "title": "The Brief COPE: Measurement Invariance and Psychometric Properties among Community and At-Risk Portuguese Parents.",
+            "authors": "Nunes C, Pérez-Padilla J, Martins C, et al.",
+            "source": "Int J Environ Res Public Health",
+            "docType": "citation",
+            "pubDate": "2021-03-10",
+            "doi": "10.3390/ijerph18062806",
+            "pmcId": "PMC7998814",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7998814/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33801958/"
+          },
+          {
+            "pmid": "39003682",
+            "title": "Efficacy of Interval Training in Improving Body Composition and Adiposity in Apparently Healthy Adults: An Umbrella Review with Meta-Analysis.",
+            "authors": "Poon ET, Li HY, Little JP, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2024-11-01",
+            "doi": "10.1007/s40279-024-02070-9",
+            "pmcId": "PMC11560999",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11560999/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39003682/"
+          },
+          {
+            "pmid": "26575622",
+            "title": "Ryanodine receptor fragmentation and sarcoplasmic reticulum Ca2+ leak after one session of high-intensity interval exercise.",
+            "authors": "Place N, Ivarsson N, Venckunas T, et al.",
+            "source": "Proc Natl Acad Sci U S A",
+            "docType": "citation",
+            "pubDate": "2015-12-15",
+            "doi": "10.1073/pnas.1507176112",
+            "pmcId": "PMC4687604",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4687604/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/26575622/"
+          },
+          {
+            "pmid": "35071605",
+            "title": "A Comparative Study of Health Efficacy Indicators in Subjects with T2DM Applying Power Cycling to 12 Weeks of Low-Volume High-Intensity Interval Training and Moderate-Intensity Continuous Training.",
+            "authors": "Li J, Cheng W, Ma H",
+            "source": "J Diabetes Res",
+            "docType": "citation",
+            "pubDate": "2022-01-01",
+            "doi": "10.1155/2022/9273830",
+            "pmcId": "PMC8776485",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8776485/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35071605/"
+          },
+          {
+            "pmid": "37083228",
+            "title": "Pearl-Structure-Enhanced NASICON Cathode toward Ultrastable Sodium-Ion Batteries.",
+            "authors": "Zhao XX, Fu W, Zhang HX, et al.",
+            "source": "Adv Sci (Weinh)",
+            "docType": "citation",
+            "pubDate": "2023-07-01",
+            "doi": "10.1002/advs.202301308",
+            "pmcId": "PMC10323620",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10323620/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37083228/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cycling%20OR%20cyclists)%20AND%20(%22low%20volume%22%20OR%20%22time%20efficient%22%20OR%20%22time-efficient%22%20OR%20%22reduced%20volume%22)%20AND%20(training%20OR%20interval)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)%20AND%20hasabstract%5Btext%20word%5D",
+        "totalCount": 325,
+        "effectiveQuery": "(cycling OR cyclists) AND (\"low volume\" OR \"time efficient\" OR \"time-efficient\" OR \"reduced volume\") AND (training OR interval) AND (2005[pdat] : 2026/10/22[pdat]) AND hasabstract[text word]",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          },
+          "hasAbstract": true
+        }
+      }
+    },
+    {
+      "id": "interval-design",
+      "result": {
+        "query": "(cyclists OR cycling) AND (Seiler OR Ronnestad OR Rønnestad) AND (interval OR intervals)",
+        "offset": 0,
+        "pmids": [
+          "20861519",
+          "34757594",
+          "39012575",
+          "40010355",
+          "31977120",
+          "40101160",
+          "41169000",
+          "24382021",
+          "28657821",
+          "21812820",
+          "22646668",
+          "28051345"
+        ],
+        "summaries": [
+          {
+            "pmid": "20861519",
+            "title": "What is best practice for training intensity and duration distribution in endurance athletes?",
+            "authors": "Seiler S",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2010-09-01",
+            "doi": "10.1123/ijspp.5.3.276",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20861519/"
+          },
+          {
+            "pmid": "34757594",
+            "title": "Compatibility of Concurrent Aerobic and Strength Training for Skeletal Muscle Size and Function: An Updated Systematic Review and Meta-Analysis.",
+            "authors": "Schumann M, Feuerbacher JF, Sünkeler M, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2022-03-01",
+            "doi": "10.1007/s40279-021-01587-7",
+            "pmcId": "PMC8891239",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8891239/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34757594/"
+          },
+          {
+            "pmid": "39012575",
+            "title": "Training Session Models in Endurance Sports: A Norwegian Perspective on Best Practice Recommendations.",
+            "authors": "Tønnessen E, Sandbakk Ø, Sandbakk SB, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2024-11-01",
+            "doi": "10.1007/s40279-024-02067-4",
+            "pmcId": "PMC11560996",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11560996/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39012575/"
+          },
+          {
+            "pmid": "40010355",
+            "title": "What Is \"Zone 2 Training\"?: Experts' Viewpoint on Definition, Training Methods, and Expected Adaptations.",
+            "authors": "Sitko S, Artetxe X, Bonnevie-Svendsen M, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2025-11-01",
+            "doi": "10.1123/ijspp.2024-0303",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40010355/"
+          },
+          {
+            "pmid": "31977120",
+            "title": "Superior performance improvements in elite cyclists following short-interval vs effort-matched long-interval training.",
+            "authors": "Rønnestad BR, Hansen J, Nygaard H, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2020-05-01",
+            "doi": "10.1111/sms.13627",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31977120/"
+          },
+          {
+            "pmid": "40101160",
+            "title": "A Moderate-Intensity Interval Training Block Improves Endurance Performance in Well-Trained Cyclists.",
+            "authors": "Mølmen KS, Odden I, Sørensen MD, et al.",
+            "source": "Med Sci Sports Exerc",
+            "docType": "citation",
+            "pubDate": "2025-08-01",
+            "doi": "10.1249/MSS.0000000000003706",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40101160/"
+          },
+          {
+            "pmid": "41169000",
+            "title": "Block Training With Moderate- or High-Intensity Intervals Both Improve Endurance Performance in Well-Trained Cyclists.",
+            "authors": "Rønnestad BR, Odden IU, Solum KS, et al.",
+            "source": "Eur J Sport Sci",
+            "docType": "citation",
+            "pubDate": "2025-11-01",
+            "doi": "10.1002/ejsc.70067",
+            "pmcId": "PMC12575440",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12575440/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41169000/"
+          },
+          {
+            "pmid": "24382021",
+            "title": "Short intervals induce superior training adaptations compared with long intervals in cyclists - an effort-matched approach.",
+            "authors": "Rønnestad BR, Hansen J, Vegge G, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2015-04-01",
+            "doi": "10.1111/sms.12165",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24382021/"
+          },
+          {
+            "pmid": "28657821",
+            "title": "A Scientific Approach to Improve Physiological Capacity of an Elite Cyclist.",
+            "authors": "Rønnestad BR, Hansen J",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2018-03-01",
+            "doi": "10.1123/ijspp.2017-0228",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28657821/"
+          },
+          {
+            "pmid": "21812820",
+            "title": "Adaptations to aerobic interval training: interactive effects of exercise intensity and total work duration.",
+            "authors": "Seiler S, Jøranson K, Olesen BV, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2013-02-01",
+            "doi": "10.1111/j.1600-0838.2011.01351.x",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/21812820/"
+          },
+          {
+            "pmid": "22646668",
+            "title": "Block periodization of high-intensity aerobic intervals provides superior training effects in trained cyclists.",
+            "authors": "Rønnestad BR, Hansen J, Ellefsen S",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2014-02-01",
+            "doi": "10.1111/j.1600-0838.2012.01485.x",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/22646668/"
+          },
+          {
+            "pmid": "28051345",
+            "title": "How Does Interval-Training Prescription Affect Physiological and Perceptual Responses?",
+            "authors": "Seiler S, Sylta Ø",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2017-04-01",
+            "doi": "10.1123/ijspp.2016-0464",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28051345/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cyclists%20OR%20cycling)%20AND%20(Seiler%20OR%20Ronnestad%20OR%20R%C3%B8nnestad)%20AND%20(interval%20OR%20intervals)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)%20AND%20hasabstract%5Btext%20word%5D",
+        "totalCount": 36,
+        "effectiveQuery": "(cyclists OR cycling) AND (Seiler OR Ronnestad OR Rønnestad) AND (interval OR intervals) AND (2005[pdat] : 2026/10/22[pdat]) AND hasabstract[text word]",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          },
+          "hasAbstract": true
+        }
+      }
+    },
+    {
+      "id": "distribution",
+      "result": {
+        "query": "\"Which Training Intensity Distribution Intervention\"",
+        "offset": 0,
+        "pmids": [
+          "35418513",
+          "20861519",
+          "16430681",
+          "32627860",
+          "36640771",
+          "39888556",
+          "33952709",
+          "32691879",
+          "36326594",
+          "34792817",
+          "38717713",
+          "31977120"
+        ],
+        "summaries": [
+          {
+            "pmid": "35418513",
+            "title": "Training Periodization, Methods, Intensity Distribution, and Volume in Highly Trained and Elite Distance Runners: A Systematic Review.",
+            "authors": "Casado A, González-Mohíno F, González-Ravé JM, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2022-06-01",
+            "doi": "10.1123/ijspp.2021-0435",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35418513/"
+          },
+          {
+            "pmid": "20861519",
+            "title": "What is best practice for training intensity and duration distribution in endurance athletes?",
+            "authors": "Seiler S",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2010-09-01",
+            "doi": "10.1123/ijspp.5.3.276",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20861519/"
+          },
+          {
+            "pmid": "16430681",
+            "title": "Quantifying training intensity distribution in elite endurance athletes: is there evidence for an \"optimal\" distribution?",
+            "authors": "Seiler KS, Kjerland GØ",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2006-02-01",
+            "doi": "10.1111/j.1600-0838.2004.00418.x",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/16430681/"
+          },
+          {
+            "pmid": "32627860",
+            "title": "Psychological interventions to foster resilience in healthcare professionals.",
+            "authors": "Kunzler AM, Helmreich I, Chmitorz A, et al.",
+            "source": "Cochrane Database Syst Rev",
+            "docType": "citation",
+            "pubDate": "2020-07-05",
+            "doi": "10.1002/14651858.CD012527.pub2",
+            "pmcId": "PMC8121081",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8121081/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/32627860/"
+          },
+          {
+            "pmid": "36640771",
+            "title": "Training Periodization, Intensity Distribution, and Volume in Trained Cyclists: A Systematic Review.",
+            "authors": "Galán-Rioja MÁ, Gonzalez-Ravé JM, González-Mohíno F, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2023-02-01",
+            "doi": "10.1123/ijspp.2022-0302",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36640771/"
+          },
+          {
+            "pmid": "39888556",
+            "title": "Which Training Intensity Distribution Intervention will Produce the Greatest Improvements in Maximal Oxygen Uptake and Time-Trial Performance in Endurance Athletes? A Systematic Review and Network Meta-analysis of Individual Participant Data.",
+            "authors": "Rosenblat MA, Watt JA, Arnold JI, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2025-03-01",
+            "doi": "10.1007/s40279-024-02149-3",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39888556/"
+          },
+          {
+            "pmid": "33952709",
+            "title": "Training Intensity Distribution, Training Volume, and Periodization Models in Elite Swimmers: A Systematic Review.",
+            "authors": "González-Ravé JM, Hermosilla F, González-Mohíno F, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2021-07-01",
+            "doi": "10.1123/ijspp.2020-0906",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33952709/"
+          },
+          {
+            "pmid": "32691879",
+            "title": "Psychological interventions to foster resilience in healthcare students.",
+            "authors": "Kunzler AM, Helmreich I, König J, et al.",
+            "source": "Cochrane Database Syst Rev",
+            "docType": "citation",
+            "pubDate": "2020-07-20",
+            "doi": "10.1002/14651858.CD013684",
+            "pmcId": "PMC7388680",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7388680/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/32691879/"
+          },
+          {
+            "pmid": "36326594",
+            "title": "Effects of plyometric training on different 8-week training intensity distributions in well-trained endurance runners.",
+            "authors": "Filipas L, Bonato M, Maggio A, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2023-03-01",
+            "doi": "10.1111/sms.14257",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36326594/"
+          },
+          {
+            "pmid": "34792817",
+            "title": "Effects of 16 weeks of pyramidal and polarized training intensity distributions in well-trained endurance runners.",
+            "authors": "Filipas L, Bonato M, Gallo G, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2022-03-01",
+            "doi": "10.1111/sms.14101",
+            "pmcId": "PMC9299127",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9299127/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34792817/"
+          },
+          {
+            "pmid": "38717713",
+            "title": "Comparison of Polarized Versus Other Types of Endurance Training Intensity Distribution on Athletes' Endurance Performance: A Systematic Review with Meta-analysis.",
+            "authors": "Silva Oliveira P, Boppre G, Fonseca H",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2024-08-01",
+            "doi": "10.1007/s40279-024-02034-z",
+            "pmcId": "PMC11329428",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11329428/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38717713/"
+          },
+          {
+            "pmid": "31977120",
+            "title": "Superior performance improvements in elite cyclists following short-interval vs effort-matched long-interval training.",
+            "authors": "Rønnestad BR, Hansen J, Nygaard H, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2020-05-01",
+            "doi": "10.1111/sms.13627",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31977120/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=%22Which%20Training%20Intensity%20Distribution%20Intervention%22%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)%20AND%20hasabstract%5Btext%20word%5D",
+        "totalCount": 2987,
+        "effectiveQuery": "\"Which Training Intensity Distribution Intervention\" AND (2005[pdat] : 2026/10/22[pdat]) AND hasabstract[text word]",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          },
+          "hasAbstract": true
+        },
+        "notice": "PubMed matched nothing for `\"Which Training Intensity Distribution Intervention\"`, so that clause contributed no results. Check the spelling, or resolve the term with pubmed_lookup_mesh before filtering on it."
+      }
+    },
+    {
+      "id": "monitoring",
+      "result": {
+        "query": "(cyclists OR cycling) AND (\"heart rate variability\" OR \"subjective\" OR \"functional threshold power\") AND (training OR prescription) AND (randomized OR review)",
+        "offset": 0,
+        "pmids": [
+          "39500542",
+          "27918666",
+          "30337463",
+          "39008618",
+          "19623052",
+          "27409075",
+          "37946447",
+          "37699474",
+          "34275259",
+          "39607733",
+          "31357135",
+          "35817125"
+        ],
+        "summaries": [
+          {
+            "pmid": "39500542",
+            "title": "Impact of postpartum physical activity on maternal depression and anxiety: a systematic review and meta-analysis.",
+            "authors": "Deprato A, Ruchat SM, Ali MU, et al.",
+            "source": "Br J Sports Med",
+            "docType": "citation",
+            "pubDate": "2025-03-31",
+            "doi": "10.1136/bjsports-2024-108478",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39500542/"
+          },
+          {
+            "pmid": "27918666",
+            "title": "Quantification of Training and Competition Loads in Endurance Sports: Methods and Applications.",
+            "authors": "Mujika I",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2017-04-01",
+            "doi": "10.1123/ijspp.2016-0403",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/27918666/"
+          },
+          {
+            "pmid": "30337463",
+            "title": "Prenatal exercise for the prevention of gestational diabetes mellitus and hypertensive disorders of pregnancy: a systematic review and meta-analysis.",
+            "authors": "Davenport MH, Ruchat SM, Poitras VJ, et al.",
+            "source": "Br J Sports Med",
+            "docType": "citation",
+            "pubDate": "2018-11-01",
+            "doi": "10.1136/bjsports-2018-099355",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/30337463/"
+          },
+          {
+            "pmid": "39008618",
+            "title": "High-intensity interval versus moderate-intensity continuous cycling training in Parkinson's disease: a randomized trial.",
+            "authors": "Kathia MM, Duplea SG, Bommarito JC, et al.",
+            "source": "J Appl Physiol (1985)",
+            "docType": "citation",
+            "pubDate": "2024-09-01",
+            "doi": "10.1152/japplphysiol.00219.2024",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39008618/"
+          },
+          {
+            "pmid": "19623052",
+            "title": "Early exercise in critically ill patients enhances short-term functional recovery.",
+            "authors": "Burtin C, Clerckx B, Robbeets C, et al.",
+            "source": "Crit Care Med",
+            "docType": "citation",
+            "pubDate": "2009-09-01",
+            "doi": "10.1097/CCM.0b013e3181a38937",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/19623052/"
+          },
+          {
+            "pmid": "27409075",
+            "title": "Proceedings of the 3rd IPLeiria's International Health Congress : Leiria, Portugal. 6-7 May 2016.",
+            "authors": "Tomás CC, Oliveira E, Sousa D, et al.",
+            "source": "BMC Health Serv Res",
+            "docType": "citation",
+            "pubDate": "2016-07-06",
+            "doi": "10.1186/s12913-016-1423-5",
+            "pmcId": "PMC4943498",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4943498/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/27409075/"
+          },
+          {
+            "pmid": "37946447",
+            "title": "Effects of exercise timing and intensity on physiological circadian rhythm and sleep quality: a systematic review.",
+            "authors": "Kim N, Ka S, Park J",
+            "source": "Phys Act Nutr",
+            "docType": "citation",
+            "pubDate": "2023-09-01",
+            "doi": "10.20463/pan.2023.0029",
+            "pmcId": "PMC10636512",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10636512/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37946447/"
+          },
+          {
+            "pmid": "37699474",
+            "title": "Effect of a Standardized Ginger Root Powder Regimen on Chemotherapy-Induced Nausea and Vomiting: A Multicenter, Double-Blind, Placebo-Controlled Randomized Trial.",
+            "authors": "Crichton M, Marshall S, Isenring E, et al.",
+            "source": "J Acad Nutr Diet",
+            "docType": "citation",
+            "pubDate": "2024-03-01",
+            "doi": "10.1016/j.jand.2023.09.003",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37699474/"
+          },
+          {
+            "pmid": "34275259",
+            "title": "Hemodynamic response to exercise is impaired in individuals with Parkinson's disease.",
+            "authors": "Fernandes B, Barbieri FA, Marçal IR, et al.",
+            "source": "J Sports Med Phys Fitness",
+            "docType": "citation",
+            "pubDate": "2022-03-01",
+            "doi": "10.23736/S0022-4707.21.12111-5",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34275259/"
+          },
+          {
+            "pmid": "39607733",
+            "title": "Sex Differences in Insulin-Induced Hippocampus Functional Connectivity During Visual Food-Cue Presentation.",
+            "authors": "Zhao S, Veit R, Semeia L, et al.",
+            "source": "J Clin Endocrinol Metab",
+            "docType": "citation",
+            "pubDate": "2025-07-15",
+            "doi": "10.1210/clinem/dgae833",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39607733/"
+          },
+          {
+            "pmid": "31357135",
+            "title": "Stress, mood, and cortisol during daily life in women with Premenstrual Dysphoric Disorder (PMDD).",
+            "authors": "Beddig T, Reinhard I, Kuehner C",
+            "source": "Psychoneuroendocrinology",
+            "docType": "citation",
+            "pubDate": "2019-11-01",
+            "doi": "10.1016/j.psyneuen.2019.104372",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31357135/"
+          },
+          {
+            "pmid": "35817125",
+            "title": "Acute appetite and eating behaviour responses to apparatus-free, high-intensity intermittent exercise in inactive women with excess weight.",
+            "authors": "Burgin A, Blannin AK, Peters DM, et al.",
+            "source": "Physiol Behav",
+            "docType": "citation",
+            "pubDate": "2022-10-01",
+            "doi": "10.1016/j.physbeh.2022.113906",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35817125/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cyclists%20OR%20cycling)%20AND%20(%22heart%20rate%20variability%22%20OR%20%22subjective%22%20OR%20%22functional%20threshold%20power%22)%20AND%20(training%20OR%20prescription)%20AND%20(randomized%20OR%20review)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)%20AND%20hasabstract%5Btext%20word%5D",
+        "totalCount": 281,
+        "effectiveQuery": "(cyclists OR cycling) AND (\"heart rate variability\" OR \"subjective\" OR \"functional threshold power\") AND (training OR prescription) AND (randomized OR review) AND (2005[pdat] : 2026/10/22[pdat]) AND hasabstract[text word]",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          },
+          "hasAbstract": true
+        }
+      }
+    },
+    {
+      "id": "progression",
+      "result": {
+        "query": "(cyclists OR cycling) AND (periodization OR periodisation OR \"training frequency\") AND (review OR randomized)",
+        "offset": 0,
+        "pmids": [
+          "27748956",
+          "23539308",
+          "20199119",
+          "31035719",
+          "40781883",
+          "34757594",
+          "33198277",
+          "36640771",
+          "35476184",
+          "36199287",
+          "33952709",
+          "41130458"
+        ],
+        "summaries": [
+          {
+            "pmid": "27748956",
+            "title": "Physiological adaptations to interval training and the role of exercise intensity.",
+            "authors": "MacInnis MJ, Gibala MJ",
+            "source": "J Physiol",
+            "docType": "citation",
+            "pubDate": "2017-05-01",
+            "doi": "10.1113/JP273196",
+            "pmcId": "PMC5407969",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5407969/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/27748956/"
+          },
+          {
+            "pmid": "23539308",
+            "title": "High-intensity interval training, solutions to the programming puzzle: Part I: cardiopulmonary emphasis.",
+            "authors": "Buchheit M, Laursen PB",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2013-05-01",
+            "doi": "10.1007/s40279-013-0029-x",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23539308/"
+          },
+          {
+            "pmid": "20199119",
+            "title": "New horizons for the methodology and physiology of training periodization.",
+            "authors": "Issurin VB",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2010-03-01",
+            "doi": "10.2165/11319770-000000000-00000",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20199119/"
+          },
+          {
+            "pmid": "31035719",
+            "title": "Training and Competition Readiness in Triathlon.",
+            "authors": "Etxebarria N, Mujika I, Pyne DB",
+            "source": "Sports (Basel)",
+            "docType": "citation",
+            "pubDate": "2019-04-29",
+            "doi": "10.3390/sports7050101",
+            "pmcId": "PMC6571715",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6571715/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31035719/"
+          },
+          {
+            "pmid": "40781883",
+            "title": "Consensus Statements-Optimizing Performance of the Elite Athlete.",
+            "authors": "Bangsbo J, Hostrup M, Hellsten Y, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2025-08-01",
+            "doi": "10.1111/sms.70112",
+            "pmcId": "PMC12334928",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12334928/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40781883/"
+          },
+          {
+            "pmid": "34757594",
+            "title": "Compatibility of Concurrent Aerobic and Strength Training for Skeletal Muscle Size and Function: An Updated Systematic Review and Meta-Analysis.",
+            "authors": "Schumann M, Feuerbacher JF, Sünkeler M, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2022-03-01",
+            "doi": "10.1007/s40279-021-01587-7",
+            "pmcId": "PMC8891239",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8891239/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34757594/"
+          },
+          {
+            "pmid": "33198277",
+            "title": "What Should I Eat before Exercise? Pre-Exercise Nutrition and the Response to Endurance Exercise: Current Prospective and Future Directions.",
+            "authors": "Rothschild JA, Kilding AE, Plews DJ",
+            "source": "Nutrients",
+            "docType": "citation",
+            "pubDate": "2020-11-12",
+            "doi": "10.3390/nu12113473",
+            "pmcId": "PMC7696145",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7696145/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33198277/"
+          },
+          {
+            "pmid": "36640771",
+            "title": "Training Periodization, Intensity Distribution, and Volume in Trained Cyclists: A Systematic Review.",
+            "authors": "Galán-Rioja MÁ, Gonzalez-Ravé JM, González-Mohíno F, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2023-02-01",
+            "doi": "10.1123/ijspp.2022-0302",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36640771/"
+          },
+          {
+            "pmid": "35476184",
+            "title": "The Effects of Concurrent Aerobic and Strength Training on Muscle Fiber Hypertrophy: A Systematic Review and Meta-Analysis.",
+            "authors": "Lundberg TR, Feuerbacher JF, Sünkeler M, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2022-10-01",
+            "doi": "10.1007/s40279-022-01688-x",
+            "pmcId": "PMC9474354",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9474354/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35476184/"
+          },
+          {
+            "pmid": "36199287",
+            "title": "Progressive overload without progressing load? The effects of load or repetition progression on muscular adaptations.",
+            "authors": "Plotkin D, Coleman M, Van Every D, et al.",
+            "source": "PeerJ",
+            "docType": "citation",
+            "pubDate": "2022-01-01",
+            "doi": "10.7717/peerj.14142",
+            "pmcId": "PMC9528903",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9528903/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36199287/"
+          },
+          {
+            "pmid": "33952709",
+            "title": "Training Intensity Distribution, Training Volume, and Periodization Models in Elite Swimmers: A Systematic Review.",
+            "authors": "González-Ravé JM, Hermosilla F, González-Mohíno F, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2021-07-01",
+            "doi": "10.1123/ijspp.2020-0906",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33952709/"
+          },
+          {
+            "pmid": "41130458",
+            "title": "UCI Sports Nutrition Project: Nutritional Periodization: Strategies to Enhance Training Adaptation and Recovery.",
+            "authors": "Morton JP, Hearris M, Fell MJ, et al.",
+            "source": "Int J Sport Nutr Exerc Metab",
+            "docType": "citation",
+            "pubDate": "2026-05-01",
+            "doi": "10.1123/ijsnem.2025-0073",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41130458/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cyclists%20OR%20cycling)%20AND%20(periodization%20OR%20periodisation%20OR%20%22training%20frequency%22)%20AND%20(review%20OR%20randomized)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)%20AND%20hasabstract%5Btext%20word%5D",
+        "totalCount": 107,
+        "effectiveQuery": "(cyclists OR cycling) AND (periodization OR periodisation OR \"training frequency\") AND (review OR randomized) AND (2005[pdat] : 2026/10/22[pdat]) AND hasabstract[text word]",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          },
+          "hasAbstract": true
+        }
+      }
+    },
+    {
+      "id": "polarized-cyclists",
+      "result": {
+        "query": "(cycling[Title/Abstract] OR cyclists[Title/Abstract]) AND (polarized[Title/Abstract] OR polarised[Title/Abstract])",
+        "offset": 0,
+        "pmids": [
+          "24550842",
+          "29117122",
+          "27786436",
+          "35447863",
+          "33885390",
+          "35432339",
+          "36640771",
+          "35725433"
+        ],
+        "summaries": [
+          {
+            "pmid": "24550842",
+            "title": "Polarized training has greater impact on key endurance variables than threshold, high intensity, or high volume training.",
+            "authors": "Stöggl T, Sperlich B",
+            "source": "Front Physiol",
+            "docType": "citation",
+            "pubDate": "2014-01-01",
+            "doi": "10.3389/fphys.2014.00033",
+            "pmcId": "PMC3912323",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3912323/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24550842/"
+          },
+          {
+            "pmid": "29117122",
+            "title": "ABC Transporters in Cancer Stem Cells: Beyond Chemoresistance.",
+            "authors": "Begicevic RR, Falasca M",
+            "source": "Int J Mol Sci",
+            "docType": "citation",
+            "pubDate": "2017-11-08",
+            "doi": "10.3390/ijms18112362",
+            "pmcId": "PMC5713331",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5713331/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/29117122/"
+          },
+          {
+            "pmid": "27786436",
+            "title": "Shape Memory Cellulose-Based Photonic Reflectors.",
+            "authors": "Espinha A, Guidetti G, Serrano MC, et al.",
+            "source": "ACS Appl Mater Interfaces",
+            "docType": "citation",
+            "pubDate": "2016-11-23",
+            "doi": "10.1021/acsami.6b10611",
+            "pmcId": "PMC5495156",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5495156/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/27786436/"
+          },
+          {
+            "pmid": "35447863",
+            "title": "Effect of Two Different Training Interventions on Cycling Performance in Mountain Bike Cross-Country Olympic Athletes.",
+            "authors": "Schneeweiss P, Schellhorn P, Haigis D, et al.",
+            "source": "Sports (Basel)",
+            "docType": "citation",
+            "pubDate": "2022-04-01",
+            "doi": "10.3390/sports10040053",
+            "pmcId": "PMC9031322",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9031322/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35447863/"
+          },
+          {
+            "pmid": "33885390",
+            "title": "Remineralization efficacy of nonfluoride versus herbal-based pediatric dentifrice in demineralized primary teeth.",
+            "authors": "Ranjana BS, Chowdhary N, Kiran NK, et al.",
+            "source": "J Indian Soc Pedod Prev Dent",
+            "docType": "citation",
+            "pubDate": "2021-01-01",
+            "doi": "10.4103/jisppd.jisppd_62_21",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33885390/"
+          },
+          {
+            "pmid": "35432339",
+            "title": "Chronically Elevated O-GlcNAcylation Limits Nitric Oxide Production and Deregulates Specific Pro-Inflammatory Cytokines.",
+            "authors": "Abramowitz LK, Hanover JA",
+            "source": "Front Immunol",
+            "docType": "citation",
+            "pubDate": "2022-01-01",
+            "doi": "10.3389/fimmu.2022.802336",
+            "pmcId": "PMC9010940",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9010940/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35432339/"
+          },
+          {
+            "pmid": "36640771",
+            "title": "Training Periodization, Intensity Distribution, and Volume in Trained Cyclists: A Systematic Review.",
+            "authors": "Galán-Rioja MÁ, Gonzalez-Ravé JM, González-Mohíno F, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2023-02-01",
+            "doi": "10.1123/ijspp.2022-0302",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36640771/"
+          },
+          {
+            "pmid": "35725433",
+            "title": "Preventive potential of nano silver fluoride versus sodium fluoride varnish on enamel caries like lesions in primary teeth: in vitro study.",
+            "authors": "El-Desouky DI, Hanno A, Elhamouly Y, et al.",
+            "source": "BMC Oral Health",
+            "docType": "citation",
+            "pubDate": "2022-06-20",
+            "doi": "10.1186/s12903-022-02271-6",
+            "pmcId": "PMC9208095",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9208095/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35725433/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cycling%5BTitle%2FAbstract%5D%20OR%20cyclists%5BTitle%2FAbstract%5D)%20AND%20(polarized%5BTitle%2FAbstract%5D%20OR%20polarised%5BTitle%2FAbstract%5D)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)",
+        "totalCount": 311,
+        "effectiveQuery": "(cycling[Title/Abstract] OR cyclists[Title/Abstract]) AND (polarized[Title/Abstract] OR polarised[Title/Abstract]) AND (2005[pdat] : 2026/10/22[pdat])",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          }
+        }
+      }
+    },
+    {
+      "id": "practical-hiit",
+      "result": {
+        "query": "(cycling[Title/Abstract] OR cyclists[Title/Abstract]) AND (\"time-efficient\"[Title/Abstract] OR \"low-volume\"[Title/Abstract]) AND (training[Title/Abstract])",
+        "offset": 0,
+        "pmids": [
+          "28401638",
+          "28855969",
+          "41368564",
+          "38569204",
+          "26575622",
+          "29127602",
+          "35071605",
+          "39003682"
+        ],
+        "summaries": [
+          {
+            "pmid": "28401638",
+            "title": "The effects of high-intensity interval training vs. moderate-intensity continuous training on body composition in overweight and obese adults: a systematic review and meta-analysis.",
+            "authors": "Wewege M, van den Berg R, Ward RE, et al.",
+            "source": "Obes Rev",
+            "docType": "citation",
+            "pubDate": "2017-06-01",
+            "doi": "10.1111/obr.12532",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28401638/"
+          },
+          {
+            "pmid": "28855969",
+            "title": "Development of low-volume, high-intensity, aerobic-type interval training for elderly Japanese men: a feasibility study.",
+            "authors": "Osuka Y, Matsubara M, Hamasaki A, et al.",
+            "source": "Eur Rev Aging Phys Act",
+            "docType": "citation",
+            "pubDate": "2017-01-01",
+            "doi": "10.1186/s11556-017-0184-4",
+            "pmcId": "PMC5571578",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5571578/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28855969/"
+          },
+          {
+            "pmid": "41368564",
+            "title": "The Effect of High-Intensity Interval Training on Visceral Adipose Tissue in Type 2 Diabetes: A Systematic Review.",
+            "authors": "Delgado ID, Delgado JC, Burns RD",
+            "source": "Int J Exerc Sci",
+            "docType": "citation",
+            "pubDate": "2025-01-01",
+            "doi": "10.70252/YEUF2363",
+            "pmcId": "PMC12684977",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12684977/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41368564/"
+          },
+          {
+            "pmid": "38569204",
+            "title": "Exercise snacks are a time-efficient alternative to moderate-intensity continuous training for improving cardiorespiratory fitness but not maximal fat oxidation in inactive adults: a randomized controlled trial.",
+            "authors": "Yin M, Deng S, Chen Z, et al.",
+            "source": "Appl Physiol Nutr Metab",
+            "docType": "citation",
+            "pubDate": "2024-07-01",
+            "doi": "10.1139/apnm-2023-0593",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38569204/"
+          },
+          {
+            "pmid": "26575622",
+            "title": "Ryanodine receptor fragmentation and sarcoplasmic reticulum Ca2+ leak after one session of high-intensity interval exercise.",
+            "authors": "Place N, Ivarsson N, Venckunas T, et al.",
+            "source": "Proc Natl Acad Sci U S A",
+            "docType": "citation",
+            "pubDate": "2015-12-15",
+            "doi": "10.1073/pnas.1507176112",
+            "pmcId": "PMC4687604",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4687604/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/26575622/"
+          },
+          {
+            "pmid": "29127602",
+            "title": "Effect of High-Intensity Interval Training on Total, Abdominal and Visceral Fat Mass: A Meta-Analysis.",
+            "authors": "Maillard F, Pereira B, Boisseau N",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2018-02-01",
+            "doi": "10.1007/s40279-017-0807-y",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/29127602/"
+          },
+          {
+            "pmid": "35071605",
+            "title": "A Comparative Study of Health Efficacy Indicators in Subjects with T2DM Applying Power Cycling to 12 Weeks of Low-Volume High-Intensity Interval Training and Moderate-Intensity Continuous Training.",
+            "authors": "Li J, Cheng W, Ma H",
+            "source": "J Diabetes Res",
+            "docType": "citation",
+            "pubDate": "2022-01-01",
+            "doi": "10.1155/2022/9273830",
+            "pmcId": "PMC8776485",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8776485/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35071605/"
+          },
+          {
+            "pmid": "39003682",
+            "title": "Efficacy of Interval Training in Improving Body Composition and Adiposity in Apparently Healthy Adults: An Umbrella Review with Meta-Analysis.",
+            "authors": "Poon ET, Li HY, Little JP, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2024-11-01",
+            "doi": "10.1007/s40279-024-02070-9",
+            "pmcId": "PMC11560999",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11560999/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39003682/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cycling%5BTitle%2FAbstract%5D%20OR%20cyclists%5BTitle%2FAbstract%5D)%20AND%20(%22time-efficient%22%5BTitle%2FAbstract%5D%20OR%20%22low-volume%22%5BTitle%2FAbstract%5D)%20AND%20(training%5BTitle%2FAbstract%5D)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)",
+        "totalCount": 136,
+        "effectiveQuery": "(cycling[Title/Abstract] OR cyclists[Title/Abstract]) AND (\"time-efficient\"[Title/Abstract] OR \"low-volume\"[Title/Abstract]) AND (training[Title/Abstract]) AND (2005[pdat] : 2026/10/22[pdat])",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          }
+        }
+      }
+    },
+    {
+      "id": "nutrition",
+      "result": {
+        "query": "(cycling OR cyclists) AND carbohydrate AND (training OR endurance) AND (review[Publication Type] OR meta-analysis[Publication Type])",
+        "offset": 0,
+        "pmids": [
+          "37752011",
+          "37096381",
+          "37221858",
+          "40221559",
+          "38994896",
+          "34015236",
+          "28622506",
+          "34503527"
+        ],
+        "summaries": [
+          {
+            "pmid": "37752011",
+            "title": "2023 International Olympic Committee's (IOC) consensus statement on Relative Energy Deficiency in Sport (REDs).",
+            "authors": "Mountjoy M, Ackerman KE, Bailey DM, et al.",
+            "source": "Br J Sports Med",
+            "docType": "citation",
+            "pubDate": "2023-09-01",
+            "doi": "10.1136/bjsports-2023-106994",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37752011/"
+          },
+          {
+            "pmid": "37096381",
+            "title": "Creatine supplementation and endurance performance: surges and sprints to win the race.",
+            "authors": "Forbes SC, Candow DG, Neto JHF, et al.",
+            "source": "J Int Soc Sports Nutr",
+            "docType": "citation",
+            "pubDate": "2023-12-01",
+            "doi": "10.1080/15502783.2023.2204071",
+            "pmcId": "PMC10132248",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10132248/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37096381/"
+          },
+          {
+            "pmid": "37221858",
+            "title": "International society of sports nutrition position stand: nutritional concerns of the female athlete.",
+            "authors": "Sims ST, Kerksick CM, Smith-Ryan AE, et al.",
+            "source": "J Int Soc Sports Nutr",
+            "docType": "citation",
+            "pubDate": "2023-12-01",
+            "doi": "10.1080/15502783.2023.2204066",
+            "pmcId": "PMC10210857",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10210857/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37221858/"
+          },
+          {
+            "pmid": "40221559",
+            "title": "Nutritional Strategies to Improve Post-exercise Recovery and Subsequent Exercise Performance: A Narrative Review.",
+            "authors": "Naderi A, Rothschild JA, Santos HO, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2025-07-01",
+            "doi": "10.1007/s40279-025-02213-6",
+            "pmcId": "PMC12297025",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12297025/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40221559/"
+          },
+          {
+            "pmid": "38994896",
+            "title": "Nutritional Strategies for Optimizing Health, Sports Performance, and Recovery for Female Athletes and Other Physically Active Women: A Systematic Review.",
+            "authors": "Larrosa M, Gil-Izquierdo A, González-Rodríguez LG, et al.",
+            "source": "Nutr Rev",
+            "docType": "citation",
+            "pubDate": "2025-03-01",
+            "doi": "10.1093/nutrit/nuae082",
+            "pmcId": "PMC11819490",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11819490/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38994896/"
+          },
+          {
+            "pmid": "34015236",
+            "title": "Fuelling the female athlete: Carbohydrate and protein recommendations.",
+            "authors": "Moore DR, Sygo J, Morton JP",
+            "source": "Eur J Sport Sci",
+            "docType": "citation",
+            "pubDate": "2022-05-01",
+            "doi": "10.1080/17461391.2021.1922508",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34015236/"
+          },
+          {
+            "pmid": "28622506",
+            "title": "Dynamic RNA Modifications in Gene Expression Regulation.",
+            "authors": "Roundtree IA, Evans ME, Pan T, et al.",
+            "source": "Cell",
+            "docType": "citation",
+            "pubDate": "2017-06-15",
+            "doi": "10.1016/j.cell.2017.05.045",
+            "pmcId": "PMC5657247",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5657247/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/28622506/"
+          },
+          {
+            "pmid": "34503527",
+            "title": "International Society of Sports Nutrition position stand: sodium bicarbonate and exercise performance.",
+            "authors": "Grgic J, Pedisic Z, Saunders B, et al.",
+            "source": "J Int Soc Sports Nutr",
+            "docType": "citation",
+            "pubDate": "2021-09-09",
+            "doi": "10.1186/s12970-021-00458-w",
+            "pmcId": "PMC8427947",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8427947/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34503527/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(cycling%20OR%20cyclists)%20AND%20carbohydrate%20AND%20(training%20OR%20endurance)%20AND%20(review%5BPublication%20Type%5D%20OR%20meta-analysis%5BPublication%20Type%5D)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)",
+        "totalCount": 276,
+        "effectiveQuery": "(cycling OR cyclists) AND carbohydrate AND (training OR endurance) AND (review[Publication Type] OR meta-analysis[Publication Type]) AND (2005[pdat] : 2026/10/22[pdat])",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          }
+        }
+      }
+    },
+    {
+      "id": "strength",
+      "result": {
+        "query": "cyclists AND strength training AND (systematic review OR meta-analysis)",
+        "offset": 0,
+        "pmids": [
+          "37603200",
+          "40632222",
+          "37369364",
+          "27575954",
+          "34360206",
+          "20072042",
+          "40613880"
+        ],
+        "summaries": [
+          {
+            "pmid": "37603200",
+            "title": "Effect of Soy Protein Supplementation on Muscle Adaptations, Metabolic and Antioxidant Status, Hormonal Response, and Exercise Performance of Active Individuals and Athletes: A Systematic Review of Randomised Controlled Trials.",
+            "authors": "Zare R, Devrim-Lanpir A, Guazzotti S, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2023-12-01",
+            "doi": "10.1007/s40279-023-01899-w",
+            "pmcId": "PMC10687132",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10687132/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37603200/"
+          },
+          {
+            "pmid": "40632222",
+            "title": "Heavy strength training effects on physiological determinants of endurance cyclist performance: a systematic review with meta-analysis.",
+            "authors": "Llanos-Lagos C, Ramirez-Campillo R, Sáez de Villarreal E",
+            "source": "Eur J Appl Physiol",
+            "docType": "citation",
+            "pubDate": "2026-01-01",
+            "doi": "10.1007/s00421-025-05883-2",
+            "pmcId": "PMC12881108",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12881108/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40632222/"
+          },
+          {
+            "pmid": "37369364",
+            "title": "Training Characteristics and Competitive Demands in Women Road Cyclists: A Systematic Review.",
+            "authors": "Herrero-Molleda A, Álvarez-Álvarez MJ, Floría P, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2023-08-01",
+            "doi": "10.1123/ijspp.2023-0038",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37369364/"
+          },
+          {
+            "pmid": "27575954",
+            "title": "Cost-effectiveness of interventions to prevent road traffic injuries in low- and middle-income countries: A literature review.",
+            "authors": "Banstola A, Mytton J",
+            "source": "Traffic Inj Prev",
+            "docType": "citation",
+            "pubDate": "2017-05-19",
+            "doi": "10.1080/15389588.2016.1212165",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/27575954/"
+          },
+          {
+            "pmid": "34360206",
+            "title": "Effect of Cycling Cadence on Neuromuscular Function: A Systematic Review of Acute and Chronic Alterations.",
+            "authors": "Mater A, Clos P, Lepers R",
+            "source": "Int J Environ Res Public Health",
+            "docType": "citation",
+            "pubDate": "2021-07-26",
+            "doi": "10.3390/ijerph18157912",
+            "pmcId": "PMC8345521",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8345521/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/34360206/"
+          },
+          {
+            "pmid": "20072042",
+            "title": "The effects of resistance training on road cycling performance among highly trained cyclists: a systematic review.",
+            "authors": "Yamamoto LM, Klau JF, Casa DJ, et al.",
+            "source": "J Strength Cond Res",
+            "docType": "citation",
+            "pubDate": "2010-02-01",
+            "doi": "10.1519/JSC.0b013e3181c86583",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20072042/"
+          },
+          {
+            "pmid": "40613880",
+            "title": "Is intensity the most important factor in determining the amount of prior work accumulated that affects cyclists' acute durability? A systematic review.",
+            "authors": "Sánchez-Jiménez JL, Salas-Montoro JA, Mateo-March M, et al.",
+            "source": "Eur J Appl Physiol",
+            "docType": "citation",
+            "pubDate": "2026-01-01",
+            "doi": "10.1007/s00421-025-05885-0",
+            "pmcId": "PMC12881052",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12881052/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40613880/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=cyclists%20AND%20strength%20training%20AND%20(systematic%20review%20OR%20meta-analysis)%20AND%20(2005%5Bpdat%5D%20%3A%202026%2F10%2F22%5Bpdat%5D)",
+        "totalCount": 7,
+        "effectiveQuery": "cyclists AND strength training AND (systematic review OR meta-analysis) AND (2005[pdat] : 2026/10/22[pdat])",
+        "appliedFilters": {
+          "dateRange": {
+            "minDate": "2005",
+            "maxDate": "2026/10/22",
+            "dateType": "pdat"
+          }
+        }
+      }
+    },
+    {
+      "id": "low-volume-primary",
+      "result": {
+        "query": "\"A practical model of low-volume high-intensity interval training\"",
+        "offset": 0,
+        "pmids": [
+          "35858638",
+          "20100740",
+          "24150635",
+          "24743927",
+          "24552392"
+        ],
+        "summaries": [
+          {
+            "pmid": "35858638",
+            "title": "Six Sessions of Low-volume High-intensity Interval Exercise Improves Resting Fat Oxidation.",
+            "authors": "Atakan MM, Koşar ŞN, Turnagöl HH",
+            "source": "Int J Sports Med",
+            "docType": "citation",
+            "pubDate": "2022-12-01",
+            "doi": "10.1055/a-1905-7985",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35858638/"
+          },
+          {
+            "pmid": "20100740",
+            "title": "A practical model of low-volume high-intensity interval training induces mitochondrial biogenesis in human skeletal muscle: potential mechanisms.",
+            "authors": "Little JP, Safdar A, Wilkin GP, et al.",
+            "source": "J Physiol",
+            "docType": "citation",
+            "pubDate": "2010-03-15",
+            "doi": "10.1113/jphysiol.2009.181743",
+            "pmcId": "PMC2849965",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2849965/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20100740/"
+          },
+          {
+            "pmid": "24150635",
+            "title": "A practical model of low-volume high-intensity interval training induces performance and metabolic adaptations that resemble 'all-out' sprint interval training.",
+            "authors": "Bayati M, Farzad B, Gharakhanlou R, et al.",
+            "source": "J Sports Sci Med",
+            "docType": "citation",
+            "pubDate": "2011-01-01",
+            "pmcId": "PMC3737829",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3737829/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24150635/"
+          },
+          {
+            "pmid": "24743927",
+            "title": "Effects of low-volume high-intensity interval training (HIT) on fitness in adults: a meta-analysis of controlled and non-controlled trials.",
+            "authors": "Weston M, Taylor KL, Batterham AM, et al.",
+            "source": "Sports Med",
+            "docType": "citation",
+            "pubDate": "2014-07-01",
+            "doi": "10.1007/s40279-014-0180-z",
+            "pmcId": "PMC4072920",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4072920/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24743927/"
+          },
+          {
+            "pmid": "24552392",
+            "title": "Is high-intensity interval training a time-efficient exercise strategy to improve health and fitness?",
+            "authors": "Gillen JB, Gibala MJ",
+            "source": "Appl Physiol Nutr Metab",
+            "docType": "citation",
+            "pubDate": "2014-03-01",
+            "doi": "10.1139/apnm-2013-0187",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24552392/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=%22A%20practical%20model%20of%20low-volume%20high-intensity%20interval%20training%22",
+        "totalCount": 10,
+        "effectiveQuery": "\"A practical model of low-volume high-intensity interval training\"",
+        "appliedFilters": {},
+        "notice": "PubMed matched nothing for `\"A practical model of low-volume high-intensity interval training\"`, so that clause contributed no results. Check the spelling, or resolve the term with pubmed_lookup_mesh before filtering on it."
+      }
+    },
+    {
+      "id": "polarized-primary",
+      "result": {
+        "query": "\"Six weeks of a polarized training-intensity distribution\"",
+        "offset": 0,
+        "pmids": [
+          "23899754",
+          "39619091",
+          "23264537",
+          "33281607",
+          "20840557"
+        ],
+        "summaries": [
+          {
+            "pmid": "23899754",
+            "title": "Physiological and performance adaptations to high-intensity interval training.",
+            "authors": "Gibala MJ, Jones AM",
+            "source": "Nestle Nutr Inst Workshop Ser",
+            "docType": "citation",
+            "pubDate": "2013-01-01",
+            "doi": "10.1159/000350256",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23899754/"
+          },
+          {
+            "pmid": "39619091",
+            "title": "Six weeks of polarized functional interval training with large training load reductions does not affect performance gains compared to traditional workouts.",
+            "authors": "Held S, Isenmann E, Rappelt L, et al.",
+            "source": "Front Physiol",
+            "docType": "citation",
+            "pubDate": "2024-01-01",
+            "doi": "10.3389/fphys.2024.1446837",
+            "pmcId": "PMC11604715",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11604715/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/39619091/"
+          },
+          {
+            "pmid": "23264537",
+            "title": "Six weeks of a polarized training-intensity distribution leads to greater physiological and performance adaptations than a threshold model in trained cyclists.",
+            "authors": "Neal CM, Hunter AM, Brennan L, et al.",
+            "source": "J Appl Physiol (1985)",
+            "docType": "citation",
+            "pubDate": "2013-02-15",
+            "doi": "10.1152/japplphysiol.00652.2012",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23264537/"
+          },
+          {
+            "pmid": "33281607",
+            "title": "Six Weeks of Polarized Versus Moderate Intensity Distribution: A Pilot Intervention Study.",
+            "authors": "Röhrken G, Held S, Donath L",
+            "source": "Front Physiol",
+            "docType": "citation",
+            "pubDate": "2020-01-01",
+            "doi": "10.3389/fphys.2020.534688",
+            "pmcId": "PMC7689383",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7689383/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/33281607/"
+          },
+          {
+            "pmid": "20840557",
+            "title": "Training for intense exercise performance: high-intensity or high-volume training?",
+            "authors": "Laursen PB",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2010-10-01",
+            "doi": "10.1111/j.1600-0838.2010.01184.x",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20840557/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=%22Six%20weeks%20of%20a%20polarized%20training-intensity%20distribution%22",
+        "totalCount": 5,
+        "effectiveQuery": "\"Six weeks of a polarized training-intensity distribution\"",
+        "appliedFilters": {},
+        "notice": "PubMed matched nothing for `\"Six weeks of a polarized training-intensity distribution\"`, so that clause contributed no results. Check the spelling, or resolve the term with pubmed_lookup_mesh before filtering on it."
+      }
+    },
+    {
+      "id": "hrv-primary",
+      "result": {
+        "query": "Javaloyes AND cyclists AND heart rate variability",
+        "offset": 0,
+        "pmids": [
+          "31490431",
+          "38198009",
+          "35238695",
+          "29809080",
+          "41126460"
+        ],
+        "summaries": [
+          {
+            "pmid": "31490431",
+            "title": "Training Prescription Guided by Heart Rate Variability Vs. Block Periodization in Well-Trained Cyclists.",
+            "authors": "Javaloyes A, Sarabia JM, Lamberts RP, et al.",
+            "source": "J Strength Cond Res",
+            "docType": "citation",
+            "pubDate": "2020-06-01",
+            "doi": "10.1519/JSC.0000000000003337",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31490431/"
+          },
+          {
+            "pmid": "38198009",
+            "title": "Reliability of recovery heart rate variability measurements as part of the Lamberts Submaximal Cycle Test and the relationship with training status in trained to elite cyclists.",
+            "authors": "Lamberts RP, van Erp T, Javaloyes A, et al.",
+            "source": "Eur J Appl Physiol",
+            "docType": "citation",
+            "pubDate": "2024-06-01",
+            "doi": "10.1007/s00421-023-05385-z",
+            "pmcId": "PMC11130066",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11130066/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38198009/"
+          },
+          {
+            "pmid": "35238695",
+            "title": "Validity of detrended fluctuation analysis of heart rate variability to determine intensity thresholds in elite cyclists.",
+            "authors": "Mateo-March M, Moya-Ramón M, Javaloyes A, et al.",
+            "source": "Eur J Sport Sci",
+            "docType": "citation",
+            "pubDate": "2023-04-01",
+            "doi": "10.1080/17461391.2022.2047228",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/35238695/"
+          },
+          {
+            "pmid": "29809080",
+            "title": "Training Prescription Guided by Heart-Rate Variability in Cycling.",
+            "authors": "Javaloyes A, Sarabia JM, Lamberts RP, et al.",
+            "source": "Int J Sports Physiol Perform",
+            "docType": "citation",
+            "pubDate": "2019-01-01",
+            "doi": "10.1123/ijspp.2018-0122",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/29809080/"
+          },
+          {
+            "pmid": "41126460",
+            "title": "Training Strategies of World Tour Cyclists: Periodization and Load Distribution Across a Competitive Season.",
+            "authors": "Mateo-March M, Peña-González I, Moya-Ramón M, et al.",
+            "source": "Scand J Med Sci Sports",
+            "docType": "citation",
+            "pubDate": "2025-11-01",
+            "doi": "10.1111/sms.70153",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41126460/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=Javaloyes%20AND%20cyclists%20AND%20heart%20rate%20variability",
+        "totalCount": 7,
+        "effectiveQuery": "Javaloyes AND cyclists AND heart rate variability",
+        "appliedFilters": {}
+      }
+    },
+    {
+      "id": "ftp-primary",
+      "result": {
+        "query": "\"functional threshold power\" AND validity",
+        "offset": 0,
+        "pmids": [
+          "31581544",
+          "29801189",
+          "37113513",
+          "36803419",
+          "31952081"
+        ],
+        "summaries": [
+          {
+            "pmid": "31581544",
+            "title": "The Validity of Functional Threshold Power and Maximal Oxygen Uptake for Cycling Performance in Moderately Trained Cyclists.",
+            "authors": "Sørensen A, Aune TK, Rangul V, et al.",
+            "source": "Sports (Basel)",
+            "docType": "citation",
+            "pubDate": "2019-10-01",
+            "doi": "10.3390/sports7100217",
+            "pmcId": "PMC6835290",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6835290/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31581544/"
+          },
+          {
+            "pmid": "29801189",
+            "title": "Functional Threshold Power in Cyclists: Validity of the Concept and Physiological Responses.",
+            "authors": "Borszcz FK, Tramontin AF, Bossi AH, et al.",
+            "source": "Int J Sports Med",
+            "docType": "citation",
+            "pubDate": "2018-10-01",
+            "doi": "10.1055/s-0044-101546",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/29801189/"
+          },
+          {
+            "pmid": "37113513",
+            "title": "Prediction of Rowing Functional Threshold Power Using Body Mass, Blood Lactate and GxT Peak Power Data.",
+            "authors": "McGRATH E, Mahony N, Fleming N, et al.",
+            "source": "Int J Exerc Sci",
+            "docType": "citation",
+            "pubDate": "2023-01-01",
+            "doi": "10.70252/YKMT7335",
+            "pmcId": "PMC10124727",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10124727/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/37113513/"
+          },
+          {
+            "pmid": "36803419",
+            "title": "Functional threshold power is not a valid marker of the maximal metabolic steady state.",
+            "authors": "Wong S, Burnley M, Mauger A, et al.",
+            "source": "J Sports Sci",
+            "docType": "citation",
+            "pubDate": "2022-12-01",
+            "doi": "10.1080/02640414.2023.2176045",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36803419/"
+          },
+          {
+            "pmid": "31952081",
+            "title": "Reliability of the Functional Threshold Power in Competitive Cyclists.",
+            "authors": "Klitzke Borszcz F, Tramontin AF, Costa VP",
+            "source": "Int J Sports Med",
+            "docType": "citation",
+            "pubDate": "2020-03-01",
+            "doi": "10.1055/a-1018-1965",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31952081/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=%22functional%20threshold%20power%22%20AND%20validity",
+        "totalCount": 16,
+        "effectiveQuery": "\"functional threshold power\" AND validity",
+        "appliedFilters": {}
+      }
+    },
+    {
+      "id": "Neal-erratum-followup",
+      "result": {
+        "query": "(\"J Appl Physiol (1985)\"[Journal] AND 2013[dp] AND 1490[page]) OR (\"Six weeks of a polarized\"[Title] AND (erratum[Title] OR correction[Title]))",
+        "offset": 0,
+        "pmids": [],
+        "summaries": [],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=(%22J%20Appl%20Physiol%20(1985)%22%5BJournal%5D%20AND%202013%5Bdp%5D%20AND%201490%5Bpage%5D)%20OR%20(%22Six%20weeks%20of%20a%20polarized%22%5BTitle%5D%20AND%20(erratum%5BTitle%5D%20OR%20correction%5BTitle%5D))",
+        "totalCount": 0,
+        "effectiveQuery": "(\"J Appl Physiol (1985)\"[Journal] AND 2013[dp] AND 1490[page]) OR (\"Six weeks of a polarized\"[Title] AND (erratum[Title] OR correction[Title]))",
+        "appliedFilters": {},
+        "notice": "PubMed matched nothing for `\"Six weeks of a polarized\"[Title]`, so that clause contributed no results. Check the spelling, or resolve the term with pubmed_lookup_mesh before filtering on it."
+      }
+    },
+    {
+      "id": "overtraining-consensus",
+      "result": {
+        "query": "\"Prevention, diagnosis, and treatment of the overtraining syndrome\"",
+        "offset": 0,
+        "pmids": [
+          "23247672",
+          "38247370",
+          "36925581",
+          "23016079",
+          "26963018",
+          "20086477",
+          "21190152",
+          "8149440",
+          "20086573",
+          "31817190"
+        ],
+        "summaries": [
+          {
+            "pmid": "23247672",
+            "title": "Prevention, diagnosis, and treatment of the overtraining syndrome: joint consensus statement of the European College of Sport Science and the American College of Sports Medicine.",
+            "authors": "Meeusen R, Duclos M, Foster C, et al.",
+            "source": "Med Sci Sports Exerc",
+            "docType": "citation",
+            "pubDate": "2013-01-01",
+            "doi": "10.1249/MSS.0b013e318279a10a",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23247672/"
+          },
+          {
+            "pmid": "38247370",
+            "title": "Overuse Injuries, Overtraining, and Burnout in Young Athletes.",
+            "authors": "Brenner JS, Watson A, COUNCIL ON SPORTS MEDICINE AND FITNESS",
+            "source": "Pediatrics",
+            "docType": "citation",
+            "pubDate": "2024-01-01",
+            "doi": "10.1542/peds.2023-065129",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/38247370/"
+          },
+          {
+            "pmid": "36925581",
+            "title": "Overtraining Syndrome as a Complex Systems Phenomenon.",
+            "authors": "Armstrong LE, Bergeron MF, Lee EC, et al.",
+            "source": "Front Netw Physiol",
+            "docType": "citation",
+            "pubDate": "2021-01-01",
+            "doi": "10.3389/fnetp.2021.794392",
+            "pmcId": "PMC10013019",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10013019/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/36925581/"
+          },
+          {
+            "pmid": "23016079",
+            "title": "Overtraining syndrome: a practical guide.",
+            "authors": "Kreher JB, Schwartz JB",
+            "source": "Sports Health",
+            "docType": "citation",
+            "pubDate": "2012-03-01",
+            "doi": "10.1177/1941738111434406",
+            "pmcId": "PMC3435910",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3435910/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/23016079/"
+          },
+          {
+            "pmid": "26963018",
+            "title": "Tick-Borne Illnesses.",
+            "authors": "Choi E, Pyzocha NJ, Maurer DM",
+            "source": "Curr Sports Med Rep",
+            "docType": "citation",
+            "pubDate": "2016-03-01",
+            "doi": "10.1249/JSR.0000000000000238",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/26963018/"
+          },
+          {
+            "pmid": "20086477",
+            "title": "Overtraining syndrome: a guide to diagnosis, treatment, and prevention.",
+            "authors": "Hawley CJ, Schoene RB",
+            "source": "Phys Sportsmed",
+            "docType": "citation",
+            "pubDate": "2003-06-01",
+            "doi": "10.3810/psm.2003.06.396",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20086477/"
+          },
+          {
+            "pmid": "21190152",
+            "title": "[Exercise-induced bronchoconstriction].",
+            "authors": "Hildebrand K",
+            "source": "Pneumonol Alergol Pol",
+            "docType": "citation",
+            "pubDate": "2011-01-01",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/21190152/"
+          },
+          {
+            "pmid": "8149440",
+            "title": "Exercise and soft tissue injury.",
+            "authors": "Hart LE",
+            "source": "Baillieres Clin Rheumatol",
+            "docType": "citation",
+            "pubDate": "1994-02-01",
+            "doi": "10.1016/s0950-3579(05)80228-6",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/8149440/"
+          },
+          {
+            "pmid": "20086573",
+            "title": "Overtraining: making a difficult diagnosis and implementing targeted treatment.",
+            "authors": "Uusitalo AL",
+            "source": "Phys Sportsmed",
+            "docType": "citation",
+            "pubDate": "2001-05-01",
+            "doi": "10.3810/psm.2001.05.774",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/20086573/"
+          },
+          {
+            "pmid": "31817190",
+            "title": "Atrial Fibrillation in Athletes-Features of Development, Current Approaches to the Treatment, and Prevention of Complications.",
+            "authors": "Achkasov E, Bondarev S, Smirnov V, et al.",
+            "source": "Int J Environ Res Public Health",
+            "docType": "citation",
+            "pubDate": "2019-12-04",
+            "doi": "10.3390/ijerph16244890",
+            "pmcId": "PMC6950061",
+            "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6950061/",
+            "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31817190/"
+          }
+        ],
+        "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=%22Prevention%2C%20diagnosis%2C%20and%20treatment%20of%20the%20overtraining%20syndrome%22",
+        "totalCount": 28,
+        "effectiveQuery": "\"Prevention, diagnosis, and treatment of the overtraining syndrome\"",
+        "appliedFilters": {},
+        "notice": "PubMed matched nothing for `\"Prevention, diagnosis, and treatment of the overtraining syndrome\"`, so that clause contributed no results. Check the spelling, or resolve the term with pubmed_lookup_mesh before filtering on it."
+      }
+    }
+  ],
+  "publication_notice_followup": {
+    "citation_lookup": {
+      "results": [
+        {
+          "key": "Neal-erratum",
+          "matched": false,
+          "status": "not_found",
+          "detail": "NOT_FOUND"
+        }
+      ],
+      "totalMatched": 0,
+      "totalSubmitted": 1,
+      "totalWarnings": 0
+    },
+    "outcome": "Neal erratum contents unresolved; no DOI asserted."
+  },
+  "manual_import_identification_searches": [
+    {
+      "query": "Javaloyes[Author] AND block[Title] AND cyclists[Title]",
+      "offset": 0,
+      "pmids": [
+        "31490431"
+      ],
+      "summaries": [
+        {
+          "pmid": "31490431",
+          "title": "Training Prescription Guided by Heart Rate Variability Vs. Block Periodization in Well-Trained Cyclists.",
+          "authors": "Javaloyes A, Sarabia JM, Lamberts RP, et al.",
+          "source": "J Strength Cond Res",
+          "docType": "citation",
+          "pubDate": "2020-06-01",
+          "doi": "10.1519/JSC.0000000000003337",
+          "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/31490431/"
+        }
+      ],
+      "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=Javaloyes%5BAuthor%5D%20AND%20block%5BTitle%5D%20AND%20cyclists%5BTitle%5D",
+      "totalCount": 1,
+      "effectiveQuery": "Javaloyes[Author] AND block[Title] AND cyclists[Title]",
+      "appliedFilters": {}
+    },
+    {
+      "query": "10.1038/s41598-025-13540-z[DOI]",
+      "offset": 0,
+      "pmids": [
+        "41028151"
+      ],
+      "summaries": [
+        {
+          "pmid": "41028151",
+          "title": "Individual training prescribed by heart rate variability, heart rate and well-being scores in experienced cyclists.",
+          "authors": "Alfonso C, Clarke DC, Capdevila L",
+          "source": "Sci Rep",
+          "docType": "citation",
+          "pubDate": "2025-09-30",
+          "doi": "10.1038/s41598-025-13540-z",
+          "pmcId": "PMC12485039",
+          "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12485039/",
+          "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/41028151/"
+        }
+      ],
+      "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=10.1038%2Fs41598-025-13540-z%5BDOI%5D",
+      "totalCount": 1,
+      "effectiveQuery": "10.1038/s41598-025-13540-z[DOI]",
+      "appliedFilters": {}
+    }
+  ]
+}

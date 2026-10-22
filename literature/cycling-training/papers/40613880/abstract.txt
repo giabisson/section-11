@@ -1,0 +1,9 @@
+PURPOSE: This study aimed to determine how exercise intensity influences the amount of work required to induce changes in cyclists' acute durability and to evaluate the suitability of using kilojoules (kJ) as a metric for fatigue monitoring.
+
+METHODS: A systematic review was conducted following PRISMA guidelines. Web of Science, Medline, and Scopus were searched for studies assessing the relationship or effect between prior accumulated work and performance reductions in cyclists. Inclusion criteria required studies to measure power output after fatigue induced within a single session, with prior work quantified in kJ or other training load metrics.
+
+RESULTS: Twenty-one studies were included in the systematic review. The primary finding was that high-intensity efforts (e.g., above critical power) led to greater power output reductions with lower accumulated work compared to low-to-moderate intensity efforts. Across studies, power output declines of 10-20% were observed after 2.5-15 kJ kg⁻¹ of prior high-intensity work, whereas similar or greater work volumes at lower intensities resulted in smaller performance decrements. While kJ was the most commonly used fatigue metric, it does not account for intensity, limiting its accuracy in durability assessments.
+
+CONCLUSIONS: Exercise intensity plays a crucial role in determining durability-related performance declines. The exclusive use of kJ as a fatigue metric may be insufficient, and alternative approaches incorporating intensity are needed. These findings have implications for training prescription and race strategies, emphasizing the need for intensity-specific workload quantification.
+
+REGISTRATION: OSF project no.: osf.io/kcg53.

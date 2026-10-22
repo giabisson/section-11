@@ -42,7 +42,7 @@ Post-workout duration displays round to whole minutes, while eligibility gates r
 - Week-by-week volume progression with CTL trajectory
 - Compliance with reasons for misses/modifications
 - Key performance markers with target comparison
-- Polarization by week (catches grey zone creep), plus TID 28d as block-scale classification
+- Intensity distribution by week (compare with planned purpose), plus TID 28d as block-scale classification
 - Durability by week (catches aerobic efficiency regression across the block)
 - Wellness block-over-block comparison with assessment labels
 - Phase Progression Check (criteria met Y/N, recommendation, rationale)

@@ -119,7 +119,7 @@ Notable Patterns:
   Data gaps: None in window
   A-races completed: None in window
   Next A-race: None scheduled
-  Deviations: Z3 grey zone in 7 of 25 completed weeks (28% of weeks above the 5% target);
+  Deviations: Z3 grey zone in 7 of 25 completed weeks (28% of weeks above the descriptive 5% reference, not a universal target);
     Hard-day density rising consistently into second half (0.9 → 1.3/wk)
 
 Interpretation:
@@ -128,9 +128,9 @@ the n/a column is not a missing-data warning, it's the design-correct rendering 
 new athlete and will populate next April. Within the 180d window, trajectory is
 constructive: CTL has built steadily to 52.1 with no ACWR>1.5 weeks, hard-day density
 is rising naturally into the second half (0.9 → 1.3/wk), and TID is broadly pyramidal.
-The 28% grey-zone-week rate is the single pattern worth attention: worth checking
-whether those weeks cluster around specific session types (tempo/SST creep) or
-particular phases. With no A-race scheduled, the Base extension or Build transition
+The 28% rate above the descriptive Z3 reference is not itself a concern. Compare
+those weeks with intended session types and response before deciding whether
+anything should change. With no A-race scheduled, the Base extension or Build transition
 decision is available; either is supportable from current load and wellness context.
 ```
 

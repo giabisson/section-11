@@ -1,0 +1,68 @@
+{
+  "synthetic": true,
+  "method": "PlanStore.review using a synthetic paired calendar and temporary private store; equivalent review CLI contract",
+  "result": {
+    "success": true,
+    "review_id": "weekly-one",
+    "parent_revision": "rev-cd452fd13565fe5ffa22fd86cb339fdf1a8bb462bff6230c0792b937c5edcc49",
+    "revision_id": "rev-d9853b0f000f6754ecd7505e0c019466f2b395761fe0271f4e6d9cb82ab4883b",
+    "revision_created": true,
+    "report": {
+      "assessed_date": "2026-10-29",
+      "observations": [
+        {
+          "session_id": "intervals",
+          "prescription_id": "rx-a5a61d42c469e418f017f1d2bb0c94c4138c678860dd7aa81fc0ad0d3f520c21",
+          "activity_id": "activity-one",
+          "status": "completed",
+          "cause": "none",
+          "goal_attainment": "met",
+          "response": "tolerated",
+          "source": "Synthetic athlete feedback and paired activity",
+          "date": "2026-10-28",
+          "note": "Tolerable familiar dose; no symptom report",
+          "completion_evidence": "paired_activity",
+          "execution_date": "2026-10-27",
+          "pairing_issue": null,
+          "adherence": "unknown_requires_formal_evaluator",
+          "assessment_basis": "caller_supplied_goal_response",
+          "cost_review_required": false
+        }
+      ],
+      "decisions": [
+        {
+          "action": "progress",
+          "session_ids": [
+            "endurance"
+          ],
+          "observation_ids": [
+            "intervals"
+          ],
+          "reason": "Apply an explained future dose change after reviewing the athlete's response",
+          "next_observation": "Review execution and response after the next comparable session"
+        }
+      ],
+      "unresolved_questions": [],
+      "guard": {
+        "date": "2026-10-29",
+        "same_day_stop": false,
+        "same_day_clarification": false,
+        "readiness_modify": false,
+        "progression_review_required": false,
+        "adjusted_prescriptions": [
+          "rx-88d50332d7e9c160b99541ebd49ca000aad008e4592c79214e2698e150cb14e7"
+        ],
+        "adjustment_actions": [
+          "progress"
+        ]
+      },
+      "response_patterns": [],
+      "missed_session_debt": false,
+      "wearables_required": false,
+      "evidence_scope": "Pairing confirms a recorded activity, not formal adherence or medical clearance. Goal/response and reasons are sourced caller assessments."
+    },
+    "notify": true,
+    "calendar_writes": 0
+  },
+  "calendar_writes_by_review": 0
+}

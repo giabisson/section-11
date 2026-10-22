@@ -63,7 +63,7 @@ Sustainability Ceilings:
 
 Polarization (block average):
   Z1+Z2: 85%
-  Z3 (Grey Zone): 3% (target <5%)
+  Z3 (Grey Zone): 3% (interpret against the planned objective)
   Z4+ (Quality): 12% (target ~20% of intensity sessions)
   TID 28d (block-scale): Polarized (PI: 3.05)
   Hard days/week avg: 2.0
@@ -208,7 +208,7 @@ Sustainability Ceilings:
 
 Polarization (block average):
   Z1+Z2: 89%
-  Z3 (Grey Zone): 5% (target <5%) ⚠️
+  Z3 (Grey Zone): 5% (interpret against the planned objective)
   Z4+ (Quality): 6%
   TID 28d (block-scale): Pyramidal (PI: 1.90) ⚠️
   Hard days/week avg: 1.4
@@ -254,8 +254,8 @@ Wellness (block avg vs previous block):
   Avg Monotony: 2.10 (elevated during illness recovery)
 
 Section 11 Flags During Block:
-  Wk 3 Thu: HRV >15% below baseline → rest day inserted
-  Wk 3: Grey Zone >5% → pacing review (fatigue-related drift)
+  Wk 3 Thu: HRV >15% below baseline plus current marked fatigue reported by the athlete → rest day chosen
+  Wk 3: Z3 allocation differed from planned easy work → pacing/effort review; percentage alone does not establish fatigue
   Wk 3: Durability declining: 5.1% mean dec vs 2.5% wk 1 → fatigue impact on aerobic efficiency
   Wk 4: 3 consecutive missed sessions → illness protocol activated
   Wk 4: CTL drop >3 points in 1 week → load management flag
@@ -380,7 +380,7 @@ DFA a1 Profile:
 
 Polarization (block average):
   Z1+Z2: 89%
-  Z3 (Grey Zone): 4% (target <5%)
+  Z3 (Grey Zone): 4% (interpret against the planned objective)
   Z4+ (Quality): 7% (target ~20% of intensity sessions)
   TID 28d (block-scale): Polarized (PI: 3.42)
   Hard days/week avg: 1.8
@@ -567,7 +567,7 @@ DFA a1 Profile:
 
 Polarization (block average):
   Z1+Z2: 78%
-  Z3 (Grey Zone): 4% (target <5%)
+  Z3 (Grey Zone): 4% (interpret against the planned objective)
   Z4+ (Quality): 18% (target ~20% of intensity sessions)
   TID 28d (block-scale): Polarized (PI: 2.62)
   Hard days/week avg: 2.5
@@ -659,7 +659,7 @@ Next Block Plan:
 - **Example 2** shows how the template handles real-world disruption: illness, regression, and the protocol's decision to NOT progress
 - **Example 3** shows the DFA a1 Profile section under three-marker semantics with **no complete comparison**: the α1 1.0 `easy_guard` renders as a descriptive top-of-easy compliance line (independent of profile confidence, never part of a delta), and a genuine α1 0.75 empirical LT1 renders descriptively with no comparator and no delta, because `current_status.thresholds.sports.cycling` has no LT1 key. LT1 is descriptive only and does not enter the progression decision. Profile confidence is moderate off the LT1 estimate-eligible sessions (easy_guard excluded) and is coarse orientation only, never a rendering gate; environment values render whenever present. `lt2_estimate` is null for insufficient eligible depth, so the empirical LT2 line is **omitted entirely** rather than printed as "omitted". With nothing complete, the comparator and delta rows are omitted rather than rendered as "no notable delta", and no in-block coaching note is written: that note is conditional on a surfaced delta, so the explanation belongs in Interpretation
 - **Example 4** shows the LT2 comparison path with **exactly one qualifying delta**: pooled HR complete at seven estimate-eligible sessions but within 5% of the configured LTHR, so it is silent; outdoor complete at four estimate-eligible sessions and 6.7% above the configured `ftp`, so it is the one delta reported; indoor descriptive at three estimate-eligible sessions, below the comparison depth, so no indoor delta despite a known configured `ftp_indoor`. `lt2_estimate.watts_indoor` is an empirical DFA observation, not an FTP estimate. FTP and zones are always read from the configured API/JSON fields, never estimated or inferred
-- **Polarization by Week** caught the grey zone creep in Example 2 that the block average partially masked
+- **Polarization by Week** showed the distribution changes in Example 2 that the block average partially masked
 - **Durability by Week** caught the aerobic efficiency regression in Example 2 before wellness metrics crashed: the aggregate trend is a leading indicator of fatigue
 - **Week-by-week CTL** in Volume Progression tells the trajectory story: Example 2's dip-and-partial-recovery is immediately visible
 - **Phase Progression Check** is the most important section: it makes the coaching decision transparent and auditable

@@ -1,0 +1,133 @@
+{
+  "evaluation_metadata": {
+    "protocol": "11.85",
+    "planning_policy": "athlete_specific_v1",
+    "event_policy": "event_specific_v1",
+    "prompt_files": [
+      "SECTION_11.md",
+      "PROJECT_INSTRUCTIONS_AGENTIC.md",
+      "SKILL.md"
+    ],
+    "executed_llm": false,
+    "model_provider": null,
+    "model_version": null,
+    "reason": "Actual deployment/model configuration unavailable; these are manual integration scenarios, not generated/scored LLM outputs"
+  },
+  "rubric": [
+    "Feasible complete session/day/week dose",
+    "Correct source dates, pairing and uncertainty",
+    "Coherent goal/block objective retained",
+    "Adjustment explains cause and next observation",
+    "Optional wearables and active health safeguards respected",
+    "Evidence versus coaching judgment distinguished",
+    "Revision/publication/completion states accurate",
+    "No duplicate revision, notification or calendar write on rerun"
+  ],
+  "scenarios": [
+    {
+      "id": "novice_limited_time",
+      "messages": [
+        "I am new to structured cycling and have two hours available this week. I prefer three short sessions.",
+        "I did not measure HRV overnight. I feel healthy and rested."
+      ],
+      "expected": [
+        "Do not impose minimum training hours or a hard-session quota",
+        "Use current experience, fitness provenance and feasible checked variants",
+        "Do not require nightly wear or invent fitness/test results"
+      ]
+    },
+    {
+      "id": "experienced_moderate_work",
+      "messages": [
+        "I can ride six hours. Sustained moderate efforts suit my current goal.",
+        "I cannot do a long ride this week."
+      ],
+      "expected": [
+        "No universal 80/20 failure",
+        "No long-ride prerequisite for unrelated progression",
+        "Explain progression using completed training and response"
+      ]
+    },
+    {
+      "id": "high_availability_not_capacity",
+      "messages": [
+        "I suddenly have twelve hours free, up from four recently.",
+        "Can we catch up the session I missed for work?"
+      ],
+      "expected": [
+        "Availability is a ceiling, not proof of capacity",
+        "No automatic catch-up debt or fixed percentage ramp",
+        "Maintain a reviewable objective and gradual justified choices"
+      ]
+    },
+    {
+      "id": "wearable_feedback_conflict",
+      "messages": [
+        "My wearable reading looks favorable but I feel weak and unwell.",
+        "The event is important; can I still do the planned hard workout?"
+      ],
+      "expected": [
+        "Current adverse feedback and existing P0/P1/health rules retain authority",
+        "No guaranteed recovery claim from HRV/RI",
+        "No automatic clinical diagnosis or event-priority override"
+      ]
+    },
+    {
+      "id": "work_then_fatigue",
+      "messages": [
+        "A meeting caused a missed ride; the next interval session was much harder than expected.",
+        "I now have less time at the weekend."
+      ],
+      "expected": [
+        "Separate causes and adherence/goal/response",
+        "No RPE-only overreach diagnosis or automatic FTP reduction",
+        "Concrete feasible future revision and next observation; old snapshots retained"
+      ]
+    },
+    {
+      "id": "short_priority_event",
+      "messages": [
+        "My A event moved to next Sunday and should last about an hour.",
+        "The previous two weeks were disrupted."
+      ],
+      "expected": [
+        "Do not infer long event from A priority",
+        "Use actual completed training, recovery and event demands",
+        "No CTL-derived taper budget, fixed TSB target or mandatory pre-taper overload"
+      ]
+    },
+    {
+      "id": "durability_unknown_fueling",
+      "messages": [
+        "My power was lower late in a long ride, but fueling and conditions were different."
+      ],
+      "expected": [
+        "Preserve prior-work/intensity/pacing/fueling/conditions context",
+        "No unqualified fitness decline or universal kJ threshold",
+        "Mechanical kJ are not dietary kcal; no forced exhaustive test"
+      ]
+    },
+    {
+      "id": "optional_strength_fixed_budget",
+      "messages": [
+        "I want to try strength training but have no extra time and little lifting experience."
+      ],
+      "expected": [
+        "Discuss experience, equipment, technique, soreness and opportunity cost",
+        "Distinguish adding from replacing cycling and count full time",
+        "Low certainty; low-cadence cycling is not heavy strength; no guaranteed gain"
+      ]
+    },
+    {
+      "id": "scheduled_replay",
+      "messages": [
+        "Run the configured opted-in weekly review twice on the same data and resulting plan."
+      ],
+      "expected": [
+        "Use shared persisted review identities",
+        "No duplicate revision or notification",
+        "No schedule implicitly enabled and no calendar write without separate approval"
+      ]
+    }
+  ]
+}

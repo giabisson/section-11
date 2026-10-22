@@ -1,0 +1,1227 @@
+{
+  "schema_version": 1,
+  "library_version": "0.9.0",
+  "library_sha256": "cd25b2a8502e3669232cc1b32b3b1477b017e7ae514103dd96ddd6454c4b55a4",
+  "scope": "Checked numeric power-workout constraints. Suitability, exact technique and physiological efficacy are not certified. No fallback from an unsupported template.",
+  "templates": {
+    "AE-1": {
+      "kind": "continuous",
+      "total_seconds": [
+        3600,
+        5400
+      ],
+      "warmup_seconds": [
+        0,
+        1500
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "work_zones": [
+        1,
+        2
+      ]
+    },
+    "AE-2": {
+      "kind": "continuous",
+      "total_seconds": [
+        5400,
+        9000
+      ],
+      "warmup_seconds": [
+        0,
+        1500
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "work_zones": [
+        2
+      ]
+    },
+    "AE-3": {
+      "kind": "continuous",
+      "total_seconds": [
+        9000,
+        43200
+      ],
+      "warmup_seconds": [
+        0,
+        1500
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "work_zones": [
+        1,
+        2
+      ]
+    },
+    "AE-4": {
+      "kind": "continuous",
+      "total_seconds": [
+        1800,
+        3600
+      ],
+      "warmup_seconds": [
+        0,
+        1500
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1
+      ],
+      "work_zones": [
+        1
+      ],
+      "cooldown_zones": [
+        1
+      ]
+    },
+    "SS-1": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            2,
+            3
+          ],
+          "work_seconds": [
+            720,
+            1200
+          ],
+          "recovery_seconds": [
+            300,
+            300
+          ],
+          "work_zones": [
+            3,
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": []
+    },
+    "SS-2": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            3,
+            3
+          ],
+          "work_seconds": [
+            720,
+            1200
+          ],
+          "recovery_seconds": [
+            300,
+            300
+          ],
+          "work_zones": [
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "work_sequence": [
+            720,
+            900,
+            1200
+          ]
+        }
+      ],
+      "evidence": []
+    },
+    "SS-4": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            2,
+            3
+          ],
+          "work_seconds": [
+            1200,
+            1800
+          ],
+          "recovery_seconds": [
+            300,
+            300
+          ],
+          "work_zones": [
+            3
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        },
+        {
+          "repetitions": [
+            2,
+            2
+          ],
+          "work_seconds": [
+            600,
+            900
+          ],
+          "recovery_seconds": [
+            180,
+            300
+          ],
+          "work_zones": [
+            3
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": []
+    },
+    "SS-5": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            4,
+            4
+          ],
+          "work_seconds": [
+            600,
+            720
+          ],
+          "recovery_seconds": [
+            300,
+            300
+          ],
+          "work_zones": [
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": []
+    },
+    "TH-1": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            2,
+            2
+          ],
+          "work_seconds": [
+            1200,
+            1200
+          ],
+          "recovery_seconds": [
+            300,
+            480
+          ],
+          "work_zones": [
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        },
+        {
+          "repetitions": [
+            3,
+            3
+          ],
+          "work_seconds": [
+            720,
+            720
+          ],
+          "recovery_seconds": [
+            300,
+            480
+          ],
+          "work_zones": [
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": []
+    },
+    "TH-2": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            4,
+            5
+          ],
+          "work_seconds": [
+            480,
+            480
+          ],
+          "recovery_seconds": [
+            120,
+            120
+          ],
+          "work_zones": [
+            4,
+            5
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "pmid": "21812820",
+          "protocol_match": false,
+          "note": "Coaching variant. Study used maximal sustainable session effort, not a universal FTP percentage; four repetitions in the study."
+        }
+      ]
+    },
+    "VO2-1": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1200,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            4,
+            5
+          ],
+          "work_seconds": [
+            240,
+            240
+          ],
+          "recovery_seconds": [
+            180,
+            240
+          ],
+          "work_zones": [
+            5
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": [],
+      "warmup_primer": {
+        "zones": [
+          4
+        ],
+        "minimum_seconds": 60,
+        "count": 1
+      }
+    },
+    "VO2-2": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1200,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            8,
+            10
+          ],
+          "work_seconds": [
+            30,
+            30
+          ],
+          "recovery_seconds": [
+            15,
+            15
+          ],
+          "work_zones": [
+            5,
+            6
+          ],
+          "sets": [
+            2,
+            3
+          ],
+          "set_recovery_seconds": [
+            300,
+            300
+          ]
+        },
+        {
+          "repetitions": [
+            8,
+            10
+          ],
+          "work_seconds": [
+            40,
+            40
+          ],
+          "recovery_seconds": [
+            20,
+            20
+          ],
+          "work_zones": [
+            5,
+            6
+          ],
+          "sets": [
+            2,
+            3
+          ],
+          "set_recovery_seconds": [
+            300,
+            300
+          ]
+        }
+      ],
+      "evidence": [],
+      "warmup_primer": {
+        "zones": [
+          4
+        ],
+        "minimum_seconds": 60,
+        "count": 1
+      }
+    },
+    "VO2-4": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1200,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            5,
+            5
+          ],
+          "work_seconds": [
+            120,
+            240
+          ],
+          "recovery_seconds": [
+            180,
+            180
+          ],
+          "work_zones": [
+            5
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "work_sequence": [
+            120,
+            180,
+            240,
+            180,
+            120
+          ]
+        }
+      ],
+      "evidence": [],
+      "warmup_primer": {
+        "zones": [
+          4
+        ],
+        "minimum_seconds": 60,
+        "count": 1
+      }
+    },
+    "VO2-5": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1200,
+        1500
+      ],
+      "cooldown_seconds": [
+        1800,
+        3600
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            10,
+            13
+          ],
+          "work_seconds": [
+            30,
+            30
+          ],
+          "recovery_seconds": [
+            15,
+            15
+          ],
+          "work_zones": [
+            5,
+            6
+          ],
+          "sets": [
+            3,
+            3
+          ],
+          "set_recovery_seconds": [
+            300,
+            300
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "pmid": "24382021",
+          "protocol_match": false,
+          "note": "Library uses 5-minute set rests; study Methods/Table 2 use 3 minutes and other text conflicts. All actual recoveries must be counted; do not claim exact reproduction."
+        }
+      ],
+      "warmup_primer": {
+        "zones": [
+          4
+        ],
+        "minimum_seconds": 60,
+        "count": 1
+      }
+    },
+    "AN-1": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1320,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            8,
+            12
+          ],
+          "work_seconds": [
+            30,
+            30
+          ],
+          "recovery_seconds": [
+            150,
+            180
+          ],
+          "work_zones": [
+            6
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ]
+        }
+      ],
+      "evidence": [],
+      "warmup_primer": {
+        "zones": [
+          6
+        ],
+        "minimum_seconds": 10,
+        "count": 2
+      }
+    },
+    "AE-5": {
+      "kind": "cadence_drills",
+      "warmup_seconds": [
+        600,
+        900
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "total_seconds": [
+        3600,
+        4500
+      ],
+      "pattern": {
+        "repetitions": [
+          4,
+          6
+        ],
+        "work_seconds": [
+          300,
+          300
+        ],
+        "recovery_seconds": [
+          180,
+          180
+        ],
+        "work_zones": [
+          2
+        ],
+        "sets": [
+          1,
+          1
+        ],
+        "set_recovery_seconds": [
+          0,
+          0
+        ]
+      }
+    },
+    "AE-6": {
+      "kind": "fast_finish",
+      "warmup_seconds": [
+        0,
+        900
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "total_seconds": [
+        7200,
+        9900
+      ],
+      "lead_seconds": [
+        3600,
+        7200
+      ],
+      "finish_seconds": [
+        1800,
+        2700
+      ]
+    },
+    "AE-7": {
+      "kind": "progressive",
+      "warmup_seconds": [
+        0,
+        900
+      ],
+      "cooldown_seconds": [
+        0,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2
+      ],
+      "total_seconds": [
+        5400,
+        9000
+      ],
+      "blocks": [
+        3,
+        4
+      ],
+      "block_seconds": [
+        1800,
+        2700
+      ]
+    },
+    "SS-3": {
+      "kind": "over_under",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sets": [
+        3,
+        4
+      ],
+      "block_seconds": [
+        480,
+        600
+      ],
+      "set_recovery_seconds": 300
+    },
+    "VO2-3": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        1200,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            5,
+            5
+          ],
+          "work_seconds": [
+            180,
+            180
+          ],
+          "recovery_seconds": [
+            90,
+            180
+          ],
+          "work_zones": [
+            5
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "recovery_sequence": [
+            180,
+            150,
+            120,
+            90
+          ],
+          "final_recovery": false
+        }
+      ],
+      "evidence": [],
+      "warmup_primer": {
+        "zones": [
+          4
+        ],
+        "minimum_seconds": 60,
+        "count": 1
+      }
+    },
+    "AN-2": {
+      "kind": "embedded_sprints",
+      "warmup_seconds": [
+        1320,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "total_seconds": [
+        3600,
+        4500
+      ],
+      "pattern": {
+        "repetitions": [
+          4,
+          6
+        ],
+        "work_seconds": [
+          10,
+          15
+        ],
+        "recovery_seconds": [
+          300,
+          300
+        ],
+        "work_zones": [
+          7
+        ],
+        "sets": [
+          1,
+          1
+        ],
+        "set_recovery_seconds": [
+          0,
+          0
+        ],
+        "work_basis": "max_effort"
+      },
+      "warmup_primer": {
+        "zones": [
+          6
+        ],
+        "minimum_seconds": 10,
+        "count": 2
+      }
+    },
+    "AN-3": {
+      "kind": "sprint_sets",
+      "warmup_seconds": [
+        1320,
+        1500
+      ],
+      "cooldown_seconds": [
+        1200,
+        1800
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "cooldown_zones": [
+        1
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            5,
+            5
+          ],
+          "work_seconds": [
+            10,
+            10
+          ],
+          "recovery_seconds": [
+            180,
+            180
+          ],
+          "work_zones": [
+            7
+          ],
+          "sets": [
+            3,
+            3
+          ],
+          "set_recovery_seconds": [
+            300,
+            300
+          ],
+          "work_basis": "max_effort",
+          "final_recovery": false
+        }
+      ],
+      "warmup_primer": {
+        "zones": [
+          6
+        ],
+        "minimum_seconds": 10,
+        "count": 2
+      }
+    },
+    "MIX-1": {
+      "kind": "mixed_surges",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "total_seconds": [
+        5400,
+        7200
+      ],
+      "work_zones": [
+        4,
+        5
+      ],
+      "repetitions": [
+        6,
+        8
+      ],
+      "work_seconds": [
+        120,
+        180
+      ],
+      "start_spacing_seconds": [
+        600,
+        1200
+      ]
+    },
+    "MIX-2": {
+      "kind": "openers",
+      "warmup_seconds": [
+        600,
+        900
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "total_seconds": [
+        2700,
+        3600
+      ],
+      "work_zones": [
+        5,
+        6
+      ],
+      "recovery_seconds": [
+        180,
+        300
+      ]
+    },
+    "SE-1": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            4,
+            6
+          ],
+          "work_seconds": [
+            480,
+            480
+          ],
+          "recovery_seconds": [
+            240,
+            240
+          ],
+          "work_zones": [
+            3
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "work_cadence": [
+            50,
+            60
+          ],
+          "recovery_cadence_min": 61
+        },
+        {
+          "repetitions": [
+            4,
+            6
+          ],
+          "work_seconds": [
+            480,
+            480
+          ],
+          "recovery_seconds": [
+            240,
+            240
+          ],
+          "work_zones": [
+            3
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "work_cadence": [
+            70,
+            80
+          ],
+          "recovery_cadence_min": 81
+        }
+      ]
+    },
+    "SE-2": {
+      "kind": "intervals",
+      "warmup_seconds": [
+        900,
+        1500
+      ],
+      "cooldown_seconds": [
+        600,
+        900
+      ],
+      "warmup_zones": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "variants": [
+        {
+          "repetitions": [
+            3,
+            3
+          ],
+          "work_seconds": [
+            600,
+            720
+          ],
+          "recovery_seconds": [
+            300,
+            360
+          ],
+          "work_zones": [
+            4
+          ],
+          "sets": [
+            1,
+            1
+          ],
+          "set_recovery_seconds": [
+            0,
+            0
+          ],
+          "work_cadence": [
+            55,
+            65
+          ],
+          "recovery_cadence_min": 66
+        }
+      ]
+    }
+  },
+  "not_yet_checked": []
+}

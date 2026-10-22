@@ -8,6 +8,8 @@
 
 Generated at end of training week (Saturday or Sunday morning).
 
+**Adaptive review record:** When a private managed plan exists, read its current revision and relevant review record. State the objective, intended versus observed work, separate adherence/goal attainment/response, known causes, decision, old → new revision IDs (or held), affected future sessions, next observation and unresolved questions. Use `coaching_plan.py review` per [ADAPTIVE_REVIEWS.md](../agentic/ADAPTIVE_REVIEWS.md); do not infer completion from publication or create catch-up debt. Missing wearables do not by themselves require questions or changes. Block reviews assess the stated performance/sustainability objective, not CTL or VO2 alone.
+
 ---
 
 ## Template Structure
@@ -50,7 +52,7 @@ Quality Session Detail:
 
 Polarization:
   Z1+Z2: [XX]%
-  Z3 (Grey Zone): [X]% (target <5%)
+  Z3 (Grey Zone): [X]% (interpret against the planned objective)
   Z4+ (Quality): [X]% (target ~20% of intensity sessions)
   TID 7d: [Classification] (PI: [X.XX])
   TID 28d: [Classification] (PI: [X.XX]), drift: [consistent/shifting/acute_depolarization]
@@ -122,8 +124,8 @@ focus areas. Reference load targets and phase progression.]
 |-------|--------|-------|
 | **Compliance** | Planned vs completed activities | ✅ completed as planned, ⚠️ modified, ❌ missed |
 | **Quality Session Detail** | Key intensity or structured endurance sessions relevant to the comparison | Read structure_summary in latest.json; load intervals.json's session_structure only when detailed analysis is needed and has_structure is true. Compare the same identified step/window; state unavailable mapping rather than substituting session average/NP. Follow the separate formal compliance gate. Whole-session fields remain load context. Decoupling is interpreted or labelled only when the session passes the per-session gate (≥ 90 min with VI ≤ 1.05 and > 0); otherwise show the value without drift interpretation |
-| **Grey Zone %** | Z3 time / total time | Per Seiler: minimize; target <5% of weekly volume |
-| **Quality Intensity %** | Z4+ time / total time | The work that drives adaptation |
+| **Grey Zone %** | Z3 time / total time | Legacy label for moderate Z3 time; compare with planned purpose, not a universal limit |
+| **Quality Intensity %** | Z4+ time / total time | Higher-intensity time; lower-intensity training also drives adaptation |
 | **TID 7d vs 28d** | Seiler classification comparison | Consistent = stable, shifting = classification changed, acute_depolarization = PI dropped |
 | **Durability** | Aggregate decoupling from steady-state sessions | VI ≤ 1.05, ≥ 90min, power data. Trend direction matters more than absolute values |
 | **Efficiency Factor** | Aggregate EF from steady-state cycling | VI ≤ 1.05, ≥ 20min, power+HR. Rising EF = improving aerobic fitness. Compare like-for-like only |
@@ -142,15 +144,15 @@ focus areas. Reference load targets and phase progression.]
 
 | Metric | Good | Watch | Flag |
 |--------|------|-------|------|
-| ACWR | 0.80–1.30 (optimal) | 1.30–1.50 (elevated) | >1.50 (high risk) |
+| ACWR | 0.80–<1.30 (legacy band) | 1.30–<1.50 (elevated context) | ≥1.50 (high load-ratio context, not injury probability) |
 | Ramp rate | <1.0 (conservative) | 1.0–1.5 (moderate) | >1.5 (aggressive) |
-| Grey Zone % | <5% (good) | 5–10% (watch) | >10% (too much Z3) |
+| Grey Zone % | Matches intended session purpose | Unexplained difference from plan | No percentage-only flag; review response and objective |
 | Decoupling (per-session, gated sessions only) | <5% (good) | 5–10% (elevated) | >10% (flag) |
 | Durability (7d mean) | <3% (good) | 3–5% (moderate) | >5% (declining) |
 | Durability trend | improving/stable | declining | declining >2% vs 28d |
 | EF trend | improving/stable | declining | declining >0.05 vs 28d |
 | HRRc trend | improving (7d >10% above 28d) | stable (within 10%) | declining (7d >10% below 28d) |
-| TID drift | consistent | shifting | acute_depolarization |
+| TID drift | Descriptive comparison | Check planned intent and basis | No distribution-only fatigue flag |
 | HRV trend | ↑ or → (stable) | ↓ <5% (minor) | ↓ >10% (flag) |
 
 ## Notes

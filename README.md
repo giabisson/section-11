@@ -28,6 +28,7 @@ An open protocol for deterministic, auditable AI-powered endurance coaching. Bui
 | [SECTION_11.md](SECTION_11.md) | Complete protocol: AI Coach Guidance (11 A), Training Plan Protocol (11 B), Validation Protocol (11 C) |
 | [examples/workout-library/](examples/workout-library/) | Workout Reference Library: 26 session templates, adapted to your data |
 | [examples/agentic/](examples/agentic/) | Calendar writes, activity stream reads and external API reference |
+| [examples/agentic/COACHING_PLANS.md](examples/agentic/COACHING_PLANS.md) | Private local plan revisions, frozen prescriptions, adaptive reviews and journaled calendar publication; [deployment checks](examples/agentic/COACHING_DEPLOYMENT.md) distinguish tested artifacts from the live runtime |
 | [examples/agentic/fit-file-and-merger/](examples/agentic/fit-file-and-merger/) | Multi-source FIT fusion, identity, verification, recovery and duplicate-cleanup reference; documentation only |
 | [examples/json-local-sync/](examples/json-local-sync/) | Local automated sync, no GitHub needed |
 | [examples/dfa_a1/NON_GARMIN.md](examples/dfa_a1/NON_GARMIN.md) | DFA a1 requires Garmin + AlphaHRV; other-platform verification guidance |
@@ -389,10 +390,10 @@ See the [AI Self-Validation Checklist](SECTION_11.md#ai-self-validation-checklis
 
 Defines rules for AI systems generating or modifying training plans:
 
-- Phase alignment with macro-cycle
-- Volume ceiling validation (±10% of baseline)
-- Intensity distribution control (80/20 polarization)
-- Session composition rules
+- Goals and planned block intent distinguished from detected phase
+- Feasible volume based on recent completed training, availability and response
+- Purposeful intensity distribution with its measurement basis stated
+- Athlete-specific session composition, progression and recovery
 - Audit metadata requirements
 
 ### Section 11 C: AI Validation Protocol
@@ -401,14 +402,14 @@ Records data access, source timestamps, protocol version, passed/failed checks, 
 
 ### Scientific Foundations
 
-The protocol integrates 19+ validated endurance science frameworks:
+The protocol draws on research and coaching frameworks. Their inclusion does not validate the application or its exact numerical rules. The [coaching evidence register](COACHING_EVIDENCE.md) separates reviewed findings, coaching judgment and remaining evidence gaps.
 
 | Framework | Application |
 |-----------|-------------|
-| Seiler's 80/20 Polarized Training | Intensity distribution |
+| Polarized and pyramidal training research | Options for intensity distribution |
 | Gabbett's ACWR (2016) | Retrospective load context, not standalone injury prediction |
 | Banister's Impulse-Response | CTL/ATL/TSB dynamics |
-| Foster's Monotony & Strain | Overuse detection |
+| Foster's Monotony & Strain | Descriptive load variation and strain |
 | Issurin's Block Periodization | Phase structure |
 | Coggan's Power-Duration Model | Efficiency tracking |
 | San Millán's Zone 2 Model | Metabolic health |

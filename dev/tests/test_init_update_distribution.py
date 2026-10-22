@@ -447,7 +447,7 @@ class TestGeneratorScope(unittest.TestCase):
     def test_scope_text_names_the_exclusions(self):
         scope = json.loads(run_generator(self.full_tree()))["scope"]
         self.assertEqual(scope, "Files installed by sync.py --init and managed by --update; excludes .github, hidden paths, "
-                                "the repository-root dev folder, and generated dependency/cache directories.")
+                                "the repository-root dev folder, generated dependency/cache directories, local publisher research copies and private coaching records.")
 
     def test_descriptions_are_preserved(self):
         previous = {"scope": "old", "files": {"README.md": {"hash": "0" * 64, "description": "Entry point"},

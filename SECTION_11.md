@@ -1,10 +1,14 @@
 # Section 11 - AI Coach Protocol
 
-**Protocol Version:** 11.83  
-**Last Updated:** 2026-10-21
+**Protocol Version:** 11.85
+**Last Updated:** 2026-10-22
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 ### Changelog
+
+**v11.85 - Individual coaching, durable plans and reviews (2026-10-22, sync.py v3.150, push.py v0.9):**
+
+Optional wearables and dated observation quality; athlete-specific planning; checked prescriptions for all 26 templates; private plan revisions and immutable publication snapshots; cause-aware adaptive reviews with idempotent scheduled/requested execution; individualized event preparation and explicit durability/strength context. Race-week CTL budgets and priority-derived duration are retired (null under `event_specific_v1`). Active readiness/health safeguards remain. Runtime dependencies ship together; publisher research copies and private coaching records are excluded from the updater. Repository installation tests do not establish the athlete's live Telegram/OpenClaw deployment.
 
 **v11.83 - Coupled load context, paired-plan identity and descriptive facts (2026-10-21, sync.py v3.149):**
 
@@ -756,17 +760,17 @@ Schema 2 compact `dfa_summary` and `dfa_a1_profile.latest_session` carry `drift_
 
 ### Core Evidence-Based Foundations
 
-All AI analyses, interpretations, and recommendations must be grounded in validated, peer-reviewed endurance science frameworks:
+Ground substantive recommendations in the [coaching evidence register](COACHING_EVIDENCE.md), distinguishing research findings, coaching judgment and unverified claims. The legacy reference inventory below is not a validation certificate: its sources and exact applications have not all been assessed in the curated literature. A named framework does not validate this application, its composite scores or its numerical cutoffs.
 
 | **Framework / Source**                                      | **Application Area**                                                                                                          |
 | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-|   Seiler’s 80/20 Polarized Training                         | Aerobic durability, balance of high/low intensity, and load control      				                                      |
+|   Polarized training as one intensity-distribution option                         | Aerobic durability, balance of high/low intensity, and load control      				                                      |
 |   San Millán’s Zone 2 Model                                 | Mitochondrial efficiency and metabolic health                          					                                      |
-|   Friel’s Age-Adjusted Microcycle Model                     | Sustainable progression and fatigue management                         					                                      |
+|   Friel’s Age-Adjusted Microcycle Model                     | Historical scheduling heuristic; age alone does not determine the microcycle                         					                                      |
 |   Banister’s TRIMP Impulse–Response Model                   | Load quantification and performance adaptation tracking                                                                       |
 |   Foster’s Monotony & Strain Indices                        | Overuse detection and load variation optimization                                                                             |
 |   Issurin’s Block Periodization Model (2008)                | Structured progression using accumulation → realization → taper blocks                                                        |
-|   Gabbett’s Acute:Chronic Workload Ratio (2016)             | Retrospective load-progression and band context (optimal ACWR 0.8–<1.3). Not standalone injury-risk inference and not readiness clearance; see Impellizzeri et al. (2020) below and *Readiness Decision* |
+|   Gabbett’s Acute:Chronic Workload Ratio (2016)             | Retrospective load-progression and band context (legacy ACWR reporting band 0.8–<1.3). Not standalone injury-risk inference and not readiness clearance; see Impellizzeri et al. (2020) below and *Readiness Decision* |
 |   Péronnet & Thibault Endurance Modeling                    | Long-term power–duration curve development                                                                                    |
 |   Cunningham & Faulkner Durability Metrics                  | Resistance to fatigue and drift thresholds                                                                                    |
 |   Coggan’s Power–Duration and Efficiency Model              | Aerobic efficiency tracking, power curve modeling, and fatigue decay analysis                                                 |
@@ -809,8 +813,7 @@ Each week's data (TSS, CTL, ATL, TSB, RI) is analyzed for trend and slope:
 | ACWR (0.8–<1.3)           | Load-progression context (retrospective band) |
 | Recovery Index (RI ≥ 0.8) | Fatigue–recovery equilibrium             |
 
-This produces a rolling phase block structure that adapts dynamically, ensuring progression and recovery follow real-world readiness rather than fixed calendar blocks.
-The system continuously reflects the athlete’s true state, evolving naturally through accumulation, stabilization, and adaptation phases.
+This produces a heuristic description of observed training patterns. It does not establish the athlete’s true physiological state or the best next training block. Keep detected phase separate from planned intent; use goals, completed training and current response to decide what changes.
 
 ---
 
@@ -874,15 +877,15 @@ The LT1/LT2 labels above describe what those bands approximate physiologically, 
 |**Metric**                        | **Formula / Model**                     | **Source / Theory**                            | **Purpose / Interpretation**                                     |
 | ---------------------------------| --------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------- |
 | Polarization (Power-based)       | (Z1 + Z3) / (2 × Z2)                    | Seiler & Kjerland (2006); Seiler (2010, 2019)  | Balances easy vs. moderate vs. hard; higher = more polarized     |   				 
-| Polarization Index (Normalized)  | (Z1 + Z2) / (Z1 + Z2 + Z3)              | Stöggl & Sperlich (2015)                       | Quantifies aerobic share; 0.7–0.8 = optimal aerobic distribution |   
-| Polarization Fused (HR + Power)  | (Z1 + Z3) / (2 × Z2) across HR + Power  | Seiler (2019)                                  | Validates intensity pattern when combining HR and power sources  |  
-| Polarization Combined (All-Sport)| (Z1 + Z2) / Total zone time (HR + Power)| Foster et al. (2001); Seiler & Tønnessen (2009)| Global endurance load structure; ≥ 0.8 = strongly polarized      |
-| Training Monotony Index          | Mean Load / SD(Load)                    | Foster (1998)                             | Evaluates load variation; high values = risk of uniformity or overuse |
+| Polarization Index (Normalized)  | (Z1 + Z2) / (Z1 + Z2 + Z3)              | Stöggl & Sperlich (2015)                       | Legacy descriptive ratio; no universally optimal share established |
+| Polarization Fused (HR + Power)  | (Z1 + Z3) / (2 × Z2) across HR + Power  | Seiler (2019)                                  | Descriptive aggregate; mixed measurement bases limit physiological interpretation  |
+| Polarization Combined (All-Sport)| (Z1 + Z2) / Total zone time (HR + Power)| Foster et al. (2001); Seiler & Tønnessen (2009)| Describes easy-time share; not a plan quality or safety threshold      |
+| Training Monotony Index          | Mean Load / SD(Load)                    | Foster (1998)                             | Describes load variation; not an injury probability |
 
 **Easy Time Ratio** (used in `derived_metrics.easy_time_ratio`):
 - Formula: `(Z1 + Z2) / Total zone time`, a 0–1 ratio of easy time
-- Target: ≥0.80 for polarized training
-- This is a quick sanity check for 80/20 compliance
+- Describe easy-time share with the zone basis and period; no universal target applies.
+- This is not interchangeable with a session-goal split or proof that a plan is effective.
 
 **Seiler & Kjerland Interpretation** (theoretical reference, not used for TID classification):
 - Polarization ratio > 1.0 → Polarized distribution
@@ -891,7 +894,7 @@ The LT1/LT2 labels above describe what those bands approximate physiologically, 
 
 For quantitative TID classification, the protocol uses the **Treff Polarization Index** described below.
 
-By combining HR- and power-based zone data, the athlete's intensity structure remains accurately tracked across all disciplines, ensuring consistency between indoor and outdoor sessions.
+Power and HR distributions have different limitations. Retain `zone_basis`, label mixed sources, and avoid implying exact agreement across sports or indoor/outdoor settings.
 
 ---
 
@@ -945,15 +948,14 @@ The `capability.tid_comparison` object compares these windows to detect distribu
 | Drift Category          | Condition                                        | Severity |
 |-------------------------|--------------------------------------------------|----------|
 | consistent              | 7d and 28d classification match                  | -        |
-| shifting                | 7d and 28d classification differ                 | warning  |
-| acute_depolarization    | 7d PI < 2.0 AND 28d PI ≥ 2.0                    | warning  |
+| shifting                | 7d and 28d classification differ                 | info     |
+| acute_depolarization    | 7d PI < 2.0 AND 28d PI ≥ 2.0                    | info     |
 
 `pi_delta` (7d PI minus 28d PI) quantifies the magnitude. Positive means more polarized acutely.
 
 **AI Response Logic:**
 - `consistent` → No mention needed in reports
-- `shifting` → Note in weekly report; investigate if sustained >2 weeks
-- `acute_depolarization` → Flag in pre-workout and weekly reports; likely indicates fatigue shifting distribution toward grey zone
+- `shifting` or `acute_depolarization` → Describe the change when relevant to the planned objective; compare with session purpose, measurement basis and response. Neither label establishes fatigue or poor training.
 - TID drift is a **Tier 3 diagnostic**. It informs coaching context, not go/no-go decisions
 
 #### Zone Preference Configuration
@@ -1061,7 +1063,7 @@ Before providing recommendations, AI systems must verify:
 | 7  | Multi-Metric Conflict Resolution | If HRV/RHR conflict with athlete-reported state, prioritize athlete-provided readiness. Note discrepancy, request clarification. Never override illness/fatigue with “good” TSB. |
 | 8  | Recommendation Auditability      | Cite specific data points used. Include reasoning chain. State confidence: "High" (all data) / "Medium" (1–2 gaps) / "Low" (>2 gaps).                  |
 | 9  | Rolling Phase Alignment          | Identify current phase from TSB trend and ramp rate. Recommendations must align with phase logic. Flag contradictions.                                 |
-| 10 | Protocol Version & Framework Citations | State Section 11 version. Cite frameworks when applying logic (e.g., "Per Seiler 80/20 model..."). Include framework version (e.g., “URF v5.1”)  |                                        
+| 10 | Protocol Version & Framework Citations | State Section 11 version. Cite the reviewed source or label the applied rule as coaching judgment. Include framework version (e.g., “URF v5.1”)  |
 
 ---
 
@@ -1175,7 +1177,7 @@ Reference alongside objective metrics when evaluating readiness, recovery, or ad
 
 All advice must respect the athlete's long-term objectives from the dossier and the current plan's progression logic. No training adjustments should violate:
 - Weekly volume tolerance
-- Polarisation ratio (80/20 intensity)
+- Intensity distribution with its measurement basis and planned purpose
 - Planned block phasing
 
 ---
@@ -1281,20 +1283,20 @@ When validating datasets, cross-check computed fatigue and load ratios against v
 
 | **Metric**                   | **Valid Range**                                    | **Flag (Early Warning)**           | **Alarm (Action Needed)**           | **Notes**                                                           |
 |------------------------------|----------------------------------------------------|------------------------------------|-------------------------------------|---------------------------------------------------------------------|
-| ACWR                         | 0.8–<1.3                                           | ≥ 1.3 (edge of optimal)           | ≥ 1.35 (above optimal)             | **Retrospective load bands, not readiness verdicts.** The Flag/Alarm columns are reporting thresholds for the live value; the alert objects they emit carry `readiness_eligible: false` and do not by themselves modify a session. High-side only. Low-side (<0.8) is load-state context (undertraining/taper) via acwr_interpretation. Readiness uses the start-of-day value, and the ACWR-based P1 Skip requires Tier-1 corroboration at ≥ 1.5; see *Readiness Decision* |
+| ACWR                         | 0.8–<1.3                                           | ≥ 1.3 (legacy reporting band)           | ≥ 1.35 (legacy alert band)             | **Retrospective load bands, not readiness verdicts.** The Flag/Alarm columns are reporting thresholds for the live value; the alert objects they emit carry `readiness_eligible: false` and do not by themselves modify a session. High-side only. Low-side (<0.8) is load-state context (undertraining/taper) via acwr_interpretation. Readiness uses the start-of-day value, and the ACWR-based P1 Skip requires Tier-1 corroboration at ≥ 1.5; see *Readiness Decision* |
 | Monotony                     | < 2.5                                              | At 2.3                             | At 2.5                              | See Monotony Deload Context below                                   |
 | Strain                       | < 3500                                             | -                                  | > 3500                              | Cumulative stress                                                   |
 | Recovery Index (RI)          | ≥ 0.8 good / 0.6–0.79 moderate / < 0.6 deload      | < 0.7 for 2+ days                 | < 0.7 for 3+ days → deload review; < 0.6 → immediate deload | Readiness indicator. Single-day dips 0.6–0.79 are context, not amber. |
 | HRV                          | Within personal baseline                           | ↓ > 20% vs baseline               | Persists > 2 days                   | Use 7-day rolling baseline                                          |
 | RHR                          | Within personal baseline                           | ↑ ≥ 5 bpm vs baseline             | Persists > 2 days                   | Use 7-day rolling baseline                                          |
 | Fatigue Trend                | −0.2 to +0.2                                       | -                                  | -                                   | ΔATL − ΔCTL (stable range)                                          |
-| Easy Time Ratio              | 0.75–0.9                                           | -                                  | -                                   | ~80/20 distribution                                                 |
+| Easy Time Ratio              | Athlete-specific descriptive share                  | -                                  | -                                   | No universal pass/fail ratio                                                 |
 | Durability Index (DI)        | ≥ 0.9                                              | -                                  | -                                   | Avg Power last hour ÷ first hour                                    |
 | Readiness Decision         | Pre-computed go/modify/skip (P0–P3 ladder)         | -                                  | -                                   | See Readiness Decision section. sync.py v3.72+          |
 | Load Ratio                   | < 3500                                             | -                                  | -                                   | Monotony × Mean Load, cumulative stress indicator                  |
 | Stress Tolerance             | 3–6 sustainable / <3 low buffer / >6 high capacity | -                                  | -                                   | (Strain ÷ Monotony) ÷ 100, load absorption capacity                |
 | Load-Recovery Ratio          | <2.5 normal / ≥2.5 alert                           | -                                  | -                                   | 7-day Load ÷ RI, **secondary** overreach detector (see note below) |
-| Grey Zone Percentage         | <5% normal / >8% elevated                          | -                                  | -                                   | Grey zone time as % of total; prevents tempo creep                 |
+| Grey Zone Percentage         | Interpret against planned moderate work             | -                                  | -                                   | Legacy Z3 label; not inherently unproductive                 |
 | Quality Intensity Percentage | See intensity distribution guidance                | -                                  | -                                   | Quality intensity (threshold+) as % of total                        |
 | Hard Days per Week           | 2–3 typical / 1 (base/recovery) / 0 (deload)       | -                                  | -                                   | For high-volume athletes (10+ hrs/week)                             |
 | Consistency Index            | ≥0.9 high match / <0.7 low match                   | -                                  | -                                   | Matched days / planned days (unique dates, not session counts). Coarse date adherence, not compliance |
@@ -1335,6 +1337,34 @@ Fictional example files are **not** a data source at any rung. Anything under an
 ---
 
 ### 8. Readiness & Recovery Thresholds
+
+#### Optional wearable data and athlete feedback
+
+HRV, resting heart rate and device-recorded sleep are optional observations, not prerequisites for ordinary training or progression. Intermittent overnight HRV is expected when an athlete chooses not to wear a device every night. Respect that preference; do not pressure the athlete to measure during sleep or acquire replacement readings. Missing HRV also makes its derived RI unavailable; neither absence is a fatigue signal or a failed readiness/progression gate. Do not impute a normal value, carry an older reading forward as today's, or substitute SDNN for RMSSD.
+
+For ordinary training and progression, apply HRV/RI conditions only when the necessary observations are available and interpretable. Otherwise assess the candidate session using completed training, available RHR/load information, current athlete feedback and existing health context. Missing device sleep data is not evidence of poor sleep. Do not require a run of measured nights before resuming this process. Condition-specific clinical, testing or advanced-intervention requirements still need their own justification; missing data does not establish eligibility for those interventions.
+
+Use the athlete's current account of fatigue, soreness, sleep/recovery, stress and symptoms as meaningful evidence. A concise volunteered report can be sufficient; ask only for unresolved information that could change the recommendation, and reuse relevant answers already given in this conversation. Do not repeat a questionnaire solely because HRV is missing, or treat a completed activity's Feel as current Feel. Do not claim that a reassuring self-report rules out illness or validates a readiness score.
+
+The existing P0/P1 protections, current-Feel escalation rules and Health Context clarification requirements still apply. Available adverse signals and symptoms must be addressed; missing wearables alone must not cause a Modify, Skip or blocked progression. A physiological `go` means no restriction was triggered by the available signals, not confirmation of recovery or health clearance.
+
+The additive `readiness_decision.input_context` contract has `policy_version: "optional_wearables_v1"`, `wearables_required: false`, sorted `available_signals` and `unavailable_signals`, and `evidence_status` (`some_signals_available` or `no_signals_available`). Lists describe the signals evaluated on that decision path, not independent observations, measurement freshness, baseline adequacy or a confidence score. Early P0/P1 returns may not evaluate TSB. If no signals are available, do not call the output a physiological green light: use training context and current feedback, asking only where needed. Older exports can omit this block; the same optional-data policy applies.
+
+Evidence and limits: [Saw](literature/cycling-training/papers/26423706/takeaways.md) supports athlete self-report; [Manresa-Rocamora](literature/cycling-training/papers/34639599/takeaways.md) supports contextual HRV interpretation without universal thresholds. This fallback policy is coaching judgment, not a validated replacement score.
+
+#### Observation quality and signal count review
+
+`derived_metrics.readiness_observations` schema version 1 date-aligns HRV, RHR and device sleep to `as_of_date`, using Intervals.icu wellness `id` calendar dates. `baseline_definition: "prior_calendar_days_excluding_assessed_day"` means the 7-day and 28-day means use the corresponding prior calendar days, excluding the assessed day. This changes the older baseline calculation that included the assessed day; check this marker before comparing exports. Each day's RI, including `recovery_index_yesterday`, uses its own prior-day baselines. Yesterday is an actual calendar date, not the previous array entry.
+
+Per-observation status is `current`, `stale`, `missing`, `conflicting` or `invalid`. Values with invalid dates, future dates, nonfinite/non-numeric values, and conflicting non-null values for a metric/date do not supply readiness observations. Identical duplicates count once. `latest_hrv`/`latest_rhr` are current valid values or null; the older observation's date remains visible in `last_observation_date`. Missing current HRV never carries an older night's reading forward. `sleepSecs` also requires the assessed date; missing device sleep is not short sleep. Raw wellness remains available for contextual review.
+
+Baselines expose their mean, distinct `sample_days`, window dates, coverage fraction and status (`unavailable`, `single_observation`, `multiple_observations`). `data_quality.hrv_data_points` and `rhr_data_points` now count those prior 7-day baseline days. A current observation cannot serve as its own reference. One prior valid observation permits comparison, with its limited support explicit; no minimum run of measured nights is required. Multiple observations and high coverage do not guarantee a stable, representative baseline. If comparison is unavailable, use the optional-data and athlete-feedback policy rather than restricting training for the missing metric.
+
+Provenance identifies the Intervals.icu wellness field, metric and units. `device` and `measurement_protocol` are null because this input contract does not establish them. Do not infer Fitbit, overnight versus morning acquisition, device consistency or a method change from a numeric value; ask about measurement changes only when relevant. The date is the upstream wellness date, not an independently verified measurement timestamp. RMSSD and SDNN remain distinct. Alert persistence counts consecutive calendar dates ending on the assessed day; a gap or conflicting observation breaks persistence.
+
+`readiness_decision.input_context.observation_quality` is `dated` for this quality contract, otherwise `not_provided` for legacy callers. It is not a reliability grade. `health_clarification_required` mirrors the supplied health block's boolean, or is null if unavailable. True still forbids an unqualified full-program recommendation even if physiology reads `go`; false means no marker-based clarification trigger, not confirmed health. The full Health Context rules and current athlete feedback still govern the final recommendation. Sync does not collect current Feel or infer it from a completed activity.
+
+`readiness_decision.signal_count_review` is **audit-only**. It groups HRV/RHR/RI as `autonomic`, ACWR/TSB as `load`, and sleep separately, using each group's worst available status. It records group counts and a `p2_candidate`, with `not_evaluated_p0_p1` for P0/P1 decisions. These groups are a coaching-policy hypothesis, not proven independent signals or a validated readiness algorithm. Do not use the candidate to override the active recommendation. Existing P0/P1 rules, numeric thresholds and active P2 counting remain unchanged; review candidate disagreements before considering a separate policy change.
 
 Monitor and respond to:
 
@@ -1485,7 +1515,7 @@ When recommendation is `modify`, the output includes trigger categories and adju
 | ACWR-driven | reduce | reduce | Z2 |
 | Combined (2+) | reduce | reduce | - |
 
-**Race week interaction:** Readiness can escalate (Go → Modify → Skip) during race week but cannot loosen race protocol targets. When `race_week_defers: true`, modification guidance defers to the race-week protocol's day-by-day targets. The race protocol sets the ceiling; readiness can only push it down.
+**Race week interaction:** Readiness can escalate (Go → Modify → Skip) during race week but cannot loosen race protocol targets. When `race_week_defers: true`, modification guidance defers to the race-week protocol's day-by-day targets. The individually justified event plan sets any applicable dose ceiling; the informational event prompts do not supply a universal target. Readiness and health can further restrict the plan.
 
 **JSON output location:** Top-level `readiness_decision` object in `latest.json`, alongside `alerts` and `derived_metrics`.
 
@@ -1554,16 +1584,13 @@ A negative TSB is the mechanism of adaptation, not a warning signal.
 
 In addition to recovery-based deload conditions, AI systems must detect readiness for safe workload, intensity, or interval progression ("green-light" criteria).
 
-#### Readiness Thresholds (All Available Must Be Met)
+#### Progression Evidence
 
-| **Metric**            | **Threshold**                           |
-|-----------------------|-----------------------------------------|
-| Durability Index (DI) | ≥ 0.97 for ≥ 3 long rides (≥ 2 h)       |
-| HR Drift              | < 3% during aerobic durability sessions |
-| Recovery Index (RI)   | ≥ 0.85 (7-day rolling mean)             |
-| ACWR                  | Within 0.8–1.3                          |
-| Monotony              | < 2.5                                   |
-| Current Feel (when solicited) | ≤ 3/5 (no systemic fatigue)     |
+Progress ordinary training when completion, intended stimulus, tolerability, current athlete feedback and relevant available observations support the next dose. Preserve the active readiness and health rules. Missing optional HRV/RI or missing long-ride measurements is not a failed gate.
+
+Use goal-relevant evidence: a long-event objective may need review of sustained or late-ride performance, while unrelated progression does not require three two-hour rides. DI, drift, ACWR, monotony and RI are contextual/heuristic measures, not a universal set of validated progression thresholds. A reassuring score alone is insufficient. Repeating or reducing the dose can be appropriate even after successful completion; record the reason and next review.
+
+Exact domain/template increments below remain coaching defaults subject to the athlete-specific policy in Section 11 B. Do not turn a suggested increment or scheduling pattern into a requirement to increase every week.
 
 ---
 
@@ -1683,12 +1710,12 @@ The recovery data does not establish that the athlete failed to absorb the prior
 Once duration and interval stability confirmed, controlled metabolic or thermoregulatory stressors may be introduced:
 - Higher carbohydrate intake (CHO/h) for fueling efficiency validation
 - Heat exposure or altitude simulation for environmental resilience
-- Fasted-state Z2 validation for enhanced metabolic flexibility
+- Deliberate low-carbohydrate/fasted riding is not a default progression stimulus. Any optional use needs an explicit purpose and consideration of session quality, fueling and recovery; the reviewed evidence does not establish a general performance advantage (see the evidence register).
 
 **Rules:**
-- Only one progression variable may be modified per week
-- Exposures must not exceed one per 7–10 days
-- Additional exposures require RI ≥ 0.85 and HRV within 10% of baseline
+- Do not automatically add an advanced exposure because a training block or wearable score permits it.
+- Exact exposure schedules are condition-specific coaching/clinical questions requiring their own evidence.
+- Preserve environmental safety modifications; a favorable RI/HRV value is not sufficient justification for an intervention.
 
 See **Environmental Conditions Protocol** for temperature-based session modification rules and acclimatization guidance.
 
@@ -1698,17 +1725,9 @@ See **Environmental Conditions Protocol** for temperature-based session modifica
 
 This rule applies exclusively to structured interval sessions (Sweet Spot, Threshold, VO₂max, Anaerobic, Neuromuscular work), not to general endurance, recovery, or metabolic progression blocks.
 
-It governs acute, session-level performance safety, ensuring localized overreach is corrected before systemic fatigue develops.
+Use unexpectedly costly execution as a contextual fatigue signal. An RPE increase alone cannot diagnose acute overreach, establish autonomic instability or prescribe a universal recovery duration. The unavailable intra-session HR-recovery trigger remains suspended; do not substitute whole-session HR.
 
-**Triggers:**
-- ~~Intra-session HR recovery worsens by >15 bpm between intervals~~ - **suspended (v11.51)**: no emitted field defines intra-session HR recovery, and it must not be substituted from `avg_hr`, `max_hr` or `min_hr`. Until a sustained recovery metric ships, this rule fires on the RPE trigger alone
-- RPE rises ≥2 points at constant power
-
-**Response:**
-- Classify as acute overreach.  
-- For minor deviations (isolated fatigue signals or transient HR drift), insert **1–2 days of Z1-only training** to restore autonomic stability.  
-- If fatigue persists after 2 days (RPE +2; the HR-recovery arm is suspended per v11.51), revert next interval session to prior week’s load or reduce volume 30–40% for 3–4 days.
-- Maintain normal Z2 endurance unless global readiness metrics also indicate systemic fatigue (RI < 0.7 for 3+ days, HRV ↓ > 20%)
+When effort rises unexpectedly at comparable power, check the athlete's current state, symptoms, environment, fueling, equipment/reference accuracy and interval placement. Expected high RPE on demanding work can be appropriate. Choose hold, reduce, substitute or stop according to current feedback and active readiness/health safeguards. Explain the actual dose change and next reassessment; do not impose a universal percentage reduction or number of recovery days from RPE alone. Repeated difficulty prompts review before escalation. Missing optional HRV neither explains the difficulty nor blocks ordinary recovery/planning decisions.
 
 ---
 
@@ -2821,102 +2840,20 @@ Do not override primary readiness signals with secondary load metrics.
 
 #### Zone Distribution Metrics (Seiler's Polarized Model)
 
-In addition to the polarisation ratios defined above in Zone Distribution & Polarisation Metrics, the following diagnostic metrics provide granular intensity distribution analysis aligned with Seiler's research.
+Intensity-distribution metrics describe what training contained. They do not by themselves establish plan quality, fatigue or an optimal stimulus. Apply Section 11 B's athlete-specific policy.
 
-**Critical Context:** Seiler's research shows that intensity distribution appears different depending on measurement method:
-- **By session count:** ~80% easy sessions, ~20% hard sessions (polarized appearance)
-- **By time in zone:** ~90%+ easy time, <10% hard time (pyramidal appearance)
+| Metric | Calculation | Interpretation |
+|---|---|---|
+| Grey Zone Percentage | Seven-zone Z3 time / usable zone time × 100 | Legacy label for moderate work; interpret its purpose and dose |
+| Quality Intensity Percentage | Seven-zone Z4+ time / usable zone time × 100 | Legacy label for higher-intensity time; adaptation also occurs at lower intensity |
+| Easy Time Ratio | Seven-zone (Z1+Z2) time / usable zone time | Descriptive easy share, without a universal target |
+| Hard days | Existing power/HR ladder classification | Operational scheduling heuristic; not a universal count requirement or proof of equal physiological cost |
 
-Both measurements are valid but serve different purposes. For **high-volume athletes** (10+ hours/week), **session count or hard days per week** is often more practical than time-in-zone percentage.
+Name the seven- or three-zone system, power/HR/mixed basis, period and denominator. The recorded seven-to-three-zone conversion approximates physiological domains; it does not measure LT1/LT2. Compare like measurements. Session-goal/count distribution differs from time in zone because preparation, recoveries and HR lag affect the latter. Neither metric should be substituted for the other to claim a research-protocol match.
 
-| **Metric**                       | **Formula / Method**                    | **Purpose**                                               |
-|----------------------------------|-----------------------------------------|-----------------------------------------------------------|
-| **Grey Zone Percentage**         | `Z3 Time ÷ Total Time × 100`            | Grey zone (tempo) monitoring; **minimize this**          |
-| **Quality Intensity Percentage** | `(Z4+Z5+Z6+Z7) Time ÷ Total Time × 100` | Quality intensity: hard work above threshold             |
-| **Easy Time Ratio**              | `(Z1+Z2) Time ÷ Total Time`             | Validates 80/20 distribution by time                      |
-| **Hard Days per Week**           | Count of days with Z4+ work             | Session-based intensity tracking for high-volume athletes |
+Do not apply separate mandatory ratios or session counts to athletes above or below a weekly-hours threshold. Select the distribution and demanding-session frequency from the goal, prior capacity, current availability and response. Intentional tempo/moderate work may serve a goal; easy work should remain easy when that is its purpose. Review unintended intensity, repeated poor tolerance or an objective not being met, rather than declaring all Z3 unproductive.
 
-**Zone Classification (7-Zone to Seiler 3-Zone Mapping):**
-
-| 7-Zone Model | Seiler Zone | Classification | Notes                                                     |
-|--------------|-------------|----------------|-----------------------------------------------------------|
-| Z1–Z2        | Zone 1      | Easy           | Below LT1/VT1 (<2mM lactate)                              |
-| Z3           | Zone 2      | Grey Zone      | Between LT1 and LT2: "too much pain for too little gain" |
-| Z4–Z7        | Zone 3      | Hard/Quality   | Above LT2/VT2 (>4mM lactate)                              |
-
-**Intensity Distribution Targets:**
-
-For athletes training **<10 hours/week** (time-based targets more practical):
-
-| **Phase** | **Grey Zone % Target** | **Quality Intensity % Target** | **Easy Time Ratio** |
-|-----------|------------------------|--------------------------------|------------------------|
-| Base      | <5%                    | 10–15%                         | ≥0.85                  |
-| Build     | <8%                    | 15–20%                         | ≥0.80                  |
-| Peak      | <10%                   | 20–25%                         | ≥0.75                  |
-| Recovery  | <3%                    | <5%                            | ≥0.95                  |
-
-For athletes training **≥10 hours/week** (session-based targets more practical):
-
-| **Phase** | **Grey Zone % Target** | **Hard Days/Week** | **Easy Days/Week** | **Rest Days** |
-|-----------|------------------------|--------------------|--------------------|---------------|
-| Base      | <5%                    | 1                  | 5–6                | 1             |
-| Build     | <8%                    | 2                  | 4                  | 1             |
-| Peak      | <10%                   | 2–3                | 3–4                | 1             |
-| Recovery  | <3%                    | 0                  | 3–4                | 2–3           |
-
-**Why Session Count Matters for High-Volume Athletes:**
-
-When training 15+ hours per week, a 2-hour interval session might only contribute 5–7% of total weekly time in Z4+, despite being a full "hard day." By time-in-zone metrics, this looks insufficient. By session count, 2 hard days out of 6–7 training days (~30%) is appropriate for a build phase.
-
-**Reference:** Seiler's research on elite cross-country skiers showed 77% of training sessions were easy and 23% were hard, while by time 91% was in zones 1–2 and only 9% in zones 3–5.
-
-**AI Response Logic:**
-- Grey Zone Percentage >8% for ≥2 consecutive weeks → Flag tempo creep; recommend restructuring
-- Quality Intensity Percentage <10% AND Hard Days <2/week during build phase → Flag insufficient intensity stimulus
-- Hard Days >3/week for ≥2 consecutive weeks → Flag overintensity risk; check RI and ACWR
-
-**Example Valid Training Week (Build Phase, 15 hours total):**
-- Monday: Rest + cross-training (walk, ski erg)
-- Tuesday: Z2 endurance (2.5 hours)
-- Wednesday: **Hard day**. VO2max intervals (1.5 hours, includes Z4+ work)
-- Thursday: Z1–Z2 recovery/endurance (2 hours)
-- Friday: Z2 endurance (2.5 hours)
-- Saturday: **Hard day**. Threshold intervals (2 hours, includes Z4+ work)
-- Sunday: Z2 long ride (4.5 hours)
-
-This yields: ~3% Quality Intensity % by time, but 2 hard days (29% of training days); both are correct measurements.
-
----
-
-#### Grey Zone Percentage - Grey Zone Monitoring
-
-To prevent unintended accumulation of tempo/threshold-adjacent intensity during base or recovery phases, monitor:
-
-```
-Grey Zone Percentage = Z3 Time ÷ Total Training Time × 100
-```
-
-**Phase-Appropriate Targets:**
-| **Phase** | **Grey Zone % Target** | **Alert Threshold** |
-|-----------|------------------------|---------------------|
-| Base      | <5%                    | >8%                 |
-| Build     | <8%                    | >12%                |
-| Peak      | <10%                   | >15%                |
-| Recovery  | <3%                    | >5%                 |
-
-**AI Response Logic:**
-- Grey Zone Percentage exceeding alert threshold for ≥2 consecutive weeks → Flag tempo creep
-- During base phase, elevated Grey Zone % often indicates insufficient Z1 volume or unstructured "junk miles"
-- AI must recommend session restructuring to restore polarisation balance
-
-**Why Z3 is the "Grey Zone":**
-
-Per Seiler's research, training between the aerobic and anaerobic thresholds (tempo/sweetspot) generates:
-- More fatigue than Z1–Z2 work
-- Less adaptation stimulus than Z4+ work
-- "Too much pain for too little gain"
-
-Elite athletes consistently minimize Z3 exposure, favouring clear polarisation between easy (Z1–Z2) and hard (Z4+) sessions.
+`shifting` and `acute_depolarization` remain descriptive compatibility labels. Their Tier-3 notices are informational; a change may be planned, reflect a different measurement basis, or follow changed availability. It is not an automatic fatigue flag, restructuring instruction or reason to increase intensity. Other independent adverse evidence must still be addressed. Use the [evidence register](COACHING_EVIDENCE.md) for the limits on polarized-versus-pyramidal comparisons.
 
 ---
 
@@ -3301,7 +3238,7 @@ To ensure AI systems evaluate metrics in the correct order:
 | Load-Recovery Ratio          | Fatigue Index Ratio (FIR) | **Different purpose.** FIR measures power sustainability (20min vs 60min). Load-Recovery Ratio measures load vs recovery capacity.   |
 | Specificity Volume Ratio     | Specificity Score         | **Complementary.** Volume Ratio tracks *how much* time is event-specific. Score tracks *how well* sessions match event demands.      |
 | Endurance Decay              | Durability Index (DI)     | **Diagnostic breakdown.** DI is the primary metric. Endurance Decay provides detail when DI <0.95.                                   |
-| Grey Zone Percentage         | Easy Time Ratio           | **Complementary.** Easy Time Ratio validates 80/20 by easy time. Grey Zone Percentage specifically flags grey zone creep.            |
+| Grey Zone Percentage         | Easy Time Ratio           | **Complementary.** Easy Time Ratio describes easy-time share; Grey Zone Percentage describes moderate time. Neither supplies a universal validation target.            |
 | Quality Intensity Percentage | Easy Time Ratio           | **Complementary.** Quality Intensity Percentage tracks quality intensity. For high-volume athletes, Hard Days per Week is preferred. |
 | Stress Tolerance             | Strain                    | **Derived from.** Stress Tolerance = (Strain ÷ Monotony) ÷ 100, providing absorption capacity context.                               |
 | Aggregate Durability         | HR–Power Decoupling       | **Aggregates.** Per-session decoupling is the raw input; aggregate durability provides the 7d/28d trend view.                        |
@@ -3343,16 +3280,9 @@ Current JSON is the source of truth for thresholds and metrics. SECTION_11.md is
 
 ### AI Interaction Template
 
-If uncertain about data integrity, the AI must default to the following confirmation sequence:
+If evidence is uncertain, identify the specific unresolved input and ask only what changes the recommendation. Read current thresholds/load from the owning data source; do not ask the athlete to recite already available values. Current symptoms, feedback or changing availability may matter more than another measurement. Missing optional HRV/RHR or a night's device sleep is not a reason for a repeated questionnaire or mandatory nightly wear. Preserve uncertainty and source dates rather than substituting remembered values.
 
-> “To ensure accurate recommendations, please confirm:  
-> - Current FTP / LT2  
-> - Latest HRV and RHR  
-> - Current CTL, ATL, and Form (from Intervals.icu)  
-> - Any illness, soreness, or recovery issues this week?”
-
-All recommendations must reference **only verified data**.  
-If new metrics are imported from external platforms (e.g., Whoop, Oura, HRV4Training), record the source and timestamp, but retain **Intervals.icu** as the Tier-0 data reference.
+For a durable plan, use [adaptive reviews](examples/agentic/ADAPTIVE_REVIEWS.md): compare the applicable frozen prescription with authoritative completion pairing, keep adherence, goal attainment and response separate, record causes, and create a concrete future revision when adjustment is warranted. Persist the reviewed data/plan identity so unchanged athlete-requested or explicitly opted-in scheduled reviews create no duplicate revision or notification. Reviews propose; calendar publication remains separately approved.
 
 ---
 
@@ -3410,111 +3340,37 @@ See `SEASON_REPORT_TEMPLATE.md` in the examples directory for the full structure
 
 ### Race-Week Protocol
 
-**Purpose:** Day-by-day decision framework for the final 7 days before a goal event (D-7 through D-0). This protocol complements the existing Taper phase detection; it does not replace it. The broader 2-week taper is handled by phase detection logic; this protocol governs the final week where day-by-day decisions matter.
+**Policy: `event_specific_v1`.** Keep event awareness separate from a binding training prescription. An event's priority identifies importance, not duration, physiological intensity, available training time or a mandatory TSB target. Use the [reviewed taper takeaway](literature/cycling-training/papers/37163550/takeaways.md) with its subgroup limits; exact taper choices remain coaching judgment.
 
-**Scientific basis:** Mujika & Padilla (2003), Bosquet et al. (2007), Wang et al. (2023), Altini (HRV during taper), Pyne et al. (2009).
+#### Event awareness and context
 
----
+`race_calendar` retains upcoming races, priority, dates, supplied duration and informational 8–14-day/last-week review prompts. These prompts do not generate a taper dose. Missing, zero, invalid or contradictory duration remains unknown; ask for expected duration only when it changes preparation. The legacy `short_intense` duration label is a duration bucket, not evidence that the event is intense. Record actual terrain, decisive efforts, indoor/outdoor setting, likely duration, logistics and availability separately.
 
-#### Three-Layer Race Awareness
+Prepare a priority event from recent **completed** training, actual response and the athlete's goal. An A-priority short event need not use a long-event plan. Reduced or disrupted preparation does not authorize a last-minute overload. B- and C-priority events may fit within ongoing training; priority alone does not select a numerical taper or make health restrictions weaker. With multiple events, state which objective is prioritized and how the others affect recovery and availability.
 
-The `race_calendar` block in the data mirror provides race awareness at three levels:
+#### Individual taper choice
 
-**Layer 1 - Race Calendar (D-90+):** Always shows all upcoming races within 90 days, regardless of distance. AI systems should acknowledge upcoming races in general coaching context (e.g., "Your A race is 23 days out, current CTL trajectory looks good for that timeline").
+Choose a feasible reduction in accumulated fatigue, considering some familiar intensity when tolerated and useful. State the reference training period, its coverage, actual completed volume, planned preparation period, dose and rationale. Preserve recovery and event specificity within availability. Familiar intensity does not require a demanding session on every taper or a minimum frequency.
 
-**Layer 2 - Taper Onset Alerts (D-14 to D-8):** When a `RACE_A` event is 8–14 days away, `taper_alert.active = true`. AI systems should:
-- Alert the athlete to begin volume reduction (target 41–60% reduction over 2 weeks)
-- Emphasise maintaining intensity throughout the taper
-- Note that CTL should peak now or within the next few days
-- Remind: reduce session duration, not frequency (frequency reduction ≤20%)
+The review's 41–60% reduction and 8–14-day subgroup findings are research references, not universal optima; several between-subgroup comparisons were not significant and samples were small. Do not require overload before taper, a CTL peak, CTL × 7 weekly capacity, a fixed fraction of that budget or a target TSB range. A reduction suitable for one athlete can be excessive or insufficient for another. Review response and learn from previous tapers.
 
-**Layer 3 - Race-Week Protocol (D-7 to D-0):** When a `RACE_A` or `RACE_B` event is ≤7 days away, `race_week.active = true`. The full day-by-day decision tree below activates.
+Optional `block.event_preparation` in the [private plan contract](examples/agentic/EVENT_PREPARATION.md) records event demands, completed-training evidence and an explicit taper calculation against selected complete prescriptions. It does not infer event duration from priority or compute physiological freshness from CTL. Later revisions remain attributable and calendar publication separately approved.
 
-**Race priority detection:**
-- `RACE_A` within 7 days → Full race-week protocol
-- `RACE_B` within 7 days → Race-week protocol with lighter taper (smaller volume reduction acceptable, lower TSB target acceptable)
-- `RACE_C` → Excluded. Training races; no taper adjustments
+#### Last-week prompts, not a universal session schedule
 
----
+- Review whether any final demanding work is needed and already familiar; avoid proving fitness through an unnecessary test.
+- Choose easy work or rest from current response and availability; no mandatory easy-ride minimum applies to a long event.
+- An opener is optional. Select a suitable checked variant only if familiar, feasible and useful; do not compress preparation/recovery to fit a prescribed number of efforts.
+- Review travel, equipment, pacing and tested fueling. Unknown event duration cannot trigger a long-event carbohydrate prescription. Dietary amounts and condition-specific guidance require their own appropriate evidence and athlete context.
+- New symptoms, weakness or unusual fatigue need ordinary assessment. Do not dismiss them as "taper tantrums" or interpret a low HRV as guaranteed sympathetic readiness. Missing overnight HRV does not require device wear.
 
-#### Day-by-Day Decision Tree
+#### Readiness and event-day decisions
 
-All load targets are relative to the athlete's current CTL. Normal weekly TSS ≈ CTL × 7. Race-week TSS budget: 40–55% of normal weekly TSS.
+Preserve active P0/P1 stops, health clarification and current athlete feedback. Event importance cannot override them. An isolated optional HRV value or one poor night's sleep is context, not an automatic DNS; it also cannot erase other adverse evidence. A favorable TSB or subjective report is not health clearance. Use the existing illness/injury process and the actual event context; this protocol does not add a medical return algorithm.
 
-| Day | Label | Load (% of CTL) | Zones | Purpose |
-|-----|-------|-----------------|-------|---------|
-| D-7 | Last key session | 75–100% | 3–5 efforts Z4–Z5 (1–3 min) | Fitness confirmation. Verify strong power/HR response. |
-| D-6 | Recovery | ≤30% | Z1–Z2 only | Active recovery. |
-| D-5 | Moderate endurance | 40–60% | Z1–Z2 + 2–3 race-pace touches | Maintain feel without adding fatigue. |
-| D-4 | Easy / rest | 0–40% | Z1–Z2 only | Carbohydrate emphasis begins if applicable; full loading dose starts 36–48 h before the event. |
-| D-3 | Easy / rest | 0–40% | Z1–Z2 only | "Feeling flat" expected; see note below. |
-| D-2 | Opener | 30–50% | 3–5 efforts Z4–Z6 (20–60s), high cadence, full recovery | Neuromuscular activation. |
-| D-1 | Rest / minimal | 0–20% | Z1 only if active | Final rest, logistics, equipment check. |
-| D-0 | Race day | - | - | Go/no-go assessment. |
+#### Producer compatibility
 
----
-
-#### Event-Type Modifiers
-
-Event duration is classified from `moving_time` in the race event data. When `moving_time` is not set: `RACE_A` defaults to `long_endurance`, `RACE_B` defaults to `medium`.
-
-| Duration Class | Moving Time | TSB Target | Opener (D-2) | Carb Loading | Rest vs Easy (D-4/D-3) |
-|---------------|-------------|------------|---------------|-------------|------------------------|
-| Short / intense | < 90 min | +5 to +15 | More intense: 5–6 efforts, include Z5–Z6 | Not required | Full rest acceptable |
-| Medium | 90 min – 3 h | +10 to +20 | Standard: 3–5 efforts Z4–Z5 | Recommended | Either |
-| Long endurance | > 3 h | +10 to +25 | Lighter: 3–4 efforts Z4 only | Critical (10–12 g·kg⁻¹/day, final 36–48 h) | Prefer easy endurance over complete rest |
-
----
-
-#### Go / No-Go Checklist (D-0)
-
-| Check | Green | Flag (context only) | Red |
-|-------|-------|---------------------|-----|
-| TSB | Within target range | >10 below target → note, do not recommend DNS | - |
-| HRV | Logged for context | Never a decision input | Never a race stopper |
-| Sleep | Logged for context | ≤5 h noted for the record | Never a race stopper |
-| Illness / injury | None | Minor (cold, soreness) → note, race at athlete's discretion | Fever, acute injury, GI illness → recommend DNS |
-
-**Only illness or injury can recommend DNS.** HRV and sleep are logged for post-race analysis only.
-
----
-
-#### Mandatory Protocol Guidance
-
-AI systems must include the following guidance when race-week protocol is active. These are not optional; they correct well-documented athlete misconceptions that lead to poor race-week decisions.
-
-**Taper tantrums (D-4 through D-2):**
-
-> During days D-4 through D-2, athletes commonly experience: reduced motivation, heavy legs, mood changes, phantom aches, and self-doubt. This is a normal physiological response to significant volume reduction ("taper tantrums") and is NOT an indication of lost fitness. Do not prescribe additional training in response to these symptoms. Maintain the taper plan.
-
-**Pre-race sleep and HRV:**
-
-> Pre-race sleep disruption is extremely common and does not predict poor performance. Sleep quality is logged for the record but must NEVER be used as a factor in go/no-go decisions. HRV commonly drops during taper; this is associated with increased sympathetic readiness and has been linked to world-class performance (Altini). Race-morning HRV is almost always suppressed due to anticipatory stress. This is normal, not concerning.
-
-**Carb loading (events ≥ 90 min):**
-
-> For events exceeding 90 minutes, the glycogen-loading dose is 10–12 g·kg⁻¹ per day across the final 36–48 hours (Thomas, Erdman & Burke, 2016). Carbohydrate emphasis can begin earlier in the taper at a more moderate level, but the full loading dose is not a four-day prescription; that overstates both the evidence and the eating burden. No depletion phase is needed; simply increase carbohydrate intake alongside reduced training volume. Athletes should arrive at racing weight at the start of the taper, not the end.
-
----
-
-#### RACE_B Modifications
-
-When the target event is `RACE_B` rather than `RACE_A`:
-- Volume reduction may be smaller (race-week TSS budget 50–65% of normal instead of 40–55%)
-- TSB target range is 5 points lower than the event-type default
-- The D-7 "last key session" may be a normal training session rather than a race-specific confirmation
-- Carb loading is optional for medium-duration B races
-- Go/no-go checklist still applies but with lower stakes; athlete discretion prevails
-
----
-
-#### Edge Cases
-
-**Multiple races in the same window:** If both a `RACE_A` and `RACE_B` fall within 7 days, the protocol targets the `RACE_A`. The `RACE_B` is treated as a training stimulus or secondary event.
-
-**No moving_time set:** When the athlete has not entered an expected duration for the event, default to `long_endurance` for `RACE_A` and `medium` for `RACE_B`. The AI should note the assumption and suggest the athlete update the event in Intervals.icu with expected duration for more precise guidance.
-
-**Travel disruption:** When the athlete reports travel in the days before the race, the recommendation is to reduce training load further than the protocol targets. Travel fatigue compounds taper fatigue; err on the side of more rest.
+New output keeps event/date/load observations and the zero-training-load TSB projection as descriptive context. The projection is not a prediction of the athlete's actual taper. `normal_weekly_tss`, `race_week_tss_budget`, `race_week_tss_remaining`, `tsb_target_range` and day `load_target_tss` are **null** under `event_specific_v1`; never substitute zero or recreate the retired formulas. Existing older exports lack this policy: refresh them and do not treat their legacy targets as a new athlete-specific plan. Automatic full-dose carbohydrate loading/timing is no longer emitted from priority/duration alone. TSS spent is observed, not a budget.
 
 ---
 
@@ -3524,73 +3380,96 @@ End of Section 11 A. AI Coach Protocol
 
 ## 11 B. AI Training Plan Protocol
 
-**Purpose:**  
+**Purpose:**
 Define deterministic, phase-aligned rules for AI or automated systems that generate or modify training plans, ensuring consistency with the athlete's long-term objectives, physiological safety, and audit traceability.
 
 ---
 
-### 1 - Phase Alignment
-Identify the current macro-phase (**Base → Build → Peak → Taper → Recovery**) using:
-- **TSB trend**, **RI trend**, and **ACWR range (0.8 – 1.3)**  
-- Active-phase objectives defined in *Section 3 - Training Schedule & Framework*  
+### 1 - Athlete Context and Planning Intent
 
-Generated plans must explicitly state the detected phase in their audit header.
+Apply `planning_policy: "athlete_specific_v1"` to every proposed or modified plan. This policy replaces universal hours, intensity-ratio, session-count and build/deload requirements elsewhere in the protocol or examples. The active readiness decision, health clarification, data-quality and calendar-write safeguards still apply.
 
----
+Start with the athlete's goal or event demands, experience, current fitness/test context, recent completed training, response, current availability, preferences and constraints. Use stable dossier context with dated calendar/current-chat updates; do not rewrite the dossier for a temporary change. General fitness and sustainable consistency are valid goals. Ask only for missing information that could change the prescription, reusing relevant current answers.
 
-### 2 - Volume Ceiling Validation
-- Weekly training hours may fluctuate ±10 % around the athlete’s validated baseline (~15 h).  
-- Expansions beyond this range require **RI ≥ 0.8 for ≥ 7 days** and HRV stability within ±10 % of baseline.  
-- Any week exceeding this threshold must flag  
-  `"load_variance": true` in the audit metadata.
+Distinguish `phase` (the detected, descriptive phase, or null when unknown) from `planned_phase` and the block objective. A mismatch is a review question, not permission to discard the plan or overwrite the athlete's goal. Calendar season, age and a positive readiness score do not by themselves determine the training structure.
 
----
+### 2 - Feasible Volume and Capacity
 
-### 3 - Intensity Distribution Control
-- Maintain **polarisation ≈ 0.8 (80 / 20)** across the microcycle.  
-- **Z3+ (≥ LT2)** time ≤ 20 % of total moving duration.  
-- **Z1–Z2** time ≥ 75 % of total duration.  
-- Over-threshold accumulation outside these bounds triggers automatic plan validation error.
+- Establish available training time for the proposed week and relevant session windows. This is a feasibility ceiling, not a target to fill. Include preparation/recovery steps and other training such as strength within the time and recovery budget.
+- Choose planned volume from recent **completed** training and tolerability, goals and available time. State the reference period, coverage and unusual interruptions. Missing history is not a 15-hour baseline; ask for a useful recent-training account and make any provisional starting assumption explicit.
+- A shorter week, repeated week, or recovery week can be the right choice. Do not impose a universal percentage increase, a minimum weekly volume, or a requirement to restore load after missed sessions. Extra availability does not establish the capacity to use it.
+- Explain meaningful increases or decreases relative to the chosen training reference and how response will be reviewed. Any selected review band is an athlete-specific coaching heuristic, not a validated safe ramp. A planned change beyond an old fixed band is not by itself a validation failure.
+- Missing overnight HRV/RI does not block ordinary progression or require a run of measured nights. Use available data, completed-session quality and current feedback, while addressing actual adverse signals and health uncertainty.
 
----
+### 3 - Purposeful Intensity Distribution
 
-### 4 - Session Composition Rules
-- **2 structured sessions/week** (Sweet Spot or VO₂ max)  
-- **1 long Z2 durability ride**  
-- Remaining sessions = Z1–Z2 recovery or aerobic maintenance  
-- Back-to-back high-intensity days prohibited unless **TSB > 0 and RI ≥ 0.85**
+Select an intensity approach that serves the athlete's objective and tolerability. Polarized and pyramidal patterns are options, not universal winners; deliberate moderate/tempo work can be appropriate. Do not automatically fail a plan for missing 80/20, exceeding 5% Z3, or differing from another athlete's distribution.
 
----
+Record the intended approach, zone model, measurement basis, time window and rationale. Session purpose/count, planned power-zone minutes and measured HR-zone minutes are different quantities. Recorded seven-zone bands approximate rather than independently establish LT1/LT2; do not equate seven-zone Z3 with three-zone Z3. A mixed power/HR aggregate is not a precise physiological prescription. Report unavailable ratios as null rather than inventing precision.
 
-### 5 - Progression Integration
-Only one progression vector may change per week **unless**:
-- Pathways 1+2 (Duration + Interval): permitted if RI ≥ 0.8, HRV within 10%, no negative fatigue trend
-- Pathways 2+3 (Interval + Environmental): permitted if RI ≥ 0.85, HRV stable, no recent load spikes
-- Pathways 1+3 (Duration + Environmental): **never permitted**
+Compare observed distribution with the actual plan and response. Investigate an unintended change when it matters to the objective; the distribution or classification alone cannot establish fatigue, inadequate stimulus or ineffective training. See [planning evidence and heuristics](COACHING_EVIDENCE.md).
+
+### 4 - Session Composition and Recovery
+
+Choose the number, type and placement of sessions from the objective, recent capacity, availability and response. There is no mandatory pair of structured sessions or weekly long ride. An easy-only week can be appropriate, and a moderate-intensity session need not be replaced by VO2max work to satisfy a quota. Reusable templates remain the structured-session design source.
+
+When longer-event preparation calls for longer riding, explain the specificity requirement and any availability compromise; short intervals are not established replacements for all event-specific volume. Do not make long-ride measurements a prerequisite for unrelated progression. Count demanding strength or other sports in the recovery budget.
+
+Use an easy/rest day between demanding sessions as a conservative default. The library's 48-hour guidance is a scheduling heuristic, not a universal biological boundary. Deliberately clustered demanding work requires an explicit goal, evidence of prior tolerability, current feedback and a recovery plan; TSB/RI alone cannot authorize it. Preserve all active readiness and health restrictions.
+
+### 5 - Progression and Review
+
+Give the block an objective, a progression hypothesis, recovery opportunities and a review date. Choose repeat, hold, progress, reduce or rearrange from what was completed and how the athlete responded. Prefer changing one main dose variable at a time to make response interpretable; exact increments and sequencing are coaching judgments within template constraints, not guaranteed optimal recipes.
+
+Use completion, goal attainment and response cost separately. A missed session is not an automatic debt. Review the reason before changing future work. Do not require a calendar-driven increase or recovery week; patterns such as 2:1, 3:1 and 4:1 may be selected and revised with a stated rationale. Age alone does not choose the pattern. Advanced nutritional/environmental interventions require their own evidence and suitability assessment; favorable wearable metrics are not sufficient justification.
 
 ---
 
 ### 6 - Audit Metadata (Required Header)
 
-Every generated or modified plan must embed machine-readable metadata for audit and reproducibility:
+Every generated or modified plan must embed machine-readable metadata for audit and reproducibility. The following values are synthetic illustrations; real plans must reflect the athlete’s actual inputs:
 
 ```json
 {
   "data_source_fetched": true,
   "json_fetch_status": "success",
-  "plan_version": "auto",
-  "phase": "Build",
-  "week": 3,
-  "load_target_TSS": 520,
-  "volume_hours": 15.2,
-  "polarization_ratio": 0.81,
+  "planning_policy": "athlete_specific_v1",
+  "plan_version": "draft-2026-10-26-01",
+  "phase": "Base",
+  "planned_phase": "Base",
+  "goal": "Sustainable general cycling fitness",
+  "block_objective": "Repeat tolerable aerobic and moderate work consistently",
+  "week": 1,
+  "availability": {
+    "weekly_minutes": 240,
+    "session_windows": [
+      { "date": "2026-10-27", "max_minutes": 60 },
+      { "date": "2026-10-29", "max_minutes": 60 },
+      { "date": "2026-10-31", "max_minutes": 120 }
+    ]
+  },
+  "recent_training_reference": {
+    "weekly_minutes": 210,
+    "period": "four completed weeks",
+    "coverage": "complete"
+  },
+  "load_target_TSS": null,
+  "volume_hours": 4.0,
+  "volume_rationale": "Modest extension of tolerated riding within current availability; review response",
+  "intensity_distribution": {
+    "intent": "pyramidal",
+    "zone_model": "athlete_configured_7_zone",
+    "basis": "planned_power_time",
+    "period": "2026-10-26/2026-11-01",
+    "rationale": "Mostly easy riding with one purposeful moderate session"
+  },
   "progression_vector": "duration",
-  "load_variance": false,
-  "validation_protocol": "URF_v5.1",
-  "confidence": "high",
+  "progression_rationale": "Extend easy riding; hold the demanding session dose",
+  "review_date": "2026-11-01",
+  "validation_protocol": "Section_11_B",
+  "confidence": "medium",
   "session_selections": [
-    { "session_index": 3, "date": "2026-09-15", "session_template": "SS-5", "saved_workout_id": 9001 },
-    { "session_index": 5, "date": "2026-09-17", "session_template": "VO2-3" }
+    { "session_index": 2, "date": "2026-10-29", "session_template": "SS-4" }
   ]
 }
 ```
@@ -3610,24 +3489,29 @@ Every generated or modified plan must embed machine-readable metadata for audit 
 Interpretation:
 This header documents provenance, deterministic context, and planning logic for downstream validation under Section 11 C - AI Validation Protocol.
 
+**Persistent plan record.** With code execution and durable private storage, use [COACHING_PLANS.md](examples/agentic/COACHING_PLANS.md) and `coaching_plan.py` to persist the schema-1 plan, evidence references and exact prescriptions. Recover current intent with `show --compact` and retrieve the relevant prescription ID when exact steps are needed. Include the returned `plan_id`/`revision_id` and relevant `prescription_id` in rendered plan/report references; the audit header's data-fetch and confidence requirements still apply. The store's canonical block, availability and session selections represent those planning fields explicitly. Temporary availability belongs in dated revisions, not the stable dossier.
+
+Use a fresh request ID and current parent revision when changing goals, availability or sessions. Preserve old snapshots, original power references and publication history; current saved workouts/FTP cannot rewrite a past prescription. The store validates supplied session/day/week capacity before managed calendar preview, while physiological suitability, current feedback and health remain coaching requirements. Missing optional HRV is not a storage or publication gate.
+
+Publish managed plans through the store's exact preview/confirmation flow, including moves and removals. An uncertain or interrupted write requires reconciliation before another calendar mutation; never retry by bypassing the journal with raw push/move/delete. Calendar publication is not completion. Read current Intervals.icu data for current state and authoritative activity pairing before selecting an old published version. Standalone push and external calendar edits are not automatically journaled. Without durable storage/execution, provide a reviewable plan artifact and state that persistence/checks are manual; do not claim automatic revision history.
+
 ### 7 - Compliance & Error Handling
 
-Plans breaching tolerance limits must not publish until validated.
+Before proposing publication, verify feasibility, relevant athlete context, the chosen objective, session-template constraints, active readiness/health requirements and the audit header. An unknown essential input requires focused clarification or an explicitly provisional proposal, not fabricated data. Never publish beyond a known availability window. The existing preview and athlete-confirmation rules still govern writes.
 
-AI systems must output an explicit reason string for rejections, e.g.:
-"error": "ACWR ≥ 1.35 — above load-band reporting threshold; corroboration required"
+Give a concrete rejection reason, such as `"planned session exceeds Thursday's 60-minute window"`. Do not reject solely for a universal intensity ratio, session count, percentage change or absent optional HRV. A human-requested change must identify the affected assumption and retain health/readiness protections; metadata alone is not permission to override them.
 
-Human-review override requires athlete confirmation and metadata flag "override": true.
-
----
+These are agent validation requirements. The push script does not enforce the complete plan header or certify physiological safety. Its structured-prescription path checks documented numeric workout guards. The managed `coaching_plan.py` path additionally persists revisions/snapshots and validates supplied session/day/week capacity before calendar preview or writing; it does not establish truthful inputs, full external-calendar feasibility or health clearance.
 
 ### 8 - Workout Reference Interface
+
+**Checked power prescriptions.** For an API calendar write of a structured cycling power workout, include schema-1 `coaching_prescription` as described in [WORKOUT_VALIDATION.md](examples/agentic/WORKOUT_VALIDATION.md). Use the checked template version, explicit steps, configured zone bounds, named fitness reference and actual session window. Preview and confirmed creation share the compiler. Do not substitute FTP for ramp peak power, invent assessment provenance from a setting date, or strip a failed prescription. `checked` covers the documented numeric guards, not physiological safety, exact technique or full-plan feasibility. Unsupported formats require a reviewed catalog addition; legacy/native `not_checked` is not coaching validation. Without execution capability, label checks manual. Preserve readiness/health, suitability and plan-capacity requirements.
 
 When a plan requires a structured session (per Section 4), the AI must base it on a template in the **Workout Reference Library** (`examples/workout-library/WORKOUT_REFERENCE.md`) and adapt its prescription within that template's permitted variants and constraints. The Reference Library is equally the design source when a structured session is prescribed outside a generated plan, including a familiar workout the athlete names or a saved workout proposed for reuse: identify the template it implements, and flag a gap rather than improvise. Audit metadata remains governed by Section 6.
 
 **Selection rules:**
 - Match target adaptation (Sweet Spot, VO₂max, Endurance, etc.) to the session slot identified by the plan.
-- Use Section 11 A readiness outputs (TSB, RI, HRV trend) to choose the appropriate format variant and intensity level within that adaptation category.
+- Use completed training, current feedback and available Section 11 A readiness outputs to choose an appropriate variant within that adaptation category. Missing HRV/RI alone does not preclude selection.
 - Apply the Reference Library's session sequencing rules when placing sessions within the microcycle.
 - Warm-up and cool-down structures must follow the Reference Library's WU/CD protocols unless the athlete has documented personal preferences.
 
@@ -3893,13 +3777,13 @@ This subsection defines the formal self-validation and audit metadata structure 
 | `data_source_fetched` | boolean | Whether JSON was successfully loaded from data source (runtime-accessible filesystem, connector or authenticated repository, upload or attachment, or URL fetch) |
 | `json_fetch_status`   | string  | "success" / "failed" / "unavailable"; stop and request manual input if not success |
 | `plan_version`        | string  | Version identifier for the plan                                                     |
-| `phase`               | string  | Current macro-phase (Base/Build/Peak/Taper/Recovery)                                |
+| `phase`               | string/null | Detected descriptive phase, null if unknown; distinct from planned intent                                |
 | `week`                | number  | Week number within current phase                                                    |
-| `load_target_TSS`     | number  | Target weekly TSS                                                                   |
+| `load_target_TSS`     | number/null | Estimated target weekly TSS, null when not supported                                                                   |
 | `volume_hours`        | number  | Target weekly training hours                                                        |
-| `polarization_ratio`  | number  | Target polarization (≈ 0.8)                                                         |
+| `polarization_ratio`  | number/null | Optional legacy descriptive ratio with an explicit basis; never a universal validation target                                                         |
 | `progression_vector`  | string  | Active progression type (duration/intensity/environmental)                          |
-| `load_variance`       | boolean | Whether volume exceeds ±10% baseline                                                |
+| `load_variance`       | boolean/null | Optional legacy review flag, meaningful only with an explicitly chosen athlete-specific reference/band; not a fixed ±10% gate                                                |
 | `validation_protocol` | string  | Framework version (e.g., "URF_v5.1")                                                |
 | `confidence`          | string  | "high" / "medium" / "low"                                                           |
 | `override`            | boolean | Human override flag (requires athlete confirmation)                                 |
@@ -3911,7 +3795,19 @@ This subsection defines the formal self-validation and audit metadata structure 
 | `session_selections[].saved_workout_id` | number | Optional. Intervals.icu saved-workout id, present only when a saved workout was selected |
 | `session_selections[].planned_event_id` | number | Optional. Recorded after calendar creation only. Never the discriminator |
 
-Validation routines parse and cross-verify all metadata fields defined in Section 11 B - AI Training Plan Protocol to confirm compliance before plan certification.
+The agent must check Section 11 B metadata against the actual proposal and available evidence. This is not scientific certification or evidence that the existing push script enforces the complete plan policy.
+
+Additional required planning fields under `athlete_specific_v1`:
+
+| Field | Meaning |
+|---|---|
+| `planning_policy` | `athlete_specific_v1`; distinguishes the revised planning contract from legacy headers |
+| `planned_phase`, `goal`, `block_objective` | Intended direction and purpose; general fitness is valid; do not infer from detected phase alone |
+| `availability` | Known weekly minutes and relevant dated session windows; unknown constraints require clarification before publication |
+| `recent_training_reference` | Recent completed-training reference, period and coverage; weekly minutes may be null when unknown |
+| `volume_rationale` | Why proposed training fits capacity, goals and availability; explain meaningful departures from the reference |
+| `intensity_distribution` | Intent, zone model, measurement basis, period and rationale; not a mandatory numeric ratio |
+| `progression_rationale`, `review_date` | Reason to repeat, progress or recover and when to reassess |
 
 Plan validation must additionally verify:
 - every structured session has exactly one matching `session_selections` entry;

@@ -3,3 +3,9 @@ __pycache__/
 *.py[cod]
 __MACOSX/
 ._*
+# Private coaching runtime records (synthetic *.example.json files remain tracked).
+coaching_plan.sqlite3
+coaching_plan.sqlite3-*
+coaching_plan.lock
+coaching_plan.json
+coaching_decisions.jsonl

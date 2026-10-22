@@ -1,0 +1,101 @@
+{
+  "recordType": "journal-article",
+  "pmid": "40613880",
+  "title": "Is intensity the most important factor in determining the amount of prior work accumulated that affects cyclists' acute durability? A systematic review.",
+  "abstractText": "PURPOSE: This study aimed to determine how exercise intensity influences the amount of work required to induce changes in cyclists' acute durability and to evaluate the suitability of using kilojoules (kJ) as a metric for fatigue monitoring.\n\nMETHODS: A systematic review was conducted following PRISMA guidelines. Web of Science, Medline, and Scopus were searched for studies assessing the relationship or effect between prior accumulated work and performance reductions in cyclists. Inclusion criteria required studies to measure power output after fatigue induced within a single session, with prior work quantified in kJ or other training load metrics.\n\nRESULTS: Twenty-one studies were included in the systematic review. The primary finding was that high-intensity efforts (e.g., above critical power) led to greater power output reductions with lower accumulated work compared to low-to-moderate intensity efforts. Across studies, power output declines of 10-20% were observed after 2.5-15 kJ kg⁻¹ of prior high-intensity work, whereas similar or greater work volumes at lower intensities resulted in smaller performance decrements. While kJ was the most commonly used fatigue metric, it does not account for intensity, limiting its accuracy in durability assessments.\n\nCONCLUSIONS: Exercise intensity plays a crucial role in determining durability-related performance declines. The exclusive use of kJ as a fatigue metric may be insufficient, and alternative approaches incorporating intensity are needed. These findings have implications for training prescription and race strategies, emphasizing the need for intensity-specific workload quantification.\n\nREGISTRATION: OSF project no.: osf.io/kcg53.",
+  "affiliations": [
+    "Research Group in Sports Biomechanics (GIBD), Department of Physical Education and Sports, University of Valencia, 46010, Valencia, Spain.",
+    "Department of Physical Education and Sport, Faculty of Sport Sciences, University of Granada, Cam. de Alfacar, 21, 18071, Granada, Spain. salasmontoro@ugr.es.",
+    "Sports Research Centre, Department of Sports Sciences, Miguel Hernández University, Elche, Spain.",
+    "Department of Physical Education and Sport, Faculty of Sport Sciences, University of Granada, Cam. de Alfacar, 21, 18071, Granada, Spain."
+  ],
+  "authors": [
+    {
+      "lastName": "Sánchez-Jiménez",
+      "firstName": "Jose Luis",
+      "initials": "JL",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0002-5055-1789"
+    },
+    {
+      "lastName": "Salas-Montoro",
+      "firstName": "Jose-Antonio",
+      "initials": "JA",
+      "affiliationIndices": [
+        1
+      ],
+      "orcid": "0000-0001-8600-0930"
+    },
+    {
+      "lastName": "Mateo-March",
+      "firstName": "Manuel",
+      "initials": "M",
+      "affiliationIndices": [
+        2
+      ],
+      "orcid": "0000-0003-4418-8263"
+    },
+    {
+      "lastName": "Priego-Quesada",
+      "firstName": "Jose Ignacio",
+      "initials": "JI",
+      "affiliationIndices": [
+        0
+      ],
+      "orcid": "0000-0002-0375-1454"
+    },
+    {
+      "lastName": "Zabala",
+      "firstName": "Mikel",
+      "initials": "M",
+      "affiliationIndices": [
+        3
+      ],
+      "orcid": "0000-0002-8700-0382"
+    },
+    {
+      "lastName": "Pérez-Díaz",
+      "firstName": "Juan-José",
+      "initials": "JJ",
+      "affiliationIndices": [
+        3
+      ],
+      "orcid": "0000-0002-2438-6329"
+    }
+  ],
+  "journalInfo": {
+    "title": "European journal of applied physiology",
+    "isoAbbreviation": "Eur J Appl Physiol",
+    "eIssn": "1439-6327",
+    "volume": "126",
+    "issue": "1",
+    "pages": "163-179",
+    "publicationDate": {
+      "year": "2026",
+      "month": "Jan"
+    }
+  },
+  "doi": "10.1007/s00421-025-05885-0",
+  "pmcId": "PMC12881052",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/40613880/",
+  "pmcUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12881052/",
+  "publicationTypes": [
+    "Journal Article",
+    "Systematic Review"
+  ],
+  "keywords": [
+    "Cycling performance",
+    "Fatigue resistance",
+    "Mean maximal power"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2025",
+      "month": "7",
+      "day": "4"
+    }
+  ]
+}

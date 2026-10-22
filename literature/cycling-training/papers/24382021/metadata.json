@@ -1,0 +1,74 @@
+{
+  "recordType": "journal-article",
+  "pmid": "24382021",
+  "title": "Short intervals induce superior training adaptations compared with long intervals in cyclists - an effort-matched approach.",
+  "abstractText": "The purpose of this study was to compare the effects of 10 weeks of effort-matched short intervals (SI; n = 9) or long intervals (LI; n = 7) in cyclists. The high-intensity interval sessions (HIT) were performed twice a week interspersed with low-intensity training. There were no differences between groups at pretest. There were no differences between groups in total volume of both HIT and low-intensity training. The SI group achieved a larger relative improvement in VO(2max) than the LI group (8.7% ± 5.0% vs 2.6% ± 5.2%), respectively, P ≤ 0.05). Mean effect size (ES) of the relative improvement in all measured parameters, including performance measured as mean power output during 30-s all-out, 5-min all-out, and 40-min all-out tests revealed a moderate-to-large effect of SI training vs LI training (ES range was 0.86-1.54). These results suggest that the present SI protocol induces superior training adaptations on both the high-power region and lower power region of cyclists' power profile compared with the present LI protocol.",
+  "affiliations": [
+    "Section for Sport Science, Lillehammer University College, Lillehammer, Norway."
+  ],
+  "authors": [
+    {
+      "lastName": "Rønnestad",
+      "firstName": "B R",
+      "initials": "BR",
+      "affiliationIndices": [
+        0
+      ]
+    },
+    {
+      "lastName": "Hansen",
+      "firstName": "J",
+      "initials": "J"
+    },
+    {
+      "lastName": "Vegge",
+      "firstName": "G",
+      "initials": "G"
+    },
+    {
+      "lastName": "Tønnessen",
+      "firstName": "E",
+      "initials": "E"
+    },
+    {
+      "lastName": "Slettaløkken",
+      "firstName": "G",
+      "initials": "G"
+    }
+  ],
+  "journalInfo": {
+    "title": "Scandinavian journal of medicine & science in sports",
+    "isoAbbreviation": "Scand J Med Sci Sports",
+    "eIssn": "1600-0838",
+    "volume": "25",
+    "issue": "2",
+    "pages": "143-51",
+    "publicationDate": {
+      "year": "2015",
+      "month": "Apr"
+    }
+  },
+  "doi": "10.1111/sms.12165",
+  "pubmedUrl": "https://pubmed.ncbi.nlm.nih.gov/24382021/",
+  "publicationTypes": [
+    "Comparative Study",
+    "Journal Article",
+    "Randomized Controlled Trial",
+    "Research Support, Non-U.S. Gov't"
+  ],
+  "keywords": [
+    "Intense cycling exercise",
+    "cycling performance",
+    "endurance training",
+    "interval training prescription",
+    "power profile"
+  ],
+  "articleDates": [
+    {
+      "dateType": "Electronic",
+      "year": "2014",
+      "month": "1",
+      "day": "1"
+    }
+  ]
+}

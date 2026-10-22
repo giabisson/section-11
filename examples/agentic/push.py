@@ -40,6 +40,7 @@ Output: JSON to stdout for agent parsing.
 
 import argparse
 import base64
+import importlib.util
 import json
 import math
 import os
@@ -52,6 +53,21 @@ from typing import Dict, List, Optional, Tuple
 
 
 _requests = None
+_workout_validator = None
+
+
+def _load_workout_validator():
+    """Load the adjacent offline validator only for a structured prescription."""
+    global _workout_validator
+    if _workout_validator is None:
+        path = Path(__file__).with_name("workout_validation.py")
+        if not path.is_file():
+            raise ValueError("structured workout validator is not installed beside push.py")
+        spec = importlib.util.spec_from_file_location("s11_workout_validation", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _workout_validator = module
+    return _workout_validator
 
 
 def _ensure_requests():
@@ -89,7 +105,7 @@ class IntervalsPush:
     """Manage planned workouts on Intervals.icu calendar."""
 
     BASE_URL = "https://intervals.icu/api/v1"
-    VERSION = "0.8"
+    VERSION = "0.9"
 
     # Athlete path ID (v0.7). Intervals.icu uses `i` + digits for current accounts,
     # digits only for early accounts (their Strava athlete ID), and `0` for the
@@ -471,6 +487,30 @@ class IntervalsPush:
         return f"workout[{index}]"
 
     def validate_workout(self, workout) -> Tuple[bool, Optional[str]]:
+        """Use the same preparation/validation boundary as preview and writes."""
+        _, _, errors = self._prepare_workouts([workout])
+        return (False, "; ".join(errors)) if errors else (True, None)
+
+    def _prepare_workouts(self, workouts):
+        prepared, reports, errors = [], [], []
+        for i, workout in enumerate(workouts):
+            try:
+                if isinstance(workout, dict) and "coaching_prescription" in workout:
+                    candidate, report = _load_workout_validator().compile_workout(workout)
+                else:
+                    candidate = workout
+                    report = {"status": "not_checked", "reason": "no structured coaching_prescription"}
+                valid, error = self._validate_basic_workout(candidate)
+                if not valid:
+                    raise ValueError(error)
+            except (ValueError, TypeError, KeyError, OverflowError) as exc:
+                errors.append(f"{self._workout_label(workout, i)}: {exc}")
+                continue
+            prepared.append(candidate)
+            reports.append(report)
+        return prepared, reports, errors
+
+    def _validate_basic_workout(self, workout) -> Tuple[bool, Optional[str]]:
         """Validate a workout dict. Returns (True, None) or (False, error)."""
         if not isinstance(workout, dict):
             # A JSON array may hold anything. Calling .get() on an int or a string
@@ -490,7 +530,7 @@ class IntervalsPush:
 
         try:
             workout_date = datetime.strptime(date, "%Y-%m-%d").date()
-        except ValueError:
+        except (ValueError, TypeError):
             return False, f"invalid date format: {date} (expected YYYY-MM-DD)"
 
         today = datetime.now().date()
@@ -514,19 +554,21 @@ class IntervalsPush:
 
         duration = workout.get("duration_minutes")
         if duration is not None:
-            if not isinstance(duration, (int, float)) or duration <= 0:
+            if isinstance(duration, bool) or not isinstance(duration, (int, float)) or not math.isfinite(duration) or duration <= 0:
                 return False, f"duration_minutes must be positive, got: {duration}"
             if duration > 720:
                 return False, f"duration_minutes {duration} exceeds 12h - likely an error"
 
         tss = workout.get("tss")
         if tss is not None:
-            if not isinstance(tss, (int, float)) or tss < 0:
+            if isinstance(tss, bool) or not isinstance(tss, (int, float)) or not math.isfinite(tss) or tss < 0:
                 return False, f"tss must be non-negative, got: {tss}"
             if tss > 500:
                 return False, f"tss {tss} exceeds 500 - likely an error"
 
         desc = workout.get("description", "")
+        if not isinstance(desc, str):
+            return False, "description must be text"
         if desc:
             valid, desc_error = self._validate_description(desc)
             if not valid:
@@ -643,6 +685,17 @@ class IntervalsPush:
         return self.push_workouts([workout])
 
     def push_workouts(self, workouts: list) -> dict:
+        """Validate the entire batch locally before any calendar read/write."""
+        if not workouts:
+            return {"success": False, "outcome": "not_applied", "error": "no workouts provided"}
+        prepared, reports, errors = self._prepare_workouts(workouts)
+        if errors:
+            return {"success": False, "outcome": "not_applied", "error": "; ".join(errors)}
+        result = self._push_prepared_workouts(prepared)
+        result["coaching_validation"] = reports
+        return result
+
+    def _push_prepared_workouts(self, workouts: list) -> dict:
         """
         Validate and push multiple workouts through the bulk upsert endpoint.
 
@@ -656,15 +709,6 @@ class IntervalsPush:
         if not workouts:
             return {"success": False, "outcome": "not_applied",
                     "error": "no workouts provided"}
-
-        errors = []
-        for i, w in enumerate(workouts):
-            valid, error = self.validate_workout(w)
-            if not valid:
-                errors.append(f"{self._workout_label(w, i)}: {error}")
-        if errors:
-            return {"success": False, "outcome": "not_applied",
-                    "error": "; ".join(errors)}
 
         events = [self._build_event(w) for w in workouts]
 
@@ -812,11 +856,7 @@ class IntervalsPush:
 
     def preview_push(self, workouts: list) -> dict:
         """Validate workouts and return preview without writing."""
-        errors = []
-        for i, w in enumerate(workouts):
-            valid, error = self.validate_workout(w)
-            if not valid:
-                errors.append(f"{self._workout_label(w, i)}: {error}")
+        workouts, reports, errors = self._prepare_workouts(workouts)
         if errors:
             return {"success": False, "mode": "preview", "error": "; ".join(errors)}
 
@@ -837,6 +877,8 @@ class IntervalsPush:
             "mode": "preview",
             "count": len(summary),
             "summary": summary,
+            "coaching_validation": reports,
+            "compiled_workouts": workouts if any(r["status"] == "checked" for r in reports) else None,
             "message": "Preview only - add --confirm to write to calendar",
         }
 

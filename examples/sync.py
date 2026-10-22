@@ -4563,7 +4563,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.149"
+    VERSION = "3.150"
     ROUTE_TERRAIN_VERSION = "3.142"
     ROUTE_RETRY_BACKOFF_SECONDS = 15 * 60
     INTERVALS_FILE = "intervals.json"
@@ -9540,7 +9540,8 @@ class IntervalsSync:
             latest_wellness=latest_wellness,
             activities=activities_extended,
             race_calendar=race_calendar,
-            current_tsb=tsb
+            current_tsb=tsb,
+            health_context=health_context
         )
         rd_rec = readiness_decision["recommendation"].upper()
         rd_pri = readiness_decision["priority"]
@@ -9572,7 +9573,7 @@ class IntervalsSync:
                     "Tier 2 and never changes readiness, phase progression or configured thresholds."
                 ),
                 "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), HRRc trend (heart rate recovery 7d/28d), TID comparison (7d vs 28d distribution drift), power curve delta (MMP shift at anchor durations across 28d windows — energy system adaptation direction), HR curve delta (max sustained HR shift at anchor durations — cardiac adaptation, cross-sport), sustainability profile (per-sport power/HR sustainability table for race estimation — 42d window, sport-filtered), and DFA a1 profile (per-session non-linear HRV index from AlphaHRV Connect IQ field — latest_session + trailing_by_sport with crossing-band easy_guard / LT1 / LT2 estimates). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values. HRRc is display only — higher = better parasympathetic recovery. Power curve delta rotation_index reveals whether gains are sprint-biased (positive) or endurance-biased (negative). HR curve delta is ambiguous — rising max sustained HR may indicate fitness or fatigue; cross-reference with resting HRV/HR and RPE. Sustainability profile provides race estimation lookup: actual MMP, Coggan predicted (cycling only), CP/W' model (cycling only), model_divergence_pct (actual vs CP — divergence IS the coaching signal). CP/W' is primary for durations ≤20min; Coggan duration factors are the established reference for ≥60min. Source flag (observed_outdoor/observed_indoor) matters for cycling race estimation — indoor MMP is typically 3-5% lower. DFA a1 profile: three self-describing markers (each estimate + crossing block carries marker_dfa_a1) — easy_guard (a1 1.0, a conservative easy-state guard, NOT a threshold), lt1 (a1 0.75, HRVT1 / aerobic threshold), lt2 (a1 0.5, HRVT2 / anaerobic threshold). The literature threshold markers (0.75 / 0.5) are cycling-validated only - non-cycling sports get rollups but validated=False. Every estimate requires a SUSTAINED contiguous crossing: each session's easy_guard_crossing / lt1_crossing / lt2_crossing carries a reason (ok / no_samples_in_band / insufficient_total_dwell / no_contiguous_dwell); scattered in-band time does not produce an estimate. v3.122: dwell is not sufficient. Each crossing also carries estimate_eligible / estimate_reason / n_eligible_segments - a1 reflects the prior 200 beats while watts is instantaneous, so a crossing recorded across varying power blends work and recovery into a number that is not usable as a threshold estimate. avg_hr / avg_watts stay populated on a dwell-qualified but estimate-ineligible crossing as descriptive evidence (a dwell-failed crossing has null averages as before); read estimate_eligible, never infer from absence. Compact lt1_/lt2_ summary fields and all trailing rollups consume eligible crossings only. HR is pooled across sessions; watts are split by environment for cycling (watts_outdoor, watts_indoor with per-environment n_sessions) - only lt2 is ever measured against a configured threshold: lt2_estimate.watts_outdoor against current_status.thresholds.sports.cycling.ftp, lt2_estimate.watts_indoor against current_status.thresholds.sports.cycling.ftp_indoor, and pooled lt2_estimate.hr against current_status.thresholds.sports.cycling.lthr. Non-cycling sports keep pooled watts. easy_guard_estimate, lt1_estimate and lt2_estimate are each gated INDEPENDENTLY - null when that marker has fewer than 3 estimate-ELIGIBLE marker-sessions (v3.122 - not merely dwell-qualified; see easy_guard_eligible_sessions / lt1_eligible_sessions / lt2_eligible_sessions alongside the *_crossing_sessions counts, and note that any gap between them means at least one dwell-qualified marker-session was estimate-rejected). An estimate is null whenever minimum estimate-eligible session depth is not met. If at least one eligible session exists, trailing_by_sport.{sport}.easy_guard_reason / lt1_reason / lt2_reason is insufficient_sessions. If none exists, the staged reason identifies the dominant blocker: dwell failure, incomplete coverage, excessive artifacts, non-positive mean power, or non-stationary power. Do NOT read a null estimate as 'the athlete did not sustain that marker' - read the reason. IMPORTANT: easy_guard is a conservative easy-state compliance guard, NOT an LT1/aerobic-threshold estimate - never compare it to the athlete's configured thresholds and never treat it as a calibration or staleness signal. Only lt2 (0.5) has a configured counterpart and can therefore produce a threshold-comparison coaching observation. lt1 (0.75) is descriptive only: no configured LT1 threshold exists to measure it against, so it never produces a delta, though it may motivate a formal retest. lt1 (0.75) populates only on rides that sustain aerobic-threshold intensity, so it is often null on easy/deload riding - that is expected, not a data gap. Sport-level confidence is a coarse orientation string derived from the maximum eligible-session depth across the THRESHOLD markers lt1 and lt2, with easy_guard excluded - it is orientation only and MUST NOT gate any LT2 comparison, which gates on lt2's own eligible-session depth; per-marker estimate presence + reason are authoritative. DFA a1 is a Tier-2 interpretive signal - does NOT enter the readiness P0-P3 ladder, does NOT affect the Phase Progression Check, and never auto-updates the configured thresholds; it surfaces a threshold comparison only from lt2, never from lt1 or easy_guard. Quality gate: refuse to interpret any DFA output when latest_session.sufficient=false. Each lt2 comparison is independently complete only with all three of a non-null estimate value, its own matching depth of at least 4, and a non-null configured comparator: lt2_estimate.hr with lt2_estimate.n_sessions and current_status.thresholds.sports.cycling.lthr; lt2_estimate.watts_outdoor with lt2_estimate.n_sessions_outdoor and .ftp; lt2_estimate.watts_indoor with lt2_estimate.n_sessions_indoor and .ftp_indoor. A missing cycling entry and a null comparator fail completeness identically. Depth in one environment never licenses a comparison in the other. Surface a delta only where a complete comparison differs by more than 5%; otherwise report the empirical estimate descriptively. Report no notable delta only when at least one lt2 comparison is complete and every complete difference is 5% or less. Where no comparison is complete, omit the comparison entirely; never use no notable delta as a substitute for the absence of a valid comparison. easy_guard is NOT gated on confidence (it is excluded from it) - interpret easy_guard_estimate from its own reason / n_sessions / quality when present, but never as a calibration signal. See SECTION_11.md DFA a1 Protocol for full interpretation rules.",
-                "readiness_decision_note": "The 'readiness_decision' block contains a pre-computed go/modify/skip recommendation with priority level (P0=safety, P1=overload, P2=fatigue, P3=green), individual signal statuses, phase-adjusted thresholds, and structured modification guidance. Use this as the baseline for pre-workout recommendations. Override only under the override rules in SECTION_11.md (Feel/RPE Override): athlete-reported state escalates unconditionally, de-escalation is P2-only, P0/P1 are not overridable. signals.acwr is the START-OF-DAY value from derived_metrics.acwr_start_of_day - the same 7d/28d windows with today's activities excluded - so it does not move when a workout is completed today. derived_metrics.acwr stays live and today-inclusive: retrospective load context only (acwr_readiness_eligible false), never used to approve, modify or veto a later same-day session or tomorrow's. Tomorrow is decided from tomorrow morning's readiness output, whose start-of-day value will include today's training. ACWR alone no longer forces P1 - a Skip needs start-of-day ACWR >= 1.5 plus a corroborating Tier-1 signal, and uncorroborated ACWR counts as an ordinary P2 amber/red. signals.hrv may carry an optional reason: 'rmssd_missing_sdnn_available' means the latest wellness record has no usable rMSSD but does carry SDNN. SDNN is a different metric and is explanatory metadata only - never a readiness input, never treated as HRV. Report HRV as unavailable and name the cause.",
+                "readiness_decision_note": "The 'readiness_decision' block contains a pre-computed go/modify/skip recommendation with priority level (P0=safety, P1=overload, P2=fatigue, P3=no triggered restriction), individual signal statuses, phase-adjusted thresholds, and structured modification guidance. Use this as the baseline for pre-workout recommendations. Override only under the override rules in SECTION_11.md (Feel/RPE Override): athlete-reported state escalates unconditionally, de-escalation is P2-only, P0/P1 are not overridable. signals.acwr is the START-OF-DAY value from derived_metrics.acwr_start_of_day - the same 7d/28d windows with today's activities excluded - so it does not move when a workout is completed today. derived_metrics.acwr stays live and today-inclusive: retrospective load context only (acwr_readiness_eligible false), never used to approve, modify or veto a later same-day session or tomorrow's. Tomorrow is decided from tomorrow morning's readiness output, whose start-of-day value will include today's training. ACWR alone no longer forces P1 - a Skip needs start-of-day ACWR >= 1.5 plus a corroborating Tier-1 signal, and uncorroborated ACWR counts as an ordinary P2 amber/red. signals.hrv may carry an optional reason: 'rmssd_missing_sdnn_available' means the latest wellness record has no usable rMSSD but does carry SDNN. SDNN is a different metric and is explanatory metadata only - never a readiness input, never treated as HRV. Report HRV as unavailable and name the cause. input_context describes evaluated signal availability under optional_wearables_v1, not recovery or health clearance. HRV, RHR and device sleep are optional; missing HRV/RI alone does not restrict ordinary training or progression. Do not require nightly wear. Use available training data, current athlete feedback and health context; ask only unresolved decision-relevant questions. P0/P1 protections and health clarification still apply. Readiness observations provide dates and prior-calendar-day baseline coverage; the assessed day is excluded. Device/protocol provenance is unknown unless separately established. input_context.health_clarification_required preserves the health trigger even on go. signal_count_review is audit-only; do not use its candidate to override the active decision.",
                 "health_context_note": "The 'health_context' block carries athlete-reported illness and injury markers. It is CONTEXT, NOT a readiness input - readiness_decision is physiological only and can legitimately read 'go' while clarification_required is true. Calendar markers are matched on the canonical Intervals.icu category (SICK / INJURED), never on the event title. end_date is already converted to the INCLUSIVE last CALENDAR-MARKED day (not the last day the athlete was unwell); Intervals stores an exclusive end. IMPORTANT: end_date_local is the end of the calendar MARKING, not evidence that the illness or injury ended - illness is normally marked for the current day because recovery cannot be predicted. There is deliberately no 'active' field, because a false value would read as 'recovered'. Read marker_active (a marker spans today), recent_marker (a marker ended within recent_window_days and none spans today - recovery status UNKNOWN), and clarification_required. When clarification_required is true, do not give an unqualified full-program recommendation: acknowledge a current marker and establish severity; after a recent marker, ask whether the athlete has recovered rather than assuming it; this escalates only and is never grounds to relax an existing Skip, and never by itself an automatic Skip. wellness_injury is the CURRENT value only (the full series is in wellness_data[].injury and history.json daily_90d[].injury) and contributes to clarification_required only when freshness is 'current' and value >= 3; a 'stale' value is visible context that triggers nothing. source_status 'partial' means the dedicated health fetch failed and the block was built from the narrower main event fetch - marker_active and recent_marker are OMITTED in that case because they were not established, an empty current/recent list is NOT evidence of no marker, and clarification_required stays true. A span beginning before lookback_days is not visible; absence is never proof of no illness.",
                 "zone_preference": self.zone_preference if self.zone_preference else "default (power preferred, HR fallback)",
                 "wellness_field_scales": {
@@ -9923,6 +9924,123 @@ class IntervalsSync:
             block["display"] = display
         return block
 
+    def _build_readiness_observations(self, wellness: List[Dict], as_of: str = None) -> Dict:
+        """Date-align optional observations without carrying older nights forward.
+
+        Baselines use distinct prior calendar days, excluding the assessed day.
+        One prior observation permits comparison, not a claim of baseline stability.
+        Device/protocol provenance is not supplied by this wellness contract.
+        """
+        as_of = as_of or datetime.now().strftime("%Y-%m-%d")
+        day = datetime.strptime(as_of, "%Y-%m-%d").date()
+        by_date = {}
+        invalid_date_rows = 0
+        future_rows = 0
+        for row in wellness:
+            try:
+                date = datetime.strptime(str(row.get("id")), "%Y-%m-%d").date()
+            except (ValueError, TypeError, AttributeError):
+                invalid_date_rows += 1
+                continue
+            if date > day:
+                future_rows += 1
+                continue
+            by_date.setdefault(date, []).append(row)
+
+        result = {"schema_version": 1, "as_of_date": as_of,
+                  "baseline_definition": "prior_calendar_days_excluding_assessed_day",
+                  "invalid_date_rows": invalid_date_rows, "future_rows_excluded": future_rows}
+        for name, field, metric, unit in (
+                ("hrv", "hrv", "RMSSD", "ms"),
+                ("rhr", "restingHR", "resting_heart_rate", "bpm"),
+                ("sleep", "sleepSecs", "sleep_duration", "seconds")):
+            days = {}
+            conflicts = []
+            invalid = []
+            for date, rows in by_date.items():
+                raw = [r.get(field) for r in rows if r.get(field) is not None]
+                valid = [v for v in raw if isinstance(v, (int, float))
+                         and not isinstance(v, bool) and math.isfinite(v) and v > 0
+                         and (name != "hrv" or self._is_valid_hrv(v))]
+                # A duplicate null is absence, not a contradictory measurement.
+                if len(set(valid)) > 1:
+                    conflicts.append(date.isoformat())
+                elif len(valid) != len(raw):
+                    invalid.append(date.isoformat())
+                elif valid:
+                    days[date] = valid[0]
+
+            if as_of in conflicts:
+                status = "conflicting"
+            elif as_of in invalid:
+                status = "invalid"
+            elif day in days:
+                status = "current"
+            elif days:
+                status = "stale"
+            else:
+                status = "missing"
+            current = days.get(day)
+            observation = {
+                "metric": metric, "unit": unit,
+                "source": "Intervals.icu.wellness." + field,
+                "device": None, "measurement_protocol": None,
+                "status": status, "value": current,
+                "date": as_of if current is not None else None,
+                "last_observation_date": max(days).isoformat() if days else None,
+                "conflicting_dates": sorted(conflicts), "invalid_dates": sorted(invalid),
+            }
+            if name != "sleep":
+                for window in (7, 28):
+                    start = day - timedelta(days=window)
+                    prior = {d: v for d, v in days.items() if start <= d < day}
+                    observation[f"baseline_{window}d"] = {
+                        "mean": round(statistics.mean(prior.values()), 1) if prior else None,
+                        "sample_days": len(prior), "window_days": window,
+                        "window_start": start.isoformat(),
+                        "window_end": (day - timedelta(days=1)).isoformat(),
+                        "coverage": round(len(prior) / window, 3),
+                        "status": ("unavailable" if not prior else
+                                   "single_observation" if len(prior) == 1 else "multiple_observations"),
+                    }
+                observation["readiness_eligible"] = (
+                    status == "current" and observation["baseline_7d"]["sample_days"] > 0
+                    and observation["baseline_7d"]["mean"] > 0)
+            else:
+                observation["readiness_eligible"] = status == "current"
+            result[name] = observation
+        return result
+
+    def _readiness_wellness_metrics(self, wellness: List[Dict], as_of: str = None) -> Dict:
+        """Canonical dated values shared by alerts and readiness decisions."""
+        observations = self._build_readiness_observations(wellness, as_of)
+        hrv, rhr = observations["hrv"], observations["rhr"]
+
+        def recovery_index(h, r):
+            if not (h["readiness_eligible"] and r["readiness_eligible"]):
+                return None
+            hrv_ratio = h["value"] / h["baseline_7d"]["mean"]
+            rhr_ratio = r["value"] / r["baseline_7d"]["mean"]
+            if not (math.isfinite(hrv_ratio) and math.isfinite(rhr_ratio) and rhr_ratio > 0):
+                return None
+            value = hrv_ratio / rhr_ratio
+            return round(value, 2) if math.isfinite(value) else None
+
+        yesterday = (datetime.strptime(observations["as_of_date"], "%Y-%m-%d")
+                     - timedelta(days=1)).strftime("%Y-%m-%d")
+        previous = self._build_readiness_observations(wellness, yesterday)
+        return {
+            "readiness_observations": observations,
+            "latest_hrv": hrv["value"],
+            "latest_rhr": rhr["value"],
+            "hrv_baseline_7d": hrv["baseline_7d"]["mean"],
+            "rhr_baseline_7d": rhr["baseline_7d"]["mean"],
+            "hrv_baseline_28d": hrv["baseline_28d"]["mean"],
+            "rhr_baseline_28d": rhr["baseline_28d"]["mean"],
+            "recovery_index": recovery_index(hrv, rhr),
+            "recovery_index_yesterday": recovery_index(previous["hrv"], previous["rhr"]),
+        }
+
     def _calculate_derived_metrics(self, activities_7d: List[Dict], activities_28d: List[Dict],
                                     wellness_7d: List[Dict], wellness_extended: List[Dict],
                                     current_ctl: float, current_atl: float, current_tsb: float,
@@ -10060,46 +10178,17 @@ class IntervalsSync:
         # Reference: Foster (1998) - values >3500-4000 associated with overtraining
         strain = round(tss_7d_total * monotony, 0) if monotony else None
         
-        # === BASELINES (7-day and extended) ===
-        hrv_values_7d = [w.get("hrv") for w in wellness_7d if self._is_valid_hrv(w.get("hrv"))]
-        rhr_values_7d = [w.get("restingHR") for w in wellness_7d if w.get("restingHR")]
-        
-        hrv_baseline_7d = round(statistics.mean(hrv_values_7d), 1) if hrv_values_7d else None
-        rhr_baseline_7d = round(statistics.mean(rhr_values_7d), 1) if rhr_values_7d else None
-        
-        # Extended baselines (for more stable reference)
-        hrv_values_ext = [w.get("hrv") for w in wellness_extended if self._is_valid_hrv(w.get("hrv"))]
-        rhr_values_ext = [w.get("restingHR") for w in wellness_extended if w.get("restingHR")]
-        
-        hrv_baseline_28d = round(statistics.mean(hrv_values_ext), 1) if hrv_values_ext else None
-        rhr_baseline_28d = round(statistics.mean(rhr_values_ext), 1) if rhr_values_ext else None
-        
-        # === RECOVERY INDEX (RI) ===
-        # Formula: (HRV_today / HRV_baseline) ÷ (RHR_today / RHR_baseline)
-        # Interpretation: >1.0 = good recovery, <1.0 = poor recovery
-        latest_hrv_raw = wellness_7d[-1].get("hrv") if wellness_7d else None
-        latest_hrv = latest_hrv_raw if self._is_valid_hrv(latest_hrv_raw) else None
-        latest_rhr = wellness_7d[-1].get("restingHR") if wellness_7d else None
-        
-        if latest_hrv and latest_rhr and hrv_baseline_7d and rhr_baseline_7d:
-            hrv_ratio = latest_hrv / hrv_baseline_7d
-            rhr_ratio = latest_rhr / rhr_baseline_7d
-            ri = round(hrv_ratio / rhr_ratio, 2) if rhr_ratio > 0 else None
-        else:
-            ri = None
+        # Date-aligned observations; duplicates do not inflate baseline coverage.
+        readiness_inputs = self._readiness_wellness_metrics(wellness_7d + wellness_extended)
+        latest_hrv = readiness_inputs["latest_hrv"]
+        latest_rhr = readiness_inputs["latest_rhr"]
+        hrv_baseline_7d = readiness_inputs["hrv_baseline_7d"]
+        rhr_baseline_7d = readiness_inputs["rhr_baseline_7d"]
+        hrv_baseline_28d = readiness_inputs["hrv_baseline_28d"]
+        rhr_baseline_28d = readiness_inputs["rhr_baseline_28d"]
+        ri = readiness_inputs["recovery_index"]
+        ri_yesterday = readiness_inputs["recovery_index_yesterday"]
 
-        # Yesterday's RI — same formula, wellness_7d[-2] against same 7d baseline.
-        # Used for RI amber persistence check in readiness_decision (2-day rule).
-        ri_yesterday = None
-        if len(wellness_7d) >= 2:
-            y_hrv_raw = wellness_7d[-2].get("hrv")
-            y_hrv = y_hrv_raw if self._is_valid_hrv(y_hrv_raw) else None
-            y_rhr = wellness_7d[-2].get("restingHR")
-            if y_hrv and y_rhr and hrv_baseline_7d and rhr_baseline_7d:
-                y_hrv_ratio = y_hrv / hrv_baseline_7d
-                y_rhr_ratio = y_rhr / rhr_baseline_7d
-                ri_yesterday = round(y_hrv_ratio / y_rhr_ratio, 2) if y_rhr_ratio > 0 else None
-        
         # === STRESS TOLERANCE ===
         # Formula: (Strain ÷ Monotony) ÷ 100
         stress_tolerance = round((strain / monotony) / 100, 1) if strain and monotony else None
@@ -10329,6 +10418,7 @@ class IntervalsSync:
             "rhr_baseline_28d": rhr_baseline_28d,
             "latest_hrv": latest_hrv,
             "latest_rhr": latest_rhr,
+            "readiness_observations": readiness_inputs["readiness_observations"],
             
             # Tier 2: Secondary Load Metrics
             "acwr": acwr,
@@ -10369,11 +10459,11 @@ class IntervalsSync:
                 "zone_basis": zone_basis_7d
             },
             "grey_zone_percentage": grey_zone_percentage,
-            "grey_zone_note": "Gray Zone % (Z3/tempo) - minimize in polarized training",
+            "grey_zone_note": "Legacy Gray Zone label: recorded Z3/moderate time; interpret against the planned objective and response, not a universal limit",
             "quality_intensity_percentage": quality_intensity_percentage,
-            "quality_intensity_note": "Quality Intensity % (Z4+/threshold+) - target ~20% in polarized training",
+            "quality_intensity_note": "Legacy Quality Intensity label: recorded Z4+ time; lower-intensity training also drives adaptation, and no universal share applies",
             "easy_time_ratio": easy_time_ratio,
-            "easy_time_ratio_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
+            "easy_time_ratio_note": "Recorded easy time (Z1+Z2) / usable zone time; not interchangeable with session-goal distribution or a plan-validation target",
             "hard_days_this_week": hard_days_this_week,
             "hard_days_note": "Power ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. HR fallback (when no power): z4+ >= 10min, z5+ >= 5min. Per Seiler 3-zone model + Foster. HR-based days flagged with intensity_basis: hr",
             
@@ -10435,8 +10525,8 @@ class IntervalsSync:
             # Validation metadata
             "calculation_timestamp": datetime.now().isoformat(),
             "data_quality": {
-                "hrv_data_points": len(hrv_values_7d),
-                "rhr_data_points": len(rhr_values_7d),
+                "hrv_data_points": readiness_inputs["readiness_observations"]["hrv"]["baseline_7d"]["sample_days"],
+                "rhr_data_points": readiness_inputs["readiness_observations"]["rhr"]["baseline_7d"]["sample_days"],
                 "activities_7d": len(activities_7d),
                 "activities_28d": len(activities_28d),
                 # v3.128: past_events is every calendar entry in the window. Only
@@ -13254,9 +13344,9 @@ class IntervalsSync:
             alerts.append({
                 "metric": "tid_distribution",
                 "value": pi_7d,
-                "severity": "warning",
+                "severity": "info",
                 "threshold": "7d PI < 2.0, 28d PI >= 2.0",
-                "context": f"Acute depolarization: 7d PI {pi_7d} vs 28d PI {pi_28d}. Grey zone or threshold work displacing polarized structure.",
+                "context": f"Distribution change: 7d PI {pi_7d} vs 28d PI {pi_28d}. Compare with planned purpose, zone basis and athlete response; this alone does not establish fatigue or poor training.",
                 "persistence_days": None,
                 "tier": 3
             })
@@ -13266,9 +13356,9 @@ class IntervalsSync:
             alerts.append({
                 "metric": "tid_distribution",
                 "value": cls_7d,
-                "severity": "warning",
+                "severity": "info",
                 "threshold": "7d/28d classification mismatch",
-                "context": f"TID shift: 7d {cls_7d} vs 28d {cls_28d}. Training distribution changing.",
+                "context": f"TID shift: 7d {cls_7d} vs 28d {cls_28d}. Descriptive change; review against the planned objective and measurement basis, not a universal distribution target.",
                 "persistence_days": None,
                 "tier": 3
             })
@@ -13312,27 +13402,26 @@ class IntervalsSync:
         evidence a value is rMSSD. Nothing routes hrvSDNN here today; never add a
         path that does in order to substitute it for hrv (issue #25).
         """
-        return value is not None and 10 <= value <= 250
+        return (isinstance(value, (int, float)) and not isinstance(value, bool)
+                and math.isfinite(value) and 10 <= value <= 250)
 
     def _count_hrv_low_days(self, wellness_7d: List[Dict], baseline: float) -> int:
-        """Count consecutive days (from most recent) where HRV is ↓>20% below baseline"""
-        threshold = baseline * 0.8
-        count = 0
-        for w in reversed(wellness_7d):
-            hrv = w.get("hrv")
-            if self._is_valid_hrv(hrv) and hrv < threshold:
-                count += 1
-            else:
-                break
-        return count
+        """Count actual consecutive calendar days, ending today, at HRV <=80%."""
+        return self._count_dated_wellness_days(wellness_7d, "hrv", baseline * 0.8, False)
     
     def _count_rhr_high_days(self, wellness_7d: List[Dict], baseline: float) -> int:
-        """Count consecutive days (from most recent) where RHR is ↑≥5bpm above baseline"""
-        threshold = baseline + 5
+        """Count actual consecutive calendar days, ending today, at RHR >=base+5."""
+        return self._count_dated_wellness_days(wellness_7d, "rhr", baseline + 5, True)
+
+    def _count_dated_wellness_days(self, wellness: List[Dict], metric: str,
+                                    threshold: float, high: bool) -> int:
         count = 0
-        for w in reversed(wellness_7d):
-            rhr = w.get("restingHR")
-            if rhr is not None and rhr >= threshold:
+        for offset in range(7):
+            date = (datetime.now() - timedelta(days=offset)).strftime("%Y-%m-%d")
+            observation = self._build_readiness_observations(wellness, date)[metric]
+            value = observation["value"]
+            if (observation["status"] == "current" and value is not None
+                    and (value >= threshold if high else value <= threshold)):
                 count += 1
             else:
                 break
@@ -13362,7 +13451,68 @@ class IntervalsSync:
     
     def _compute_readiness_decision(self, derived_metrics: Dict, alerts: List[Dict],
                                      latest_wellness: Dict, activities: List[Dict],
-                                     race_calendar: Dict, current_tsb: float = None) -> Dict:
+                                     race_calendar: Dict, current_tsb: float = None,
+                                     health_context: Dict = None) -> Dict:
+        """Attach optional-input, health and audit context without new thresholds.
+
+        Available signals are not independent evidence or health clearance. Current
+        Feel comes from the athlete, not from sync or a completed activity's Feel.
+        """
+        decision = self._compute_physiological_readiness(
+            derived_metrics, alerts, latest_wellness, activities,
+            race_calendar, current_tsb)
+        signals = decision["signals"]
+        available = sorted(k for k, v in signals.items()
+                           if v["status"] != "unavailable")
+        unavailable = sorted(k for k, v in signals.items()
+                             if v["status"] == "unavailable")
+        decision["input_context"] = {
+            "policy_version": "optional_wearables_v1",
+            "wearables_required": False,
+            "available_signals": available,
+            "unavailable_signals": unavailable,
+            "evidence_status": ("some_signals_available" if available
+                                else "no_signals_available"),
+            "observation_quality": ("dated" if "readiness_observations" in derived_metrics
+                                    else "not_provided"),
+            "health_clarification_required": (
+                health_context.get("clarification_required")
+                if isinstance(health_context, dict)
+                and isinstance(health_context.get("clarification_required"), bool) else None),
+        }
+        decision["signal_count_review"] = self._review_readiness_signal_counts(decision)
+        return decision
+
+    @staticmethod
+    def _review_readiness_signal_counts(decision: Dict) -> Dict:
+        """Audit a grouped P2 candidate; never override the active decision.
+
+        Grouping is an unvalidated policy hypothesis, not independent evidence.
+        P0/P1 remain outside this comparison, and thresholds are unchanged.
+        """
+        ranks = {"unavailable": 0, "green": 1, "amber": 2, "red": 3}
+        signals = decision["signals"]
+        groups = {}
+        for group, members in {"autonomic": ("hrv", "rhr", "ri"),
+                               "sleep": ("sleep",), "load": ("acwr", "tsb")}.items():
+            groups[group] = max((signals.get(m, {}).get("status", "unavailable")
+                                 for m in members), key=ranks.get)
+        counts = {s: sum(v == s for v in groups.values()) for s in ranks}
+        threshold = decision["phase_context"]["amber_threshold"]
+        if decision["priority"] < 2:
+            candidate = "not_evaluated_p0_p1"
+        elif counts["red"] >= 2:
+            candidate = "skip"
+        elif counts["red"] or counts["amber"] >= threshold:
+            candidate = "modify"
+        else:
+            candidate = "go"
+        return {"mode": "audit_only", "groups": groups, "counts": counts,
+                "p2_candidate": candidate}
+
+    def _compute_physiological_readiness(self, derived_metrics: Dict, alerts: List[Dict],
+                                         latest_wellness: Dict, activities: List[Dict],
+                                         race_calendar: Dict, current_tsb: float = None) -> Dict:
         """
         Pre-compute deterministic readiness decision (go/modify/skip).
         
@@ -13396,9 +13546,21 @@ class IntervalsSync:
         race_week_active = race_calendar.get("race_week", {}).get("active", False)
         
         # Sleep from latest wellness
-        sleep_secs = latest_wellness.get("sleepSecs")
+        observations = derived_metrics.get("readiness_observations")
+        if observations is not None:
+            sleep_observation = observations["sleep"]
+            sleep_secs = (sleep_observation["value"]
+                          if sleep_observation["readiness_eligible"] else None)
+        else:
+            # Legacy callers have no quality block. An explicitly stale date still
+            # cannot supply today's sleep; undated legacy inputs remain unverified.
+            wellness_date = latest_wellness.get("id")
+            sleep_secs = (latest_wellness.get("sleepSecs") if wellness_date is None
+                          or wellness_date == datetime.now().strftime("%Y-%m-%d") else None)
         sleep_hours = round(sleep_secs / 3600, 2) if sleep_secs else None
-        sleep_quality = latest_wellness.get("sleepQuality")
+        sleep_quality = (latest_wellness.get("sleepQuality")
+                         if observations is None or latest_wellness.get("id") == observations["as_of_date"]
+                         else None)
         
         # Phase modifiers
         modifiers = self._get_phase_modifiers(current_phase, race_week_active)
@@ -13423,11 +13585,11 @@ class IntervalsSync:
             # no usable rMSSD reads "unavailable" with no stated cause; state the
             # cause, never substitute (issue #25). SDNN is the native Apple Watch
             # export, but the check is on the data, not the device. The latest_hrv
-            # guard is defensive: a valid rMSSD always contributes to hrv_baseline_7d,
-            # so this branch is currently unreachable with latest_hrv set - the guard
-            # holds if baseline depth ever gains a minimum. Omitted when it does not
-            # apply: consumers must treat the key as optional.
-            if latest_hrv is None and latest_wellness.get("hrvSDNN") is not None:
+            # guard distinguishes a missing current rMSSD from a missing prior
+            # baseline. With dated observations, the SDNN record must also be current.
+            # Omitted when it does not apply: consumers treat the key as optional.
+            if (latest_hrv is None and latest_wellness.get("hrvSDNN") is not None
+                    and (observations is None or latest_wellness.get("id") == observations["as_of_date"])):
                 signals["hrv"]["reason"] = "rmssd_missing_sdnn_available"
         
         # RHR signal
@@ -13692,10 +13854,9 @@ class IntervalsSync:
                 "alarm_refs": []
             }
         
-        # --- P3: Green light ---
-        # Check data availability
-        available_count = green_count + amber_count + red_count
-        reason = f"P3 green light. {green_count} green, {amber_count} amber (threshold {modifiers['amber_threshold']}), {red_count} red."
+        # --- P3: No restriction triggered by available signals ---
+        # Missing optional measurements are neither fatigue nor reassurance.
+        reason = f"P3 no restriction triggered by available signals. {green_count} green, {amber_count} amber (threshold {modifiers['amber_threshold']}), {red_count} red."
         if unavailable_count > 3:
             reason += f" Note: {unavailable_count} signals unavailable — limited data."
         
@@ -14830,6 +14991,15 @@ class IntervalsSync:
             if indoor_ftp and indoor_ftp != latest_indoor:
                 timeline.append({"date": today, "ftp": indoor_ftp, "type": "indoor", "source": "user_set"})
         
+        # A tracked setting date is not a measured fitness-test date. This source
+        # supplies neither the test method nor equipment; keep them unknown.
+        for entry in timeline:
+            entry["date_kind"] = ("setting_observed" if entry["source"] == "user_set"
+                                  else "setting_recorded")
+            entry["assessment_date"] = None
+            entry["assessment_method"] = None
+            entry["equipment"] = None
+
         # Sort chronologically
         timeline.sort(key=lambda x: (x["date"], x["type"]))
         
@@ -16944,7 +17114,7 @@ class IntervalsSync:
         Layer 3: Race-week protocol when RACE_A/B is ≤7 days out
         
         References: Section 11A Race-Week Protocol
-        Scientific basis: Mujika & Padilla (2003), Bosquet et al. (2007), Altini (HRV)
+        Evidence: reviewed taper takeaways; exact preparation remains individualized judgment.
         
         athlete_units (v3.109): when provided, each race entry gets a
         display.distance block alongside canonical distance_meters.
@@ -17010,8 +17180,8 @@ class IntervalsSync:
             taper_alert["days_until"] = taper_race["days_until"]
             taper_alert["message"] = (
                 f"RACE_A '{taper_race['name']}' in {taper_race['days_until']} days. "
-                f"Begin volume reduction (target 41-60% over 2 weeks). Maintain intensity. "
-                f"CTL should peak now or within the next few days."
+                f"Review a feasible taper against recent completed training, recovery, availability and event demands. "
+                f"No automatic reduction percentage, overload block or CTL peak target applies."
             )
         
         # Race-week: RACE_A or RACE_B within 7 days
@@ -17046,8 +17216,8 @@ class IntervalsSync:
         """
         Build race-week protocol data for D-7 through D-0.
         
-        All load targets are relative to CTL. Normal weekly TSS = CTL × 7.
-        Race-week TSS budget: 40-55% of normal weekly TSS (RACE_A) or 50-65% (RACE_B).
+        event_specific_v1 preserves dates and descriptive load while retiring
+        automatic CTL-derived budgets and priority-derived event duration.
         
         TSB projection uses PMC decay: CTL_decay = e^(-1/42), ATL_decay = e^(-1/7).
         Assumes zero training load for remaining days to project race-day TSB.
@@ -17061,19 +17231,11 @@ class IntervalsSync:
         # Current day label
         current_day = f"D-{days_until}" if days_until > 0 else "D-0"
         
-        # CTL baseline and normal weekly TSS
+        # CTL is descriptive load context, never an availability/capacity budget.
         ctl_baseline = current_ctl if current_ctl else 0
-        normal_weekly_tss = round(ctl_baseline * 7, 1)
-        
-        # Race-week TSS budget (relative to category)
-        if category == "RACE_A":
-            budget_min_pct, budget_max_pct = 0.40, 0.55
-        else:  # RACE_B
-            budget_min_pct, budget_max_pct = 0.50, 0.65
-        
-        budget_min = round(normal_weekly_tss * budget_min_pct)
-        budget_max = round(normal_weekly_tss * budget_max_pct)
-        
+        normal_weekly_tss = None
+        budget_min = budget_max = None
+
         # Race-week TSS spent: sum TSS from activities within race week window
         race_week_start = evt_date - timedelta(days=7)
         tss_spent = 0
@@ -17099,60 +17261,29 @@ class IntervalsSync:
             proj_atl *= atl_decay
         projected_tsb = round(proj_ctl - proj_atl, 1)
         
-        # Event duration classification
-        if moving_time is not None:
-            if moving_time < 5400:
-                duration_class = "short_intense"
-            elif moving_time <= 10800:
-                duration_class = "medium"
-            else:
-                duration_class = "long_endurance"
-        else:
-            # Default by category when not set
-            duration_class = "long_endurance" if category == "RACE_A" else "medium"
-        
-        # TSB target range by duration class
-        tsb_targets = {
-            "short_intense": {"min": 5, "max": 15},
-            "medium": {"min": 10, "max": 20},
-            "long_endurance": {"min": 10, "max": 25}
-        }
-        tsb_range = tsb_targets.get(duration_class, {"min": 10, "max": 25})
-        
-        # RACE_B: lower TSB target by 5
-        if category == "RACE_B":
-            tsb_range = {"min": max(0, tsb_range["min"] - 5), "max": tsb_range["max"] - 5}
-        
-        # Day-by-day decision tree
+        # Missing/invalid duration stays unknown; priority does not imply length.
+        try:
+            valid_duration = (not isinstance(moving_time, bool) and isinstance(moving_time, (int, float))
+                              and math.isfinite(moving_time) and moving_time > 0)
+        except OverflowError:
+            valid_duration = False
+        moving_time = moving_time if valid_duration else None
+        duration_class = ("short_intense" if moving_time < 5400 else "medium" if moving_time <= 10800
+                          else "long_endurance") if moving_time is not None else "unknown"
+        tsb_range = None
         day_protocol = self._get_day_protocol(days_until, ctl_baseline, duration_class, category)
-        
-        # Carb loading
-        carb_applicable = False
-        if moving_time is not None:
-            carb_applicable = moving_time >= 5400
-        elif category == "RACE_A":
-            carb_applicable = True  # Default assumption for A races
-        
-        carb_active = carb_applicable and days_until <= 4
-        carb_start_date = (evt_date - timedelta(days=4)).strftime("%Y-%m-%d")
-        
-        # Opener day (D-2)
+        carb_applicable = moving_time >= 5400 if moving_time is not None else None
+        # Nutritional amounts require their own reviewed context. No priority-based
+        # loading instruction or automatic four-day full-dose recommendation.
+        carb_active = False
+        carb_start_date = None
         opener_date = (evt_date - timedelta(days=2)).strftime("%Y-%m-%d")
-        opener_intensity = "lighter" if duration_class == "long_endurance" else (
-            "more_intense" if duration_class == "short_intense" else "standard"
-        )
-        
-        # Go/no-go: TSB status
-        if projected_tsb >= tsb_range["min"]:
-            tsb_status = "green"
-            go_notes = []
-        elif projected_tsb >= tsb_range["min"] - 10:
-            tsb_status = "flag"
-            go_notes = [f"Projected race-day TSB {projected_tsb} is below target range {tsb_range['min']}-{tsb_range['max']}. Consider additional rest."]
-        else:
-            tsb_status = "flag"
-            go_notes = [f"Projected race-day TSB {projected_tsb} is significantly below target range {tsb_range['min']}-{tsb_range['max']}. Fatigue may impact performance."]
-        
+        opener_intensity = "individualize_familiar_efforts"
+        tsb_status = "context_only"
+        go_notes = ["Use recent completed training, response, availability and event demands; no universal TSB target or CTL-derived taper budget."]
+        if moving_time is None:
+            go_notes.append("Expected event duration is unknown; clarify when it changes preparation.")
+
         return {
             "active": True,
             "event_name": race_event["name"],
@@ -17163,23 +17294,22 @@ class IntervalsSync:
             "event_moving_time_seconds": moving_time,
             "days_until_event": days_until,
             "current_day": current_day,
+            "policy_version": "event_specific_v1",
+            "planning_requirements": ["recent_completed_training", "current_response", "dated_availability", "event_demands"],
             "ctl_baseline": round(ctl_baseline, 1),
             "normal_weekly_tss": normal_weekly_tss,
-            "race_week_tss_budget": {"min": budget_min, "max": budget_max},
+            "race_week_tss_budget": None,
             "race_week_tss_spent": tss_spent,
-            "race_week_tss_remaining": {
-                "min": max(0, budget_min - tss_spent),
-                "max": max(0, budget_max - tss_spent)
-            },
+            "race_week_tss_remaining": None,
             "projected_race_day_tsb": projected_tsb,
             "tsb_target_range": tsb_range,
             "today": day_protocol,
             "carb_loading": {
                 "applicable": carb_applicable,
                 "active": carb_active,
-                "starts": "D-4",
+                "starts": None,
                 "start_date": carb_start_date,
-                "note": "10-12 g·kg⁻¹/day. No depletion phase needed." if carb_applicable else None
+                "note": "Discuss tested fueling and event demands; this timing block is not a dietary prescription."
             },
             "opener": {
                 "day": "D-2",
@@ -17193,57 +17323,21 @@ class IntervalsSync:
         }
     
     def _get_day_protocol(self, days_until: int, ctl: float, duration_class: str, category: str) -> Dict:
-        """
-        Return today's race-week protocol based on days until event.
-        Load targets as TSS = percentage of CTL.
-        """
-        # Day protocol definitions: (label, min_pct, max_pct, zones, purpose)
-        protocols = {
-            7: ("Last key session", 0.75, 1.00, "3-5 efforts Z4-Z5 (1-3 min)", "Fitness confirmation. Verify strong power/HR response."),
-            6: ("Recovery", 0.00, 0.30, "Z1-Z2 only", "Active recovery."),
-            5: ("Moderate endurance", 0.40, 0.60, "Z1-Z2 + 2-3 race-pace touches", "Maintain feel without adding fatigue."),
-            4: ("Easy / rest", 0.00, 0.40, "Z1-Z2 only", "Volume reduction. Carb loading begins if applicable."),
-            3: ("Easy / rest", 0.00, 0.40, "Z1-Z2 only", "Taper tantrums expected (D-4 to D-2). Normal — not lost fitness."),
-            2: ("Opener", 0.30, 0.50, "3-5 efforts Z4-Z6 (20-60s), high cadence, full recovery", "Neuromuscular activation."),
-            1: ("Rest / minimal", 0.00, 0.20, "Z1 only if active", "Final rest, logistics, equipment check."),
-            0: ("Race day", 0.00, 0.00, "Race effort", "Go/no-go assessment. Execute race plan.")
+        """Nonbinding event-review prompts, not CTL-derived dose prescriptions."""
+        prompts = {
+            7: ("Review final demanding work", "Retain only useful familiar work supported by completed training and recovery."),
+            6: ("Recovery review", "Choose easy riding or rest from response and availability."),
+            5: ("Event-specific review", "Consider familiar event-relevant efforts without new overload."),
+            4: ("Recovery and logistics", "Review symptoms, fueling and logistics; no mandatory training minimum."),
+            3: ("Recovery review", "Assess new symptoms normally; feeling flat does not create catch-up training."),
+            2: ("Optional familiar opener", "Use a tolerated checked opener only if useful and feasible; rest is valid."),
+            1: ("Rest or familiar easy work", "Individualize from response, travel, preference and event demands."),
+            0: ("Event day", "Preserve current readiness/health safeguards and athlete feedback.")
         }
-        
-        # Default for days > 7 (shouldn't happen in race week, but defensive)
-        if days_until > 7:
-            return {
-                "label": "Pre-race-week",
-                "load_target_tss": None,
-                "zones": "Normal training",
-                "purpose": "Race week protocol not yet active for this day."
-            }
-        
-        label, min_pct, max_pct, zones, purpose = protocols.get(days_until, protocols[0])
-        
-        # Adjust opener intensity by duration class
-        if days_until == 2:
-            if duration_class == "long_endurance":
-                zones = "3-4 efforts Z4 only (20-60s), moderate cadence, full recovery"
-                purpose = "Light neuromuscular activation. Preserve glycogen."
-            elif duration_class == "short_intense":
-                zones = "5-6 efforts Z4-Z6 (10-30s), high cadence, full recovery"
-                purpose = "Full neuromuscular activation for short, intense effort."
-        
-        # For long endurance events, prefer easy endurance over complete rest on D-4/D-3
-        if days_until in (3, 4) and duration_class == "long_endurance":
-            min_pct = 0.20  # Nudge minimum up — easy spin preferred over full rest
-            purpose = f"{purpose} Easy endurance preferred over complete rest for long events."
-        
-        min_tss = round(ctl * min_pct)
-        max_tss = round(ctl * max_pct)
-        
-        return {
-            "label": label,
-            "load_target_tss": {"min": min_tss, "max": max_tss},
-            "zones": zones,
-            "purpose": purpose
-        }
-    
+        label, purpose = prompts.get(days_until, ("Pre-event review", "Prepare from actual goals and completed training."))
+        return {"label": label, "load_target_tss": None, "zones": "individualize_within_checked_templates",
+                "purpose": purpose, "binding_dose": False}
+
     def _generate_race_alerts(self, race_calendar: Dict) -> List[Dict]:
         """Generate race-specific alerts for the alerts array."""
         alerts = []
@@ -17266,7 +17360,7 @@ class IntervalsSync:
         if rw.get("active"):
             # Daily status alert
             today_proto = rw.get("today", {})
-            load = today_proto.get("load_target_tss", {})
+            load = today_proto.get("load_target_tss")
             alerts.append({
                 "metric": "race_week",
                 "value": rw.get("days_until_event"),
@@ -17275,7 +17369,7 @@ class IntervalsSync:
                 "context": (
                     f"Race week {rw.get('current_day')} of '{rw.get('event_name')}'. "
                     f"Today: {today_proto.get('label', '?')}, "
-                    f"{load.get('min', 0)}-{load.get('max', 0)} TSS. "
+                    f"Dose requires an athlete-specific plan. "
                     f"{today_proto.get('zones', '')}"
                 ),
                 "persistence_days": None,
@@ -17542,10 +17636,18 @@ SECTION11_REPO_RAW = "https://raw.githubusercontent.com/CrankAddict/section-11/m
 
 # Directories/files to exclude from manifest generation
 _MANIFEST_EXCLUDE_DIRS = {".git", ".github", "__pycache__", "node_modules"}
-_MANIFEST_EXCLUDE_FILES = {"manifest.json", ".DS_Store"}
+_MANIFEST_EXCLUDE_FILES = {"manifest.json", ".DS_Store", "coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"}
 # Excluded only at the repository root: maintainer material that athlete
 # installations do not receive. A nested folder with the same name is unaffected.
 _MANIFEST_EXCLUDE_ROOT_DIRS = {"dev"}
+
+
+def _private_distribution_path(path):
+    """Local research copies and athlete journals are never updater artifacts."""
+    name = path.rsplit("/", 1)[-1]
+    return (path.startswith("literature/cycling-training/sources/")
+            or name.startswith("coaching_plan.sqlite3")
+            or name in {"coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"})
 
 # Root folders an older --init left in section11/ that --update does not manage,
 # and the backup folder each may be moved to beside section11/.
@@ -17613,7 +17715,7 @@ def _plan_manifest_install(zf):
 
     planned = []
     for rel_path, entry in files.items():
-        if not _safe_manifest_path(rel_path) or rel_path == "manifest.json":
+        if not _safe_manifest_path(rel_path) or rel_path == "manifest.json" or _private_distribution_path(rel_path):
             raise _InitArchiveError(f"unsafe path in manifest.json: {rel_path!r}")
         expected = entry.get("hash") if isinstance(entry, dict) else None
         if not isinstance(expected, str) or len(expected) != 64 or any(c not in "0123456789abcdef" for c in expected):
@@ -17854,15 +17956,19 @@ def do_generate_manifest():
     for root, dirs, filenames in os.walk(repo_dir):
         # Exclude directories
         dirs[:] = [d for d in dirs if d not in _MANIFEST_EXCLUDE_DIRS]
+        if Path(root).relative_to(repo_dir).as_posix() == "literature/cycling-training":
+            dirs[:] = [d for d in dirs if d != "sources"]
         if Path(root) == repo_dir:
             dirs[:] = [d for d in dirs if d not in _MANIFEST_EXCLUDE_ROOT_DIRS]
 
         for filename in filenames:
-            if filename in _MANIFEST_EXCLUDE_FILES:
+            if filename in _MANIFEST_EXCLUDE_FILES or filename.startswith("coaching_plan.sqlite3"):
                 continue
             
             filepath = Path(root) / filename
             rel_path = filepath.relative_to(repo_dir).as_posix()
+            if _private_distribution_path(rel_path):
+                continue
             
             # Skip hidden files
             if any(part.startswith('.') for part in rel_path.split('/')):
@@ -17884,7 +17990,7 @@ def do_generate_manifest():
     sorted_files = dict(sorted(files.items()))
     
     manifest = {
-        "scope": "Files installed by sync.py --init and managed by --update; excludes .github, hidden paths, the repository-root dev folder, and generated dependency/cache directories.",
+        "scope": "Files installed by sync.py --init and managed by --update; excludes .github, hidden paths, the repository-root dev folder, generated dependency/cache directories, local publisher research copies and private coaching records.",
         "files": sorted_files
     }
     
@@ -18011,6 +18117,10 @@ def do_update():
         return
     
     upstream_files = manifest.get("files", {})
+    if (not isinstance(upstream_files, dict) or any(not _safe_manifest_path(p) or p == "manifest.json"
+            or _private_distribution_path(p) for p in upstream_files)):
+        print("Section 11: unsafe/private distribution path in manifest; nothing updated")
+        return
     
     # Compare hashes against local files
     needs_update, current = _compare_files(upstream_files, target_dir)

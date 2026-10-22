@@ -8,6 +8,8 @@
 
 Generated at end of each training block (3–5 weeks).
 
+**Adaptive review record:** When a private managed plan exists, read its current revision and relevant review record. State the objective, intended versus observed work, separate adherence/goal attainment/response, known causes, decision, old → new revision IDs (or held), affected future sessions, next observation and unresolved questions. Use `coaching_plan.py review` per [ADAPTIVE_REVIEWS.md](../agentic/ADAPTIVE_REVIEWS.md); do not infer completion from publication or create catch-up debt. Missing wearables do not by themselves require questions or changes. Block reviews assess the stated performance/sustainability objective, not CTL or VO2 alone.
+
 ---
 
 ## Template Structure
@@ -99,7 +101,7 @@ DFA a1 Profile: evaluate these branches IN ORDER and take the first that matches
 
 Polarization (block average):
   Z1+Z2: [XX]%
-  Z3 (Grey Zone): [X]% (target <5%)
+  Z3 (Grey Zone): [X]% (interpret against the planned objective)
   Z4+ (Quality): [X]% (target ~20% of intensity sessions)
   TID 28d (block-scale): [Classification] (PI: [X.XX])
   Hard days/week avg: [X.X]
@@ -179,7 +181,7 @@ Next Block Plan:
 | **Sustainability Ceilings** | capability.sustainability_profile.{sport}.anchors | Per-sport MMP + HR at race-relevant durations. Cycling: Coggan + CP/W' model layers with divergence. Coverage ratio flags data gaps. Block-over-block: compare ceilings, coverage, and divergence shift. Omit if null |
 | **DFA a1 Profile** | capability.dfa_a1_profile.trailing_by_sport.cycling | Three self-describing markers (each estimate carries `marker_dfa_a1`): **`easy_guard` (α1 1.0)**: a conservative easy-state guard, descriptive/compliance-only, NEVER a calibration source and never compared to the athlete's current thresholds; **`lt1` (α1 0.75)** and **`lt2` (α1 0.5)**: the empirical threshold estimates. The **easy-state guard line renders whenever `easy_guard_estimate` present, INDEPENDENT of `confidence`** (a common easy ride populates the guard but not lt1/lt2; do not omit the guard just because threshold confidence is null/low). **Calibration deltas** surface only from `lt2`, compared against `current_status.thresholds.sports.cycling`, and only when the cycling entry exists in `current_status.thresholds.sports`, validated=true, and the comparison is complete on one of the three matching field triplets enumerated below: estimate value, its own count, and its own comparator. A missing cycling entry and a null comparator value fail completeness identically. Where no comparison is complete, the comparator and delta rows are omitted entirely rather than rendered empty. `lt1` never produces a delta (no configured LT1 comparator exists), though it renders descriptively whenever present. HR estimates pooled across sessions; watts split by environment (`watts_outdoor` / `watts_indoor` null when that environment has no estimate-eligible session). **Each estimate block (`easy_guard_estimate` / `lt1_estimate` / `lt2_estimate`) is null when THAT marker has <3 estimate-eligible marker-sessions (v3.122, not merely dwell-qualified), gated independently, so any one can be null while others are present, even at moderate/high coarse `confidence` (which is computed over lt1/lt2 only; easy_guard excluded); check the matching `*_reason`. An estimate is null whenever minimum estimate-eligible depth is not met: with at least one eligible session `*_reason` is `insufficient_sessions`; with none, the staged reason names the dominant blocker: dwell failure, incomplete coverage, excessive artifacts, non-positive mean power, or non-stationary power.** Compare `lt2_estimate.watts_outdoor` against `current_status.thresholds.sports.cycling.ftp`, and `lt2_estimate.watts_indoor` against `current_status.thresholds.sports.cycling.ftp_indoor`. Each comparison requires all three of a non-null estimate value, its matching depth, and a non-null comparator: `lt2_estimate.watts_outdoor` + `lt2_estimate.n_sessions_outdoor` ≥ 4 + `current_status.thresholds.sports.cycling.ftp`; `lt2_estimate.watts_indoor` + `lt2_estimate.n_sessions_indoor` ≥ 4 + `current_status.thresholds.sports.cycling.ftp_indoor`; `lt2_estimate.hr` + `lt2_estimate.n_sessions` ≥ 4 + `current_status.thresholds.sports.cycling.lthr`. If none is complete, omit the comparator and delta rows. `lt1` (0.75) populates only from rides sustaining aerobic-threshold intensity. Often null on easy/base blocks (expected). It renders descriptively whenever present and never produces a delta. Never auto-updates the upstream threshold source. See `easy_guard_crossing_sessions` / `lt1_crossing_sessions` / `lt2_crossing_sessions` (dwell-qualified marker-sessions) alongside `easy_guard_eligible_sessions` / `lt1_eligible_sessions` / `lt2_eligible_sessions` (estimate-eligible marker-sessions) for diagnostics: estimates gate on the eligible count, and any gap between the two means at least one dwell-qualified marker-session was estimate-rejected, not absent. Tier-2 interpretive signal: does NOT affect the Phase Progression Check |
 | **Decoupling trend** | Long ride aerobic efficiency | Long rides that pass the per-session gate only (≥ 90 min with VI ≤ 1.05 and > 0). Improving decoupling = aerobic base building |
-| **Polarization by Week** | Weekly zone distributions | Catches grey zone creep within a block. Append classification + PI only when week diverges from block-scale TID |
+| **Polarization by Week** | Weekly zone distributions | Shows changes relative to the intended distribution. Append classification + PI only when week diverges from block-scale TID |
 | **Durability by Week** | Weekly mean decoupling from steady-state sessions | VI ≤ 1.05, ≥ 90min. Shows aerobic efficiency trajectory across block |
 | **Efficiency Factor by Week** | Weekly mean EF from steady-state cycling | VI ≤ 1.05, ≥ 20min. Shows aerobic fitness trajectory across block |
 | **HRRc by Week** | Weekly mean HRRc from qualifying sessions | Omit entire section if block has < 3 qualifying sessions total. Weeks with 0 qualifying show "— no data". Shows recovery quality trajectory |
@@ -204,17 +206,17 @@ Next Block Plan:
 ### Phase Progression Criteria (Reference)
 | Current Phase | Progress When | Stay When | Regress When |
 |---------------|---------------|-----------|--------------|
-| Base Build | CTL target met, decoupling <5%, compliance >85% | Approaching targets, no flags | HRV declining, compliance <70%, flags triggered |
-| Threshold | FTP improved or eFTP trending up, key sessions hit targets | Making progress, manageable fatigue | Stalled power, wellness declining |
-| Peak | Race-specific targets met, form (TSB) improving | Still sharpening | Overreached indicators |
-| Deload | Hard sessions resume, CTL stabilized, wellness restored | TSS still reduced, wellness not yet recovered | Overreached indicators persist |
-| Recovery | RI >0.90, HRV baseline restored, TSB >+10 | Still recovering | N/A: extend until criteria met |
-| Overreached | ACWR <1.3, monotony <2.5, wellness improving | ACWR still elevated or monotony still high | N/A: mandatory recovery until resolved |
+| Base Build | Objective-relevant sessions are repeatable and tolerated; next stimulus fits availability | Current work remains useful or evidence is limited | Persistent adverse response or health concern; follow active readiness/health rules |
+| Threshold | Goal-relevant sustained performance and tolerability support a change | Progress is ongoing or more observation is useful | Repeated difficulty or worsening response requires review |
+| Peak | Event-specific objectives and recovery support the next step | Useful specificity remains feasible | Adverse response or changed event/availability requires adjustment |
+| Deload | Recovery response supports an appropriate next dose | More recovery or context is needed | Worsening symptoms or performance requires follow-up |
+| Recovery | Current feedback, relevant available evidence and health clarification support return | Recovery or health status remains unresolved | Extend/review as indicated; never require HRV solely to resume ordinary training |
+| Overreached | Reassess the heuristic label against performance, feedback and recovery | Relevant concerns remain unresolved | Follow active readiness/health protections; the label is not a diagnosis |
 
 ## Notes
 
 - **Week-by-week CTL** is critical: the trajectory tells a different story than just start/end
-- **Polarization by Week** catches grey zone creep that block averages can mask
+- **Polarization by Week** shows distribution changes to interpret against the plan that block averages can mask
 - **Durability by Week** catches aerobic efficiency regression that single-session decoupling can miss; the block trend is the headline
 - **Efficiency Factor by Week** catches aerobic fitness trends that complement durability; rising EF at same intensity = improving fitness
 - **HRRc by Week** shows recovery quality trajectory across the block; omit entire section if fewer than 3 qualifying sessions in the block. Individual weeks with 0 qualifying sessions show "— no data". Context-dependent: varies with exercise intensity, type, and recording conditions

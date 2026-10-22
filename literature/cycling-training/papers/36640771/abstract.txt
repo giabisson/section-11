@@ -1,0 +1,9 @@
+UNLABELLED: A well-planned periodized approach endeavors to allow road cyclists to achieve peak performance when their most important competitions are held.
+
+PURPOSE: To identify the main characteristics of periodization models and physiological parameters of trained road cyclists as described by discernable training intensity distribution (TID), volume, and periodization models.
+
+METHODS: The electronic databases Scopus, PubMed, and Web of Science were searched using a comprehensive list of relevant terms. Studies that investigated the effect of the periodization of training in cyclists and described training load (volume, TID) and periodization details were included in the systematic review.
+
+RESULTS: Seven studies met the inclusion criteria. Block periodization (characterized by employment of highly concentrated training workload phases) ranged between 1- and 8-week blocks of high-, medium-, or low-intensity training. Training volume ranged from 8.75 to 11.68 h·wk-1 and both pyramidal and polarized TID were used. Traditional periodization (characterized by a first period of high-volume/low-intensity training, before reducing volume and increasing the proportion of high-intensity training) was characterized by a cyclic progressive increase in training load, the training volume ranged from 7.5 to 10.76 h·wk-1, and pyramidal TID was used. Block periodization improved maximum oxygen uptake (VO2max), peak aerobic power, lactate, and ventilatory thresholds, while traditional periodization improved VO2max, peak aerobic power, and lactate thresholds. In addition, a day-by-day programming approach improved VO2max and ventilatory thresholds.
+
+CONCLUSIONS: No evidence is currently available favoring a specific periodization model during 8 to 12 weeks in trained road cyclists. However, few studies have examined seasonal impact of different periodization models in a systematic way.
