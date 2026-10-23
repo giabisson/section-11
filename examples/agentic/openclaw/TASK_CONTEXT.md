@@ -84,3 +84,11 @@ Private installation/rollback records preserve the old messages, workspace text 
 OpenClaw still stores ordinary tool results in its private conversation transcripts. The builder does not remove earlier packets from a long conversation or replace the runtime's history/compaction behavior. Context retention/pruning remains later work; the packet bound is not a guarantee that the entire model context fits its limit.
 
 Routine morning reports target one context tool call followed by the answer (normally two model responses). This is a target, not an enforced loop limit or measured saving. Step 2 telemetry can measure the next real runs; controlled quality evaluation is still required before claiming that fewer tokens/calls preserve quality. Tests validate deterministic selection, safety/data preservation and failure handling, not live model judgment.
+
+When full intake makes a task packet too large, the builder explicitly defers the
+daily/weekly history rows to a separate dated `history` read, retaining complete
+intake and readiness/health envelopes. The packet labels deferred counts, the
+required window and an evidence digest; omitted rows do not imply absent training
+or complete coverage. Retrieve the stated history before a prescription or a
+judgment that depends on it. The original byte limit and exact history reader
+remain unchanged; oversized remaining content still fails explicitly.

@@ -32,7 +32,7 @@ No system can infer whether a lost Telegram acknowledgement means the message wa
 
 ## Private operator files
 
-Install `report_runner.py`, `reporter_entry.py`, `context_packet.py` and `context-tool/` under the explicit private runtime directory. Enable the plugin through the installed SDK/manifest (`contracts.tools` must declare `section11_context`). Ordinary interactive plugin config has `reportMode:false`; only the private report config enables the restrictive hook. The global coding tool surface includes the bounded context reader.
+Install `report_runner.py`, `reporter_entry.py`, `context_packet.py`, its sibling `athlete_intake.py` and `context-tool/` under the explicit private runtime directory. Enable the plugin through the installed SDK/manifest (`contracts.tools` must declare `section11_context`). Ordinary interactive plugin config has `reportMode:false`; only the private report config enables the restrictive hook. The global coding tool surface includes the bounded context reader.
 
 Create a mode-0600 `report-primary.json` with exactly:
 

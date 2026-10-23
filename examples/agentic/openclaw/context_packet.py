@@ -8,6 +8,7 @@ import argparse
 from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -32,7 +33,7 @@ POLICY = [
     "Use the full supplied readiness and health envelope. Do not erase P0/P1 stops with a reassuring score or feedback. Illness/injury clarification and current adverse symptoms take precedence; never diagnose from these metrics. Read the relevant protocol section if interpreting or changing its recommendation.",
     "Use start-of-day ACWR for readiness; live ACWR is separate load context. Ratios/CTL, intensity distributions, EF and decoupling are not diagnoses or proof of adaptation. Preserve metric-specific validity/coverage gates and units.",
     "Use existing source rollups only for their stated periods. Do not sum overlapping history/latest records or invent a rest day from an absent row. A historical snapshot is not updated by a recent generated_at elsewhere. Missing/duplicate/contradictory dates are explicit uncertainty.",
-    "Current JSON owns dynamic metrics/thresholds/plans. Dossier excerpts own only stable constraints/goals/preferences. Expired dated schedules and old dossier metrics do not override current data or current athlete availability.",
+    "Current JSON owns dynamic metrics/thresholds/plans. Validated athlete_intake owns its attributed goals, dated availability and constraints; respect temporal_status and review_due, never infer current health clearance. Dossier excerpts own stable context; report contradictions rather than silently merging. Expired dated schedules and old dossier metrics do not override current data or current athlete availability.",
     "Publication is not completion; completion, goal attainment and response/cost are separate. No automatic catch-up debt or fixed progression percentage. Tie adjustments to observed tolerability, availability and the goal, with a next observation.",
     "Before planning a new block or judging long-term progression, retrieve long_term and relevant dated monthly/review evidence. Routine morning reports need not load it. Never compare a partial first/current month with a complete month as a change in fitness, and never treat an API-only empty month as confirmed rest. Read the exact stored review before claiming why a block changed; no review means causal intent/response is unknown.",
     "Use source _formatted/display fields for presentation. When fields are absent, retain unknown; never manufacture a normal value. Match target and actual execution windows; whole-session mean/NP cannot replace interval execution evidence.",
@@ -87,15 +88,17 @@ def json_source(path, athlete=False):
 def load_profile(path):
     profile, _ = json_source(Path(path).resolve())
     required = {"schema_version", "data_dir", "protocol", "workout_reference", "reports_dir", "dossier", "dossier_sections", "timezone", "source_timezone"}
-    optional = {"long_term_source", "review_store", "coaching_profile"}
+    optional = {"long_term_source", "review_store", "coaching_profile", "intake_store", "intake_athlete_id"}
     if set(profile)-required-optional or required-set(profile) or profile["schema_version"] != 1:
         fail("invalid_profile")
     for key in ("data_dir", "protocol", "workout_reference", "reports_dir", "dossier"):
         if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
             fail("absolute_profile_paths_required")
-    for key in optional & set(profile):
+    for key in (optional-{"intake_athlete_id"}) & set(profile):
         if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
             fail("absolute_profile_paths_required")
+    if ('intake_store' in profile)!=('intake_athlete_id' in profile):fail('intake_path_and_account_required')
+    if 'intake_athlete_id' in profile and (not isinstance(profile['intake_athlete_id'],str) or not re.fullmatch(r'i?[0-9]+',profile['intake_athlete_id']) or profile['intake_athlete_id'] in ('0','i0')):fail('explicit_intake_account_required')
     if not isinstance(profile["dossier_sections"], dict) or set(profile["dossier_sections"]) != set(TASKS):
         fail("explicit_dossier_selection_required")
     for headings in profile["dossier_sections"].values():
@@ -361,6 +364,14 @@ def dossier_context(profile, task):
             "omitted_section_discovery": "Use headings --source dossier for other section titles."}
 
 
+def intake_context(profile, now=None):
+    if 'intake_store' not in profile:return {'status':'unavailable','reason':'intake_not_configured','entries':[]}
+    now=now or datetime.now(timezone.utc)
+    spec=importlib.util.spec_from_file_location('s11_context_intake',Path(__file__).with_name('athlete_intake.py'))
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module.read(profile['intake_store'],profile['intake_athlete_id'],now.astimezone(ZoneInfo(profile['timezone'])).date().isoformat())
+
+
 def build(profile, task, now=None, activity_id=None):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
@@ -399,10 +410,11 @@ def build(profile, task, now=None, activity_id=None):
                            "selected_window": {"start": start.isoformat(), "end": end.isoformat()},
                            "projection_note": "Selected fields/dated rows only; source rollups retain their original periods, not the selection window. Missing future events do not prove calendar coverage. Multiple activities/events on one date are legitimate; duplicate wellness/history dates require review."},
               "athlete_context": dossier_context(profile, task),
+              "athlete_intake": intake_context(profile,now),
               "retrieval": {"protocol": "Use section --source protocol --heading EXACT_HEADING; headings mode lists titles without changelog bodies.",
                             "workouts": "Before prescribing retrieve section --source workouts --heading EXACT_TEMPLATE_HEADING.",
                             "additional_history": "Use long_term on demand for six closed months plus current (8 KiB maximum); history --start YYYY-MM-DD --end YYYY-MM-DD --tier monthly for dated monthly detail (three years maximum), daily (42 days) or weekly (182 days); history_detail --activity-id for exact stored facts. Complete projected rows or explicit size failure; no implicit history loading.",
-                            "plan_state": "Use section11_coaching state for the actual current managed plan; onboarding_required means ask current goals/availability in Telegram before proposing. Record current athlete feedback, prepare fresh evidence, then save a validated review through that tool. Scheduled report agents remain read-only; the supervisor persists their structured weekly review. Context review reads recover original records. Never infer a plan from calendar publication.",
+                            "plan_state": "Use section11_coaching state for the actual current managed plan; onboarding_required means no plan exists. Read saved athlete_intake first; intake_saved_plan_pending does not require repeating answers. Save explicitly supplied onboarding through intake and verify state; ask only missing/changed/due/current-health questions before proposing. Record current athlete feedback, prepare fresh evidence, then save a validated review through that tool. Scheduled report agents remain read-only; the supervisor persists their structured weekly review. Context review reads recover original records. Never infer a plan from calendar publication.",
                             "other_sources": latest.get("data_overview")}}
     if task in ("weekly", "workout", "plan"):
         packet["history"] = history_window(profile, start, today)
@@ -434,6 +446,25 @@ def build(profile, task, now=None, activity_id=None):
                                          "status": "available" if details else "unavailable", "no_execution_inference_from_absence": True}
         except FileNotFoundError:
             packet["activity_detail"] = {"status": "unavailable"}
+    return defer_history_for_intake(packet)
+
+
+def defer_history_for_intake(packet):
+    """Keep complete intake/health; explicitly retrieve bulky history separately.
+
+    No row prefix or larger context budget. A digest preserves report-cache
+    invalidation when deferred rows change. Exact history reads remain unchanged.
+    """
+    history=packet.get('history')
+    size=len(json.dumps({**packet,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())
+    if packet['athlete_intake']['status']=='available' and history and size>MAX_PACKET_BYTES and history.get('status')=='available':
+        rows={k:history.get(k,[]) for k in ('rows','weekly_rows')}
+        packet['history']={k:v for k,v in history.items() if k not in rows}
+        packet['history'].update(status='deferred',source_coverage_complete=history['coverage_complete'],coverage_complete=False,
+            deferred_row_counts={k:len(v) for k,v in rows.items()},
+            deferred_rows_sha256=hashlib.sha256(json.dumps(rows,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest(),
+            required_retrieval={'operation':'history','start':history['requested_start'],'end':history['requested_end'],'tier':'daily'},
+            note='Rows deferred to keep full intake and readiness/health within the packet bound. This is not empty history. Retrieve the stated dated history window before a prescription or any judgment that depends on training history; no coverage/completion inference from omitted rows.')
     return packet
 
 

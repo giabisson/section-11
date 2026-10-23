@@ -11,25 +11,25 @@
       "hash": "f302b1ef5b3c8ead56325e5f449776cd43fb663d945f8c23ab293880e8f92151"
     },
     "DOSSIER_TEMPLATE.md": {
-      "hash": "970b8534fd17e2147e405178d1b11d5657bdb7f0b6e6b96b180fbbd24e6e3205"
+      "hash": "53fbe026b963c01590de90e7985ce0cb29a259800de3053cf072dcfe54aeb3c0"
     },
     "LICENSE": {
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
     "LLM_UPDATE_PLAN.md": {
-      "hash": "abfa9d0f9e585524d321224f82316c721cd97bdf6f61d038641dfe429fde963d"
+      "hash": "3d64d2545ace287d5890495b46d30d96464fb03ff04be6072c4a39479e04bd7c"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
-      "hash": "b9c4194199e174b5aa01c9df9bc944992d19d680d96035fd5ccedb6f2d9ff7a9"
+      "hash": "3284cd9da1bed641f15e0add5bb19cb8f14675080ded824f6211e7890590b6f2"
     },
     "PROJECT_INSTRUCTIONS_WEB.md": {
-      "hash": "ea94f476cdc1946fc98ebcfe9d7256f91191dbe7e76e7f970da699bd762f72a3"
+      "hash": "f098e38223506d449f187e00dcf26d66d0f4c5bb93337e28180f587d2c78a4c1"
     },
     "README.md": {
       "hash": "fd3e2bc65f729f5ae8254e6342581e0c768f1095d326334464b16b7cc3074432"
     },
     "SECTION_11.md": {
-      "hash": "7f06d1d4ef505842cc088b1f89221af2074a69c6aab8ee3f37f4e6a1e0fd8354",
+      "hash": "53a3d0fc1cab8082e761d4706cde029ad2782e9d3068d9dcc823325239f93ab6",
       "description": "Coaching protocol"
     },
     "SECURITY.md": {
@@ -39,7 +39,7 @@
       "hash": "ab6fdc2649d50752f8770650893db59980355086834ca544a2a4fa6aa40ef91f"
     },
     "SKILL.md": {
-      "hash": "8aa9e07ffbebf64c833839104b25709a9b7a48318e0fc5fd970a3582769f9c01"
+      "hash": "cf3ca3186deb56fd0ed84aa070574c36781404d4fc3053aede15804d2ec0eab0"
     },
     "THIRD_PARTY_NOTICES.md": {
       "hash": "2d9fa3fc0fe1477ab66d63f9edebe758f329fcda3f439702bbe5a8ff78b9b53e"
@@ -72,7 +72,7 @@
       "hash": "508dfa590e841ee55fbd522c87d154e68e60d7a41470c0bfa3e004359945c0c3"
     },
     "examples/agentic/coaching_check.py": {
-      "hash": "46e8bd792c6d7aa21849da539ee4a258eaecb72d39e9ccba0c37966c6ed366a2"
+      "hash": "19fdce7aeb122dba781c2cb30e8a19bde3b34bb641efd7016a501644e845cccc"
     },
     "examples/agentic/coaching_context.py": {
       "hash": "d757337a8ba227d6a1e415c7e7483d7096626ed909b27e7db93954bc91d5ae66"
@@ -99,7 +99,7 @@
       "hash": "08dd88684cc55633a80c1e13b5363d218e6b6fb2d3abdcd498a098582779b3d7"
     },
     "examples/agentic/openclaw/EXECUTION_RELIABILITY.md": {
-      "hash": "46a11308ab499f3b43b0db11b656cd31245346b4dc131b53d2b6fc524a525a25"
+      "hash": "a6abe12a860546f4565bee30f7d614489dbcb0807cc1b82209977caf2d247591"
     },
     "examples/agentic/openclaw/HEARTBEAT_TEMPLATE.md": {
       "hash": "e79084e57de65c0ea7cacbdba494c4793d548d9d66dbe50712c9486a9085087d"
@@ -108,22 +108,25 @@
       "hash": "5fc5b86efed8a79b4d93d93114a373141d6de4defb1fb14a73b3d332ee4c6720"
     },
     "examples/agentic/openclaw/MANAGED_REVIEWS.md": {
-      "hash": "17df00733d13bd86218ef71a0749685ed4d9bb2de5f84501cd72f4fdc4a72c4e"
+      "hash": "8b1e1d45763466f7fe26c6b2bba2aedac9083cd613a5a1efd7e9b33f34df595a"
     },
     "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
-      "hash": "02ce82e22b5d4015cc7e272a2bd87dffb174dfbf79ec570f29fbe5bc9d778f93"
+      "hash": "66f96d73aadc37c60350cdbb7d5e32c9e5ebce65befd68951322c0cc0fda489a"
     },
     "examples/agentic/openclaw/RUNTIME_SAFETY.md": {
       "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
     },
     "examples/agentic/openclaw/TASK_CONTEXT.md": {
-      "hash": "5eb07b93657412721a6d283e1947b760bc4be1548f58f561a14741af9da024c3"
+      "hash": "588ea6256782678af378fd77c879bad5d5463f7b2d763e33d0de6a385c87530c"
     },
     "examples/agentic/openclaw/TELEMETRY_AND_EVALS.md": {
       "hash": "1ad9c3141723ecfbb9cfc5972e177fcc66bef5c97975fc281f79c960a6715f29"
     },
+    "examples/agentic/openclaw/athlete_intake.py": {
+      "hash": "cc1afa1d6b4e8c2906f60811efda3a8ddfa5879db4618805122fcfc7cce9b3fc"
+    },
     "examples/agentic/openclaw/coaching-tool/index.mjs": {
-      "hash": "f6511df8035b3bf5694b8da929829808af197f5a8b3a79dd758fcf2831e9acc0"
+      "hash": "7486ea813b331c1e5745978b5a665045fd3c84937c5a7cc92f8fc376e6a72bfb"
     },
     "examples/agentic/openclaw/coaching-tool/openclaw.plugin.json": {
       "hash": "606901ab7ebc770e367f9d59365b3e60a4569b15895c9ffb9ec1b75b515e8bba"
@@ -135,13 +138,13 @@
       "hash": "0fd29cfa85ca3c4f3aae5cc140ef5a48c43f5632fdb9f9ecbe3a5db6048b7a31"
     },
     "examples/agentic/openclaw/coaching-tool/schemas.mjs": {
-      "hash": "0afbbc13d58c736710e32528d0f263f9bd2b029de544367a831a761f2b7c07f4"
+      "hash": "cef0a68600a8b87e95a21e6d75b502c0e3ed4815f8a005cd5d29e94fbd7fb19c"
     },
     "examples/agentic/openclaw/coaching_evals.py": {
       "hash": "5a42d0468c254f744ef9d1986c8fe78a3b03abc267acf4275783a75a1c55eaec"
     },
     "examples/agentic/openclaw/coaching_runtime.py": {
-      "hash": "9588885df3eeb65dfbefd39d6a573906b9ee973085aec3f2d4c848543cf90a35"
+      "hash": "0e32badc5eaa2709f6ebe9cfbf07adf5a806b6a03ad784d9a4bdda2432cb18a2"
     },
     "examples/agentic/openclaw/context-tool/index.mjs": {
       "hash": "b5043f5a0ef31e1d8801a06748c8754b9e2b15ab28ec019ff80352d2bdb9ab4b"
@@ -156,7 +159,7 @@
       "hash": "849917ce72de29358627855e2353ad2942998763956c8f99c68ffa6241ac00cf"
     },
     "examples/agentic/openclaw/context_packet.py": {
-      "hash": "5855a1c18d93fa65bd519efa317af4efb2b5895788c3147ab74f037a56aa2fbd"
+      "hash": "cf421034b8bd1c3596af61cd7500c4bd39b05cfc09ab6a1517de24a60f6639c4"
     },
     "examples/agentic/openclaw/credential-guard/index.mjs": {
       "hash": "c144b2b12483c13e1f628d2b37709afda4f4db95cf5143126398e1982d4ff63f"
@@ -174,7 +177,7 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "c437e2bd53962defbabef3d666376c5a53f311c2496a316c673c84200f6a1426"
+      "hash": "2dfbda1ccf6ecba6e7a8574da05317f6ae7ef3b1a26b8293b3132e102ff74b63"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"
@@ -186,7 +189,7 @@
       "hash": "6cbb90356a5496c4005ecbbf3680e099ead0888f2420168d8376b541bb9d43de"
     },
     "examples/agentic/openclaw/report_runner.py": {
-      "hash": "a7cdec77e7853dcfd7cd12a33c81baeaddf4ec0b183fc51c5c7e3a63372eba8a"
+      "hash": "2392d9c7c43a0df0b407b530a3a86e8143b27f9724136bfd1a80f792849702af"
     },
     "examples/agentic/openclaw/reporter_entry.py": {
       "hash": "db0c0af3f4fd90c359efd9240bb3341e9dba00f6cbc3debe0ad9d90a047fbee2"
@@ -258,7 +261,7 @@
       "hash": "2370624b7de8ddaebfad157853e22af9576d0136b1e42d7cb157934ce64489eb"
     },
     "examples/json-examples/coaching_check_output.example.json": {
-      "hash": "714e519131734f2d9a21a8e3fd6e81c748caecc406c4da5978b0c7dc06d13937"
+      "hash": "bbe0f169a6f47798992505cfcb770762f789ef4596c44979ecfcb202e75a480a"
     },
     "examples/json-examples/coaching_conversations.example.json": {
       "hash": "abe94516166761d120fb47340ee2eb5e029e93b167a86abffbf889d332dfa98f"
@@ -363,7 +366,7 @@
       "hash": "53b5f2cc457baab0f89dde417003572e221aea8852873be91fb88317447347a9"
     },
     "examples/sync.py": {
-      "hash": "5a7a401da3818709901d9aad394b4e2bceacec458f6b7d2731497e50a2375c4c"
+      "hash": "5b40f5716993e09061aeac9f9a7771aa0d9b2ee33f458fab91e5d800649105e1"
     },
     "examples/training_history.py": {
       "hash": "82499075d5ac48b93bc9ba3d70a3423f8661766cbb95b9f1f62a314765b26175"

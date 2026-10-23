@@ -56,7 +56,7 @@ def check(root, data_dir=None, workspace=None, latest_json=None):
     except (OSError, ValueError, KeyError, TypeError) as exc:
         add("workout_catalog", "fail", str(exc))
     excluded = [name for name in manifest if name.startswith("literature/cycling-training/sources/")
-                or Path(name).name.startswith("coaching_plan.sqlite3") or Path(name).name in {"coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"}]
+                or Path(name).name.startswith(("coaching_plan.sqlite3", "athlete_intake.sqlite3")) or Path(name).name in {"coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"}]
     add("private_and_publisher_exclusion", "fail" if excluded else "pass", excluded or "no private store or publisher research copies in distribution")
     add("requests_dependency", "pass" if importlib.util.find_spec("requests") else "unavailable", "calendar transport needs requests; local review/store uses stdlib")
     if latest_json is None:

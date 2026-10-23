@@ -8,9 +8,13 @@ from model input or treats a stored plan as permission to train.
 ## Current primary status — 23 October 2026
 
 The primary bridge, context reader and weekly supervisor integration are installed.
-Plugin/skill discovery, six isolated native SDK operations, synthetic review/revision
-recovery and three report dry runs passed; the full suite passed 1,306 tests on
-both machines. No real managed plan has been created (`onboarding_required`).
+Plugin/skill discovery, eight isolated native SDK operations, synthetic review/revision
+recovery and three report dry runs passed; the full suite passed 1,317 tests on
+both machines. Verified post-cutover Telegram onboarding answers are saved in the
+private intake store. A fresh process dated 24 October recovered the same entries
+through state and task packets, with previous-day health marked historical.
+Keyword-only Gateway memory search works. No real managed plan has been created
+(`onboarding_stage:intake_saved_plan_pending`).
 The later authorized primary cutover cleared active personal context and the derived
 memory index while preserving the original 104-file archive, a current-context
 backup, prior conversation records and training history. Telegram onboarding can
@@ -45,13 +49,52 @@ not itself save earlier failed requests.
 ## Fresh onboarding
 
 Read `{"operation":"state"}`. `onboarding_required` means no real plan has been
-proposed. Ask the athlete for current goals/event demands, experience, health and
-training response, actual time/day constraints and preferences. Existing training
+proposed, **not** that intake answers were lost. `onboarding_stage` distinguishes
+`intake_required` from `intake_saved_plan_pending`. Read the returned `intake`
+before questions. Ask only for missing/changed facts, due reviews and current
+health/response; do not repeat answered onboarding questions. Existing training
 records remain useful evidence; old goals, old conversation summaries and fictional
 examples are not current intentions. Missing HRV/RHR does not block onboarding or
 progression. Never initialize a sample/default plan to make the store look ready.
 
-After current context is supplied, use:
+### Save intake before a plan exists
+
+Explicit answers supplied for onboarding authorize faithful private recording;
+no second permission prompt is needed. First read state, then invoke:
+
+```json
+{"operation":"intake","payload":{"request_id":"unique-request-id","parent_revision":null,"entries":[{"key":"equipment","kind":"equipment","text":"Actual athlete-reported equipment, not a default","observed_on":"YYYY-MM-DD","source":"Actual message/date reference","valid_from":null,"valid_until":null,"review_on":null}],"open_questions":[]}}
+```
+
+The example is shape only. Supply the actual answers and explicit account-bound
+source attribution; never copy sample facts. `parent_revision` is the current
+intake revision from state, or null for the first save. Each revision is a complete
+snapshot: preserve unchanged entries with their original observation dates and
+sources, and use a fresh request ID for changes. Prior revisions remain in private
+`state_dir/athlete_intake.sqlite3`; a repeated identical request is idempotent,
+conflicting IDs or stale parents fail closed. This store is never distributed.
+
+Entry kinds: goal, availability, equipment, experience, preference,
+recovery_constraint, health_observation, follow_up. All fields shown above are
+required (nullable dates permitted). Goals, availability, recovery constraints
+and follow-ups require `review_on`. Health observations require `valid_until`
+equal to `observed_on`; they cannot become timeless clearance. Label inferred
+relative dates, preserve reported clearance conditions, and distinguish an
+operator-selected recheck date from an actual clinician appointment. Restriction
+expiry or a due review never establishes recovery.
+
+Require a successful commit/readback receipt, then read state and verify the
+same revision and the actual entries before saying answers are saved. State and
+every bounded task packet return the intake independently of plan existence.
+Optional context-profile keys `intake_store` and `intake_athlete_id` must be supplied
+together, match the private store/account, and point to the runtime state store.
+Missing/unavailable intake remains unknown; a failed source read is not permission
+to substitute chat memory. The plugin/backend enforce shape, private permissions,
+account binding and dates; message attribution is caller-attested, not cryptographic
+Telegram authentication. Neither saving intake nor a current-looking record
+establishes today's medical clearance, a prescription or calendar approval.
+
+After saving and reading back context, use:
 
 ```json
 {
@@ -147,7 +190,7 @@ capture or changed dependency prevents delivery. Quiet/unchanged reviews remain
 saved but do not send a message or create duplicate revisions. Their receipt is
 `not_requested`, never falsely labelled delivered.
 
-With no real managed plan, a weekly report states onboarding is needed; it cannot
+With no real managed plan, a weekly report distinguishes saved intake from missing answers; it cannot
 claim a block review was saved. The integration is ready before onboarding, but the
 real managed plan must come from the athlete's subsequent current Telegram input.
 No new model call is added solely to save or retrieve a review.
@@ -177,3 +220,11 @@ reviews, report-save/delivery ordering, source failures and typed transport boun
 They do not certify model judgment or physiological efficacy. Live deployment
 checks must additionally verify plugin registration, private profile paths, actual
 stored records in an isolated test store and unchanged primary/secondary routing.
+
+When full intake makes a task packet too large, the builder explicitly defers the
+daily/weekly history rows to a separate dated `history` read, retaining complete
+intake and readiness/health envelopes. The packet labels deferred counts, the
+required window and an evidence digest; omitted rows do not imply absent training
+or complete coverage. Retrieve the stated history before a prescription or a
+judgment that depends on it. The original byte limit and exact history reader
+remain unchanged; oversized remaining content still fails explicitly.

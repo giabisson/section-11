@@ -9,6 +9,7 @@ test('declared contract matches the registered write tool',()=>{
  const manifest=JSON.parse(fs.readFileSync(new URL('../../examples/agentic/openclaw/coaching-tool/openclaw.plugin.json',import.meta.url)));
  assert.deepEqual(manifest.contracts.tools,['section11_coaching']);assert.equal(manifest.toolMetadata.section11_coaching.optional,false);
  const distribution=JSON.parse(fs.readFileSync(new URL('../../manifest.json',import.meta.url)));
+ assert(distribution.files['examples/agentic/openclaw/athlete_intake.py']);
  assert(distribution.files['examples/agentic/openclaw/coaching-tool/schemas.mjs'],'the imported schema must ship with the plugin');
 });
 test('payload is JSON on stdin, with fixed argv and no shell or arbitrary paths',()=>{
@@ -50,6 +51,7 @@ test('all nested object and array shapes are explicit, with bounded plan referen
  const payload=schema.properties.payload.anyOf;
  assert.deepEqual(payload[0].required,['date','state','note','health_clarification']);
  assert.deepEqual(payload[1].required,['current_athlete_context','plan']);
+ assert.deepEqual(payload[2].required,['request_id','parent_revision','entries','open_questions']);
  assert.deepEqual(schema.properties.draft.required,['observations','decisions','candidate_plan']);
  assert(payload[0].properties.health_clarification.anyOf.some(x=>x.type==='null'));
 });

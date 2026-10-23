@@ -79,6 +79,7 @@ class CoachingRuntime:
         if not re.fullmatch(r'i?[0-9]+',self.athlete) or self.athlete in ('0','i0'):raise ValueError('explicit_account_required')
         self.state=Path(profile['state_dir'])
         if self.state.is_symlink() or self.state.resolve().is_relative_to(root.resolve()):raise ValueError('private_state_outside_source_required')
+        if 'intake_store' in self.cp and (Path(self.cp['intake_store']).resolve()!=(self.state/'athlete_intake.sqlite3').resolve() or self.cp['intake_athlete_id']!=self.athlete):raise ValueError('intake_profile_mismatch')
         self.state.mkdir(parents=True,exist_ok=True,mode=0o700)
         if self.state.stat().st_mode&0o077:raise ValueError('private_state_required')
 
@@ -93,13 +94,24 @@ class CoachingRuntime:
     def store(self, create=False):
         return self.api.PlanStore(self.p['store_dir'],create=create)
 
+    def intake_view(self):
+        intake=module(Path(__file__).with_name('athlete_intake.py'),'s11_athlete_intake')
+        return intake.read(self.state/'athlete_intake.sqlite3',self.athlete,self.today())
+
+    def save_intake(self, payload):
+        intake=module(Path(__file__).with_name('athlete_intake.py'),'s11_athlete_intake')
+        return intake.save(self.state/'athlete_intake.sqlite3',self.athlete,payload,self.today())
+
     def state_view(self):
-        if not (Path(self.p['store_dir'])/'coaching_plan.sqlite3').is_file():
-            return {'success':True,'state':'onboarding_required','athlete_id':self.athlete,'plan':None,'instruction':'Ask for current goals, experience, recent training response, health and actual availability in Telegram before proposing a real plan. Old dossier dates and calendar publication are not current intent.','calendar_writes':0}
+        intake=self.intake_view()
+        pending={'success':True,'state':'onboarding_required','athlete_id':self.athlete,'plan':None,
+                 'onboarding_stage':'intake_saved_plan_pending' if intake['status']=='available' else 'intake_required',
+                 'intake':intake,'instruction':'Read saved intake before asking questions. Save explicit onboarding statements through intake before planning. Ask only missing/current health context; no plan does not mean earlier answers were lost.','calendar_writes':0}
+        if not (Path(self.p['store_dir'])/'coaching_plan.sqlite3').is_file():return pending
         store=self.store()
         try:
-            if store.latest_id() is None:return {'success':True,'state':'onboarding_required','athlete_id':self.athlete,'plan':None,'calendar_writes':0}
-            result=store.summary();result['state']='active';result['calendar_writes']=0
+            if store.latest_id() is None:return pending
+            result=store.summary();result.update(state='active',onboarding_stage='plan_created',intake=intake,calendar_writes=0)
             if result['plan']['athlete_id']!=self.athlete:raise ValueError('plan_account_mismatch')
             return result
         finally:store.close()
@@ -184,7 +196,7 @@ class CoachingRuntime:
         if not fresh:coverage='unavailable'
         snapshot={'athlete_id':self.athlete,'source':'Direct Intervals.icu GETs and current producer readiness; calendar coverage does not prove completion; scope='+review_scope+'; intended_start='+(intended_start or start),'as_of':self.today(),'coverage':coverage,**rows,'readiness':readiness}
         parent=view['revision_id']
-        core={'parent_revision':parent,'period':{'start':start,'end':end},'snapshot':snapshot,'current_feedback':feedback,'safety':safety}
+        core={'parent_revision':parent,'period':{'start':start,'end':end},'snapshot':snapshot,'current_feedback':feedback,'safety':safety,'intake_revision':self.intake_view().get('revision_id')}
         capture=digest(core);path=self.state/('capture-'+capture+'.json')
         write_json(path,{**core,'captured_at':self.now().isoformat()})
         # Bound retained captures; no training record or journal is pruned here.
@@ -204,7 +216,7 @@ class CoachingRuntime:
         age=(self.now()-datetime.fromisoformat(capture['captured_at'])).total_seconds()
         if not 0<=age<=900:raise ValueError('review_capture_expired')
         _,_,safety=self.latest()
-        if safety!=capture['safety'] or self.feedback()!=capture['current_feedback']:raise ValueError('review_evidence_changed_prepare_again')
+        if safety!=capture['safety'] or self.feedback()!=capture['current_feedback'] or self.intake_view().get('revision_id')!=capture.get('intake_revision'):raise ValueError('review_evidence_changed_prepare_again')
         source={'schema_version':1,'review_id':'review-'+digest({k:v for k,v in capture.items() if k not in ('captured_at','safety') }|{'draft':draft})[:40],
                 'parent_revision':capture['parent_revision'],'trigger':trigger,'schedule_opt_in':trigger=='scheduled',
                 'assessed_date':self.today(),'period':capture['period'],'snapshot':capture['snapshot'],'current_feedback':capture['current_feedback'],**draft}
@@ -222,7 +234,7 @@ class CoachingRuntime:
         try:
             capture=private_json(self.state/('capture-'+receipt['capture_id']+'.json'))
             age=(self.now()-datetime.fromisoformat(capture['captured_at'])).total_seconds()
-            if not 0<=age<=900 or self.latest()[2]!=capture['safety'] or self.feedback()!=capture['current_feedback']:return False
+            if not 0<=age<=900 or self.latest()[2]!=capture['safety'] or self.feedback()!=capture['current_feedback'] or self.intake_view().get('revision_id')!=capture.get('intake_revision'):return False
             store=self.store()
             try:
                 return store.latest_id()==receipt.get('revision_id') and any(e['kind']=='reviewed' and e['body']['review_id']==receipt.get('review_id') and e['body']['result_revision']==receipt.get('revision_id') for e in store._events())
@@ -238,9 +250,9 @@ def main():
         request=json.loads(raw);runtime=CoachingRuntime(load_profile(args.profile))
         if not isinstance(request,dict) or set(request)-{'operation','payload','start','end','capture_id','draft'}:raise ValueError('invalid_request')
         op=request['operation']
-        allowed={'state':{'operation'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
+        allowed={'state':{'operation'},'intake':{'operation','payload'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
         if op not in allowed or set(request)!=allowed[op]:raise ValueError('invalid_operation_fields')
-        result=(runtime.state_view() if op=='state' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
+        result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
         text=canonical({**result,'packet_complete':True})
         if len(text.encode())>49152:raise ValueError('output_size_limit_use_narrower_review')
         print(text);return 0

@@ -33,6 +33,8 @@ export async function verifyInstalledSchema(packageRoot){
  for(const workout of complex){
   const p=structuredClone(plan);p.sessions=[{session_id:'synthetic',purpose:'Schema fixture',alternatives:[],session_budget_minutes:180,workout}];cases.push({operation:'propose',payload:{...payload,plan:p}});
  }
+ const intake={request_id:'synthetic-intake',parent_revision:null,entries:[{key:'goal',kind:'goal',text:'Synthetic reported objective',observed_on:'2026-10-23',source:'Synthetic message only',valid_from:null,valid_until:null,review_on:'2026-11-01'}],open_questions:[]};
+ cases.push({operation:'intake',payload:intake});
  const invalid=[{operation:'feedback',payload:{...feedback,unexpected:true}},
   {operation:'feedback',payload:{...feedback,health_clarification:{compatible:'yes',reason:'Synthetic'}}},
   {operation:'feedback',payload:{...feedback,state:'invented'}},
@@ -40,6 +42,7 @@ export async function verifyInstalledSchema(packageRoot){
   {operation:'save',capture_id:'a'.repeat(64),draft:{observations:[],decisions:[],candidate_plan:null,snapshot:{}}},
   {operation:'save',capture_id:'a'.repeat(64),draft:{observations:[{arbitrary:true}],decisions:review.decisions,candidate_plan:null}},
   {operation:'state',path:'/arbitrary'}];
+ invalid.push({operation:'intake',payload:{...intake,entries:[{...intake.entries[0],untrusted_snapshot:{}}]}});
  const projected=projectOpenAITools([{name:'section11_coaching',parameters:schema}]);assert.equal(projected.diagnostics.length,0);
  const stages={declared:schema,compat:normalizeOpenAIStrictCompatSchema(schema),
   normalized:normalizeToolParameterSchema(schema,{modelProvider:'openai',modelId:'gpt-6-astra'}),

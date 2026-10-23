@@ -20,3 +20,7 @@ auth-profiles.json
 facts.sqlite3
 facts.sqlite3-*
 training-history-primary/
+
+# Private versioned athlete onboarding records.
+athlete_intake.sqlite3
+athlete_intake.sqlite3-*

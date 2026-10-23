@@ -65,7 +65,9 @@ These five steps are completion help for a blank template. Delete this **Quick s
 
 ### Maintaining this file
 
-An AI may propose changes to this dossier. It may never make them unilaterally.
+Faithful onboarding exception: explicitly supplied onboarding facts or an explicit request to remember/save authorize faithful recording at the verified private official target without another approval prompt. Re-read the complete current file, preserve unrelated content, increment revision/date, then verify the write. Do not infer facts, resolve contradictions silently or promote dated symptoms/availability to timeless context. With the managed-coaching integration, save dated intake through `section11_coaching intake` before a plan exists and verify state; read saved intake in future sessions before asking again. Old health observations never establish current medical clearance.
+
+Outside this exception, an AI may propose changes but must obtain exact approval under the following steps.
 
 1. **Propose the exact change**: the section affected, the current text, the proposed text, and why the fact belongs here rather than in JSON, the calendar, or the conversation.
 2. **Obtain the athlete's exact approval.** Approval of one change authorizes that change only. General agreement with an analysis is not approval, and approval from a reviewer or another AI is never a substitute for the athlete's.

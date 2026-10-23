@@ -168,7 +168,7 @@ class CoachingDistribution(unittest.TestCase):
         tree.update({"literature/cycling-training/sources/one/paper.pdf": b"private publisher copy",
                      "literature/cycling-training/papers/one/takeaways.md": b"our summary",
                      "private/coaching_plan.sqlite3": b"private athlete state", "coaching_decisions.jsonl": b"private decisions",
-                     "private/facts.sqlite3": b"private history", "training-history-primary/summary.json": b"private summary"})
+                     "private/facts.sqlite3": b"private history", "private/athlete_intake.sqlite3": b"private intake", "training-history-primary/summary.json": b"private summary"})
         raw = distribution.run_generator(tree)
         names = json.loads(raw)["files"]
         self.assertFalse(any("/sources/" in n or "sqlite3" in n or n.endswith("coaching_decisions.jsonl") for n in names))
@@ -222,7 +222,7 @@ class CoachingDistribution(unittest.TestCase):
         self.assertEqual(result.files["athlete-private/coaching_plan.sqlite3"], b"do not touch")
 
     def test_private_or_publisher_records_in_an_explicit_archive_manifest_are_rejected(self):
-        for name in ("coaching_plan.sqlite3", "literature/cycling-training/sources/one/paper.pdf"):
+        for name in ("coaching_plan.sqlite3", "athlete_intake.sqlite3", "literature/cycling-training/sources/one/paper.pdf"):
             tree = {"README.md": b"safe", name: b"excluded"}
             result = distribution.run_init(distribution.repo_archive(manifest=distribution.manifest_for(tree), files=tree))
             self.assertEqual(result.installed, {})

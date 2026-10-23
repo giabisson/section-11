@@ -17675,6 +17675,7 @@ def _private_distribution_path(path):
     return (path.startswith("literature/cycling-training/sources/")
             or name.startswith("coaching_plan.sqlite3")
             or name.startswith("facts.sqlite3")
+            or name.startswith("athlete_intake.sqlite3")
             or any(part.startswith("training-history-") for part in path.split("/"))
             or name in {"coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"})
 

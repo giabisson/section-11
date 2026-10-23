@@ -450,3 +450,5 @@ coverage of the repository.
 ## Route-map format
 
 PNG is the sole route-weather image format. SVG was omitted to avoid a second renderer and compatibility surface. See [Weather Data Source](../SECTION_11.md#weather-data-source) for the map contract and [third-party notices](../THIRD_PARTY_NOTICES.md) for the embedded font.
+
+Durable onboarding regression coverage: `python3 -m unittest discover dev/tests -p test_athlete_intake.py` verifies private append-only intake revisions, idempotency/account binding, source dates, next-day fresh-process recovery through state **and** context packets, expired health observations, and invalidation of prepared reviews after an intake change. The native OpenClaw schema smoke also validates intake at all conversion stages. Fixtures are synthetic; real Telegram intake belongs only in private runtime state.

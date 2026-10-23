@@ -73,8 +73,14 @@ const observation=object({session_id:id,prescription_id:text,activity_id:{anyOf:
 const decision=object({action:enumeration(['maintain','progress','reduce','substitute','reschedule','request_context']),session_ids:strings,
  observation_ids:strings,reason:text,next_observation:text});
 export const draftSchema=object({observations:array(observation),decisions:array(decision,{minItems:1}),candidate_plan:nullable(planReference)});
+export const intakeSchema=object({request_id:id,parent_revision:nullable({type:'string',pattern:'^intake-[a-f0-9]{40}$'}),
+ entries:array(object({key:id,kind:enumeration(['goal','availability','equipment','experience','preference','recovery_constraint','health_observation','follow_up']),
+ text:{type:'string',minLength:1,maxLength:2000},observed_on:date,source:{type:'string',minLength:1,maxLength:500},
+ valid_from:nullable(date),valid_until:nullable(date),review_on:nullable(date)}),{minItems:1,maxItems:40}),
+ open_questions:array({type:'string',minLength:1,maxLength:500},{maxItems:12})});
 export const operationSchemas={
  state:object({operation:enumeration(['state'])}),
+ intake:object({operation:enumeration(['intake']),payload:intakeSchema}),
  feedback:object({operation:enumeration(['feedback']),payload:feedbackSchema}),
  propose:object({operation:enumeration(['propose']),payload:proposalSchema}),
  prepare:object({operation:enumeration(['prepare']),start:date,end:date}),
@@ -83,7 +89,7 @@ export const operationSchemas={
 // Keep the provider-facing root an object. Runtime operation matching remains in
 // requestFor/backend; payload alternatives expose both closed, typed contracts.
 export const schema=object({operation:enumeration(Object.keys(operationSchemas)),
- payload:{anyOf:[feedbackSchema,proposalSchema]},start:date,end:date,
+ payload:{anyOf:[feedbackSchema,proposalSchema,intakeSchema]},start:date,end:date,
  capture_id:operationSchemas.save.properties.capture_id,draft:draftSchema},['operation']);
 
 // Root-local definitions avoid repeating full plans and interval step shapes.
