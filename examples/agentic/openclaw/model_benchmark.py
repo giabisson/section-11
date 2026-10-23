@@ -37,12 +37,12 @@ def save(path,value):
 def benchmark_config(config,model,thinking):
     if not re.fullmatch(r'openai/[A-Za-z0-9_.-]+',model):raise ValueError('invalid_model')
     if thinking not in ('low','medium','high'):raise ValueError('invalid_thinking')
-    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna'] and (model not in ('openai/gpt-6.1-sol','openai/gpt-6-luna') or (model=='openai/gpt-6.1-sol' and thinking!='medium')):
+    if sibling('model_policy').fixed_sol_policy(config) and (model not in ('openai/gpt-6.1-sol','openai/gpt-6-luna') or (model=='openai/gpt-6.1-sol' and thinking!='medium')):
         raise ValueError('operator_model_policy_forbids_benchmark_arm')
     c=copy.deepcopy(config)
     original=c['agents']['entries']['main']['model']
     suffix='@'+original.split('@',1)[1] if '@' in original else ''
-    main=c['agents']['entries']['main'];main['model']=model+suffix
+    main=c['agents']['entries']['main'];main['model']=model+suffix;main['thinkingDefault']=thinking
     main.setdefault('models',{}).setdefault(model,{})['agentRuntime']={'id':'openclaw'}
     c['agents']['defaults']['thinkingDefault']=thinking
     c['agents']['defaults'].setdefault('compaction',{}).setdefault('memoryFlush',{})['enabled']=False
@@ -171,7 +171,11 @@ def main():
             for name in ('records','reviews','workspace'):(out/name).mkdir(mode=0o700,exist_ok=True)
             cases=ev.load_cases();packets=ev.packets(cases)
             baseline=config['agents']['entries']['main']['model'].split('@',1)[0]
-            thinking=config['agents']['defaults'].get('thinkingDefault','medium')
+            thinking=sibling('model_policy').effective_thinking(config)
+            # Validate both arms before manifest/intent creation or worker submission.
+            benchmark_config(config,baseline,thinking)
+            benchmark_config(config,args.candidate,args.candidate_thinking)
+            if (baseline,thinking)==(args.candidate,args.candidate_thinking):raise ValueError('identical_benchmark_arms')
             manifest={'schema_version':1,'created_at_ms':int(time.time()*1000),'repetitions':args.repetitions,
                       'cases_sha256':ev.fingerprint(cases),'evaluator_sha256':hashlib.sha256(Path(ev.__file__).read_bytes()).hexdigest(),
                       'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

@@ -49,14 +49,13 @@ compatible rebuilt index; an untested fallback is not a cost-free semantic index
 
 ## Measured model/reasoning comparison
 
-`model_benchmark.py` runs the twelve Step 2 synthetic cases against the configured main baseline and a candidate, preserving the existing primary authentication pin. The experiment compares **model plus requested effort as a package**; changing both does not isolate the effect of either. Current candidate: `openai/gpt-6.1-sol` at requested `low`; baseline: the configured `openai/gpt-6-astra` at requested `medium`. The returned envelope must confirm the actual model/provider. Requested effort is recorded separately; the envelope does not independently attest the wire-level effort.
+`model_benchmark.py` retains the historical twelve-case comparison harness, preserving the primary authentication pin. Historical experiments compared Astra medium against Sol low; those arms are prohibited by the current fixed primary policy. No new model comparison or promotion is needed to select Sol medium. The harness compares **model plus requested effort as a package**; changing both does not isolate either effect. The returned envelope must confirm actual model/provider; requested effort is recorded separately and is not independently attested by that envelope. Invalid and identical arms now fail preflight before model workers, manifests or invocation intents are created. Explicitly configured agent effort takes precedence over the global default, both in routing and requested-effort telemetry.
 
 The comparison has two concurrent workers, fixed per-case inputs, alternating arm order, a 120-second model deadline and 160-second outer deadline. A single repeat has 24 invocation slots; two repeats have 48. Provider-internal retries remain unobservable. A persisted intent consumes its slot even after a crash; existing unknown slots are never silently rerun. The first pair must complete with the correct model and zero tools before later pairs run. There are no judge-model calls, athlete input, report sends, calendar writes or application retries. Tool-denial is explicit, with the report-mode hook as an additional boundary. Each invocation uses isolated headless state and a fixed private benchmark workspace.
 
 Private records retain original structured answers, input hashes, requested model/effort, observed model, status and actual envelope usage/latency/cost fields. Case/contract/evaluator/runner/config hashes identify provenance. Missing/zero price is unknown, not free. The native token fields and sample counts are preserved without inventing costs or merging them into unrelated Gateway metrics. Concurrent pilot timings are exploratory; one repeat does not establish stable performance or production report equivalence.
 
 ```bash
-python3 model_benchmark.py --output /private/benchmark-primary --profile /private/report-primary.json --repetitions 1 run
 python3 model_benchmark.py --output /private/benchmark-primary assess
 ```
 
@@ -79,7 +78,7 @@ Enabling the flag alone is insufficient. The policy recalculates the assessment 
 
 Even then, a candidate is eligible only for a routine morning report with current sources, a normal P3/go decision and established non-triggering health context, without alerts, race-week deferral, modifications or athlete notes requiring interpretation. Missing HRV/RHR alone does not affect routing. Missing/partial health coverage, complex cases, weekly review, post-workout interpretation and interactive planning keep the baseline. This is model selection, not health clearance. Auth identity, read-only tool limits, output validation and supervisor delivery remain fixed. Unknown/invalid/expired evidence fails back to baseline; there is no automatic cross-model retry of a generation or send.
 
-The historical pilot is one repeat and unreviewed. The current operator policy fixes Sol medium regardless of promotion eligibility; benchmark construction rejects Astra and Sol at a different effort when that policy is active. Any future promotion needs a fresh confirmatory experiment and original-answer review; synthetic contract passes alone cannot certify coaching quality. A single gate failure is a reason to retain the baseline, not proof that a model is generally unsafe.
+The historical pilot is one repeat and unreviewed. The current operator policy fixes Sol medium regardless of promotion eligibility; benchmark construction rejects Astra and Sol at a different effort when that policy is active. Changing the fixed operator policy requires a new operator instruction; benchmark evidence alone cannot override it. Any subsequently authorized promotion needs a fresh confirmatory experiment and original-answer review; synthetic contract passes alone cannot certify coaching quality. A single gate failure is a reason to retain the baseline, not proof that a model is generally unsafe.
 
 ## Installation and validation
 
@@ -131,3 +130,32 @@ Validation covers closed batch schemas, source deduplication, all-or-nothing siz
 failures, per-run isolation, parallel reservations, token-estimate/actual separation,
 native schema conversion and native hook vetoes. No model calls, Telegram messages
 or calendar writes are needed for these deterministic checks.
+
+
+## Live usage follow-up, step 3 — 23 October 2026
+
+The original proposal to compare Sol and reserve Astra is superseded by the
+operator's fixed policy: Sol 6.1 medium owns coaching; Luna 6 handles simple
+utilities/compaction and explicitly delegated bounded execution. Astra is never
+eligible in the primary account. Most model configuration was deployed in step 1;
+this step hardens the remaining policy checks instead of spending credits on a
+prohibited comparison.
+
+Fixed-policy recognition is independent of allowlist order and works at defaults
+or main-agent scope. Routing and benchmark guards reject Astra and non-medium Sol
+under either representation. Agent-level effort is now explicitly medium and its
+override is checked before routing; an invalid override fails rather than being
+misreported as default medium. Report telemetry records effective requested effort.
+Luna no-tool helper fixtures explicitly set helper effort, avoiding accidental
+inheritance of main medium. Invalid/identical benchmark arms fail before scheduling
+workers or creating invocation intents. Historical experiment answers remain intact.
+
+Live audit found Sol medium/Luna configured and all 27 existing primary sessions
+free of conflicting effort overrides. Session context is retained; no reset or
+replay of writes is needed. Configuration allowlists/settings and application
+checks are not a provider-level firewall against future operator edits. This step
+adds no autonomous helper spawning and makes no model-quality or savings claim;
+real coaching quality still requires review of real answers and athlete response.
+
+Validation: 1,326 tests passed on home-server; locally the same suite passed with
+one installed-runtime-only check skipped. No test model calls were made.

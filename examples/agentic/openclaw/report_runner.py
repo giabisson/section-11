@@ -246,7 +246,7 @@ def generate(profile,config,packet,values):
             return 'failed',None,{**metrics,'error_code':'weekly_review_not_saved_no_report_delivery'}
     elif status=='ready' and managed:
         metrics['managed_review_state']='onboarding_required'
-    metrics.update(route=profile.get('_selected_route','baseline'),requested_thinking=config['agents']['defaults'].get('thinkingDefault','medium'))
+    metrics.update(route=profile.get('_selected_route','baseline'),requested_thinking=config['agents']['entries'].get('main',{}).get('thinkingDefault',config['agents']['defaults'].get('thinkingDefault','medium')))
     return status,text,metrics
 
 

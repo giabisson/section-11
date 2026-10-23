@@ -17,7 +17,7 @@
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
     "LLM_UPDATE_PLAN.md": {
-      "hash": "cf9a6c3ffe16568eaed61d5e12e205165ec2e74ee4000d61a0c3b3ad5b3b7416"
+      "hash": "7e2b715cd14090081ac3d8b407869c83c4259402c614f9758e76653e2e23110b"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
       "hash": "3284cd9da1bed641f15e0add5bb19cb8f14675080ded824f6211e7890590b6f2"
@@ -111,7 +111,7 @@
       "hash": "8b1e1d45763466f7fe26c6b2bba2aedac9083cd613a5a1efd7e9b33f34df595a"
     },
     "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
-      "hash": "8fdc1859e3c17ab11061de1462c4868afa36198e41a3d4b1a7f92528eefe1e7f"
+      "hash": "e20cd590adc909d8eb5c1a619404e55006153195cd0448c41f646a50a5262ce7"
     },
     "examples/agentic/openclaw/RUNTIME_SAFETY.md": {
       "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
@@ -180,19 +180,19 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "2d2bd1215c39b22eb3c41f5e468119e9b33c910c3ceb1156854ab02e8a51b6d3"
+      "hash": "6c7990eb23d1fb24b2beace1ae968a999920249123a12b9705f720d25b22f666"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"
     },
     "examples/agentic/openclaw/model_benchmark.py": {
-      "hash": "cfc576615258e02bd3c22b89744a62418ecc15dc428efddede8daec19daf121c"
+      "hash": "bb37bb3a0a41d6fce67d2960272d49341c73a33935b427ee0e519ec6b6043f33"
     },
     "examples/agentic/openclaw/model_policy.py": {
-      "hash": "64efa60eb1763a57294feea8dba5e17774e94aa6ef11538c89821c735ca022d8"
+      "hash": "111441a8e741a20768ba515f8814309ea548fc3b6a400b03b25dc0629df6c019"
     },
     "examples/agentic/openclaw/report_runner.py": {
-      "hash": "2392d9c7c43a0df0b407b530a3a86e8143b27f9724136bfd1a80f792849702af"
+      "hash": "92b868d9300ff45ddeb782305433bc1f01e3e950d4d3aea5229c0164322139b3"
     },
     "examples/agentic/openclaw/reporter_entry.py": {
       "hash": "db0c0af3f4fd90c359efd9240bb3341e9dba00f6cbc3debe0ad9d90a047fbee2"

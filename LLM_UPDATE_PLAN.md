@@ -22,10 +22,12 @@ supersede their earlier statements that the coaching release was not installed.
 The subsequently authorized fresh-start cutover is complete. The original
 104-file archive, a current-context backup, prior conversations and training history
 are preserved; active personal context and derived memory were reset. Primary
-Telegram onboarding is available. Real-use coaching/review acceptance still depends
-on current athlete input and a real saved managed plan. Cheaper-model routing remains disabled pending
-reviewed comparisons; reported experiment estimates are not verified billing or
-production savings. Secondary-account migration and key rotation remain deferred.
+Telegram onboarding is available; the subsequently saved intake and active managed
+plan are preserved. Real coaching effectiveness still requires review of current
+answers and athlete response. Primary coaching is fixed to Sol medium, with Luna
+for utility work; benchmark promotion cannot override this operator policy. Reported
+experiment estimates are not verified billing or production savings. Secondary-account
+migration and key rotation remain deferred.
 
 ## Step 1
 
@@ -295,3 +297,32 @@ Validation covers closed batch schemas, source deduplication, all-or-nothing siz
 failures, per-run isolation, parallel reservations, token-estimate/actual separation,
 native schema conversion and native hook vetoes. No model calls, Telegram messages
 or calendar writes are needed for these deterministic checks.
+
+
+## Live usage follow-up, step 3 — 23 October 2026
+
+The original proposal to compare Sol and reserve Astra is superseded by the
+operator's fixed policy: Sol 6.1 medium owns coaching; Luna 6 handles simple
+utilities/compaction and explicitly delegated bounded execution. Astra is never
+eligible in the primary account. Most model configuration was deployed in step 1;
+this step hardens the remaining policy checks instead of spending credits on a
+prohibited comparison.
+
+Fixed-policy recognition is independent of allowlist order and works at defaults
+or main-agent scope. Routing and benchmark guards reject Astra and non-medium Sol
+under either representation. Agent-level effort is now explicitly medium and its
+override is checked before routing; an invalid override fails rather than being
+misreported as default medium. Report telemetry records effective requested effort.
+Luna no-tool helper fixtures explicitly set helper effort, avoiding accidental
+inheritance of main medium. Invalid/identical benchmark arms fail before scheduling
+workers or creating invocation intents. Historical experiment answers remain intact.
+
+Live audit found Sol medium/Luna configured and all 27 existing primary sessions
+free of conflicting effort overrides. Session context is retained; no reset or
+replay of writes is needed. Configuration allowlists/settings and application
+checks are not a provider-level firewall against future operator edits. This step
+adds no autonomous helper spawning and makes no model-quality or savings claim;
+real coaching quality still requires review of real answers and athlete response.
+
+Validation: 1,326 tests passed on home-server; locally the same suite passed with
+one installed-runtime-only check skipped. No test model calls were made.

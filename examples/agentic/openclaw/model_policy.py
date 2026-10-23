@@ -5,6 +5,18 @@ import re
 import time
 
 
+def fixed_sol_policy(config):
+    """Recognize the explicit operator allowlist independent of order/scope."""
+    agents=config['agents'];owners=[agents['defaults'],agents['entries']['main']]
+    allowed={'openai/gpt-6.1-sol','openai/gpt-6-luna'}
+    return any(set(owner.get('modelPolicy',{}).get('allow',[]))==allowed for owner in owners)
+
+
+def effective_thinking(config):
+    agents=config['agents']
+    return agents['entries']['main'].get('thinkingDefault',agents['defaults'].get('thinkingDefault','medium'))
+
+
 def routine(packet):
     """Routing eligibility only; never a diagnosis, readiness score or clearance."""
     snap=packet.get('snapshot',{});decision=snap.get('readiness_decision') or {};health=snap.get('health_context') or {}
@@ -19,8 +31,8 @@ def routine(packet):
 
 def selection(packet,config,path,load_private,assessor,now=None):
     baseline=config['agents']['entries']['main']['model']
-    result={'route':'baseline','model':baseline,'thinking':config['agents']['defaults'].get('thinkingDefault','medium')}
-    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna']:
+    result={'route':'baseline','model':baseline,'thinking':effective_thinking(config)}
+    if fixed_sol_policy(config):
         if baseline.split('@',1)[0]!='openai/gpt-6.1-sol' or result['thinking']!='medium':raise ValueError('primary_model_policy_violation')
         return {**result,'reason':'operator_fixed_sol_medium_policy'}
     if not path.exists():return {**result,'reason':'no_approved_policy'}
@@ -47,11 +59,11 @@ def selection(packet,config,path,load_private,assessor,now=None):
 
 
 def apply_selection(config,route):
-    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna'] and (route['model']!=config['agents']['entries']['main']['model'] or route['thinking']!='medium'):
+    if fixed_sol_policy(config) and (route['model'].split('@',1)[0]!='openai/gpt-6.1-sol' or route['model']!=config['agents']['entries']['main']['model'] or route['thinking']!='medium' or effective_thinking(config)!='medium'):
         raise ValueError('operator_model_policy_forbids_route')
     c=copy.deepcopy(config)
     if route['route']=='baseline':return c
-    main=c['agents']['entries']['main'];main['model']=route['model']
+    main=c['agents']['entries']['main'];main['model']=route['model'];main['thinkingDefault']=route['thinking']
     main.setdefault('models',{}).setdefault(route['model'].split('@',1)[0],{})['agentRuntime']={'id':'openclaw'}
     c['agents']['defaults']['thinkingDefault']=route['thinking']
     return c

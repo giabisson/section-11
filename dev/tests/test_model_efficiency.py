@@ -1,5 +1,7 @@
 """Synthetic model comparison provenance, guarded routing and context continuity."""
 import copy
+import contextlib
+import io
 import hashlib
 import json
 from pathlib import Path
@@ -78,6 +80,44 @@ class ModelEfficiency(unittest.TestCase):
         for model,thinking in [('openai/gpt-6-astra','medium'),('openai/gpt-6.1-sol','low')]:
             with self.subTest(model=model),self.assertRaises(ValueError):b.benchmark_config(cfg,model,thinking)
         with self.assertRaises(ValueError):p.apply_selection(cfg,{'route':'reviewed_routine_candidate','model':'openai/gpt-6-astra','thinking':'medium'})
+
+    def test_fixed_policy_is_order_independent_and_can_be_agent_scoped(self):
+        cfg=e.configure_primary_models(e.configure(self.config))
+        for scope in ('defaults','main'):
+            value=copy.deepcopy(cfg)
+            value['agents']['defaults'].pop('modelPolicy')
+            value['agents']['entries']['main'].pop('modelPolicy')
+            owner=value['agents']['defaults'] if scope=='defaults' else value['agents']['entries']['main']
+            owner['modelPolicy']={'allow':['openai/gpt-6-luna','openai/gpt-6.1-sol']}
+            route=p.selection(self.packet,value,self.root/'absent',r.load_private,mock.Mock(side_effect=AssertionError('no experiment routing')),2000)
+            self.assertEqual(route['reason'],'operator_fixed_sol_medium_policy')
+            for model,thinking in [('openai/gpt-6-astra','medium'),('openai/gpt-6.1-sol','high'),('openai/gpt-6.1-sol','low')]:
+                with self.subTest(scope=scope,model=model,thinking=thinking),self.assertRaises(ValueError):b.benchmark_config(value,model,thinking)
+
+    def test_agent_effort_override_cannot_evade_fixed_policy(self):
+        cfg=e.configure_primary_models(e.configure(self.config))
+        self.assertEqual(cfg['agents']['entries']['main']['thinkingDefault'],'medium')
+        cfg['agents']['entries']['main']['thinkingDefault']='high'
+        with self.assertRaises(ValueError):p.selection(self.packet,cfg,self.root/'absent',r.load_private,mock.Mock(),2000)
+        with self.assertRaises(ValueError):p.apply_selection(cfg,{'route':'baseline','model':cfg['agents']['entries']['main']['model'],'thinking':'medium'})
+        repaired=e.configure_primary_models(cfg)
+        self.assertEqual(repaired['agents']['entries']['main']['thinkingDefault'],'medium')
+        helper=b.benchmark_config(repaired,'openai/gpt-6-luna','low')
+        self.assertEqual(helper['agents']['entries']['main']['thinkingDefault'],'low')
+        self.assertEqual(helper['tools']['deny'],['*'])
+
+    def test_invalid_or_identical_benchmark_arms_fail_before_workers_and_intents(self):
+        cfg=e.configure_primary_models(e.configure(self.config))
+        runner=SimpleNamespace(load_profile=lambda path:{'openclaw_config':'synthetic'},load_private=lambda path:cfg)
+        modules={'report_runner':runner,'coaching_evals':ev,'model_policy':p}
+        for candidate,thinking in [('openai/gpt-6-astra','medium'),('openai/gpt-6.1-sol','low'),('openai/gpt-6.1-sol','medium')]:
+            output=self.root/(candidate.split('/')[-1]+'-'+thinking)
+            argv=['benchmark','--output',str(output),'--profile','synthetic','--candidate',candidate,'--candidate-thinking',thinking,'run']
+            with mock.patch.object(b,'sibling',side_effect=lambda name:modules[name]),mock.patch.object(b.sys,'argv',argv),mock.patch.object(b,'trial') as trial,contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(b.main(),1)
+                trial.assert_not_called()
+            self.assertFalse((output/'manifest.json').exists())
+            self.assertEqual(list((output/'records').iterdir()),[])
 
     def test_only_readonly_context_results_are_pruned_and_recent_turns_survive(self):
         cfg=e.configure(self.config)['agents']['defaults']

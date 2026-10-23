@@ -45,7 +45,7 @@ def configure_primary_models(config):
     defaults['thinkingDefault']='medium';defaults['utilityModel']=UTILITY_MODEL+suffix
     defaults['modelPolicy']={'allow':allowed}
     defaults['models']={key:value for key,value in defaults.get('models',{}).items() if key in allowed}
-    main['model']=PRIMARY_MODEL+suffix;main['utilityModel']=UTILITY_MODEL+suffix
+    main['model']=PRIMARY_MODEL+suffix;main['utilityModel']=UTILITY_MODEL+suffix;main['thinkingDefault']='medium'
     main['modelPolicy']={'allow':allowed}
     main['models']={key:value for key,value in main.get('models',{}).items() if key in allowed}
     for registry in (defaults['models'],main['models']):
