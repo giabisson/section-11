@@ -17,7 +17,7 @@
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
     "LLM_UPDATE_PLAN.md": {
-      "hash": "3984e8a6b02fe8dc9943ace217c8ded763c9e7d1970894296808b9bd069c305d"
+      "hash": "abfa9d0f9e585524d321224f82316c721cd97bdf6f61d038641dfe429fde963d"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
       "hash": "b9c4194199e174b5aa01c9df9bc944992d19d680d96035fd5ccedb6f2d9ff7a9"
@@ -111,7 +111,7 @@
       "hash": "17df00733d13bd86218ef71a0749685ed4d9bb2de5f84501cd72f4fdc4a72c4e"
     },
     "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
-      "hash": "9468c5eb1a16ba45fb75b52f3349189af3e9be50d917c2db0f0660d8f936a3ec"
+      "hash": "02ce82e22b5d4015cc7e272a2bd87dffb174dfbf79ec570f29fbe5bc9d778f93"
     },
     "examples/agentic/openclaw/RUNTIME_SAFETY.md": {
       "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
@@ -174,7 +174,7 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "2208c37feebfc93a71729f519913ad2df660fd465fa850ddeecb029bdc2003be"
+      "hash": "c437e2bd53962defbabef3d666376c5a53f311c2496a316c673c84200f6a1426"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"

@@ -70,6 +70,27 @@ class ModelEfficiency(unittest.TestCase):
         self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],2097152)
         self.assertEqual(e.configure(e.configure(self.config)),e.configure(self.config))
 
+    def test_keyword_memory_is_explicit_primary_only_and_preserves_other_settings(self):
+        self.config['memory']={'search':{'provider':'openai','model':'synthetic-embedding-model'}}
+        self.config['agents']['entries']['other']={'memory':{'search':{'provider':'local'}}}
+        original=copy.deepcopy(self.config)
+        cfg=e.configure_keyword_memory(self.config)
+        self.assertEqual(cfg['agents']['entries']['main']['memory']['search'],
+                         {'provider':'none','sources':['memory'],'rememberAcrossConversations':False})
+        self.assertEqual(cfg['memory'],original['memory'])
+        self.assertEqual(cfg['agents']['entries']['other'],original['agents']['entries']['other'])
+        self.assertEqual(cfg['agents']['entries']['main']['model'],original['agents']['entries']['main']['model'])
+        self.assertEqual(cfg['channels'],original['channels']);self.assertEqual(self.config,original)
+
+    def test_keyword_memory_preserves_query_settings_and_is_idempotent(self):
+        self.config['agents']['entries']['main']['memory']={'search':{'provider':'openai','query':{'maxResults':7},'sources':['sessions'],'rememberAcrossConversations':True}}
+        cfg=e.configure_keyword_memory(self.config)
+        search=cfg['agents']['entries']['main']['memory']['search']
+        self.assertEqual(search['query'],{'maxResults':7});self.assertEqual(search['provider'],'none')
+        self.assertEqual(search['sources'],['memory']);self.assertFalse(search['rememberAcrossConversations'])
+        self.assertEqual(e.configure_keyword_memory(cfg),cfg)
+        self.assertEqual(e.configure(cfg)['agents']['entries']['main']['memory'],cfg['agents']['entries']['main']['memory'])
+
     def test_memory_contains_source_pointers_not_metric_snapshots_or_expired_schedules(self):
         cp={'dossier':'/private/dossier.md','data_dir':'/private/data'}
         text=e.memory_index(cp)+e.recovery_block(cp,'/private/context.json')+e.user_preference_block()

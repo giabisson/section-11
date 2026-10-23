@@ -226,3 +226,21 @@ operations, including feedback persistence and a deduplicated saved review recov
 by the history reader. Synthetic fixtures never enter the actual athlete store.
 This repair requires a plugin reload, not another conversation reset or automatic
 replay of previously rejected feedback. See [operation and verification](examples/agentic/openclaw/MANAGED_REVIEWS.md).
+
+
+## Primary keyword-memory repair — 23 October 2026
+
+Onboarding exposed a memory index/configuration mismatch: an FTS-only index was
+being compared with the default OpenAI text-embedding-3-small identity, so ordinary
+memory search was disabled. The primary now explicitly selects provider none,
+sources memory and rememberAcrossConversations false under
+agents.entries.main.memory.search. The installed validator accepted the override;
+the supported index refresh produced a valid FTS identity, and both CLI and live
+Gateway searches retrieved active notes. No embedding request, transcript backfill,
+conversation reset, feedback replay or training-data change was required.
+
+The pure primary-only configure_keyword_memory helper and regression checks retain
+model/channel settings, other agents and unrelated query options. The normal cache
+configuration preserves the explicit memory policy. Keyword-only search has no
+embedding-based semantic ranking; semantic retrieval needs a separately configured,
+funded provider and a compatible index. See [memory policy](examples/agentic/openclaw/MODEL_EFFICIENCY.md#primary-keyword-memory-policy).

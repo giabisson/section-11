@@ -19,6 +19,20 @@ def configure(config):
     return c
 
 
+
+def configure_keyword_memory(config):
+    """Deliberately opt the primary agent into local keyword-only memory recall.
+
+    OpenClaw 2026.10.6 uses agents.entries.<id>.memory.search. Do not rely
+    on provider fallback: an FTS index can otherwise conflict with default
+    OpenAI embedding identity on the next query. No session backfill is enabled.
+    """
+    c=copy.deepcopy(config)
+    search=c['agents']['entries']['main'].setdefault('memory',{}).setdefault('search',{})
+    search.update(provider='none',sources=['memory'],rememberAcrossConversations=False)
+    return c
+
+
 def recovery_block(context_profile,profile_path):
     return f'''## {RECOVERY_HEADING}
 

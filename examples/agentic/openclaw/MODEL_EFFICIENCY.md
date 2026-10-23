@@ -1,6 +1,6 @@
 # Primary model, cache and context policy
 
-Step 5 keeps production on the current main model unless a measured, reviewed comparison supports a narrowly scoped change. Model names alone do not establish price, latency or coaching quality. The primary account currently uses OpenAI OAuth/ChatGPT-backed Responses through the OpenClaw runtime; the main-agent model overrides the different global default. Its utility model is separate. The secondary account and broader coaching release are outside this deployment.
+Step 5 keeps production on the current main model unless a measured, reviewed comparison supports a narrowly scoped change. Model names alone do not establish price, latency or coaching quality. The primary account currently uses OpenAI OAuth/ChatGPT-backed Responses through the OpenClaw runtime; the main-agent model overrides the different global default. Its utility model is separate. The secondary account remains outside the current primary deployment scope.
 
 ## Active context and caching changes
 
@@ -15,6 +15,37 @@ Step 5 keeps production on the current main model unless a measured, reviewed co
 The [official OpenAI caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) supports stable instructions/reference material before dynamic input and distinguishes cache behavior across API/model families. It does not establish how this account's OAuth route is billed. Native route behavior above was checked against the installed OpenClaw 2026.10.6 documentation/source. A provider cache is not a saved coaching response: fresh health evidence and ordinary generation/delivery checks remain necessary.
 
 Code Mode can expose an outer `exec` result instead of a typed inner tool result. Those wrappers are deliberately excluded from pruning too, because they can also contain write receipts. This policy does not claim to prune every wrapped interactive read. The active-history compaction guard addresses that remaining growth without changing the interactive tool mode or clearing receipts indiscriminately.
+
+## Primary keyword-memory policy
+
+The primary agent deliberately uses local keyword search. In installed OpenClaw
+2026.10.6 the override is `agents.entries.main.memory.search`, not the retired
+`memorySearch` spelling:
+
+```json
+{"provider":"none","sources":["memory"],"rememberAcrossConversations":false}
+```
+
+`configure_keyword_memory` constructs this explicit, primary-only override while
+preserving model/auth/channel settings, other agents and unrelated memory options.
+Apply it intentionally; the ordinary cache/context constructor preserves it. This
+policy does not enable session transcript indexing/backfill or import retired
+personal context. It leaves Section 11's deterministic training history, dossier
+and managed plan/review readers in their existing stores.
+
+OpenClaw defaults to OpenAI embeddings when the provider is unset. An index built
+in FTS fallback mode can then report `model fts-only, expected
+text-embedding-3-small` and disable retrieval. Explicit provider none aligns the
+configuration and local index, without an embedding API call. Once the proposed
+configuration passes the installed validator and is active, refresh with
+`openclaw memory status --index --agent main --json`; verify provider none,
+searchMode fts-only and a compatible index identity. Test both CLI and running
+Gateway memory.search against known active notes, checking result paths without
+publishing private snippets. Do not reset the conversation or clear training data.
+
+Keyword recall does not provide embedding-based semantic ranking. A future switch
+to embeddings needs an explicit provider/model choice, working billing/auth and a
+compatible rebuilt index; an untested fallback is not a cost-free semantic index.
 
 ## Measured model/reasoning comparison
 
