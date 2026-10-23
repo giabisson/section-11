@@ -427,7 +427,13 @@ human quality review or establish production token/cost savings. See
 plan/review persistence and retrieval, safety/source revalidation, idempotency,
 quiet reviews, save-before-delivery ordering and bounded typed-tool transport.
 These tests use isolated stores and synthetic sources, not real athlete plans or
-live model judgments. See [managed review integration](../examples/agentic/openclaw/MANAGED_REVIEWS.md).
+live model judgments. The Node wrapper also checks explicit nested schema shapes.
+Set SECTION11_OPENCLAW_PACKAGE to the installed OpenClaw package root to exercise
+its actual compatibility conversion and validator (otherwise that native check is
+explicitly skipped). Run the same native check directly with
+`node dev/openclaw_coaching_schema_smoke.mjs /path/to/openclaw`.
+It reproduces the old empty-object failure and checks provider/runtime projections;
+registration or direct execute calls alone do not verify schema compatibility. See [managed review integration](../examples/agentic/openclaw/MANAGED_REVIEWS.md).
 
 Long-term training facts and bounded retrieval are covered by
 `test_training_history.py` and `test_long_term_context.py`, with typed-tool checks

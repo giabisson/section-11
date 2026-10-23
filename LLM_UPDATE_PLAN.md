@@ -19,10 +19,11 @@ The dated sections below preserve earlier states and test totals; the final mana
 reviews section and [deployment record](examples/agentic/COACHING_DEPLOYMENT.md)
 supersede their earlier statements that the coaching release was not installed.
 
-Fresh-start cutover remains **on hold**. The verified 104-file archive is prepared;
-active personal context and the existing conversation have not been reset. No real
-managed plan exists (`onboarding_required`). Real-use coaching/review acceptance
-awaits current Telegram onboarding. Cheaper-model routing remains disabled pending
+The subsequently authorized fresh-start cutover is complete. The original
+104-file archive, a current-context backup, prior conversations and training history
+are preserved; active personal context and derived memory were reset. Primary
+Telegram onboarding is available. Real-use coaching/review acceptance still depends
+on current athlete input and a real saved managed plan. Cheaper-model routing remains disabled pending
 reviewed comparisons; reported experiment estimates are not verified billing or
 production savings. Secondary-account migration and key rotation remain deferred.
 
@@ -206,3 +207,22 @@ Primary models, account/channel identities, schedules and the secondary account
 were preserved. The current source snapshot has 273 files and the distribution
 manifest has 201 files. No test model calls, messages or calendar writes were
 required. Private rollback and installation records remain on the server.
+
+
+## Coaching tool-schema repair — 23 October 2026
+
+Live onboarding exposed a transport defect: bare payload/draft objects were
+converted by OpenClaw's normalizeOpenAIStrictCompatSchema to empty closed objects,
+rejecting nonempty feedback before backend validation. Direct SDK execute tests had
+not exercised this conversion. Explicit feedback, proposal/plan/prescription and
+review-draft schemas now preserve nullable fields and reject unknown input. Shared
+root definitions avoid repeating full plan/interval shapes. No backend readiness,
+source, capacity, review, publication or approval guard was relaxed.
+
+The native regression reproduces the old rejection and checks valid/invalid
+fixtures through compatibility/strict conversion and runtime/provider projection.
+The isolated SDK loop now validates converted arguments before each of its six
+operations, including feedback persistence and a deduplicated saved review recovered
+by the history reader. Synthetic fixtures never enter the actual athlete store.
+This repair requires a plugin reload, not another conversation reset or automatic
+replay of previously rejected feedback. See [operation and verification](examples/agentic/openclaw/MANAGED_REVIEWS.md).

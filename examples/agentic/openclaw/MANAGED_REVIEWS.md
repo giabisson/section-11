@@ -11,10 +11,36 @@ The primary bridge, context reader and weekly supervisor integration are install
 Plugin/skill discovery, six isolated native SDK operations, synthetic review/revision
 recovery and three report dry runs passed; the full suite passed 1,306 tests on
 both machines. No real managed plan has been created (`onboarding_required`).
-The private 104-file archive is prepared and verified, but **fresh-start cutover
-remains on hold**: active personal context and the current conversation are intact.
-Do not reset them or seed a plan merely because code deployment is complete.
+The later authorized primary cutover cleared active personal context and the derived
+memory index while preserving the original 104-file archive, a current-context
+backup, prior conversation records and training history. Telegram onboarding can
+continue in the existing chat. Do not reset it again to repair a tool schema.
+Current plan state comes from the tool, never from this dated deployment note.
 The first actual model-led coaching/review cycle remains a real-use acceptance check.
+
+## Tool-schema compatibility repair
+
+The original plugin declared payload/draft as bare object schemas. In installed
+OpenClaw 2026.10.6, normalizeOpenAIStrictCompatSchema converts those to empty closed
+objects; nonempty feedback was therefore rejected before Python ran. Direct
+execute/registration tests bypassed that validation and missed the defect.
+
+[schemas.mjs](coaching-tool/schemas.mjs) now exposes explicit closed feedback,
+proposal/plan/prescription and review-draft contracts. Nullable health clarification
+and candidate plans remain explicit. Root-local definitions reuse plan and bounded
+repeat-step shapes instead of duplicating them. The root stays a provider-compatible
+object; the operation-specific request gate and Python backend still enforce which
+payload belongs to which operation. Do not relax additionalProperties or accept
+caller-owned safety snapshots to work around conversion errors.
+
+The read-only maintainer check in dev/openclaw_coaching_schema_smoke.mjs reproduces
+the old failure and checks valid/invalid fixtures across the declared schema,
+installed compatibility conversion, normalization, strict normalization, runtime
+projection and provider projection. The isolated SDK save test must validate the
+converted arguments before executing the tool. These checks add no model calls,
+real feedback, calendar writes or messages. Existing conversation feedback must be
+explicitly retried by the coach after a successful reload; a schema repair does
+not itself save earlier failed requests.
 
 ## Fresh onboarding
 
@@ -83,10 +109,10 @@ managed publication history. No session is retroactively claimed to have been
 prescribed by the new store.
 
 ```json
-{"operation":"save","capture_id":"CAPTURE_FROM_PREPARE","draft":{"observations":[],"decisions":[],"candidate_plan":null}}
+{"operation":"save","capture_id":"CAPTURE_FROM_PREPARE","draft":{"observations":[],"decisions":[{"action":"request_context","session_ids":[],"observation_ids":[],"reason":"Actual unresolved context from this review","next_observation":"The specific athlete response needed"}],"candidate_plan":null}}
 ```
 
-The draft contains exactly those three fields. Observation/decision shapes are in
+The draft contains exactly those three fields and at least one sourced decision; the example illustrates shape, not an actual athlete judgment. Observation/decision shapes are in
 [ADAPTIVE_REVIEWS.md](../ADAPTIVE_REVIEWS.md). Keep completion, goal attainment and
 response separate; missed sessions require sourced causes and create no catch-up
 debt. The bridge supplies snapshot, feedback, dates, IDs and trigger. The model

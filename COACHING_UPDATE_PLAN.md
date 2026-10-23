@@ -17,12 +17,12 @@ The weekly supervisor is connected to validated review saving before delivery.
 See [deployment evidence and remaining checks](examples/agentic/COACHING_DEPLOYMENT.md)
 and the [LLM implementation record](LLM_UPDATE_PLAN.md).
 
-**Fresh-start cutover remains on hold at the user's request.** A private archive
-of 104 coaching-context/old-plan files has been verified with restore instructions.
-Active personal context and the current conversation remain intact; no fresh agent
-was started and no real managed plan was seeded. The actual state is
-`onboarding_required`. Current goals and availability must come from subsequent
-Telegram onboarding before real managed block reviews can be exercised.
+**The subsequently authorized primary fresh-start cutover is complete.** The
+original 104-file archive and a current-context backup retain restore instructions;
+training history and prior conversations are preserved. Active personal context and
+the derived memory index were reset. Current goals and availability come from
+Telegram onboarding before real managed block reviews can be exercised. The current
+managed state must be read from the tool, rather than inferred from this dated note.
 
 Real-use model judgment, the first actual managed review, remote calendar write
 semantics and trainer/export behavior remain acceptance checks. Passing software
@@ -228,5 +228,5 @@ Every implementation slice must align `SECTION_11.md`, both project-instruction 
 
 - The original 2019 HRV full paper and Neal erratum remain unresolved; Little and Saw have full text but no original PDF. The [access list](literature/cycling-training/UNAVAILABLE.md) retains manual-download links. Do not strengthen conclusions until the missing material has been assessed.
 - This collection does not supply complete current illness/injury return guidance, detailed fueling doses, or a full evidence base for heat, altitude and population-specific prescriptions. Review those topics before adding corresponding automated algorithms.
-- Primary source paths, persistence, plugin registration, scheduling and bounded readers are verified in the deployment record. Complete the held onboarding and then observe a real Telegram/managed-review cycle; calendar write and trainer/export checks remain separate. External-service support does not establish coaching quality.
+- Primary source paths, persistence, plugin registration, scheduling and bounded readers are verified in the deployment record. Complete current Telegram onboarding and then observe a real Telegram/managed-review cycle; calendar write and trainer/export checks remain separate. External-service support does not establish coaching quality.
 - Stronger claims about coaching effectiveness need prospective evaluation. The immediate deliverable is more traceable, feasible and testable coaching; no paper in this set proves the proposed application as a whole.

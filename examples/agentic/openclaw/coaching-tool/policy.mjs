@@ -1,19 +1,21 @@
 import {spawn} from 'node:child_process';
 import path from 'node:path';
+import {operationSchemas} from './schemas.mjs';
 
-export const schema={type:'object',additionalProperties:false,required:['operation'],properties:{
- operation:{type:'string',enum:['state','propose','feedback','prepare','save']},
- payload:{type:'object'},start:{type:'string'},end:{type:'string'},
- capture_id:{type:'string',pattern:'^[a-f0-9]{64}$'},draft:{type:'object'}
-}};
+export {schema} from './schemas.mjs';
 
 export function requestFor(params,config){
  if(!path.isAbsolute(config?.script??'')||!path.isAbsolute(config?.profile??''))throw Error('fixed_paths_required');
- const fields={state:['operation'],propose:['operation','payload'],feedback:['operation','payload'],prepare:['operation','start','end'],save:['operation','capture_id','draft']}[params?.operation];
+ const operation=operationSchemas[params?.operation];
+ const fields=operation?Object.keys(operation.properties):undefined;
  if(!fields||Object.keys(params).some(k=>!fields.includes(k))||fields.some(k=>!Object.hasOwn(params,k)))throw Error('invalid_fields');
  for(const key of ['start','end'])if(params[key]!==undefined&&!/^\d{4}-\d{2}-\d{2}$/.test(params[key]))throw Error('invalid_date');
  if(params.capture_id!==undefined&&!/^[a-f0-9]{64}$/.test(params.capture_id))throw Error('invalid_capture');
- for(const key of ['payload','draft'])if(params[key]!==undefined&&(!params[key]||typeof params[key]!=='object'||Array.isArray(params[key])))throw Error('invalid_object');
+ for(const key of ['payload','draft'])if(params[key]!==undefined){
+  const value=params[key],spec=operation.properties[key];
+  if(!value||typeof value!=='object'||Array.isArray(value))throw Error('invalid_object');
+  if(!spec?.properties||Object.keys(value).some(k=>!Object.hasOwn(spec.properties,k))||spec.required.some(k=>!Object.hasOwn(value,k)))throw Error('invalid_operation_payload');
+ }
  const body=JSON.stringify(params);if(Buffer.byteLength(body)>2000000)throw Error('input_size_limit');
  return {args:[config.script,'--profile',config.profile],body};
 }

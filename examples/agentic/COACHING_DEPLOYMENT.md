@@ -30,7 +30,7 @@ The primary implementation is installed and verified: protocol **11.85**, sync
 **3.150**, push **0.9** and library/catalog **0.9.0**. The server checkout matches
 the canonical working tree; separate runtime helpers and the installed skill were
 also hash-checked. The skill is a normal installed copy of the tested distribution,
-not a symlink. The distribution contains **201 files**.
+not a symlink. The distribution now contains **202 files**, including the explicit coaching-tool schema.
 
 | Executed check | Evidence and limit |
 |---|---|
@@ -47,14 +47,13 @@ supervisor owns the validated save. No new model call is needed solely to save o
 retrieve a review. Publication still has separate preview/approval requirements.
 Private installation records and rollback material remain on the server.
 
-**Fresh-start cutover remains on hold at the user's request.** A private archive
-of **104 coaching-context/old-plan files** has verified hashes and restore
-instructions. Active personal context and the current conversation have not been
-reset; no new agent was started and no real managed plan was created. The actual
-state is `onboarding_required`. Current goals and availability must be collected
-through subsequent Telegram onboarding, rather than importing stale plans or
-seeding examples. Credentials, training records and the secondary account remain
-outside the cutover.
+**The subsequently authorized primary fresh-start cutover is complete.** The
+original **104-file archive**, a current-context backup and prior conversations are
+preserved. Active personal context and the derived memory index were cleared using
+the supported primary-only reset operations. Training records, credentials and the
+secondary account were preserved; Telegram connectivity, history integrity and three
+report dry runs passed. Current goals and availability must come from Telegram
+onboarding; do not seed examples or reset the conversation again for schema repairs.
 
 Code deployment is complete for the primary; real-use acceptance remains bounded
 by the checks below. The dated 22 October record preserves the earlier candidate
@@ -109,14 +108,14 @@ Do not update just one checkout and assume the skill, sync services, second prof
 
 ## Remaining real-use checks — 23 October 2026
 
-Keep the fresh-start cutover on hold until the user resumes it. Read-only status
+The user has authorized and completed the primary cutover. Read-only status
 checks and synthetic/native SDK tests do not require a new agent. Do not copy keys,
 Telegram tokens or private athlete records into source control. Any external test
 message or calendar write must stay within the user's explicit authorization.
 
 | Check | Completed evidence and remaining action |
 |---|---|
-| Onboarding and real plan | Private archive verified; active context retained. After the hold is lifted, complete the cutover and collect current goals/availability through Telegram before saving a real plan |
+| Onboarding and real plan | Private archives verified; active context reset. Cutover is complete; collect current goals/availability through Telegram before saving a real plan |
 | Telegram/model coaching | Plugin/tool transport and synthetic persistence verified. Observe a real model-led exchange using current feedback, optional wearable data and selectively retrieved plan/history |
 | Scheduled weekly/block review | Save-before-delivery integration and idempotency/quiet behavior tested. Observe the first actual review with a real plan, validate its rationale, saved record, later retrieval and delivery outcome |
 | Calendar | Real read-only create previews passed. Exact live write/null/upsert behavior, pairing, ID retention, partial failures and reconciliation still need a designated authorized integration check |
@@ -132,7 +131,7 @@ they do not certify the live coaching loop or training effectiveness.
 
 Primary code deployment, packaging, server tests, installed instruction/tool loading,
 synthetic/native SDK persistence and real calendar read-only previews have passed.
-The held onboarding and real-use checks above remain. Do not claim physiological
+Real-use onboarding and the checks above remain. Do not claim physiological
 effectiveness, satisfactory model judgment, verified billing savings, remote write
 semantics or trainer compatibility from passing software checks. Research-access
 gaps remain in the literature access list. The secondary account remains deferred.
