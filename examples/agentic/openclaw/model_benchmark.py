@@ -37,6 +37,8 @@ def save(path,value):
 def benchmark_config(config,model,thinking):
     if not re.fullmatch(r'openai/[A-Za-z0-9_.-]+',model):raise ValueError('invalid_model')
     if thinking not in ('low','medium','high'):raise ValueError('invalid_thinking')
+    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna'] and (model not in ('openai/gpt-6.1-sol','openai/gpt-6-luna') or (model=='openai/gpt-6.1-sol' and thinking!='medium')):
+        raise ValueError('operator_model_policy_forbids_benchmark_arm')
     c=copy.deepcopy(config)
     original=c['agents']['entries']['main']['model']
     suffix='@'+original.split('@',1)[1] if '@' in original else ''

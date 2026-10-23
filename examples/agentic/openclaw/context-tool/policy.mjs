@@ -2,7 +2,7 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 
 export const schema = {type:'object',additionalProperties:false,required:['operation'],properties:{
-  operation:{type:'string',enum:['build','history','long_term','history_detail','review','headings','section']},
+  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','review','headings','section']},
   task:{type:'string',enum:['morning','weekly','workout','plan','post_workout']},
   activity_id:{type:'string',maxLength:128},review_id:{type:'string',maxLength:128},start:{type:'string'},end:{type:'string'},
   tier:{type:'string',enum:['daily','weekly','monthly']},
@@ -14,7 +14,7 @@ export function argvFor(params, config) {
   if (!config || !path.isAbsolute(config.script ?? '') || !path.isAbsolute(config.profile ?? '')) throw Error('invalid_config');
   if (!params || Object.keys(params).some(k=>!Object.hasOwn(schema.properties,k))) throw Error('invalid_params');
   const args=[config.script,'--profile',config.profile];
-  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],history_detail:['activity_id'],review:['review_id'],headings:['source','task'],section:['source','task','heading']};
+  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],review:['review_id'],headings:['source','task'],section:['source','task','heading']};
   const fields=allowed[params.operation];
   if (!fields || Object.keys(params).some(k=>k!=='operation'&&!fields.includes(k))) throw Error('invalid_operation');
   args.push(params.operation);
@@ -26,7 +26,7 @@ export function argvFor(params, config) {
     if(['start','end'].includes(field)&&!/^\d{4}-\d{2}-\d{2}$/.test(value))throw Error('invalid_date');
     args.push('--'+field.replaceAll('_','-'),value);
   }
-  if(params.operation==='build'&&!params.task)throw Error('task_required');
+  if(['build','activities'].includes(params.operation)&&!params.task)throw Error('task_required');
   if(params.operation==='history'&&(!params.start||!params.end))throw Error('dates_required');
   if(params.operation==='history_detail'&&!params.activity_id)throw Error('activity_id_required');
   if(['headings','section'].includes(params.operation)&&!params.source)throw Error('source_required');

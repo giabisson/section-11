@@ -20,6 +20,9 @@ def routine(packet):
 def selection(packet,config,path,load_private,assessor,now=None):
     baseline=config['agents']['entries']['main']['model']
     result={'route':'baseline','model':baseline,'thinking':config['agents']['defaults'].get('thinkingDefault','medium')}
+    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna']:
+        if baseline.split('@',1)[0]!='openai/gpt-6.1-sol' or result['thinking']!='medium':raise ValueError('primary_model_policy_violation')
+        return {**result,'reason':'operator_fixed_sol_medium_policy'}
     if not path.exists():return {**result,'reason':'no_approved_policy'}
     try:
         policy=load_private(path)
@@ -44,6 +47,8 @@ def selection(packet,config,path,load_private,assessor,now=None):
 
 
 def apply_selection(config,route):
+    if config['agents']['defaults'].get('modelPolicy',{}).get('allow')==['openai/gpt-6.1-sol','openai/gpt-6-luna'] and (route['model']!=config['agents']['entries']['main']['model'] or route['thinking']!='medium'):
+        raise ValueError('operator_model_policy_forbids_route')
     c=copy.deepcopy(config)
     if route['route']=='baseline':return c
     main=c['agents']['entries']['main'];main['model']=route['model']

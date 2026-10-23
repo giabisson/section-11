@@ -121,6 +121,29 @@ print(json.dumps({'state':r.state_view(),'intake':r.context.intake_context(r.cp,
         history['weekly_180d'][0]['note']='y'*43000;f.write('history.json',history)
         other=ctx.build(cp,'plan',now=f.runtime.now());self.assertNotEqual(p['history']['deferred_rows_sha256'],other['history']['deferred_rows_sha256'])
 
+    def test_native_wire_budget_defers_intake_without_mutating_sources_or_health(self):
+        f=self.f;f.runtime.save_intake(payload());cp={**f.runtime.cp,'intake_store':str(f.root/'bridge/athlete_intake.sqlite3'),'intake_athlete_id':'i123456','tool_packet_bytes':8192}
+        ctx=f.runtime.context;packet=ctx.build(cp,'plan',now=f.runtime.now())
+        packet['retrieval']['synthetic_padding']='x'*9000
+        original=copy.deepcopy(packet);wire=json.loads(ctx.encode_tool_packet(packet,cp,'build'))
+        self.assertEqual(packet,original);self.assertEqual(wire['snapshot']['health_context'],original['snapshot']['health_context'])
+        self.assertTrue(wire['packet_complete']);self.assertLessEqual(len(ctx.encode(wire).encode()),8192)
+        self.assertTrue(wire['athlete_intake']['entries_deferred']);self.assertEqual(wire['athlete_intake']['required_retrieval'],{'operation':'intake'})
+        recovered=json.loads(ctx.encode_tool_packet(ctx.intake_context(cp,f.runtime.now()),cp,'intake'))
+        self.assertEqual(recovered['revision_id'],original['athlete_intake']['revision_id']);self.assertEqual(len(recovered['entries']),6)
+        packet['snapshot']['health_context']['synthetic_oversize']='x'*20000
+        with self.assertRaises(ctx.PacketError):ctx.encode_tool_packet(packet,cp,'build')
+
+    def test_deferred_activities_have_exact_fresh_reader_and_core_health_is_retained(self):
+        f=self.f;cp={**f.runtime.cp,'tool_packet_bytes':8192};ctx=f.runtime.context
+        f.latest['recent_activities']=[{'id':'synthetic-a','date':'2026-10-28','name':'Synthetic ride'}];f.write('latest.json',f.latest)
+        packet=ctx.build(cp,'plan',now=f.runtime.now());packet['snapshot']['recent_activities']=[{'id':'synthetic-a','note':'x'*12000}]
+        wire=json.loads(ctx.encode_tool_packet(packet,cp,'build'));self.assertNotIn('recent_activities',wire['snapshot']);self.assertEqual(wire['recent_activities_deferred']['row_count'],1)
+        self.assertEqual(wire['snapshot']['health_context'],packet['snapshot']['health_context']);self.assertIn('activities',wire['recent_activities_deferred']['required_retrieval']['operation'])
+        read=ctx.activity_context(cp,'plan',now=f.runtime.now());self.assertEqual(read['sources'],ctx.build(cp,'plan',now=f.runtime.now())['sources']);self.assertEqual(read['rows'][0]['id'],'synthetic-a')
+        packet['task']='post_workout';packet['selected_activity']={'id':'synthetic-a'}
+        post=json.loads(ctx.encode_tool_packet(packet,cp,'build'));self.assertEqual(post['recent_activities_deferred']['required_retrieval']['activity_id'],'synthetic-a')
+
     def test_context_pair_and_runtime_store_binding_fail_closed(self):
         f=self.f
         for extra in [{'intake_store':str(f.root/'bridge/athlete_intake.sqlite3')},

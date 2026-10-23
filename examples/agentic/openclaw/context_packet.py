@@ -5,6 +5,7 @@ Outputs private athlete data for the configured coach; never publish packets.
 Whole dated rows/Markdown sections are selected, never cut at a character limit.
 """
 import argparse
+import copy
 from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 import hashlib
@@ -88,15 +89,16 @@ def json_source(path, athlete=False):
 def load_profile(path):
     profile, _ = json_source(Path(path).resolve())
     required = {"schema_version", "data_dir", "protocol", "workout_reference", "reports_dir", "dossier", "dossier_sections", "timezone", "source_timezone"}
-    optional = {"long_term_source", "review_store", "coaching_profile", "intake_store", "intake_athlete_id"}
+    optional = {"long_term_source", "review_store", "coaching_profile", "intake_store", "intake_athlete_id", "tool_packet_bytes"}
     if set(profile)-required-optional or required-set(profile) or profile["schema_version"] != 1:
         fail("invalid_profile")
     for key in ("data_dir", "protocol", "workout_reference", "reports_dir", "dossier"):
         if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
             fail("absolute_profile_paths_required")
-    for key in (optional-{"intake_athlete_id"}) & set(profile):
+    for key in (optional-{"intake_athlete_id","tool_packet_bytes"}) & set(profile):
         if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
             fail("absolute_profile_paths_required")
+    if 'tool_packet_bytes' in profile and (type(profile['tool_packet_bytes']) is not int or not 8192<=profile['tool_packet_bytes']<=MAX_PACKET_BYTES):fail('invalid_tool_packet_budget')
     if ('intake_store' in profile)!=('intake_athlete_id' in profile):fail('intake_path_and_account_required')
     if 'intake_athlete_id' in profile and (not isinstance(profile['intake_athlete_id'],str) or not re.fullmatch(r'i?[0-9]+',profile['intake_athlete_id']) or profile['intake_athlete_id'] in ('0','i0')):fail('explicit_intake_account_required')
     if not isinstance(profile["dossier_sections"], dict) or set(profile["dossier_sections"]) != set(TASKS):
@@ -449,7 +451,7 @@ def build(profile, task, now=None, activity_id=None):
     return defer_history_for_intake(packet)
 
 
-def defer_history_for_intake(packet):
+def defer_history_for_intake(packet, limit=MAX_PACKET_BYTES):
     """Keep complete intake/health; explicitly retrieve bulky history separately.
 
     No row prefix or larger context budget. A digest preserves report-cache
@@ -457,7 +459,7 @@ def defer_history_for_intake(packet):
     """
     history=packet.get('history')
     size=len(json.dumps({**packet,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())
-    if packet['athlete_intake']['status']=='available' and history and size>MAX_PACKET_BYTES and history.get('status')=='available':
+    if packet['athlete_intake']['status']=='available' and history and size>limit and history.get('status')=='available':
         rows={k:history.get(k,[]) for k in ('rows','weekly_rows')}
         packet['history']={k:v for k,v in history.items() if k not in rows}
         packet['history'].update(status='deferred',source_coverage_complete=history['coverage_complete'],coverage_complete=False,
@@ -476,6 +478,37 @@ def encode(packet, limit=MAX_PACKET_BYTES):
     return text
 
 
+def encode_tool_packet(packet, profile, command):
+    """Atomic wire budget for native tool results; durable sources stay intact."""
+    limit=profile.get('tool_packet_bytes',MAX_PACKET_BYTES)
+    if command=='long_term':limit=min(limit,8192)
+    value=copy.deepcopy(packet)
+    def fits():return len(json.dumps({**value,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())<=limit
+    if command=='build' and not fits():
+        value=defer_history_for_intake(value,limit)
+        if not fits() and value['athlete_context'].get('status')=='available':
+            old=value['athlete_context'];value['athlete_context']={k:v for k,v in old.items() if k!='sections'}
+            value['athlete_context'].update(sections_deferred=True,required_sections=[section['heading'] for section in old.get('sections',[])],required_retrieval={'operation':'section','source':'dossier'},scope='Selected stable sections deferred, not absent. Read relevant exact sections before relying on their facts.')
+        if not fits() and value['athlete_intake'].get('status')=='available':
+            old=value['athlete_intake'];value['athlete_intake']={k:v for k,v in old.items() if k not in ('entries','open_questions')}
+            value['athlete_intake'].update(entries_deferred=True,entry_count=len(old['entries']),required_retrieval={'operation':'intake'},scope='Read the complete intake before asking onboarding questions, using goals/availability or prescribing. A revision pointer is not current health clearance.')
+        if not fits():
+            value['retrieval']={'required':'Retrieve explicitly deferred intake, dossier sections and dated history before advice depending on them. Omission is not absence or permission to assume normal health.',
+                                'operations':['intake','history','long_term','history_detail','review','headings','section'],
+                                'plan':'Read section11_coaching state; preserve its revision and all calendar preview/approval requirements.'}
+        if not fits() and 'recent_activities' in value['snapshot']:
+            rows=value['snapshot'].pop('recent_activities')
+            value['recent_activities_deferred']={'row_count':len(rows),'required_retrieval':{'operation':'activities','task':value['task']},'scope':'Retrieve exact current selected activities before interpreting completed training. Compare source hashes; refresh core health/readiness if sources changed.'}
+            if value['task']=='post_workout':value['recent_activities_deferred']['required_retrieval']['activity_id']=str(value['selected_activity']['id'])
+    return encode(value,limit)
+
+
+def activity_context(profile,task,activity_id=None,now=None):
+    packet=build(profile,task,activity_id=activity_id,now=now)
+    return {'status':'available','task':task,'sources':packet['sources'],'local_date':packet['local_date'],
+            'rows':packet['snapshot']['recent_activities'],'scope':'Fresh selected activities only. Use current core readiness/health before prescribing; compare source hashes when combining reads.'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile", type=Path, required=True)
@@ -488,6 +521,10 @@ def main():
     history.add_argument("--end", required=True)
     history.add_argument("--tier", choices=("daily","weekly","monthly"), default="daily")
     sub.add_parser("long_term")
+    sub.add_parser("intake")
+    activities=sub.add_parser("activities")
+    activities.add_argument("--task",choices=TASKS,required=True)
+    activities.add_argument("--activity-id")
     detail = sub.add_parser("history_detail")
     detail.add_argument("--activity-id", required=True)
     review = sub.add_parser("review")
@@ -504,6 +541,10 @@ def main():
             result = build(profile, args.task, activity_id=args.activity_id)
         elif args.command == "history":
             result = {"weekly":history_weeks,"monthly":history_months,"daily":history_window}[args.tier](profile, date.fromisoformat(args.start), date.fromisoformat(args.end))
+        elif args.command == "activities":
+            result = activity_context(profile,args.task,args.activity_id)
+        elif args.command == "intake":
+            result = intake_context(profile)
         elif args.command == "long_term":
             result = long_term(profile)
         elif args.command == "history_detail":
@@ -516,7 +557,7 @@ def main():
             text, source = read_source(path, args.source == "dossier")
             _, sections = markdown_sections(text)
             result = {"source":source, "headings":[s["heading"] for s in sections]} if args.command == "headings" else {"source":source, "section":exact_section(sections,args.heading), "complete":True}
-        print(encode(result, 8192 if args.command == "long_term" else MAX_PACKET_BYTES))
+        print(encode_tool_packet(result,profile,args.command))
         return 0
     except PacketError as exc:
         print(json.dumps({"ok":False,"error_code":str(exc),"context_complete":False}))

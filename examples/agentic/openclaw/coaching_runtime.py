@@ -254,7 +254,7 @@ def main():
         if op not in allowed or set(request)!=allowed[op]:raise ValueError('invalid_operation_fields')
         result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
         text=canonical({**result,'packet_complete':True})
-        if len(text.encode())>49152:raise ValueError('output_size_limit_use_narrower_review')
+        if len(text.encode())>min(49152,runtime.cp.get('tool_packet_bytes',49152)):raise ValueError('output_size_limit_use_narrower_review')
         print(text);return 0
     except Exception:
         # Provider/filesystem exceptions can contain credentials or athlete data.

@@ -25,7 +25,8 @@ test('long term retrieval stays typed and exposes no arbitrary storage path',()=
   assert.equal(argvFor({operation:'history',start:'2026-06-01',end:'2026-10-23',tier:'monthly'},config).at(-1),'monthly');
   assert.equal(argvFor({operation:'history_detail',activity_id:'activity-1'},config).at(-1),'activity-1');
   assert.equal(argvFor({operation:'review',review_id:'review-1'},config).at(-1),'review-1');
-  for(const p of [{operation:'long_term',path:'/secret'},{operation:'long_term',task:'morning'},{operation:'history_detail'}])assert.throws(()=>argvFor(p,config));
+  assert.equal(argvFor({operation:'intake'},config).at(-1),'intake');
+  for(const p of [{operation:'intake',path:'/secret'},{operation:'long_term',path:'/secret'},{operation:'long_term',task:'morning'},{operation:'history_detail'}])assert.throws(()=>argvFor(p,config));
 });
 function spawnFixture(chunks,code=0){
   return (_bin,args,options)=>{

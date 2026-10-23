@@ -92,3 +92,23 @@ required window and an evidence digest; omitted rows do not imply absent trainin
 or complete coverage. Retrieve the stated history before a prescription or a
 judgment that depends on it. The original byte limit and exact history reader
 remain unchanged; oversized remaining content still fails explicitly.
+
+### Native tool transport budget
+
+The optional private profile key `tool_packet_bytes` (8,192–49,152 bytes) caps CLI
+responses before OpenClaw can silently trim them. Primary uses 30,000 bytes under
+a 128k working context, whose native live tool cap is 32k characters. A build can
+explicitly defer bulky history, selected dossier sections and intake to their
+existing exact readers. `intake` is an additional read-only operation returning
+the complete account-bound onboarding revision; it accepts no model-selected path.
+Read required_retrieval before using deferred facts. Full readiness/health envelopes
+remain intact; an oversized remaining response fails without a partial packet.
+The internal Python builder/report supervisor continues to receive its complete
+source packet. The coaching bridge also honors the smaller output cap: receipts
+are never shortened to fit it; uncertain persistence still requires a recovery read.
+
+If a build still exceeds the transport budget, recent activities are explicitly
+deferred to `activities` with the same task (and activity_id for post_workout).
+The reader returns the exact fresh selected rows and source hashes. Retrieve them
+before interpreting completion, and refresh core health/readiness if source
+identity changed between reads. Core readiness and health are never dropped.

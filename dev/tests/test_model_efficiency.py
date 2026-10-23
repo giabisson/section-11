@@ -61,13 +61,35 @@ class ModelEfficiency(unittest.TestCase):
         self.assertEqual(cfg['agents']['defaults']['thinkingDefault'],'medium');self.assertEqual(self.config,original)
         self.assertEqual(cfg['channels'],self.config['channels']);self.assertNotIn('heartbeat',cfg['agents']['defaults'])
 
+    def test_operator_sol_medium_luna_policy_preserves_auth_and_prevents_old_routing(self):
+        original=copy.deepcopy(self.config);cfg=e.configure_primary_models(e.configure(self.config))
+        self.assertEqual(cfg['agents']['entries']['main']['model'],'openai/gpt-6.1-sol@openai:synthetic-profile')
+        self.assertEqual(cfg['agents']['defaults']['thinkingDefault'],'medium')
+        self.assertEqual(cfg['agents']['entries']['main']['utilityModel'],'openai/gpt-6-luna@openai:synthetic-profile')
+        self.assertEqual(cfg['agents']['defaults']['compaction']['model'],'openai/gpt-6-luna@openai:synthetic-profile')
+        self.assertEqual(cfg['models']['providers']['openai']['models'][0]['contextTokens'],131072)
+        self.assertEqual(cfg['agents']['defaults']['subagents']['model'],'openai/gpt-6-luna@openai:synthetic-profile')
+        self.assertEqual(cfg['agents']['defaults']['modelPolicy']['allow'],['openai/gpt-6.1-sol','openai/gpt-6-luna'])
+        self.assertNotIn('gpt-6-astra',json.dumps(cfg));self.assertEqual(cfg['channels'],original['channels']);self.assertEqual(self.config,original)
+        self.assertEqual(e.configure_primary_models(cfg),cfg)
+        route=p.selection(self.packet,cfg,self.root/'unreviewed.json',r.load_private,mock.Mock(side_effect=AssertionError('routing must be disabled')),2000)
+        self.assertEqual(route['route'],'baseline');self.assertEqual(route['thinking'],'medium');self.assertEqual(route['reason'],'operator_fixed_sol_medium_policy')
+        self.assertEqual(p.apply_selection(cfg,route),cfg)
+        for model,thinking in [('openai/gpt-6-astra','medium'),('openai/gpt-6.1-sol','low')]:
+            with self.subTest(model=model),self.assertRaises(ValueError):b.benchmark_config(cfg,model,thinking)
+        with self.assertRaises(ValueError):p.apply_selection(cfg,{'route':'reviewed_routine_candidate','model':'openai/gpt-6-astra','thinking':'medium'})
+
     def test_only_readonly_context_results_are_pruned_and_recent_turns_survive(self):
         cfg=e.configure(self.config)['agents']['defaults']
         self.assertEqual(cfg['contextPruning']['tools']['allow'],['section11_context'])
         self.assertEqual(cfg['compaction']['recentTurnsPreserve'],3)
         self.assertEqual(cfg['compaction']['qualityGuard'],{'enabled':True,'maxRetries':1})
         self.assertEqual(cfg['compaction']['identifierPolicy'],'strict')
-        self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],2097152)
+        self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],262144)
+        self.assertEqual(cfg['compaction']['midTurnPrecheck'],{'enabled':True})
+        self.assertEqual(cfg['compaction']['keepRecentTokens'],8192)
+        self.assertEqual(e.configure(self.config)['tools']['codeMode'],False)
+        self.assertIn('exec',cfg['contextPruning']['tools']['deny'])
         self.assertEqual(e.configure(e.configure(self.config)),e.configure(self.config))
 
     def test_keyword_memory_is_explicit_primary_only_and_preserves_other_settings(self):

@@ -6,11 +6,14 @@ RECOVERY_HEADING='Section 11 context recovery'
 
 def configure(config):
     c=copy.deepcopy(config);defaults=c['agents']['defaults']
-    defaults['contextPruning']={'mode':'cache-ttl','ttl':'30m','tools':{'allow':['section11_context']},
+    defaults['contextPruning']={'mode':'cache-ttl','ttl':'5m','tools':{'allow':['section11_context'],'deny':['exec','section11_coaching','write','edit','apply_patch']},
                                'hardClear':{'enabled':True,'placeholder':'[Historical coaching context removed. Read a fresh section11_context packet before using numbers or prescribing.]'}}
     compaction=defaults.setdefault('compaction',{})
     compaction.update(mode='safeguard',identifierPolicy='strict',recentTurnsPreserve=3,
-                      qualityGuard={'enabled':True,'maxRetries':1},maxActiveTranscriptBytes=2097152)
+                      qualityGuard={'enabled':True,'maxRetries':1},maxActiveTranscriptBytes=262144,
+                      keepRecentTokens=8192,midTurnPrecheck={'enabled':True})
+    # Direct typed reads remain distinguishable from writes and mixed exec results.
+    c.setdefault('tools',{})['codeMode']=False
     sections=compaction.setdefault('postCompactionSections',[])
     if RECOVERY_HEADING not in sections:sections.append(RECOVERY_HEADING)
     # This OAuth route supports its session cache key, not API lifetime fields.
@@ -18,6 +21,49 @@ def configure(config):
     c['agents']['entries']['main'].setdefault('params',{})['cacheRetention']='short'
     return c
 
+
+
+PRIMARY_MODEL='openai/gpt-6.1-sol'
+UTILITY_MODEL='openai/gpt-6-luna'
+CONTEXT_TOKENS=131072
+
+
+def configure_primary_models(config):
+    """Explicit operator policy: Sol medium owns coaching; Luna is a helper.
+
+    Retain the verified primary authentication pin. Closed model policy prevents
+    old overrides, fallbacks or benchmark promotion from reintroducing Astra.
+    Separate account configurations are never read or changed by this function.
+    """
+    c=copy.deepcopy(config);defaults=c['agents']['defaults'];main=c['agents']['entries']['main']
+    old=main.get('model',defaults.get('model',{}).get('primary',''))
+    if not isinstance(old,str):raise ValueError('explicit_primary_model_required')
+    suffix='@'+old.split('@',1)[1] if '@' in old else ''
+    allowed=[PRIMARY_MODEL,UTILITY_MODEL]
+    defaults['model']={'primary':PRIMARY_MODEL+suffix}
+    defaults['thinkingDefault']='medium';defaults['utilityModel']=UTILITY_MODEL+suffix
+    defaults['modelPolicy']={'allow':allowed}
+    defaults['models']={key:value for key,value in defaults.get('models',{}).items() if key in allowed}
+    main['model']=PRIMARY_MODEL+suffix;main['utilityModel']=UTILITY_MODEL+suffix
+    main['modelPolicy']={'allow':allowed}
+    main['models']={key:value for key,value in main.get('models',{}).items() if key in allowed}
+    for registry in (defaults['models'],main['models']):
+        settings=registry.setdefault(PRIMARY_MODEL,{})
+        settings['agentRuntime']={'id':'openclaw'}
+        registry.setdefault(UTILITY_MODEL,{})['agentRuntime']={'id':'openclaw'}
+    # Context caps belong to provider catalog metadata, not per-agent aliases.
+    # Leave transport, base URL and authentication fields untouched.
+    provider=c.setdefault('models',{}).setdefault('providers',{}).setdefault('openai',{})
+    models=provider.setdefault('models',[])
+    model=next((row for row in models if row.get('id')=='gpt-6.1-sol'),None)
+    if model is None:
+        model={'id':'gpt-6.1-sol','name':'GPT-6.1 Sol'};models.append(model)
+    model.update(contextTokens=CONTEXT_TOKENS,maxTokens=16384)
+    compaction=defaults.setdefault('compaction',{})
+    compaction.update(model=UTILITY_MODEL+suffix,thinkingLevel='low')
+    compaction.setdefault('memoryFlush',{})['model']=UTILITY_MODEL+suffix
+    defaults.setdefault('subagents',{}).update(model=UTILITY_MODEL+suffix,thinking='low')
+    return c
 
 
 def configure_keyword_memory(config):
@@ -36,7 +82,9 @@ def configure_keyword_memory(config):
 def recovery_block(context_profile,profile_path):
     return f'''## {RECOVERY_HEADING}
 
-After compaction, reset, history omission or tool-result pruning, read a fresh section11_context task packet before quoting any current number or prescribing. Historical JSON fragments and memory notes are not valid current packets. Require valid whole JSON and packet_complete:true. A transport marker is not health clearance or complete history. Use exact source sections and date-filtered history for omitted dependencies.
+Use direct section11_context and section11_coaching tools for coaching operations; do not wrap typed reads in exec. Mixed exec/write results are deliberately protected, not prunable read data. The primary coaching model is GPT-6.1 Sol at medium; Luna handles utility summarization and explicitly delegated bounded tasks. Never select Astra or use Luna to independently change the training strategy. Tools themselves execute deterministically without an extra model call.
+
+After compaction, reset, history omission or tool-result pruning, read a fresh section11_context task packet before quoting any current number or prescribing. Historical JSON fragments and memory notes are not valid current packets. Require valid whole JSON and packet_complete:true. If intake entries, dossier sections or history rows are explicitly deferred, follow required_retrieval before relying on those facts; use section11_context intake for the complete saved goals and constraints. A transport marker is not health clearance or complete history. Use exact source sections and date-filtered history for omitted dependencies.
 
 The operator-selected stable athlete source is `{context_profile['dossier']}`; its authority/coverage is labelled by the fresh reader profile `{profile_path}`. Read the fresh task packet's `athlete_intake` for saved goals, dated availability and recovery constraints, even when no plan exists. Read observation/validity/review flags; historical health is not current clearance. Save explicit onboarding facts with section11_coaching operation intake and verify state before claiming success. Ask only missing/changed/current-health questions, not the whole intake again. Do not copy an old calendar as current availability. Check the current private managed-plan revision/review if one exists; absent/unavailable records are unknown, never permission to reconstruct a plan from memory or change a calendar.
 
