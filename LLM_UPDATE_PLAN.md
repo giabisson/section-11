@@ -264,3 +264,34 @@ The athlete explicitly requires Sol 6.1 medium for coaching, Luna 6 for simple h
 Native tool output compatibility: at a 64k model working context OpenClaw caps live tool text at 16k characters. The tested primary budget is therefore 128k, with a private context-profile `tool_packet_bytes:30000` limit below its native 32k tool cap. The CLI emits complete JSON or an explicit failure; it defers bulky history, selected dossier sections and, when necessary, intake to labelled exact reads. `section11_context intake` recovers the complete saved record with source dates and temporal flags. Required deferred reads must precede advice relying on those facts. Internal deterministic report building retains its full source packet. The working-context limit is a native pressure budget, not a claimed hard bound on all provider accounting or per-exchange calls.
 
 Step 1 rollout validation: the primary configuration passed the installed validator, native projection/pressure tests and the full developer suite. Live Sol medium retrieved the complete saved intake through the direct typed tool; a separate Luna low no-tool check confirmed helper availability. Twenty-seven existing session overrides were cleared through the supported session API without resetting conversation context. Before/after checks preserved all 7,054 pre-existing canonical transcript events, the full private intake revision history, managed plan, daily feedback and training facts. Four actual task packets fit 30,000 bytes, and three report dry runs passed. Keyword-only memory, authentication and secondary-account configuration remain unchanged. Initial smoke checks exposed native result truncation and a staged-schema mismatch; those failed checks are retained privately rather than treated as successful retrieval. No Astra call, message or calendar write was needed for validation. Real workload savings still require subsequent telemetry; total per-exchange call/token limits remain step 2.
+
+
+## Live usage follow-up, step 2 — 23 October 2026
+
+Implemented primary-only batched exact reference retrieval and exchange work guards.
+`section11_context references` accepts one to six closed-schema source/heading
+requests, reads each source once, deduplicates selections, preserves provenance,
+and returns complete bounded JSON or fails the entire batch. The primary 30,000-byte
+transport cap still applies. Fresh health/intake/plan and approval rules are unchanged.
+
+Primary limits are six observed model attempts (the sixth reserved for final
+response), ten admitted tools and a 300,000-token estimated cumulative work target.
+The gate blocks new tools including concurrent admissions; admitted writes finish,
+receipts remain intact, and the coach must report pending work rather than retry.
+Counters use run identity, never conversation identity. Report agents retain their
+existing read-only policy. Sol medium/Luna, keyword memory and secondary settings
+are unchanged.
+
+**Enforcement limitation:** the installed native model hooks are best-effort
+notifications, not cancellable provider admission. These are enforced tool gates
+and advisory model/token ceilings, not hard provider-call, token, credit or cost
+caps. Token admission estimates UTF-8 bytes / 3 plus a 16,384 output allowance per
+observed request. Private gateway `section11_exchange_attempt` records separate
+actual normalized end-of-attempt input/output/cache/total from that estimate. No
+savings or quota conversion is claimed. Strict provider ceilings require native
+runtime support; internal retries and compaction may escape these observations.
+
+Validation covers closed batch schemas, source deduplication, all-or-nothing size
+failures, per-run isolation, parallel reservations, token-estimate/actual separation,
+native schema conversion and native hook vetoes. No model calls, Telegram messages
+or calendar writes are needed for these deterministic checks.

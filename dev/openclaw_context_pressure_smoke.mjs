@@ -1,4 +1,6 @@
 // Native 2026.10.6 checks: projection only, no model calls or private athlete data.
+import {schema as contextSchema} from '../examples/agentic/openclaw/context-tool/policy.mjs';
+import {exchangeBudget} from '../examples/agentic/openclaw/context-tool/exchange-budget.mjs';
 import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
@@ -13,6 +15,24 @@ export async function verifyContextPressure(packageRoot){
   }
   throw Error('Unsupported installed OpenClaw function: '+name);
  }
+ const ai=path.join(packageRoot,'node_modules/@openclaw/ai/dist');
+ const {normalizeOpenAIStrictCompatSchema}=await import(pathToFileURL(path.join(ai,'internal/tool-schema.mjs')).href);
+ const {validateToolArguments}=await import(pathToFileURL(path.join(ai,'validation.mjs')).href);
+ const parameters=normalizeOpenAIStrictCompatSchema(contextSchema);
+ const referenceArgs={operation:'references',requests:[{source:'protocol',heading:'Synthetic exact heading'}]};
+ assert.doesNotThrow(()=>validateToolArguments({name:'section11_context',parameters},{id:'schema-only',name:'section11_context',arguments:referenceArgs}));
+ assert.throws(()=>validateToolArguments({name:'section11_context',parameters},{id:'invalid',name:'section11_context',arguments:{...referenceArgs,requests:[{source:'protocol',heading:'x',path:'/bad'}]}}));
+ const makeHooks=await fn('hooks-','createHookRunner');
+ const budget=exchangeBudget({modelCalls:3,toolCalls:2,estimatedTokens:100000});
+ const registry={plugins:[{id:'section11-context',status:'loaded'}],typedHooks:Object.entries(budget).map(([hookName,handler])=>({pluginId:'section11-context',hookName,handler}))};
+ const runner=makeHooks(registry),ctx={runId:'synthetic-exchange',agentId:'main'};
+ const prompt=await runner.runBeforePromptBuild({prompt:'synthetic',messages:[]},ctx);
+ assert(prompt.appendSystemContext.includes('Exchange work budget'));
+ await runner.runModelCallStarted({runId:ctx.runId,callId:'one'},ctx);
+ await runner.runModelCallStarted({runId:ctx.runId,callId:'two'},ctx);
+ const denied=await runner.runBeforeToolCall({toolName:'section11_coaching',params:{operation:'save'}},ctx);
+ assert.equal(denied.block,true,'native runner must honor the tool veto before invoking a write');
+ assert.equal(await runner.runBeforeToolCall({toolName:'section11_context',params:{}},{runId:'new-exchange'}),undefined);
  const settings=await fn('tool-result-truncation-','resolveCacheTtlPruningSettings');
  const prune=await fn('tool-result-truncation-','pruneExpiredCacheTtlToolResults');
  const pressure=await fn('context-engine-lifecycle-','shouldPreemptivelyCompactBeforePrompt');
@@ -43,6 +63,6 @@ export async function verifyContextPressure(packageRoot){
  const decision=pressure({messages:oversized,systemPrompt:'Synthetic safety instructions',prompt:'',contextTokenBudget:131072,reserveTokens:16384});
  assert.notEqual(decision.route,'fits');assert(decision.overflowTokens>0);
  const small=pressure({messages:[{role:'user',content:'Synthetic short request'}],systemPrompt:'Preserve safety and receipts',prompt:'',contextTokenBudget:131072,reserveTokens:16384});assert.equal(small.route,'fits');
- return {native_read_projection_reduced:true,canonical_transcript_unchanged:true,write_and_mixed_receipts_preserved:true,recent_health_preserved:true,projection_replay_stable:true,effective_context_tokens:info.tokens,oversized_prompt_blocked:true,model_calls:0};
+ return {native_budget_tool_veto:true,native_read_projection_reduced:true,canonical_transcript_unchanged:true,write_and_mixed_receipts_preserved:true,recent_health_preserved:true,projection_replay_stable:true,effective_context_tokens:info.tokens,oversized_prompt_blocked:true,model_calls:0};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname))console.log(JSON.stringify(await verifyContextPressure(process.argv[2])));

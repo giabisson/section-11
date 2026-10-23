@@ -509,6 +509,33 @@ def activity_context(profile,task,activity_id=None,now=None):
             'rows':packet['snapshot']['recent_activities'],'scope':'Fresh selected activities only. Use current core readiness/health before prescribing; compare source hashes when combining reads.'}
 
 
+def reference_batch(profile, requests):
+    """All-or-nothing exact reads; each source is read once per batch."""
+    if not isinstance(requests,list) or not 1 <= len(requests) <= 6:
+        fail("batch_requires_one_to_six_references")
+    reports={"morning":"PRE_WORKOUT_REPORT_TEMPLATE.md","weekly":"WEEKLY_REPORT_TEMPLATE.md","post_workout":"POST_WORKOUT_REPORT_TEMPLATE.md"}
+    sources,results,seen={},[],set()
+    for item in requests:
+        if not isinstance(item,dict) or set(item)-{"source","heading","task"}:
+            fail("invalid_batch_reference")
+        source,heading,task=item.get("source"),item.get("heading"),item.get("task","morning")
+        if source not in {"protocol","workouts","dossier","report"} or not isinstance(heading,str) or not 1 <= len(heading) <= 200 or task not in TASKS:
+            fail("invalid_batch_reference")
+        if source!="report" and "task" in item or source=="report" and task not in reports:
+            fail("invalid_batch_task")
+        identity=(source,task if source=="report" else None)
+        key=(*identity,heading)
+        if key in seen:continue
+        seen.add(key)
+        if identity not in sources:
+            path=Path(profile["reports_dir"])/reports[task] if source=="report" else Path(profile["workout_reference" if source=="workouts" else source])
+            text,provenance=read_source(path,source=="dossier")
+            sources[identity]=(markdown_sections(text)[1],provenance)
+        sections,provenance=sources[identity]
+        results.append({"source":provenance,"reference":item,"section":exact_section(sections,heading)})
+    return {"references":results,"complete":True,"scope":"Exact references only; health, intake, managed-plan state and calendar approval still require their normal fresh reads. Oversize batches fail whole; split into smaller batches."}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile", type=Path, required=True)
@@ -522,6 +549,8 @@ def main():
     history.add_argument("--tier", choices=("daily","weekly","monthly"), default="daily")
     sub.add_parser("long_term")
     sub.add_parser("intake")
+    batch=sub.add_parser("references")
+    batch.add_argument("--requests-json",required=True)
     activities=sub.add_parser("activities")
     activities.add_argument("--task",choices=TASKS,required=True)
     activities.add_argument("--activity-id")
@@ -543,6 +572,9 @@ def main():
             result = {"weekly":history_weeks,"monthly":history_months,"daily":history_window}[args.tier](profile, date.fromisoformat(args.start), date.fromisoformat(args.end))
         elif args.command == "activities":
             result = activity_context(profile,args.task,args.activity_id)
+        elif args.command == "references":
+            if len(args.requests_json.encode())>8192:fail("batch_request_size_limit")
+            result=reference_batch(profile,json.loads(args.requests_json))
         elif args.command == "intake":
             result = intake_context(profile)
         elif args.command == "long_term":

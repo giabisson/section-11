@@ -1,12 +1,63 @@
 {
-  "id":"section11-context",
-  "name":"Section 11 bounded context",
-  "description":"Read-only bounded coaching context. No arbitrary paths, shell, network or calendar writes.",
-  "activation":{"onStartup":true},
-  "contracts":{"tools":["section11_context"]},
-  "toolMetadata":{"section11_context":{"optional":false,"profiles":["coding"]}},
-  "configSchema":{"type":"object","additionalProperties":false,"required":["script","profile"],"properties":{
-    "script":{"type":"string","minLength":1},"profile":{"type":"string","minLength":1},
-    "reportMode":{"type":"boolean"}
-  }}
+  "id": "section11-context",
+  "name": "Section 11 bounded context",
+  "description": "Read-only bounded coaching context. No arbitrary paths, shell, network or calendar writes.",
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "section11_context"
+    ]
+  },
+  "toolMetadata": {
+    "section11_context": {
+      "optional": false,
+      "profiles": [
+        "coding"
+      ]
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "script",
+      "profile"
+    ],
+    "properties": {
+      "script": {
+        "type": "string",
+        "minLength": 1
+      },
+      "profile": {
+        "type": "string",
+        "minLength": 1
+      },
+      "reportMode": {
+        "type": "boolean"
+      },
+      "exchangeBudget": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modelCalls": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 20
+          },
+          "toolCalls": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 40
+          },
+          "estimatedTokens": {
+            "type": "integer",
+            "minimum": 10000,
+            "maximum": 2000000
+          }
+        }
+      }
+    }
+  }
 }

@@ -42,6 +42,23 @@ class ContextPacket(unittest.TestCase):
     def build(self,task='morning',**kwargs):
         return c.build(self.profile,task,now=NOW,**kwargs)
 
+    def test_reference_batch_deduplicates_and_reads_each_source_once(self):
+        requests=[{"source":"protocol","heading":"Safety"},{"source":"protocol","heading":"Other"},{"source":"workouts","heading":"Template A"},{"source":"protocol","heading":"Safety"}]
+        with mock.patch.object(c,'read_source',wraps=c.read_source) as read:
+            result=c.reference_batch(self.profile,requests)
+        self.assertEqual(read.call_count,2)
+        self.assertEqual(len(result['references']),3)
+        self.assertIn('Stop rule.',result['references'][0]['section']['text'])
+        self.assertEqual(result['references'][0]['source'],result['references'][1]['source'])
+        self.assertTrue(json.loads(c.encode_tool_packet(result,{**self.profile,'tool_packet_bytes':30000},'references'))['packet_complete'])
+
+    def test_batch_failure_never_returns_partial_or_truncates(self):
+        for requests in [[],[{'source':'protocol','heading':'missing'}],[{'source':'protocol','heading':'Safety','path':'/secret'}],[{'source':'report','heading':'x','task':'plan'}]]:
+            with self.subTest(requests=requests),self.assertRaises(c.PacketError):c.reference_batch(self.profile,requests)
+        result=c.reference_batch(self.profile,[{'source':'protocol','heading':'Changelog'}])
+        with self.assertRaises(c.PacketError):c.encode_tool_packet(result,{**self.profile,'tool_packet_bytes':8192},'references')
+        self.assertTrue((self.root/'protocol.md').read_text().endswith('Not needed.\n'))
+
     def test_morning_preserves_entire_safety_health_and_nulls_without_instruction_blob(self):
         packet=self.build();snap=packet['snapshot']
         self.assertEqual(snap['readiness_decision'],self.latest['readiness_decision'])

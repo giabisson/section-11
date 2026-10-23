@@ -2,11 +2,12 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 
 export const schema = {type:'object',additionalProperties:false,required:['operation'],properties:{
-  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','review','headings','section']},
+  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','review','headings','section','references']},
   task:{type:'string',enum:['morning','weekly','workout','plan','post_workout']},
   activity_id:{type:'string',maxLength:128},review_id:{type:'string',maxLength:128},start:{type:'string'},end:{type:'string'},
   tier:{type:'string',enum:['daily','weekly','monthly']},
   source:{type:'string',enum:['protocol','workouts','dossier','report']},
+  requests:{type:'array',minItems:1,maxItems:6,items:{type:'object',additionalProperties:false,required:['source','heading'],properties:{source:{type:'string',enum:['protocol','workouts','dossier','report']},heading:{type:'string',minLength:1,maxLength:200},task:{type:'string',enum:['morning','weekly','post_workout']}}}},
   heading:{type:'string',minLength:1,maxLength:200}
 }};
 
@@ -14,18 +15,27 @@ export function argvFor(params, config) {
   if (!config || !path.isAbsolute(config.script ?? '') || !path.isAbsolute(config.profile ?? '')) throw Error('invalid_config');
   if (!params || Object.keys(params).some(k=>!Object.hasOwn(schema.properties,k))) throw Error('invalid_params');
   const args=[config.script,'--profile',config.profile];
-  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],review:['review_id'],headings:['source','task'],section:['source','task','heading']};
+  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],review:['review_id'],headings:['source','task'],section:['source','task','heading'],references:['requests']};
   const fields=allowed[params.operation];
   if (!fields || Object.keys(params).some(k=>k!=='operation'&&!fields.includes(k))) throw Error('invalid_operation');
   args.push(params.operation);
   for (const field of fields) {
     const value=params[field];
     if (value===undefined) continue;
+    if(field==='requests'){
+      if(!Array.isArray(value)||value.length<1||value.length>6)throw Error('invalid_batch');
+      for(const item of value){
+        if(!item||Object.keys(item).some(k=>!['source','heading','task'].includes(k))||!schema.properties.source.enum.includes(item.source)||typeof item.heading!=='string'||!item.heading.length||item.heading.length>200||item.heading.includes('\0'))throw Error('invalid_batch');
+        if(item.task!==undefined&&(item.source!=='report'||!['morning','weekly','post_workout'].includes(item.task)))throw Error('invalid_batch_task');
+      }
+      args.push('--requests-json',JSON.stringify(value));continue;
+    }
     const spec=schema.properties[field];
     if(typeof value!=='string'||value.length> (spec.maxLength??128)||value.includes('\0')||(spec.enum&&!spec.enum.includes(value)))throw Error('invalid_value');
     if(['start','end'].includes(field)&&!/^\d{4}-\d{2}-\d{2}$/.test(value))throw Error('invalid_date');
     args.push('--'+field.replaceAll('_','-'),value);
   }
+  if(params.operation==='references'&&!params.requests)throw Error('references_required');
   if(['build','activities'].includes(params.operation)&&!params.task)throw Error('task_required');
   if(params.operation==='history'&&(!params.start||!params.end))throw Error('dates_required');
   if(params.operation==='history_detail'&&!params.activity_id)throw Error('activity_id_required');

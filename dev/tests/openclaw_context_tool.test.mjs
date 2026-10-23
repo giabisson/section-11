@@ -46,3 +46,40 @@ test('oversize output and cancellation fail without a partial result',async()=>{
   assert.equal((await executeContext([],undefined,spawnFixture([Buffer.alloc(50000)]))).isError,true);
   const abort=new AbortController();abort.abort();assert.equal((await executeContext([],abort.signal,()=>{throw Error('must not spawn')})).isError,true);
 });
+
+test('batch references are typed and cannot smuggle paths, nested operations or huge requests',()=>{
+  const requests=[{source:'protocol',heading:'Warm-up'},{source:'workouts',heading:'Endurance'}];
+  assert.deepEqual(JSON.parse(argvFor({operation:'references',requests},config).at(-1)),requests);
+  for(const requests of [[],Array(7).fill({source:'protocol',heading:'x'}),[{source:'protocol',heading:'x',path:'/secret'}],[{source:'protocol',heading:'x',task:'weekly'}],[{source:'report',heading:'x',task:'plan'}]])assert.throws(()=>argvFor({operation:'references',requests},config));
+  assert.throws(()=>argvFor({operation:'references'},config));
+});
+
+import {exchangeBudget} from '../../examples/agentic/openclaw/context-tool/exchange-budget.mjs';
+test('exchange call ceiling reserves final response; session does not carry budget',()=>{
+  const b=exchangeBudget(),ctx={runId:'a',sessionId:'same'};
+  b.before_prompt_build({},ctx);
+  for(let i=0;i<5;i++)b.model_call_started({callId:String(i)},ctx);
+  assert.equal(b.before_tool_call({toolName:'section11_context'},ctx).block,true);
+  assert.equal(b.before_tool_call({toolName:'section11_coaching',params:{operation:'save'}},ctx).block,true);
+  assert.equal(b.before_tool_call({toolName:'exec'},ctx).block,true);
+  assert.equal(b.before_tool_call({}, {runId:'b',sessionId:'same'}),undefined);
+  assert.equal(b.before_tool_call({}, {sessionId:'same'}).block,true);
+});
+test('parallel tool reservations stop at cap, results and receipts are immutable',()=>{
+  const b=exchangeBudget({toolCalls:2}),ctx={runId:'parallel'};
+  for(let i=0;i<2;i++)assert.equal(b.before_tool_call({toolName:'section11_coaching',toolCallId:String(i)},ctx),undefined);
+  assert.equal(b.before_tool_call({toolCallId:'3'},ctx).block,true);
+  const e={toolCallId:'0',result:{success:true,revision:'receipt'}};const before=JSON.stringify(e);
+  b.after_tool_call(e,ctx);assert.equal(JSON.stringify(e),before);
+});
+test('estimated token guard and measured usage stay separate; duplicate observed calls count once',()=>{
+  const records=[],b=exchangeBudget({estimatedTokens:20000},r=>records.push(r)),ctx={runId:'token'};
+  b.llm_input({systemPrompt:'x'.repeat(15000)},ctx);
+  b.model_call_started({callId:'one'},ctx);b.model_call_started({callId:'one'},ctx);
+  assert.equal(b.before_tool_call({},ctx).block,true);
+  b.llm_output({usage:{input:10,cacheRead:100,output:5,total:115}},ctx);
+  assert.equal(records[0].observedModelCalls,1);assert.equal(records[0].actualAttemptUsage.total,115);
+  assert(records[0].estimatedTokens>20000);assert(!JSON.stringify(records).includes('xxxxx'));
+  b.agent_end({},ctx);assert.equal(b.before_tool_call({},ctx),undefined);
+  assert.throws(()=>exchangeBudget({modelCalls:1}));
+});

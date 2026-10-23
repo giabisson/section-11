@@ -112,3 +112,29 @@ deferred to `activities` with the same task (and activity_id for post_workout).
 The reader returns the exact fresh selected rows and source hashes. Retrieve them
 before interpreting completion, and refresh core health/readiness if source
 identity changed between reads. Core readiness and health are never dropped.
+
+### Batched exact references and primary exchange budget
+
+Use `section11_context` operation `references` with `requests` containing one to six
+`{source, heading}` objects (report references may also specify `task`). Read known
+relevant protocol/template/dossier sections together. Duplicate references are read
+once; each source is read once and retains its hash. Missing, ambiguous or oversized
+batches fail whole; split oversized batches. Never substitute references for fresh
+health, intake, plan state or calendar approval.
+
+Primary-only `exchangeBudget` defaults: 6 observed model attempts (one reserved for
+final response), 10 admitted tools, 300,000 estimated cumulative tokens. It blocks
+new tools at the first limit, including parallel admissions; admitted writes finish
+and their receipts are never edited. Report pending work and wait for another user
+exchange rather than retrying blocked calls. Runs, not sessions, own counters.
+
+**Scope:** OpenClaw 2026.10.6 exposes model hooks as best-effort notifications and
+usage as an end-of-attempt aggregate. This is a tool-admission guard, not a hard
+provider-call/token or ChatGPT-quota cap. Token admission uses UTF-8 bytes / 3 plus
+16,384 output allowance per observed request, explicitly an estimate. Actual
+input/output/cache usage is logged separately as `section11_exchange_attempt` in
+private gateway logs; cache is not added again to reported `total`. No quota or
+currency conversion is assumed. Retries/internal compaction may escape observation;
+a provider-level cancellable admission API is required for a strict cost ceiling.
+No prompts, athlete text, destinations or receipts are included in these metrics.
+Report-only agents retain their existing read-only six-call policy.
