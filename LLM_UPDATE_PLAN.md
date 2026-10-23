@@ -330,9 +330,9 @@ one installed-runtime-only check skipped. No test model calls were made.
 
 ## Routine context notices and managed publication credentials — 23 October 2026
 
-Native OpenClaw emits its bounded-history notice on every latched bounded-context
-turn while compaction.notifyUser is enabled. Primary configuration now sets it
-false. The 256 KiB history guard, 128k working context, mid-turn checks, protected
+Native OpenClaw 2026.10.6 emits its bounded-history notice on every latched
+bounded-context turn even when compaction.notifyUser is false. Primary now also
+uses the exact outgoing-notice filter described below. The 256 KiB history guard, 128k working context, mid-turn checks, protected
 receipts, recovery instructions and persisted transcripts remain unchanged. This
 silences routine maintenance notices; missing evidence still requires clarification
 in the actual coaching reply. It does not expand model context or restore omitted
@@ -358,3 +358,36 @@ proposed actions and zero calendar writes. HTTP mutations were blocked during th
 check. All prior plan/receipt rows, saved intake, feedback, training facts and
 7,123 existing canonical transcript events were preserved. Three report dry runs
 passed. No test model calls, messages, publication or conversation reset occurred.
+
+
+## Bounded-notice exception repair — 23 October 2026
+
+The prior notifyUser:false change was insufficient: OpenClaw 2026.10.6 explicitly
+exempts context_bounded in both direct and queued preflight delivery paths. The
+primary-only quietBoundedContextNotices plugin setting now cancels just the exact
+standalone Telegram maintenance text at message_sending. It preserves replies with
+additional coaching text, media, health/uncertainty alerts and all other channels.
+No native OpenClaw files are patched and no history/window guard is relaxed.
+
+The installed-runtime regression now exercises the actual Telegram deliverReplies
+path with a mocked Bot API: the notice produces zero sends, while a normal coaching
+reply produces one successful mocked send. The test uses isolated state and no real
+bot destination or model. This covers the delivery exception missed by the earlier
+configuration-only verification. Unit checks also cover mixed replies and alerts.
+
+Read-only production audit recovers saved onboarding, current plan and dated feedback
+through fresh processes and verifies complete fresh context packets against the
+saved intake revision. Publication journal bindings are checked against actual
+calendar events and frozen payloads, with pending-operation and duplicate checks.
+Usage is measured from recent transcript events, separating fresh/cached input and
+output; a small sample is not a controlled savings comparison, and SDK cost fields
+do not establish ChatGPT quota consumption or billing.
+
+Validation: 1,331 tests passed on home-server, including the actual native Telegram
+delivery regression with a mocked Bot API; local tests passed with one native-only
+skip. The primary plugin was hot-reloaded without restart and its live Gateway
+configuration confirms the quiet filter is enabled. Production read-only checks
+confirmed saved intake/feedback/history, complete fresh context, matching managed
+calendar events with no duplicates or pending uncertain operations, and preserved
+original receipts. Usage observations remain a small sample. No live test messages,
+model requests, calendar writes, session resets or secondary-profile changes occurred.

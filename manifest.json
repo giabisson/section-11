@@ -17,7 +17,7 @@
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
     "LLM_UPDATE_PLAN.md": {
-      "hash": "ddccf5fdd422930380148b07f2e23cf515bcaac8e746ab5ddb48ec7fbcf1f2e4"
+      "hash": "6d32647d81c39c0e06254dc502c951332577c52dc4fd9f57ad2dbe6326d452db"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
       "hash": "3284cd9da1bed641f15e0add5bb19cb8f14675080ded824f6211e7890590b6f2"
@@ -111,13 +111,13 @@
       "hash": "8b1e1d45763466f7fe26c6b2bba2aedac9083cd613a5a1efd7e9b33f34df595a"
     },
     "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
-      "hash": "32b3b07cf76698acfc432e3f4b0b0c2f8a6763a19043e244238075c957d917a1"
+      "hash": "177acc26346f8a4c21bf343a86d5c8ae158b72f37b94e06df6b58dac5c33ba46"
     },
     "examples/agentic/openclaw/RUNTIME_SAFETY.md": {
       "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
     },
     "examples/agentic/openclaw/TASK_CONTEXT.md": {
-      "hash": "4d050d8d6e0232db806865c9706e50027011b1467c6f9726f0b6bc3899dec857"
+      "hash": "9d7debcb71813bfe00a0a331fdb456bb8e09f887447542b974d0ce160f1651a2"
     },
     "examples/agentic/openclaw/TELEMETRY_AND_EVALS.md": {
       "hash": "1ad9c3141723ecfbb9cfc5972e177fcc66bef5c97975fc281f79c960a6715f29"
@@ -150,16 +150,16 @@
       "hash": "54d6c667e53a43587f9f972a4f5f44b184867ff43afa932dee212fd5a4f40df4"
     },
     "examples/agentic/openclaw/context-tool/index.mjs": {
-      "hash": "3566902b4b681ec853291cada47ef8c46b986d4c18ddf51c3bda19c28a97355f"
+      "hash": "3149578fd86a98c9e1ac9fe0478f877e1c2128d2c55ed4b57b86eb0507c6de43"
     },
     "examples/agentic/openclaw/context-tool/openclaw.plugin.json": {
-      "hash": "b68ee1bc55e6487aa92bbcf4477dd0898a17159bb26f41c9625ea921e3071153"
+      "hash": "56056d58bdc874c47a0050f974a7b68871ffa05b0119af9f71afc46f103e08d9"
     },
     "examples/agentic/openclaw/context-tool/package.json": {
       "hash": "c28bdddd5ac9388548aece11c997286e7f9666b800373ee36f662dd4503211c9"
     },
     "examples/agentic/openclaw/context-tool/policy.mjs": {
-      "hash": "7ee0e96ed16fb1fac8a606c3e0e4255840e498459acd458ffb50b2b9aa69ceab"
+      "hash": "4228eabdbf564806e1d82a1d896df32be4ce2aac647cb5cdfd9756e236ac4a51"
     },
     "examples/agentic/openclaw/context_packet.py": {
       "hash": "7d4fa33ab2afbbb8bc3fb1b3fe90e78221ed1c882d0130fe785f1534376f8c32"
@@ -180,7 +180,7 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "266fdca337e95f6ef15cf07650b29473465ac28be277a6d11e255d94f0814024"
+      "hash": "1c005ca754bfa85f8e2282aea955bc1738abbe360a02d73bb07d8bb56947a091"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"

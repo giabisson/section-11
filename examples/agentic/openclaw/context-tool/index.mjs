@@ -1,7 +1,7 @@
 import {definePluginEntry,buildJsonPluginConfigSchema} from 'openclaw/plugin-sdk/plugin-entry';
 import {exchangeBudget} from './exchange-budget.mjs';
 import manifest from './openclaw.plugin.json' with {type:'json'};
-import {schema,argvFor,executeContext,reportGate} from './policy.mjs';
+import {schema,argvFor,executeContext,reportGate,boundedNoticeFilter} from './policy.mjs';
 
 export default definePluginEntry({id:'section11-context',name:'Section 11 bounded context',
   configSchema:()=>buildJsonPluginConfigSchema(manifest.configSchema),
@@ -15,6 +15,7 @@ export default definePluginEntry({id:'section11-context',name:'Section 11 bounde
       const hooks=exchangeBudget(api.pluginConfig.exchangeBudget,record=>api.logger.info(JSON.stringify(record)));
       for(const [name,handler] of Object.entries(hooks))api.on(name,handler);
     }
+    if(api.pluginConfig?.quietBoundedContextNotices===true)api.on('message_sending',boundedNoticeFilter);
     if(api.pluginConfig?.reportMode===true)api.on('before_tool_call',reportGate());
   }
 });

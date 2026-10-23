@@ -1,5 +1,5 @@
 // Native 2026.10.6 checks: projection only, no model calls or private athlete data.
-import {schema as contextSchema} from '../examples/agentic/openclaw/context-tool/policy.mjs';
+import {schema as contextSchema,boundedNoticeFilter,BOUNDED_CONTEXT_NOTICE} from '../examples/agentic/openclaw/context-tool/policy.mjs';
 import {exchangeBudget} from '../examples/agentic/openclaw/context-tool/exchange-budget.mjs';
 import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
@@ -33,6 +33,18 @@ export async function verifyContextPressure(packageRoot){
  const denied=await runner.runBeforeToolCall({toolName:'section11_coaching',params:{operation:'save'}},ctx);
  assert.equal(denied.block,true,'native runner must honor the tool veto before invoking a write');
  assert.equal(await runner.runBeforeToolCall({toolName:'section11_context',params:{}},{runId:'new-exchange'}),undefined);
+ const initialize=await fn('hook-runner-global-','initializeGlobalHookRunner');
+ const reset=await fn('hook-runner-global-','resetGlobalHookRunner');
+ const deliver=await fn('delivery-','deliverReplies');
+ let sent=[];
+ initialize({hooks:[],plugins:[{id:'section11-context',status:'loaded'}],typedHooks:[{pluginId:'section11-context',hookName:'message_sending',handler:boundedNoticeFilter}]});
+ try{
+  const params={bot:{api:{sendMessage:async(chat,text)=>{sent.push(text);return {message_id:sent.length,chat:{id:12345,type:'private'},date:1,text};}}},chatId:'12345',accountId:'synthetic-primary',cfg:{},runtime:{log(){},error(message){throw Error(message);}},textLimit:4000,replyToMode:'off',linkPreview:false};
+  const muted=await deliver({...params,replies:[{text:BOUNDED_CONTEXT_NOTICE,isCompactionNotice:true}]});
+  assert.equal(muted.delivered,false);assert.equal(sent.length,0,'native Telegram sender must never see the notice');
+  const normal=await deliver({...params,replies:[{text:'Synthetic coaching reply: saved state remains available.'}]});
+  assert(normal.delivered);assert.equal(sent.length,1);assert(!sent[0].includes(BOUNDED_CONTEXT_NOTICE));
+ }finally{reset();}
  const settings=await fn('tool-result-truncation-','resolveCacheTtlPruningSettings');
  const prune=await fn('tool-result-truncation-','pruneExpiredCacheTtlToolResults');
  const pressure=await fn('context-engine-lifecycle-','shouldPreemptivelyCompactBeforePrompt');
@@ -63,6 +75,6 @@ export async function verifyContextPressure(packageRoot){
  const decision=pressure({messages:oversized,systemPrompt:'Synthetic safety instructions',prompt:'',contextTokenBudget:131072,reserveTokens:16384});
  assert.notEqual(decision.route,'fits');assert(decision.overflowTokens>0);
  const small=pressure({messages:[{role:'user',content:'Synthetic short request'}],systemPrompt:'Preserve safety and receipts',prompt:'',contextTokenBudget:131072,reserveTokens:16384});assert.equal(small.route,'fits');
- return {native_budget_tool_veto:true,native_read_projection_reduced:true,canonical_transcript_unchanged:true,write_and_mixed_receipts_preserved:true,recent_health_preserved:true,projection_replay_stable:true,effective_context_tokens:info.tokens,oversized_prompt_blocked:true,model_calls:0};
+ return {native_telegram_notice_suppressed:true,native_budget_tool_veto:true,native_read_projection_reduced:true,canonical_transcript_unchanged:true,write_and_mixed_receipts_preserved:true,recent_health_preserved:true,projection_replay_stable:true,effective_context_tokens:info.tokens,oversized_prompt_blocked:true,model_calls:0};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname))console.log(JSON.stringify(await verifyContextPressure(process.argv[2])));

@@ -81,3 +81,10 @@ export function reportGate() {
     if(event.toolName!=='section11_context'||count>6)return {block:true,blockReason:'Report runs allow only six bounded read-only context calls.'};
   };
 }
+
+// OpenClaw 2026.10.6 deliberately bypasses compaction.notifyUser for this phase.
+// Filter only the standalone maintenance text, never mixed replies/media/alerts.
+export const BOUNDED_CONTEXT_NOTICE='⚠️ Continuing with bounded recent context. Older history outside that window is omitted for this turn; resend any earlier details needed for your request. Full history remains saved.';
+export function boundedNoticeFilter(event,ctx){
+  if(ctx?.channelId==='telegram' && typeof event.content==='string' && event.content.trim()===BOUNDED_CONTEXT_NOTICE && !(event.metadata?.mediaUrls?.length))return {cancel:true,cancelReason:'section11_quiet_bounded_context_maintenance'};
+}

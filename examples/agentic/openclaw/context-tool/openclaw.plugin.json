@@ -57,6 +57,9 @@
             "maximum": 2000000
           }
         }
+      },
+      "quietBoundedContextNotices": {
+        "type": "boolean"
       }
     }
   }

@@ -83,3 +83,14 @@ test('estimated token guard and measured usage stay separate; duplicate observed
   b.agent_end({},ctx);assert.equal(b.before_tool_call({},ctx),undefined);
   assert.throws(()=>exchangeBudget({modelCalls:1}));
 });
+
+import {boundedNoticeFilter,BOUNDED_CONTEXT_NOTICE} from '../../examples/agentic/openclaw/context-tool/policy.mjs';
+test('quiet notice filter cancels only exact standalone Telegram maintenance notice',()=>{
+ const ctx={channelId:'telegram'};
+ assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE},ctx).cancel,true);
+ assert.equal(boundedNoticeFilter({content:'  '+BOUNDED_CONTEXT_NOTICE+'\n'},ctx).cancel,true);
+ for(const content of ['⚠️ Stop training: new symptoms.', 'Your plan was saved.', BOUNDED_CONTEXT_NOTICE+'\nActual coaching answer.', 'You asked about: '+BOUNDED_CONTEXT_NOTICE])assert.equal(boundedNoticeFilter({content},ctx),undefined);
+ assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE,metadata:{mediaUrls:['synthetic-media']}},ctx),undefined);
+ assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE},{channelId:'slack'}),undefined);
+ assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE},{}),undefined);
+});

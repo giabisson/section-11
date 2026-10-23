@@ -138,3 +138,13 @@ currency conversion is assumed. Retries/internal compaction may escape observati
 a provider-level cancellable admission API is required for a strict cost ceiling.
 No prompts, athlete text, destinations or receipts are included in these metrics.
 Report-only agents retain their existing read-only six-call policy.
+
+### Quiet bounded-history maintenance
+
+Primary-only `quietBoundedContextNotices:true` cancels the exact standalone native
+Telegram bounded-context notice at outgoing delivery. OpenClaw 2026.10.6 forces
+that phase despite `compaction.notifyUser:false`; that flag alone is insufficient.
+The filter preserves health warnings, errors, replies with other text and media.
+Quiet maintenance never means complete conversational recall: recover current
+intake, managed plan and health from the normal fresh readers and ask for genuinely
+missing evidence before advice. Canonical history and write receipts remain saved.

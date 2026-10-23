@@ -14,6 +14,7 @@ def configure(config):
                       keepRecentTokens=8192,midTurnPrecheck={'enabled':True})
     # Direct typed reads remain distinguishable from writes and mixed exec results.
     c.setdefault('tools',{})['codeMode']=False
+    c.setdefault('plugins',{}).setdefault('entries',{}).setdefault('section11-context',{}).setdefault('config',{})['quietBoundedContextNotices']=True
     c.setdefault('plugins',{}).setdefault('entries',{}).setdefault('section11-context',{}).setdefault('config',{})['exchangeBudget']={'modelCalls':6,'toolCalls':10,'estimatedTokens':300000}
     sections=compaction.setdefault('postCompactionSections',[])
     if RECOVERY_HEADING not in sections:sections.append(RECOVERY_HEADING)
