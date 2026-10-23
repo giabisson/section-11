@@ -9,7 +9,7 @@ def configure(config):
     defaults['contextPruning']={'mode':'cache-ttl','ttl':'5m','tools':{'allow':['section11_context'],'deny':['exec','section11_coaching','write','edit','apply_patch']},
                                'hardClear':{'enabled':True,'placeholder':'[Historical coaching context removed. Read a fresh section11_context packet before using numbers or prescribing.]'}}
     compaction=defaults.setdefault('compaction',{})
-    compaction.update(mode='safeguard',identifierPolicy='strict',recentTurnsPreserve=3,
+    compaction.update(notifyUser=False,mode='safeguard',identifierPolicy='strict',recentTurnsPreserve=3,
                       qualityGuard={'enabled':True,'maxRetries':1},maxActiveTranscriptBytes=262144,
                       keepRecentTokens=8192,midTurnPrecheck={'enabled':True})
     # Direct typed reads remain distinguishable from writes and mixed exec results.
@@ -80,12 +80,14 @@ def configure_keyword_memory(config):
     return c
 
 
-def recovery_block(context_profile,profile_path):
+def recovery_block(context_profile,profile_path,managed_store=None):
     return f'''## {RECOVERY_HEADING}
 
 Use direct section11_context and section11_coaching tools for coaching operations; do not wrap typed reads in exec. Mixed exec/write results are deliberately protected, not prunable read data. The primary coaching model is GPT-6.1 Sol at medium; Luna handles utility summarization and explicitly delegated bounded tasks. Never select Astra or use Luna to independently change the training strategy. Tools themselves execute deterministically without an extra model call.
 
 After compaction, reset, history omission or tool-result pruning, read a fresh section11_context task packet before quoting any current number or prescribing. Historical JSON fragments and memory notes are not valid current packets. Require valid whole JSON and packet_complete:true. If intake entries, dossier sections or history rows are explicitly deferred, follow required_retrieval before relying on those facts; use section11_context intake for the complete saved goals and constraints. A transport marker is not health clearance or complete history. Use exact source sections and date-filtered history for omitted dependencies. Batch known relevant references with section11_context references, requests [{{source, heading}}] (up to six). Respect the exchange budget: stop tools when blocked, retain all write receipts and state what remains; never retry or bypass the gate.
+
+Managed calendar operations use `{context_profile['data_dir']}/section11/examples/agentic/coaching_plan.py --credentials-dir {context_profile['data_dir']} --data-dir {managed_store or "$MANAGED_PLAN_STORE"} preview --revision EXACT_REVISION` (the managed-plan store comes from store_dir in `{context_profile.get('coaching_profile','the configured private coaching profile')}`, never the training-data folder). The credential directory is configured, not discovered from cwd; the CLI loads its private file internally. Never inspect or print credential files or place key values in command arguments. If rg is unavailable use Python or grep for source diagnostics; do not spend the tool budget retrying an unavailable program. Show the exact persisted preview and obtain athlete approval before the corresponding publish --preview EXACT_ID --approval-ref APPROVAL_REFERENCE --confirm. Do not switch to direct push or assume an earlier approval covers a new preview. Quiet bounded-context operation does not remove the obligation to recover fresh sources and clarify genuinely missing facts.
 
 The operator-selected stable athlete source is `{context_profile['dossier']}`; its authority/coverage is labelled by the fresh reader profile `{profile_path}`. Read the fresh task packet's `athlete_intake` for saved goals, dated availability and recovery constraints, even when no plan exists. Read observation/validity/review flags; historical health is not current clearance. Save explicit onboarding facts with section11_coaching operation intake and verify state before claiming success. Ask only missing/changed/current-health questions, not the whole intake again. Do not copy an old calendar as current availability. Check the current private managed-plan revision/review if one exists; absent/unavailable records are unknown, never permission to reconstruct a plan from memory or change a calendar.
 

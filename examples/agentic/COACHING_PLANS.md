@@ -64,12 +64,13 @@ Changing an event date or availability produces an attributable revision even wh
 
 ## Calendar preview and publication
 
-Credentials follow the existing push CLI: explicit top-level `--athlete-id`/`--api-key`, local `.sync_config.json`, or environment. Do not put credentials into plan JSON or approval references.
+Use top-level `--credentials-dir /absolute/private/sync-data` for deployed agents, independently of working directory. This is separate from `--data-dir`, which selects the private managed-plan store. The CLI privately reads the fixed sync config in that directory; it requires an owned private ordinary file with a complete athlete/key pair and never falls back to cwd or environment on failure. Do not combine it with explicit athlete/key arguments. Legacy calls without this flag retain their CLI/config/environment precedence. Never inspect or print credential files, put keys in shell arguments, plan JSON or approval references, or bypass managed publication with direct push. The coach can pass a directory path through the credential guard without receiving its file contents. No rg dependency is required.
 
 ```bash
-python3 examples/agentic/coaching_plan.py --data-dir "$coaching_data_dir" preview --revision rev-EXACT_ID
+sync_data_dir="/absolute/private/sync-data"
+python3 examples/agentic/coaching_plan.py --credentials-dir "$sync_data_dir" --data-dir "$coaching_data_dir" preview --revision rev-EXACT_ID
 # Only after the athlete approves this exact preview:
-python3 examples/agentic/coaching_plan.py --data-dir "$coaching_data_dir" publish --preview preview-EXACT_ID --approval-ref "Approval message reference" --confirm
+python3 examples/agentic/coaching_plan.py --credentials-dir "$sync_data_dir" --data-dir "$coaching_data_dir" publish --preview preview-EXACT_ID --approval-ref "Approval message reference" --confirm
 ```
 
 Preview validates plan capacity and each changing prescription before any calendar mutation. It reads affected calendar state and persists a content-bound preview containing exact before/after payloads, creates, updates and deletes. Deleting a removed future session appears explicitly. Current catalog/prescription hashes must still match; stale provisional fitness reviews require a reviewed revision, not a silent change. Confirmation is bound to that preview and current plan/publication state; tokens cannot be replayed. Approval references are caller attestations, not independently authenticated Telegram messages. No approval or write is inferred from this implementation task.

@@ -9,7 +9,7 @@ The operator policy of 23 October 2026 fixes primary coaching on GPT-6.1 Sol at 
 - `cacheRetention:short` is explicit for the main agent. Installed OpenClaw keeps the session cache key on ChatGPT-backed Responses and omits OpenAI API lifetime fields on that route. Anthropic cache settings, a paid keep-warm heartbeat or a speculative extended TTL are not added.
 - Autonomous reports use a fixed private working directory. Configuration/prompt files remain separate mode-0600 ephemeral files, deleted after the run. Their current report template and instructions precede athlete data; lossless JSON ordering moves volatile timestamps/provenance behind substantive fields. No facts, safety envelopes, dates, nulls or source metadata are removed, and every report still reads fresh evidence. This improves the opportunity for prefix reuse; it does not guarantee cache hits or measured savings.
 - Cache-TTL pruning is enabled after 5 minutes for **only** historical `section11_context` results. Installed OpenClaw also gates pruning on context pressure and protects the latest three assistant turns. It preserves original transcript entries and replays a consistent projection. Write/calendar receipts and arbitrary exec results are excluded. Soft-trimmed historical JSON is unusable as a complete packet; source-recovery instructions require a fresh whole read before using numbers or prescribing.
-- Safeguard compaction retains three recent turns, strict opaque identifiers, quality checks with one retry, and the existing compaction notifications. A 256 KiB active-history byte guard requests semantic compaction before a new run. This is a history budget, not a tokenizer estimate, model-context guarantee or on-disk deletion policy. If native compaction times out or cannot reduce history, OpenClaw can omit older whole turns; missing asks/decisions must be clarified, not reconstructed. The recovery section is reinjected after compaction. The configured Sol working context is 131,072 tokens, keeping the native model window intact. Native mid-turn pressure checks run after appended tool results and before the next model call. The recent-tail target is 8,192 tokens. Luna is explicitly selected for compaction and pre-compaction memory flush; strict identifier preservation and the existing one-retry quality guard remain enabled.
+- Safeguard compaction retains three recent turns, strict opaque identifiers, quality checks with one retry, while routine compaction notifications are disabled. A 256 KiB active-history byte guard requests semantic compaction before a new run. This is a history budget, not a tokenizer estimate, model-context guarantee or on-disk deletion policy. If native compaction times out or cannot reduce history, OpenClaw can omit older whole turns; missing asks/decisions must be clarified, not reconstructed. The recovery section is reinjected after compaction. The configured Sol working context is 131,072 tokens, keeping the native model window intact. Native mid-turn pressure checks run after appended tool results and before the next model call. The recent-tail target is 8,192 tokens. Luna is explicitly selected for compaction and pre-compaction memory flush; strict identifier preservation and the existing one-retry quality guard remain enabled.
 - A small `MEMORY.md` indexes the current dossier, current data and current managed-plan/review sources. An active, dated `USER.md` directive records the athlete's stated preference for optional overnight Fitbit HRV, optional RHR and current subjective feedback. These files contain no copied metric snapshot or old schedule. Existing daily notes are retained as historical context. Durable changes need explicit athlete provenance; temporary symptoms, feedback and availability need observation dates and expiry/recheck. Unresolved asks, confirmation state, corrections and exact revision IDs must survive; unavailable state requires clarification.
 
 The [official OpenAI caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) supports stable instructions/reference material before dynamic input and distinguishes cache behavior across API/model families. It does not establish how this account's OAuth route is billed. Native route behavior above was checked against the installed OpenClaw 2026.10.6 documentation/source. A provider cache is not a saved coaching response: fresh health evidence and ordinary generation/delivery checks remain necessary.
@@ -159,3 +159,35 @@ real coaching quality still requires review of real answers and athlete response
 
 Validation: 1,326 tests passed on home-server; locally the same suite passed with
 one installed-runtime-only check skipped. No test model calls were made.
+
+
+## Routine context notices and managed publication credentials — 23 October 2026
+
+Native OpenClaw emits its bounded-history notice on every latched bounded-context
+turn while compaction.notifyUser is enabled. Primary configuration now sets it
+false. The 256 KiB history guard, 128k working context, mid-turn checks, protected
+receipts, recovery instructions and persisted transcripts remain unchanged. This
+silences routine maintenance notices; missing evidence still requires clarification
+in the actual coaching reply. It does not expand model context or restore omitted
+chat turns to the prompt.
+
+Managed publication previously resolved credentials only from cwd/environment.
+The primary private sync config exists outside the Telegram workspace, causing
+preview construction to fail. push.py and coaching_plan.py now accept an explicit
+absolute --credentials-dir, distinct from the managed-plan --data-dir. It loads a
+complete account pair internally from a private owned ordinary fixed-name file,
+rejects missing/invalid/symlinked or mixed sources, and never falls back to another
+account. Legacy resolution is preserved without the flag. Credential-file access
+protection is unchanged; directory-only CLI arguments are permitted and file
+contents never enter model context. Managed athlete binding, exact preview approval,
+readback and no-retry safeguards remain authoritative. Primary workspace commands
+now include the configured credential and plan-store locations. Source diagnostics
+use Python/grep when rg is absent.
+
+Validation: all 1,331 tests passed on home-server; local tests passed with one
+installed-runtime-only skip. The exact failed managed revision preview succeeded
+through the real CLI from the Telegram workspace, with three GET requests, three
+proposed actions and zero calendar writes. HTTP mutations were blocked during this
+check. All prior plan/receipt rows, saved intake, feedback, training facts and
+7,123 existing canonical transcript events were preserved. Three report dry runs
+passed. No test model calls, messages, publication or conversation reset occurred.

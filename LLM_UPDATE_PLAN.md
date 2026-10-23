@@ -326,3 +326,35 @@ real coaching quality still requires review of real answers and athlete response
 
 Validation: 1,326 tests passed on home-server; locally the same suite passed with
 one installed-runtime-only check skipped. No test model calls were made.
+
+
+## Routine context notices and managed publication credentials — 23 October 2026
+
+Native OpenClaw emits its bounded-history notice on every latched bounded-context
+turn while compaction.notifyUser is enabled. Primary configuration now sets it
+false. The 256 KiB history guard, 128k working context, mid-turn checks, protected
+receipts, recovery instructions and persisted transcripts remain unchanged. This
+silences routine maintenance notices; missing evidence still requires clarification
+in the actual coaching reply. It does not expand model context or restore omitted
+chat turns to the prompt.
+
+Managed publication previously resolved credentials only from cwd/environment.
+The primary private sync config exists outside the Telegram workspace, causing
+preview construction to fail. push.py and coaching_plan.py now accept an explicit
+absolute --credentials-dir, distinct from the managed-plan --data-dir. It loads a
+complete account pair internally from a private owned ordinary fixed-name file,
+rejects missing/invalid/symlinked or mixed sources, and never falls back to another
+account. Legacy resolution is preserved without the flag. Credential-file access
+protection is unchanged; directory-only CLI arguments are permitted and file
+contents never enter model context. Managed athlete binding, exact preview approval,
+readback and no-retry safeguards remain authoritative. Primary workspace commands
+now include the configured credential and plan-store locations. Source diagnostics
+use Python/grep when rg is absent.
+
+Validation: all 1,331 tests passed on home-server; local tests passed with one
+installed-runtime-only skip. The exact failed managed revision preview succeeded
+through the real CLI from the Telegram workspace, with three GET requests, three
+proposed actions and zero calendar writes. HTTP mutations were blocked during this
+check. All prior plan/receipt rows, saved intake, feedback, training facts and
+7,123 existing canonical transcript events were preserved. Three report dry runs
+passed. No test model calls, messages, publication or conversation reset occurred.

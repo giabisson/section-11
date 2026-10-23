@@ -1,5 +1,7 @@
 """Private plan revisions, exact snapshots and crash-safe publication boundaries."""
 import copy
+import contextlib
+import io
 import fcntl
 import json
 import os
@@ -657,6 +659,17 @@ class CoachingPlan(unittest.TestCase):
         self.store.db.execute("PRAGMA user_version=99")
         with self.assertRaisesRegex(ValueError, "unsupported"):
             plans.PlanStore(self.folder)
+
+    def test_managed_preview_loads_explicit_credentials_outside_cwd_without_writes(self):
+        revision=self.propose();directory=Path(self.tmp.name)/'source-data';directory.mkdir(mode=0o700)
+        credentials=directory/'.sync_config.json';credentials.write_text(json.dumps({'athlete_id':'i123456','intervals_key':'synthetic-private-key'}));credentials.chmod(0o600)
+        argv=['coaching_plan.py','--data-dir',str(self.folder),'--credentials-dir',str(directory),'preview','--revision',revision]
+        with mock.patch.object(sys,'argv',argv),mock.patch.object(push,'IntervalsPush',return_value=self.pusher) as constructor,contextlib.redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(plans.main(),0)
+        constructor.assert_called_once_with('i123456','synthetic-private-key')
+        result=json.loads(out.getvalue());self.assertEqual(result['revision_id'],revision);self.assertEqual(result['mode'],'preview')
+        self.assertEqual(self.remote.writes,[]);self.assertTrue(result['preview_id'].startswith('preview-'))
+        self.assertNotIn('synthetic-private-key',out.getvalue())
 
     def test_local_cli_propose_show_and_history_work_without_credentials(self):
         directory = Path(self.tmp.name) / "cli-private"

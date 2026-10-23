@@ -824,6 +824,7 @@ class PlanStore:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", required=True, help="dedicated private directory outside the source checkout")
+    parser.add_argument("--credentials-dir", help="Absolute private sync-data directory, separate from the managed-plan store")
     parser.add_argument("--athlete-id")
     parser.add_argument("--api-key")
     sub = parser.add_subparsers(dest="command", required=True)

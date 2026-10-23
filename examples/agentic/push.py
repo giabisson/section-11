@@ -31,6 +31,9 @@ Usage:
   python push.py --json week.json --confirm           # backward compat
 
 Credentials (checked in order):
+  Explicit --credentials-dir /absolute/private/data loads a complete account pair
+  from its private .sync_config.json, independent of cwd/environment. Do not mix
+  this option with --athlete-id/--api-key. Otherwise legacy precedence is:
   1. CLI args: --athlete-id, --api-key
   2. .sync_config.json (same file sync.py uses)
   3. Environment: ATHLETE_ID, INTERVALS_KEY
@@ -45,6 +48,7 @@ import json
 import math
 import os
 import re
+import stat
 import sys
 import time
 from datetime import datetime, timedelta
@@ -1528,6 +1532,25 @@ def _reject_local(args, error: str):
 
 def _load_credentials(args) -> Tuple[Optional[str], Optional[str]]:
     """Load credentials from CLI args, config file, or environment."""
+    directory=getattr(args,"credentials_dir",None)
+    if directory is not None:
+        # A fixed filename, not arbitrary discovery across accounts or $HOME.
+        try:
+            folder=Path(directory)
+            if not folder.is_absolute() or folder.is_symlink():raise ValueError()
+            if getattr(args,"athlete_id",None) or getattr(args,"api_key",None):raise ValueError()
+            fd=os.open(folder/".sync_config.json",os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+            with os.fdopen(fd) as stream:
+                st=os.fstat(stream.fileno())
+                if not stat.S_ISREG(st.st_mode) or st.st_uid!=os.getuid() or st.st_mode&0o077 or st.st_size>65536:raise ValueError()
+                raw=stream.read(65537)
+                if len(raw.encode())>65536:raise ValueError()
+                value=json.loads(raw)
+            athlete,key=value.get("athlete_id"),value.get("intervals_key")
+            if not isinstance(athlete,str) or not athlete.strip() or not isinstance(key,str) or not key.strip():raise ValueError()
+            return athlete,key
+        except (OSError,ValueError,TypeError,AttributeError):
+            raise ValueError("Explicit credential directory unavailable or invalid; require a private owned regular config with a complete account pair. No fallback attempted.") from None
     config = {}
     if os.path.exists(".sync_config.json"):
         with open(".sync_config.json") as f:
@@ -1697,6 +1720,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Manage planned workouts on Intervals.icu calendar"
     )
+    parser.add_argument("--credentials-dir", help="Absolute private sync-data directory; loads credentials internally without cwd/environment fallback")
     parser.add_argument("--athlete-id", help="Intervals.icu athlete ID")
     parser.add_argument("--api-key", help="Intervals.icu API key")
 
@@ -1758,7 +1782,7 @@ def main():
     # --athlete-id/--api-key, before subcommand-specific flags like --json).
     known_commands = {"push", "list", "move", "delete", "set-threshold", "annotate"}
     # Top-level flags that consume a value
-    top_level_value_flags = {"--athlete-id", "--api-key"}
+    top_level_value_flags = {"--athlete-id", "--api-key", "--credentials-dir"}
 
     argv = sys.argv[1:]
     has_subcommand = False
@@ -1781,7 +1805,10 @@ def main():
     args = parser.parse_args()
 
     # Load credentials
-    athlete_id, api_key = _load_credentials(args)
+    try:
+        athlete_id, api_key = _load_credentials(args)
+    except (ValueError,OSError):
+        _reject_local(args,"Credential configuration unavailable or invalid; verify the configured private directory. No credential values are printed.")
     if not athlete_id or not api_key:
         _reject_local(
             args,

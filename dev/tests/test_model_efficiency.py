@@ -123,6 +123,7 @@ class ModelEfficiency(unittest.TestCase):
         cfg=e.configure(self.config)['agents']['defaults']
         self.assertEqual(cfg['contextPruning']['tools']['allow'],['section11_context'])
         self.assertEqual(cfg['compaction']['recentTurnsPreserve'],3)
+        self.assertFalse(cfg['compaction']['notifyUser'])
         self.assertEqual(cfg['compaction']['qualityGuard'],{'enabled':True,'maxRetries':1})
         self.assertEqual(cfg['compaction']['identifierPolicy'],'strict')
         self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],262144)

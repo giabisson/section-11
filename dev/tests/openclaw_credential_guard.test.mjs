@@ -82,3 +82,9 @@ test('plugin registers pre-model middleware and synchronous transcript hooks', (
   }
   assert.equal(hooks.message_sending({content: secret}).content, '[CREDENTIAL REDACTED]');
 });
+
+test('configured credential directory can be passed to the CLI without exposing its private file',()=>{
+ const command=`python3 /source/examples/agentic/coaching_plan.py --credentials-dir ${root} --data-dir /private/managed preview --revision rev-synthetic`;
+ assert.equal(beforeTool({toolName:'exec',params:{command}},files),undefined);
+ assert.equal(beforeTool({toolName:'read',params:{path:file}},files).block,true);
+});
