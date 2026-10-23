@@ -44,6 +44,8 @@ def check(root, data_dir=None, workspace=None, latest_json=None):
         add("manifest_hashes", "fail", str(exc))
     required = ["examples/agentic/" + name for name in REQUIRED] + ["examples/workout-library/workout_constraints.json", "examples/workout-library/WORKOUT_REFERENCE.md"]
     missing = [name for name in required if name not in manifest or not (root / name).is_file()]
+    if "examples/training_history.py" not in manifest or not (root / "examples/training_history.py").is_file():
+        missing.append("examples/training_history.py")
     add("coaching_dependencies", "fail" if missing else "pass", missing or "all runtime modules and matching library/catalog are shipped")
     try:
         catalog = json.loads((root / required[-2]).read_text())

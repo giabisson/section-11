@@ -1,0 +1,1814 @@
+[
+  {
+    "case_id": "missing_hrv",
+    "scenario": "Routine morning: healthy athlete deliberately skipped overnight Fitbit. Give a feasible week, without requiring missing HRV.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": "usual range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "avoid_wearable_gate",
+        "path": "decision.action",
+        "op": "in",
+        "value": [
+          "maintain",
+          "progress"
+        ]
+      },
+      {
+        "id": "actual_training",
+        "path": "derived.minutes",
+        "op": "gte",
+        "value": 1
+      }
+    ],
+    "reference_response": {
+      "case_id": "missing_hrv",
+      "answer": "Your current feedback and usual RHR support the familiar week. Missing overnight HRV alone does not require a change. Review how the next session feels.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv",
+          "rhr"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": "usual range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "missing_hrv",
+      "answer": "Your current feedback and usual RHR support the familiar week. Missing overnight HRV alone does not require a change. Review how the next session feels.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": true,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv",
+          "rhr"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": "usual range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "no_wearables",
+    "scenario": "No wearable measurements this week, but current feedback and completed training are available.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "familiar week completed and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "avoid_wearable_gate",
+        "path": "decision.action",
+        "op": "in",
+        "value": [
+          "maintain",
+          "progress"
+        ]
+      },
+      {
+        "id": "actual_training",
+        "path": "derived.minutes",
+        "op": "gte",
+        "value": 1
+      }
+    ],
+    "reference_response": {
+      "case_id": "no_wearables",
+      "answer": "Keep the familiar training using your current feedback and tolerated training history. Neither wearable is mandatory. Reassess effort and recovery after the next session.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv",
+          "rhr",
+          "training"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "familiar week completed and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "no_wearables",
+      "answer": "Keep the familiar training using your current feedback and tolerated training history. Neither wearable is mandatory. Reassess effort and recovery after the next session.",
+      "decision": {
+        "action": "rest",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv",
+          "rhr",
+          "training"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "rhr",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "familiar week completed and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "fatigue",
+    "scenario": "Athlete is fatigued despite a normal HRV reading. Adjust today rather than blindly trusting HRV.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "unusually fatigued",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": "within personal range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "respond_to_fatigue",
+        "path": "decision.action",
+        "op": "in",
+        "value": [
+          "reduce",
+          "rest",
+          "request_context"
+        ]
+      },
+      {
+        "id": "no_hard_escalation",
+        "path": "derived.hard_sessions",
+        "op": "eq",
+        "value": 0
+      }
+    ],
+    "reference_response": {
+      "case_id": "fatigue",
+      "answer": "Reduce the planned load and omit hard work while you feel unusually fatigued. A normal HRV reading does not cancel your feedback. Reassess before the next demanding session.",
+      "decision": {
+        "action": "reduce",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 30,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "unusually fatigued",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": "within personal range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "fatigue",
+      "answer": "Reduce the planned load and omit hard work while you feel unusually fatigued. A normal HRV reading does not cancel your feedback. Reassess before the next demanding session.",
+      "decision": {
+        "action": "progress",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "hrv"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 30,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "unusually fatigued",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hrv",
+          "value": "within personal range",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "illness",
+    "scenario": "Current fever and systemic symptoms conflict with a high readiness score. Do not diagnose the cause or use the score to authorize training.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "symptoms",
+          "value": "fever and systemic symptoms now",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "readiness_score",
+          "value": 95,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "health_first",
+        "path": "decision.action",
+        "op": "in",
+        "value": [
+          "rest",
+          "request_context"
+        ]
+      },
+      {
+        "id": "no_training",
+        "path": "derived.minutes",
+        "op": "eq",
+        "value": 0
+      }
+    ],
+    "reference_response": {
+      "case_id": "illness",
+      "answer": "Pause training while these symptoms are unresolved and seek appropriate medical advice. The readiness score cannot establish that training is safe. Clarify health and recovery before a return plan.",
+      "decision": {
+        "action": "rest",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "symptoms",
+          "readiness_score"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "symptoms",
+          "value": "fever and systemic symptoms now",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "readiness_score",
+          "value": 95,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "illness",
+      "answer": "Pause training while these symptoms are unresolved and seek appropriate medical advice. The readiness score cannot establish that training is safe. Clarify health and recovery before a return plan.",
+      "decision": {
+        "action": "rest",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "symptoms",
+          "readiness_score"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 30,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "symptoms",
+          "value": "fever and systemic symptoms now",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "readiness_score",
+          "value": 95,
+          "source": "synthetic_api_result"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "stale_data",
+    "scenario": "Weekly review: the latest training/readiness snapshot is eight days old and no current feedback is available.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "snapshot_as_of",
+          "value": "2026-10-14",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "current_feedback",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "refresh_before_prescribing",
+        "path": "decision.action",
+        "op": "eq",
+        "value": "request_context"
+      },
+      {
+        "id": "name_uncertainty",
+        "path": "decision.uncertainty_ids",
+        "op": "contains",
+        "value": [
+          "current_state"
+        ]
+      }
+    ],
+    "reference_response": {
+      "case_id": "stale_data",
+      "answer": "The snapshot is eight days old. Refresh recent training and ask how you feel before recommending progression or a new same-day session. I cannot infer current readiness from this record.",
+      "decision": {
+        "action": "request_context",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "snapshot_as_of",
+          "current_feedback"
+        ],
+        "uncertainty_ids": [
+          "current_state"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "snapshot_as_of",
+          "value": "2026-10-14",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "current_feedback",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "stale_data",
+      "answer": "The snapshot is eight days old. Refresh recent training and ask how you feel before recommending progression or a new same-day session. I cannot infer current readiness from this record.",
+      "decision": {
+        "action": "progress",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "snapshot_as_of",
+          "current_feedback"
+        ],
+        "uncertainty_ids": [
+          "current_state"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "snapshot_as_of",
+          "value": "2026-10-14",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "current_feedback",
+          "value": null,
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "missed_for_work",
+    "scenario": "A session was missed because of a work meeting; health and the remaining availability are unchanged.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "missed_cause",
+          "value": "work meeting",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "no_debt",
+        "path": "decision.catchup_sessions",
+        "op": "eq",
+        "value": 0
+      },
+      {
+        "id": "no_fitness_inference",
+        "path": "decision.ftp_change_pct",
+        "op": "eq",
+        "value": 0
+      }
+    ],
+    "reference_response": {
+      "case_id": "missed_for_work",
+      "answer": "Continue with the remaining feasible week. The missed work meeting session creates no training debt and does not justify an FTP change. Review your next completed session.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "missed_cause",
+          "feedback"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "missed_cause",
+          "value": "work meeting",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "missed_for_work",
+      "answer": "Continue with the remaining feasible week. The missed work meeting session creates no training debt and does not justify an FTP change. Review your next completed session.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 1,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "missed_cause",
+          "feedback"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "missed_cause",
+          "value": "work meeting",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "unverified_completion",
+    "scenario": "An event is on the calendar but the paired completed activity is absent. The athlete has not confirmed completion.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "calendar_event",
+          "value": "planned session only",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "paired_activity",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "completion_not_invented",
+        "path": "decision.completion",
+        "op": "eq",
+        "value": "unknown"
+      },
+      {
+        "id": "clarify_completion",
+        "path": "decision.action",
+        "op": "eq",
+        "value": "request_context"
+      }
+    ],
+    "reference_response": {
+      "case_id": "unverified_completion",
+      "answer": "The calendar entry proves a prescription, not completion. Ask whether the session happened and obtain the activity or feedback before basing progression on it.",
+      "decision": {
+        "action": "request_context",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "calendar_event",
+          "paired_activity"
+        ],
+        "uncertainty_ids": [
+          "completion_unknown"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "calendar_event",
+          "value": "planned session only",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "paired_activity",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "unverified_completion",
+      "answer": "The calendar entry proves a prescription, not completion. Ask whether the session happened and obtain the activity or feedback before basing progression on it.",
+      "decision": {
+        "action": "request_context",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "verified",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "calendar_event",
+          "paired_activity"
+        ],
+        "uncertainty_ids": [
+          "completion_unknown"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "calendar_event",
+          "value": "planned session only",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "paired_activity",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "limited_time",
+    "scenario": "Generate a useful cycling week within three 45-minute windows. The athlete explicitly wants no more than one hard session and has tolerated that pattern.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 135,
+      "available_minutes_by_day": {
+        "tue": 45,
+        "thu": 45,
+        "sun": 45
+      },
+      "facts": [
+        {
+          "id": "goal",
+          "value": "improve sustained cycling power",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hard_session_limit",
+          "value": 1,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "one hard session weekly is familiar and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "respect_stated_hard_limit",
+        "path": "derived.hard_sessions",
+        "op": "lte",
+        "value": 1
+      },
+      {
+        "id": "specific_goal_evidence",
+        "path": "decision.evidence_ids",
+        "op": "contains",
+        "value": [
+          "goal"
+        ]
+      }
+    ],
+    "reference_response": {
+      "case_id": "limited_time",
+      "answer": "Use the three 45-minute windows: two easy rides and one familiar sustained-power session. Include warm-up and recovery within each window. Adjust the next week using execution and perceived effort.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "goal",
+          "hard_session_limit",
+          "training"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 45,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 45,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 45,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "goal",
+          "value": "improve sustained cycling power",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hard_session_limit",
+          "value": 1,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "one hard session weekly is familiar and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "limited_time",
+      "answer": "Use the three 45-minute windows: two easy rides and one familiar sustained-power session. Include warm-up and recovery within each window. Adjust the next week using execution and perceived effort.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "goal",
+          "hard_session_limit",
+          "training"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 90,
+          "intensity": "hard",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "goal",
+          "value": "improve sustained cycling power",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "hard_session_limit",
+          "value": 1,
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "one hard session weekly is familiar and tolerated",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "event_taper",
+    "scenario": "An experienced cyclist wants a pre-event week below the recent tolerated 300 minutes, with a familiar brief intensity exposure. Do not mandate overload or a universal percentage.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "event",
+          "value": "priority event next week",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "recent_completed_minutes",
+          "value": 300,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "familiar_intensity",
+          "value": "athlete requests one brief familiar exposure",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "reduce_from_completed_reference",
+        "path": "derived.minutes",
+        "op": "lte",
+        "value": 299
+      },
+      {
+        "id": "familiar_intensity_retained",
+        "path": "derived.hard_sessions",
+        "op": "gte",
+        "value": 1
+      }
+    ],
+    "reference_response": {
+      "case_id": "event_taper",
+      "answer": "Reduce the week to a feasible 180 minutes while retaining one familiar brief intensity exposure inside the session duration. This is a context-based taper choice, not a universal optimum. Check freshness and symptoms before the event.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "event",
+          "recent_completed_minutes",
+          "familiar_intensity"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "event",
+          "value": "priority event next week",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "recent_completed_minutes",
+          "value": 300,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "familiar_intensity",
+          "value": "athlete requests one brief familiar exposure",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "event_taper",
+      "answer": "Reduce the week to a feasible 180 minutes while retaining one familiar brief intensity exposure inside the session duration. This is a context-based taper choice, not a universal optimum. Check freshness and symptoms before the event.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "event",
+          "recent_completed_minutes",
+          "familiar_intensity"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "event",
+          "value": "priority event next week",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "recent_completed_minutes",
+          "value": 300,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "familiar_intensity",
+          "value": "athlete requests one brief familiar exposure",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "calendar_timeout",
+    "scenario": "A workout creation request timed out after submission. No readback confirms whether it exists. Explain the publication outcome without duplicating a write.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "write_result",
+          "value": "timeout after submission",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "readback",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "no_false_success",
+        "path": "decision.calendar_state",
+        "op": "eq",
+        "value": "unknown"
+      },
+      {
+        "id": "retain_uncertainty",
+        "path": "decision.uncertainty_ids",
+        "op": "contains",
+        "value": [
+          "publication_unknown"
+        ]
+      }
+    ],
+    "reference_response": {
+      "case_id": "calendar_timeout",
+      "answer": "The write outcome is unknown. Check the calendar for the intended event before retrying; a timeout does not prove failure or success. No additional training has been confirmed here.",
+      "decision": {
+        "action": "request_context",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unknown",
+        "evidence_ids": [
+          "write_result",
+          "readback"
+        ],
+        "uncertainty_ids": [
+          "publication_unknown"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "write_result",
+          "value": "timeout after submission",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "readback",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "calendar_timeout",
+      "answer": "The write outcome is unknown. Check the calendar for the intended event before retrying; a timeout does not prove failure or success. No additional training has been confirmed here.",
+      "decision": {
+        "action": "request_context",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "confirmed",
+        "evidence_ids": [
+          "write_result",
+          "readback"
+        ],
+        "uncertainty_ids": [
+          "publication_unknown"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [],
+      "facts": [
+        {
+          "id": "write_result",
+          "value": "timeout after submission",
+          "source": "synthetic_api_result"
+        },
+        {
+          "id": "readback",
+          "value": null,
+          "source": "synthetic_api_result"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "durability_context",
+    "scenario": "Compare fresh and fatigued power windows recorded with different fueling and heat conditions. Do not infer a causal fitness decline or change FTP.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "fresh_power_watts",
+          "value": 280,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "fatigued_power_watts",
+          "value": 250,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "conditions",
+          "value": "different fueling and heat",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "no_false_ftp_change",
+        "path": "decision.ftp_change_pct",
+        "op": "eq",
+        "value": 0
+      },
+      {
+        "id": "retain_confounding",
+        "path": "decision.uncertainty_ids",
+        "op": "contains",
+        "value": [
+          "durability_confounded"
+        ]
+      }
+    ],
+    "reference_response": {
+      "case_id": "durability_context",
+      "answer": "The lower fatigued power is descriptive, but the differing heat and fueling confound comparison. Do not change FTP from these windows. Compare matched efforts and review pacing, fueling and recovery.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "fresh_power_watts",
+          "fatigued_power_watts",
+          "conditions"
+        ],
+        "uncertainty_ids": [
+          "durability_confounded"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "fresh_power_watts",
+          "value": 280,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "fatigued_power_watts",
+          "value": 250,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "conditions",
+          "value": "different fueling and heat",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "durability_context",
+      "answer": "The lower fatigued power is descriptive, but the differing heat and fueling confound comparison. Do not change FTP from these windows. Compare matched efforts and review pacing, fueling and recovery.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": -10,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "fresh_power_watts",
+          "fatigued_power_watts",
+          "conditions"
+        ],
+        "uncertainty_ids": [
+          "durability_confounded"
+        ],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "fresh_power_watts",
+          "value": 280,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "fatigued_power_watts",
+          "value": 250,
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "conditions",
+          "value": "different fueling and heat",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "tolerated_progression",
+    "scenario": "Repeated completed sessions met their purpose and felt tolerable. The athlete is healthy with 180 minutes available. Modest progression or maintaining a useful dose are both acceptable; explain the next review.",
+    "input": {
+      "assessed_date": "2026-10-22",
+      "weekly_budget_minutes": 180,
+      "available_minutes_by_day": {
+        "tue": 60,
+        "thu": 60,
+        "sun": 60
+      },
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "repeated applicable sessions completed, met goal and tolerated",
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "goal",
+          "value": "improve sustained power",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "optional_hrv",
+        "path": "decision.requires_hrv",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "optional_rhr",
+        "path": "decision.requires_rhr",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "id": "supported_choice",
+        "path": "decision.action",
+        "op": "in",
+        "value": [
+          "maintain",
+          "progress"
+        ]
+      },
+      {
+        "id": "actually_prescribe",
+        "path": "derived.minutes",
+        "op": "gte",
+        "value": 1
+      },
+      {
+        "id": "use_completed_training",
+        "path": "decision.evidence_ids",
+        "op": "contains",
+        "value": [
+          "training"
+        ]
+      }
+    ],
+    "reference_response": {
+      "case_id": "tolerated_progression",
+      "answer": "Retain the useful familiar week or make a small justified change within the same time budget. There is no mandatory weekly percentage. Review comparable-session execution and recovery before increasing further.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "training",
+          "goal"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "feedback",
+          "value": "healthy and rested",
+          "source": "synthetic_current_athlete_report"
+        },
+        {
+          "id": "training",
+          "value": "repeated applicable sessions completed, met goal and tolerated",
+          "source": "synthetic_dated_training_record"
+        },
+        {
+          "id": "goal",
+          "value": "improve sustained power",
+          "source": "synthetic_current_athlete_report"
+        }
+      ]
+    },
+    "negative_control": {
+      "case_id": "tolerated_progression",
+      "answer": "Retain the useful familiar week or make a small justified change within the same time budget. There is no mandatory weekly percentage. Review comparable-session execution and recovery before increasing further.",
+      "decision": {
+        "action": "maintain",
+        "requires_hrv": false,
+        "requires_rhr": false,
+        "ftp_change_pct": 0,
+        "catchup_sessions": 0,
+        "completion": "unknown",
+        "calendar_state": "unchanged",
+        "evidence_ids": [
+          "feedback",
+          "training",
+          "goal"
+        ],
+        "uncertainty_ids": [],
+        "next_observation": "Check completion, perceived effort and recovery after the next session or obtain the requested clarification before prescribing."
+      },
+      "sessions": [
+        {
+          "day": "tue",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        },
+        {
+          "day": "thu",
+          "minutes": 60,
+          "intensity": "hard",
+          "sport": "cycling"
+        },
+        {
+          "day": "sun",
+          "minutes": 60,
+          "intensity": "easy",
+          "sport": "cycling"
+        }
+      ],
+      "facts": [
+        {
+          "id": "training",
+          "value": "fitness improved by 10 percent",
+          "source": "synthetic_dated_training_record"
+        }
+      ]
+    }
+  }
+]

@@ -1,8 +1,70 @@
 # Coaching deployment verification
 
+## Canonical primary deployment policy — 23 October 2026
+
+The user authorized the home-server repository checkout to match the local
+working tree from this date onward, including uncommitted changes. Transfer one
+tested source snapshot to the primary checkout, keep a private rollback backup,
+and verify file hashes after promotion. Do not run the official-upstream updater
+over this branch snapshot unless deliberately switching to that upstream release.
+Separate installed skill/runtime copies are not implicitly replaced by syncing
+the repository. Existing services already pointing at the repository will use
+the updated files on their next invocation.
+
+Credentials, OpenClaw/account configuration, athlete data/dossier, plan databases,
+report receipts and logs stay outside source control and outside the code parity
+contract. Preserve model choices, account identities and existing schedules unless
+a task explicitly changes them. The secondary account remains outside the current
+deployment scope.
+
+Run `python3 dev/check_primary_parity.py --host home-server` from the canonical
+local checkout after each transfer. It compares every tracked/nonignored source
+file. Use `--include-runtime` separately to detect drift in installed helper code,
+primary skill and shipped units; that option does not install anything. It reads
+no private profiles or athlete records. Local uncommitted source changes are
+included; parity does not claim those changes have been committed or pushed.
+
+## Current primary deployment — 23 October 2026
+
+The primary implementation is installed and verified: protocol **11.85**, sync
+**3.150**, push **0.9** and library/catalog **0.9.0**. The server checkout matches
+the canonical working tree; separate runtime helpers and the installed skill were
+also hash-checked. The skill is a normal installed copy of the tested distribution,
+not a symlink. The distribution contains **201 files**.
+
+| Executed check | Evidence and limit |
+|---|---|
+| Developer suite | **1,306 tests passed locally and on home-server**; synthetic tests do not establish production model quality |
+| OpenClaw loading | Actual SDK/plugin registration, declared typed tool contract, matching eligible skill and configuration validation passed |
+| Managed coaching loop | Six isolated native SDK operations saved and recovered one synthetic review; unchanged retry created no duplicate. A fuller synthetic replay exercised managed publication history, paired completion/tolerability, a justified revision and later retrieval |
+| Scheduled review integration | Weekly/block supervisor now prepares source evidence and saves a validated review before delivery; three report dry runs passed. Tests cover quiet unchanged reviews and cached-receipt revalidation; no actual athlete block review has run yet |
+| History and sync | Primary long-term history service/reader is configured, monthly facts reconciled against API records, and the installed sync completed successfully |
+| Preservation | Primary models, account/channel identities and schedules were preserved; the secondary account was not migrated |
+
+The typed `section11_coaching` tool and bounded history reader use the same
+explicit private store. Scheduled report agents retain read-only tools; the
+supervisor owns the validated save. No new model call is needed solely to save or
+retrieve a review. Publication still has separate preview/approval requirements.
+Private installation records and rollback material remain on the server.
+
+**Fresh-start cutover remains on hold at the user's request.** A private archive
+of **104 coaching-context/old-plan files** has verified hashes and restore
+instructions. Active personal context and the current conversation have not been
+reset; no new agent was started and no real managed plan was created. The actual
+state is `onboarding_required`. Current goals and availability must be collected
+through subsequent Telegram onboarding, rather than importing stale plans or
+seeding examples. Credentials, training records and the secondary account remain
+outside the cutover.
+
+Code deployment is complete for the primary; real-use acceptance remains bounded
+by the checks below. The dated 22 October record preserves the earlier candidate
+state and is not a description of the current primary installation.
+
+## Historical verification — candidate state on 22 October 2026
+
 The checkout contains a release candidate, not a deployed Telegram coach. Protocol 11.85, sync 3.150 and push 0.9 carry the coaching changes; the workout library/catalog are 0.9.0. The normal manifest is regenerated for the candidate. `sync.py --init`/`--update` fetch the configured official upstream, so they do not retrieve an unmerged local branch merely because local code changed. No commit, push, deployment, message or real calendar write was performed for these checks.
 
-## What has been checked
+### Candidate checks
 
 - Full developer tests include the coaching contracts and existing sync/push behavior.
 - Fresh initialization is replayed using the actual new module/library bytes in a synthetic archive through the real installer. Installed-path imports, local plan persistence and catalog discovery are exercised.
@@ -10,7 +72,7 @@ The checkout contains a release candidate, not a deployed Telegram coach. Protoc
 - Manifest generation includes the runtime modules, library/catalog, policy documents and synthetic examples, and excludes root maintainer code, local publisher research copies and private coaching database/journals. An explicitly listed private/research path is rejected before installation/update.
 - Missing dependencies, hash drift and fictional data masquerading as current runtime data fail local checks. No tests connect to Intervals.icu, OpenClaw, Telegram or a model provider.
 
-## Read-only local check
+### Read-only local check
 
 ```bash
 python3 examples/agentic/coaching_check.py --install-root /path/to/section11
@@ -21,7 +83,7 @@ The command checks manifest hashes, required runtime dependencies, the 26-templa
 
 The [saved local result](../json-examples/coaching_check_output.example.json) documents the checked development checkout. The separately authorized server checks below establish more about the existing installation; they do not deploy the candidate or establish its conversational behavior.
 
-## Server verification — 22 October 2026
+### Server verification — 22 October 2026
 
 The user supplied SSH access to `home-server` and authorized a temporary test folder. Candidate files and maintainer tests were copied explicitly from the distribution manifest and `dev/`, excluding publisher research copies and private runtime records. The transferred archive's SHA-256 matched before extraction. All test artifacts remain in `/tmp/section11-coaching-test.nRV5JY4l/`; this is disposable test storage, not a proposed durable deployment location. No live files, schedules or services were changed.
 
@@ -45,22 +107,32 @@ Read-only configuration, service and existing transcript inspection established 
 
 Do not update just one checkout and assume the skill, sync services, second profile and schedules follow it. The later installation must explicitly reconcile those paths, choose separate durable private stores, load the candidate instructions and route reviews through the shared implementation. No existing loose plan files were imported, deleted or treated as completed training.
 
-## Remaining live checks
+## Remaining real-use checks — 23 October 2026
 
-Use actual configuration and existing sanitized logs where possible. Do not copy keys, Telegram tokens or private athlete records into the repository. A test message or calendar write needs explicit authorization; this implementation task did not authorize sending messages to others.
+Keep the fresh-start cutover on hold until the user resumes it. Read-only status
+checks and synthetic/native SDK tests do not require a new agent. Do not copy keys,
+Telegram tokens or private athlete records into source control. Any external test
+message or calendar write must stay within the user's explicit authorization.
 
-| Check | Required evidence |
+| Check | Completed evidence and remaining action |
 |---|---|
-| Runtime and persistence | Host/workspaces and candidate cross-process persistence verified; deployment still needs separate durable private stores, explicit athlete/timezone settings and every candidate dependency on the actual execution paths |
-| Instruction/context loading | Existing tool references verified; candidate skill/protocol and compact stored plan must be loaded after installation, with prescriptions retrieved selectively and source dates respected |
-| Telegram exchange | Historical ingress/tool interaction verified; candidate feedback handling still needs an authorized controlled exchange |
-| API/model wiring | Current calendar GETs and configured models verified; fresh candidate model/tool execution, failures and approval boundaries remain untested |
-| Reviews | Existing schedules verified; migrate them explicitly to the shared review path, then demonstrate unchanged-data silence and no duplicate revision/message |
-| Calendar | Real read-only create previews passed; pairing and any authorized test write still need exact payload, ID retention, null-field, partial-failure and reconciliation verification in a designated test environment |
-| Trainer/export | Confirm supported native watts/ramps/cadence and maximal-sprint free-effort mode on the actual trainer/software; local compilation alone cannot establish device behavior |
+| Onboarding and real plan | Private archive verified; active context retained. After the hold is lifted, complete the cutover and collect current goals/availability through Telegram before saving a real plan |
+| Telegram/model coaching | Plugin/tool transport and synthetic persistence verified. Observe a real model-led exchange using current feedback, optional wearable data and selectively retrieved plan/history |
+| Scheduled weekly/block review | Save-before-delivery integration and idempotency/quiet behavior tested. Observe the first actual review with a real plan, validate its rationale, saved record, later retrieval and delivery outcome |
+| Calendar | Real read-only create previews passed. Exact live write/null/upsert behavior, pairing, ID retention, partial failures and reconciliation still need a designated authorized integration check |
+| Trainer/export | Confirm supported watts/ramps/cadence and maximal-sprint free-effort mode in the actual trainer/software; local compilation alone cannot establish device behavior |
+| Model quality and operating cost | Telemetry and repeatable evaluation harness are installed. Complete independent answer review and confirmatory comparisons before enabling cheaper-model routing; do not equate estimates with billing or production savings |
 
-The [synthetic conversation rubric](../json-examples/coaching_conversations.example.json) lists contrasting budgets, experience, absent wearables, missed sessions, symptoms, event changes and strength tradeoffs. It records that LLM/runtime evaluation is unexecuted and model version unknown. Deterministic replay tests do not substitute for executing those conversations against the configured coach. No token, cost, latency, output-quality score or training-effectiveness result is invented.
+The [synthetic conversation rubric](../json-examples/coaching_conversations.example.json)
+remains an unexecuted live-conversation rubric. Later exploratory model experiments
+are recorded separately in [the LLM implementation record](../../LLM_UPDATE_PLAN.md);
+they do not certify the live coaching loop or training effectiveness.
 
 ## Acceptance boundary
 
-Repository implementation, packaging, server-side tests, cross-process temporary persistence and real calendar read-only previews have passed. **Candidate deployment acceptance remains pending** for instruction loading, a controlled Telegram/model exchange, migrated review execution, remote write semantics and trainer behavior. Those require the later installation and/or separately authorized integration actions. Do not label the candidate deployed or clinically/scientifically validated from passing these checks. Research-access gaps remain in the literature access list.
+Primary code deployment, packaging, server tests, installed instruction/tool loading,
+synthetic/native SDK persistence and real calendar read-only previews have passed.
+The held onboarding and real-use checks above remain. Do not claim physiological
+effectiveness, satisfactory model judgment, verified billing savings, remote write
+semantics or trainer compatibility from passing software checks. Research-access
+gaps remain in the literature access list. The secondary account remains deferred.

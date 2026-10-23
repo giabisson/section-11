@@ -5,7 +5,7 @@
       "hash": "a5438beaf28afa3bc193a86c3b0e534360a6bdb72e1495b1608cc82393366556"
     },
     "COACHING_UPDATE_PLAN.md": {
-      "hash": "6750d73a2ff5a6bc6d190fbc2f5c237c9c8f94b9afe8b01ff0430012dca7be10"
+      "hash": "3b9d56b1fd461e2ea562173a7a25ca799cf2574ffdadf7314f66f4c50f0e6a50"
     },
     "CONTRIBUTING.md": {
       "hash": "f302b1ef5b3c8ead56325e5f449776cd43fb663d945f8c23ab293880e8f92151"
@@ -16,8 +16,11 @@
     "LICENSE": {
       "hash": "0683b6ae3ded5701305dae4114d317d4346c175824d8db87a22d18e05a61ff77"
     },
+    "LLM_UPDATE_PLAN.md": {
+      "hash": "efbd14984ebbf9f0c3fd1cf3c796249cd061a88a491777f7d1bdded99dfbb175"
+    },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
-      "hash": "3468408a73f8b9541623039871d1bcaa504f3d5f528830d60421f72159433b09"
+      "hash": "b9c4194199e174b5aa01c9df9bc944992d19d680d96035fd5ccedb6f2d9ff7a9"
     },
     "PROJECT_INSTRUCTIONS_WEB.md": {
       "hash": "ea94f476cdc1946fc98ebcfe9d7256f91191dbe7e76e7f970da699bd762f72a3"
@@ -36,7 +39,7 @@
       "hash": "ab6fdc2649d50752f8770650893db59980355086834ca544a2a4fa6aa40ef91f"
     },
     "SKILL.md": {
-      "hash": "205bb767c5448919b96e47064ab62189c78f6a161007489d7694e2efd2f13d09"
+      "hash": "8aa9e07ffbebf64c833839104b25709a9b7a48318e0fc5fd970a3582769f9c01"
     },
     "THIRD_PARTY_NOTICES.md": {
       "hash": "2d9fa3fc0fe1477ab66d63f9edebe758f329fcda3f439702bbe5a8ff78b9b53e"
@@ -51,10 +54,10 @@
       "hash": "9defb23c886a616ecc5dbd4cc62cdb06d29863e3d0ab6910f88acb1c6b43c413"
     },
     "examples/agentic/COACHING_DEPLOYMENT.md": {
-      "hash": "3840e28f6376a00e2d808fdf6049f5e96b2c8977a1ae781296687d607b1c7e51"
+      "hash": "c484ffe1c93498327408f6ce5369e29e6f331e87fcc032d841c480437a516d47"
     },
     "examples/agentic/COACHING_PLANS.md": {
-      "hash": "6e3af853999b7c95a8e05adb5cca24035f5f2b480a78f857499351cc4b5c74a2"
+      "hash": "9016169261f25d2cceadeb5f3ef3d2b74a2a7dec1461b3d6eba688f67dbe239a"
     },
     "examples/agentic/EVENT_PREPARATION.md": {
       "hash": "d3f303a15279099a28ffd8033efe019bf6db25105f9145d253e064722e5e9638"
@@ -69,7 +72,7 @@
       "hash": "508dfa590e841ee55fbd522c87d154e68e60d7a41470c0bfa3e004359945c0c3"
     },
     "examples/agentic/coaching_check.py": {
-      "hash": "777fa2db2abb004eb5346d9f457be38d8f90d86ea490f54b6c0b9fe79fbee5a9"
+      "hash": "46e8bd792c6d7aa21849da539ee4a258eaecb72d39e9ccba0c37966c6ed366a2"
     },
     "examples/agentic/coaching_context.py": {
       "hash": "d757337a8ba227d6a1e415c7e7483d7096626ed909b27e7db93954bc91d5ae66"
@@ -95,8 +98,122 @@
     "examples/agentic/fit-file-and-merger/THIRD_PARTY_NOTICES.md": {
       "hash": "08dd88684cc55633a80c1e13b5363d218e6b6fb2d3abdcd498a098582779b3d7"
     },
+    "examples/agentic/openclaw/EXECUTION_RELIABILITY.md": {
+      "hash": "46a11308ab499f3b43b0db11b656cd31245346b4dc131b53d2b6fc524a525a25"
+    },
     "examples/agentic/openclaw/HEARTBEAT_TEMPLATE.md": {
       "hash": "e79084e57de65c0ea7cacbdba494c4793d548d9d66dbe50712c9486a9085087d"
+    },
+    "examples/agentic/openclaw/LONG_TERM_HISTORY.md": {
+      "hash": "5fc5b86efed8a79b4d93d93114a373141d6de4defb1fb14a73b3d332ee4c6720"
+    },
+    "examples/agentic/openclaw/MANAGED_REVIEWS.md": {
+      "hash": "989b8d0f02fb3f1fcfb110d630533bd92197e4d4086ed8aaddaa93894c5f2b4d"
+    },
+    "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
+      "hash": "9468c5eb1a16ba45fb75b52f3349189af3e9be50d917c2db0f0660d8f936a3ec"
+    },
+    "examples/agentic/openclaw/RUNTIME_SAFETY.md": {
+      "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
+    },
+    "examples/agentic/openclaw/TASK_CONTEXT.md": {
+      "hash": "5eb07b93657412721a6d283e1947b760bc4be1548f58f561a14741af9da024c3"
+    },
+    "examples/agentic/openclaw/TELEMETRY_AND_EVALS.md": {
+      "hash": "1ad9c3141723ecfbb9cfc5972e177fcc66bef5c97975fc281f79c960a6715f29"
+    },
+    "examples/agentic/openclaw/coaching-tool/index.mjs": {
+      "hash": "0aca9ebe7e2eeb3970ddd3ffd78c7237044310067682623d147b96e31402a4bb"
+    },
+    "examples/agentic/openclaw/coaching-tool/openclaw.plugin.json": {
+      "hash": "606901ab7ebc770e367f9d59365b3e60a4569b15895c9ffb9ec1b75b515e8bba"
+    },
+    "examples/agentic/openclaw/coaching-tool/package.json": {
+      "hash": "dc134290eedd14fd5fce24566400c841d21d605a91e626b26b8c6f499d1c6ec6"
+    },
+    "examples/agentic/openclaw/coaching-tool/policy.mjs": {
+      "hash": "b09d125a7046307f139c9da6fb99340c28fdd94fe62f4926423a231197b0158f"
+    },
+    "examples/agentic/openclaw/coaching_evals.py": {
+      "hash": "5a42d0468c254f744ef9d1986c8fe78a3b03abc267acf4275783a75a1c55eaec"
+    },
+    "examples/agentic/openclaw/coaching_runtime.py": {
+      "hash": "9588885df3eeb65dfbefd39d6a573906b9ee973085aec3f2d4c848543cf90a35"
+    },
+    "examples/agentic/openclaw/context-tool/index.mjs": {
+      "hash": "b5043f5a0ef31e1d8801a06748c8754b9e2b15ab28ec019ff80352d2bdb9ab4b"
+    },
+    "examples/agentic/openclaw/context-tool/openclaw.plugin.json": {
+      "hash": "42e25c651cab2fd46b11e988408119c49064812b61f80e1feedc50f67722181f"
+    },
+    "examples/agentic/openclaw/context-tool/package.json": {
+      "hash": "c28bdddd5ac9388548aece11c997286e7f9666b800373ee36f662dd4503211c9"
+    },
+    "examples/agentic/openclaw/context-tool/policy.mjs": {
+      "hash": "849917ce72de29358627855e2353ad2942998763956c8f99c68ffa6241ac00cf"
+    },
+    "examples/agentic/openclaw/context_packet.py": {
+      "hash": "5855a1c18d93fa65bd519efa317af4efb2b5895788c3147ab74f037a56aa2fbd"
+    },
+    "examples/agentic/openclaw/credential-guard/index.mjs": {
+      "hash": "c144b2b12483c13e1f628d2b37709afda4f4db95cf5143126398e1982d4ff63f"
+    },
+    "examples/agentic/openclaw/credential-guard/openclaw.plugin.json": {
+      "hash": "ad85ad41d66c801403c69e9f763d79bf3fe073a4146067c2443e1c422e032c00"
+    },
+    "examples/agentic/openclaw/credential-guard/package.json": {
+      "hash": "28a7ace708d65fdeacfc1e044b1903836509f7f0e936c830e2ff6b8dbd7a427f"
+    },
+    "examples/agentic/openclaw/credential-guard/policy.mjs": {
+      "hash": "a8446324e96cf5cee12b086a10a4445fe6b405b280948aa9fdf69928548efd81"
+    },
+    "examples/agentic/openclaw/credential-guard/register.mjs": {
+      "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
+    },
+    "examples/agentic/openclaw/efficiency_config.py": {
+      "hash": "2208c37feebfc93a71729f519913ad2df660fd465fa850ddeecb029bdc2003be"
+    },
+    "examples/agentic/openclaw/evals/cases.json": {
+      "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"
+    },
+    "examples/agentic/openclaw/model_benchmark.py": {
+      "hash": "3419f27eeb3209470b2e1187fce7624aa5836cc431f819c31b98418d6600f80d"
+    },
+    "examples/agentic/openclaw/model_policy.py": {
+      "hash": "6cbb90356a5496c4005ecbbf3680e099ead0888f2420168d8376b541bb9d43de"
+    },
+    "examples/agentic/openclaw/report_runner.py": {
+      "hash": "a7cdec77e7853dcfd7cd12a33c81baeaddf4ec0b183fc51c5c7e3a63372eba8a"
+    },
+    "examples/agentic/openclaw/reporter_entry.py": {
+      "hash": "db0c0af3f4fd90c359efd9240bb3341e9dba00f6cbc3debe0ad9d90a047fbee2"
+    },
+    "examples/agentic/openclaw/runtime_safety.py": {
+      "hash": "f61afcb61b8aa665908e33504f3c0d02d2d045b604a3185466f057820b773065"
+    },
+    "examples/agentic/openclaw/section11-history-primary.service": {
+      "hash": "f383fb7b1a3dc626e6b333462fb684535a5f78cc153410867641c44cc7c9f094"
+    },
+    "examples/agentic/openclaw/section11-history-primary.timer": {
+      "hash": "fec346b53016bcb9700c75805c950293e9a60ae01cf926eda9af2e5976e934a1"
+    },
+    "examples/agentic/openclaw/section11-post-primary.service": {
+      "hash": "81545301c6be3b8c7d1887a9ae6c2fb22529c8914b89d8b8a8b045be285ceefe"
+    },
+    "examples/agentic/openclaw/section11-reports-primary.service": {
+      "hash": "7803ebdc15655a035eb1307fc7eb0b2fdc427e6f43aa6d31d2f9297934a93bcb"
+    },
+    "examples/agentic/openclaw/section11-reports-primary.timer": {
+      "hash": "01a628c18ea9b20c14285235c8bd31386304081a436d9ee79c23480589651a32"
+    },
+    "examples/agentic/openclaw/section11-telemetry-primary.service": {
+      "hash": "3fca4111d9b6c995a44cbd714f1d9620739ca2333acc990a0a89a09a5ee050be"
+    },
+    "examples/agentic/openclaw/section11-telemetry-primary.timer": {
+      "hash": "5cd8b975f92a619f0c11d843014f24be9ef1fdf1a2f7bf83a456536100880684"
+    },
+    "examples/agentic/openclaw/workflow_telemetry.py": {
+      "hash": "1525a971d628383f09fbe2977d1efdb26a78f318e0f46019403f4dee11b6a5e1"
     },
     "examples/agentic/pull.py": {
       "hash": "0128c6888083f543ed4f4fe2af8e6341960ecdd1b486fc924d527b554eb250f7"
@@ -138,7 +255,7 @@
       "hash": "2370624b7de8ddaebfad157853e22af9576d0136b1e42d7cb157934ce64489eb"
     },
     "examples/json-examples/coaching_check_output.example.json": {
-      "hash": "76c2071da71685d8be47ddef63d1df745c43283e5e70aef77621ae2b5f4f576f"
+      "hash": "bf5653f7c393996563fcc24238fc2756269d7a3a6c9ba5f634fb40bc6e419f6b"
     },
     "examples/json-examples/coaching_conversations.example.json": {
       "hash": "abe94516166761d120fb47340ee2eb5e029e93b167a86abffbf889d332dfa98f"
@@ -189,7 +306,7 @@
       "hash": "f7a02e699d269b7ba5b98cdc853bf7bc4fbdf5eb6f2520d46ba63e30825c145a"
     },
     "examples/json-local-sync/SETUP.md": {
-      "hash": "74afab165cea1421fdaa8f32715de469cb4114024927eec6c9d0521bdf36fdf6"
+      "hash": "836d6a61af5a7316cc8597cc0cce113bc1809b99431f254247bd4ae0f69eca11"
     },
     "examples/json-manual/SETUP.md": {
       "hash": "363314cbe34eab64c19ea5b800e901d5faa7a63c8adfd92b44ff86778778a8c7"
@@ -243,7 +360,10 @@
       "hash": "53b5f2cc457baab0f89dde417003572e221aea8852873be91fb88317447347a9"
     },
     "examples/sync.py": {
-      "hash": "c5332b8a28605b8e8bc15126880174681dd348426faab92cfc32f2d6112f684e"
+      "hash": "5a7a401da3818709901d9aad394b4e2bceacec458f6b7d2731497e50a2375c4c"
+    },
+    "examples/training_history.py": {
+      "hash": "82499075d5ac48b93bc9ba3d70a3423f8661766cbb95b9f1f62a314765b26175"
     },
     "examples/workout-library/README.md": {
       "hash": "4d6f5ee1d7b87c8306d4dcbf9ea80bd305ff827f7d3b3c6629b9dd665a811208"

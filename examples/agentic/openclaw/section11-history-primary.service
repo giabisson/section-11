@@ -1,0 +1,14 @@
+[Unit]
+Description=Section 11 primary long-term training facts (read-only API)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.local/share/section11-runtime/training_history.py --profile %h/.local/share/section11-runtime/history-primary.json
+UMask=0077
+Environment=PYTHONDONTWRITEBYTECODE=1
+NoNewPrivileges=true
+TimeoutStartSec=120
+MemoryMax=256M
+CPUQuota=40%

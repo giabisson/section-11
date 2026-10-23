@@ -160,18 +160,20 @@ class EventContext(unittest.TestCase):
 
 class CoachingDistribution(unittest.TestCase):
     def bundle(self):
-        names = ["examples/agentic/" + n for n in doctor.REQUIRED] + ["examples/workout-library/WORKOUT_REFERENCE.md", "examples/workout-library/workout_constraints.json"]
+        names = ["examples/agentic/" + n for n in doctor.REQUIRED] + ["examples/training_history.py", "examples/workout-library/WORKOUT_REFERENCE.md", "examples/workout-library/workout_constraints.json"]
         return {n: (REPO_ROOT / n).read_bytes() for n in names}
 
     def test_generator_never_reads_publisher_copies_or_lists_private_records(self):
         tree = self.bundle()
         tree.update({"literature/cycling-training/sources/one/paper.pdf": b"private publisher copy",
                      "literature/cycling-training/papers/one/takeaways.md": b"our summary",
-                     "private/coaching_plan.sqlite3": b"private athlete state", "coaching_decisions.jsonl": b"private decisions"})
+                     "private/coaching_plan.sqlite3": b"private athlete state", "coaching_decisions.jsonl": b"private decisions",
+                     "private/facts.sqlite3": b"private history", "training-history-primary/summary.json": b"private summary"})
         raw = distribution.run_generator(tree)
         names = json.loads(raw)["files"]
         self.assertFalse(any("/sources/" in n or "sqlite3" in n or n.endswith("coaching_decisions.jsonl") for n in names))
         self.assertIn("literature/cycling-training/papers/one/takeaways.md", names)
+        self.assertNotIn("training-history-primary/summary.json", names)
 
     def test_actual_coaching_modules_survive_fresh_init_and_work_from_installed_paths(self):
         tree = self.bundle()

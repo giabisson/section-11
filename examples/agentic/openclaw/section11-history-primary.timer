@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh primary long-term training facts hourly
+
+[Timer]
+OnBootSec=4m
+OnUnitActiveSec=1h
+AccuracySec=1m
+Unit=section11-history-primary.service
+
+[Install]
+WantedBy=timers.target

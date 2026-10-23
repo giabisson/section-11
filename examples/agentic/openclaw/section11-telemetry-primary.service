@@ -1,0 +1,13 @@
+[Unit]
+Description=Section 11 primary workflow telemetry (read-only sources)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.local/share/section11-runtime/workflow_telemetry.py --openclaw-root %h/.openclaw --output %h/.local/state/section11-runtime/telemetry-primary/latest.json --days 14 --report-state %h/.local/state/section11-runtime/reports-primary/reports.sqlite
+UMask=0077
+Environment=PYTHONDONTWRITEBYTECODE=1
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX
+TimeoutStartSec=45
+MemoryMax=256M
+CPUQuota=20%

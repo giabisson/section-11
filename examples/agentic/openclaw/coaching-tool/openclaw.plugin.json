@@ -1,0 +1,7 @@
+{
+ "id":"section11-coaching","name":"Section 11 managed coaching",
+ "description":"Validated private plan, athlete-feedback and review persistence; no calendar or message operations.",
+ "activation":{"onStartup":true},"contracts":{"tools":["section11_coaching"]},
+ "toolMetadata":{"section11_coaching":{"optional":false,"profiles":["coding"]}},
+ "configSchema":{"type":"object","additionalProperties":false,"required":["script","profile"],"properties":{"script":{"type":"string","minLength":1},"profile":{"type":"string","minLength":1}}}
+}

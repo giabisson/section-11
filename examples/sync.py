@@ -14255,18 +14255,42 @@ class IntervalsSync:
             weekly_180d[i]["phase_detected"] = result["phase"]
         
         # === MONTHLY TIERS ===
+        # Calendar summaries are useful immediately, even for a new athlete.
+        # Shared deterministic facts supply coverage and missing-value counts;
+        # retain legacy presentation fields for existing consumers.
+        import importlib.util
+        history_spec = importlib.util.spec_from_file_location(
+            "section11_training_history", Path(__file__).with_name("training_history.py"))
+        history_module = importlib.util.module_from_spec(history_spec)
+        history_spec.loader.exec_module(history_module)
+        history_facts, history_wellness = history_module.facts(all_activities, all_wellness)
+        monthly_source = history_module.summarize(
+            history_facts, history_wellness, earliest_3y, newest, now.isoformat())
+        covered_months = {row["month"]: row for row in monthly_source["monthly"]}
         monthly_tiers = {}
         for years in [1, 2, 3]:
             label = f"{years}y"
             days_back = years * 365
-            if total_months >= years * 12 * 0.5:  # Only generate if enough data
-                print(f"  Building {label} monthly tier...")
-                monthly_tiers[f"monthly_{label}"] = self._build_monthly_tier(
-                    activities_by_date, wellness_by_date, days=days_back,
-                    athlete_units=athlete_units, weekly_180d=weekly_180d
-                )
-            else:
-                monthly_tiers[f"monthly_{label}"] = []
+            print(f"  Building {label} monthly tier...")
+            rows = self._build_monthly_tier(
+                activities_by_date, wellness_by_date, days=days_back,
+                athlete_units=athlete_units, weekly_180d=weekly_180d)
+            monthly_tiers[f"monthly_{label}"] = []
+            for row in rows:
+                source_row = covered_months.get(row["month"])
+                if source_row is None:
+                    continue  # Never manufacture pre-training zero months.
+                totals = source_row["all_sports"]
+                row.update(coverage=source_row["coverage"],
+                           total_hours=totals["hours"]["value"], total_tss=totals["load"]["value"],
+                           metric_coverage={"hours": totals["hours"], "load": totals["load"]},
+                           cycling=source_row["cycling"], sport_counts=source_row["sport_counts"],
+                           optional_measurements=source_row["optional_measurements"],
+                           zones_by_basis=totals["zones"],
+                           dominant_phase_kind="inferred_pattern_not_plan_intent")
+                # Power/HR source zone numbers cannot be pooled as one model.
+                row.update(z1_z2_pct=None, z3_pct=None, z4_plus_pct=None)
+                monthly_tiers[f"monthly_{label}"].append(row)
         
         # === SUMMARIES ===
         summaries = self._build_history_summaries(daily_90d, weekly_180d, monthly_tiers)
@@ -15093,15 +15117,18 @@ class IntervalsSync:
         for key in ["monthly_1y", "monthly_2y", "monthly_3y"]:
             monthly = monthly_tiers.get(key, [])
             if monthly:
-                tss_values = [m["total_tss"] for m in monthly if m["total_tss"]]
+                comparable = [m for m in monthly if not m.get("coverage", {}).get("partial", False)]
+                tss_values = [m["total_tss"] for m in comparable if m["total_tss"] is not None]
                 ctl_values = [m["ctl_end"] for m in monthly if m["ctl_end"]]
                 
                 label = key.replace("monthly_", "")
                 summaries[label] = {
-                    "avg_monthly_tss": round(statistics.mean(tss_values), 0) if tss_values else None,
+                    "avg_monthly_tss": round(statistics.mean(tss_values), 0) if tss_values and len(tss_values) == len(comparable) else None,
                     "ctl_peak": round(max(ctl_values), 1) if ctl_values else None,
                     "ctl_low": round(min(ctl_values), 1) if ctl_values else None,
-                    "months_tracked": len(monthly)
+                    "months_tracked": len(monthly),
+                    "comparable_closed_months": len(comparable),
+                    "scope": "Recorded load in complete calendar months; logging completeness is separate."
                 }
         
         return summaries
@@ -17647,6 +17674,8 @@ def _private_distribution_path(path):
     name = path.rsplit("/", 1)[-1]
     return (path.startswith("literature/cycling-training/sources/")
             or name.startswith("coaching_plan.sqlite3")
+            or name.startswith("facts.sqlite3")
+            or any(part.startswith("training-history-") for part in path.split("/"))
             or name in {"coaching_plan.lock", "coaching_plan.json", "coaching_decisions.jsonl"})
 
 # Root folders an older --init left in section11/ that --update does not manage,

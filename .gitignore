@@ -9,3 +9,14 @@ coaching_plan.sqlite3-*
 coaching_plan.lock
 coaching_plan.json
 coaching_decisions.jsonl
+# Runtime credentials belong outside the repository.
+.sync_config.json
+openclaw.json
+auth-profiles.json
+.env
+.env.*
+!.env.example
+# Private durable long-term training facts/projections.
+facts.sqlite3
+facts.sqlite3-*
+training-history-primary/

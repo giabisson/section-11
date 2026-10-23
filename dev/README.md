@@ -1,5 +1,10 @@
 # Developer validation
 
+After syncing the server repository, run `python3 dev/check_primary_parity.py`
+to verify it against this working tree. `--include-runtime` additionally checks
+separate runtime/skill/unit copies. Private data/configuration is excluded. See the
+[deployment policy](../examples/agentic/COACHING_DEPLOYMENT.md).
+
 Maintainer validation material for this repository.
 
 **If you are setting up Section 11 as an athlete, you do not need anything in this
@@ -36,6 +41,8 @@ as a complete current repository. This distinction requires no change to athlete
 setup.
 
 ## Running
+
+`test_openclaw_credential_guard.py` runs ten dependency-free Node tests for credential-file gates, encoded-secret filtering before model replay/persistence, failure behavior and retained delivery metadata. Node is required for these OpenClaw-specific checks. `test_runtime_safety.py` checks private multi-consumer key replacement and a read-only delivery audit against synthetic files and mocked HTTP; no live message is sent.
 
 `test_coaching_release.py` checks explicit taper arithmetic without a required subgroup percentage, unknown event duration, mechanical work versus dietary calories, qualified durability windows, strength tradeoffs and actual new module bytes through fresh initialization/update. It checks publisher/private-record exclusion, installed-path plan/catalog imports and the read-only artifact audit; it does not contact a live runtime.
 
@@ -382,7 +389,52 @@ validation or evidence that the thresholds generalize to all recordings.
 
 ## Not covered
 
-Everything else. No report generation, and no `sync.py`
+`test_context_packet.py` covers bounded task context using synthetic files:
+date-window completeness, stale/duplicate/missing history, timezone/DST handling,
+preserved full safety envelopes and null measurements, exact Markdown sections,
+explicit dossier selection/authority limits, exact activity identity, missing
+dependencies, transport markers, output/source bounds and sanitized failures.
+Live model choices or coaching judgments are not validated by these assertions.
+
+The OpenClaw telemetry/evaluation integration is covered separately by
+`test_workflow_telemetry.py` (synthetic read-only SQLite projections, compressed
+events, usage/cost coverage, conservative delivery association, mirror timing,
+workflow hints, privacy and failed-collection preservation) and
+`test_coaching_evals.py` (12 synthetic coaching cases, independent negative
+controls, dose/availability/source checks, missing reviews and response-bound
+review hashes). See [operation and interpretation](../examples/agentic/openclaw/TELEMETRY_AND_EVALS.md).
+Those tests validate the instrumentation and evaluation machinery; they do not
+establish the quality of current production model answers or provider billing.
+
+`test_report_runner.py` covers the private report supervisor with synthetic model
+envelopes, Telegram acknowledgements and clocks: attempt/deadline caps, cached
+delivery retry, unknown outcome holds, source changes during generation, expiry,
+deduplication, legacy IDs, queues, exact destinations and credential filtering.
+`test_openclaw_context_tool.py` runs the Node typed-tool/manifest/authority tests.
+These test orchestration, not live model judgments or actual Telegram delivery.
+See [bounded execution](../examples/agentic/openclaw/EXECUTION_RELIABILITY.md).
+
+`test_model_efficiency.py` covers lossless prompt ordering, fixed private report
+workspaces, model/effort/auth preservation, zero-tool benchmark envelopes,
+unknown-slot suppression, original-answer review hashes, experiment provenance,
+benefit/expiry/repetition gates, optional wearables, complex-case fallback and
+bounded source-based memory/config construction. These checks do not simulate a
+human quality review or establish production token/cost savings. See
+[primary efficiency policy](../examples/agentic/openclaw/MODEL_EFFICIENCY.md).
+
+`test_coaching_runtime.py`, `test_managed_weekly_reports.py` and
+`test_openclaw_coaching_tool.py` cover server-owned review captures, current feedback,
+plan/review persistence and retrieval, safety/source revalidation, idempotency,
+quiet reviews, save-before-delivery ordering and bounded typed-tool transport.
+These tests use isolated stores and synthetic sources, not real athlete plans or
+live model judgments. See [managed review integration](../examples/agentic/openclaw/MANAGED_REVIEWS.md).
+
+Long-term training facts and bounded retrieval are covered by
+`test_training_history.py` and `test_long_term_context.py`, with typed-tool checks
+in `openclaw_context_tool.test.mjs`. See
+[history contract](../examples/agentic/openclaw/LONG_TERM_HISTORY.md).
+
+Everything else. No live coaching report generation, and no `sync.py`
 surface outside per-endpoint fetch state, HTTP policy, the `history.json` refresh
 gate, the completed-session structure and descriptive-fact paths above, the DFA producer paths above, the `--init` and `--update` distribution rules and the `workout_summary` renderer with its report-template field contract. `push.py` write paths are
 covered for their transport behaviour and outcome classification only, not for

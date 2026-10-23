@@ -299,12 +299,10 @@ class SyncPolicyCase(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.sync = make_sync(self.tmp.name)
         self.clock = Clock()
-        self.addCleanup(mock.patch.object(sync_mod.time, "sleep",
-                                          self.clock.sleep).stop)
-        mock.patch.object(sync_mod.time, "sleep", self.clock.sleep).start()
-        self.addCleanup(mock.patch.object(sync_mod.time, "monotonic",
-                                          self.clock.monotonic).stop)
-        mock.patch.object(sync_mod.time, "monotonic", self.clock.monotonic).start()
+        for name in ("sleep", "monotonic"):
+            patcher = mock.patch.object(sync_mod.time, name, getattr(self.clock, name))
+            patcher.start()
+            self.addCleanup(patcher.stop)
 
     def install(self, script, cost=0.0):
         transport = Scripted(script, clock=self.clock, cost=cost)

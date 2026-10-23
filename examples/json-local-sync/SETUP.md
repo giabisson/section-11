@@ -126,6 +126,8 @@ On platforms where the agent workspace is separate from the data directory (e.g.
 
 OpenClaw's agent workspace (e.g., `~/clawd/`) is typically separate from the data directory (`~/training-data/`). Set the `Data directory` field in DOSSIER.md to `~/training-data/` so the Section 11 skill can locate your data files. HEARTBEAT.md stays in the agent workspace; that's where OpenClaw looks for it. Configure `HEARTBEAT.md` data sources with local file paths instead of URLs.
 
+For a running OpenClaw deployment, see [runtime safety](../agentic/openclaw/RUNTIME_SAFETY.md) for credential-output protection, separate Telegram generation/delivery checks and hidden-input key replacement. Keep private credentials out of ordinary chat and tool output; file mode 0600 alone does not isolate an unrestricted agent running as the same user.
+
 ### Claude Code
 
 ```bash

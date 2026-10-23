@@ -5,7 +5,7 @@
     {
       "check": "manifest_hashes",
       "state": "pass",
-      "detail": "161 installed files match"
+      "detail": "201 installed files match"
     },
     {
       "check": "coaching_dependencies",

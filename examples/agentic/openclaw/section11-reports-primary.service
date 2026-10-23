@@ -1,0 +1,10 @@
+[Unit]
+Description=Section 11 primary cached report retry and queued request processing
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.local/share/section11-runtime/report_runner.py --profile %h/.local/share/section11-runtime/report-primary.json retry
+UMask=0077
+TimeoutStartSec=420
+KillMode=control-group
+NoNewPrivileges=true

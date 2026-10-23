@@ -1,0 +1,11 @@
+[Unit]
+Description=Reconcile primary queued reports and bounded retries every five minutes
+
+[Timer]
+OnStartupSec=5min
+OnUnitActiveSec=5min
+RandomizedDelaySec=15s
+AccuracySec=15s
+
+[Install]
+WantedBy=timers.target

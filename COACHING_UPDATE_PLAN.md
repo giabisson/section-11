@@ -1,10 +1,33 @@
 # Cycling coaching update plan
 
-Prepared 22 October 2026 for branch `codex/cycling-coaching-literature`.
+Prepared 22 October 2026; status updated 23 October 2026 for branch `codex/cycling-coaching-literature`.
 
 The highest-value rework is to make training decisions depend on the athlete's goals, feasible training, completed work and response, with a durable record of what changed and why. Preserve the reusable workout library, deterministic calculations, selective data retrieval and existing calendar-write protections. More LLM-generated workouts would not by itself improve coaching.
 
-This is a coaching-focused implementation plan. Implementation proceeds in the bounded steps below; later recommendations remain proposals. The evidence base is the [17 paper takeaways](literature/cycling-training/TAKEAWAYS.md), including their access and methodological limits. The recommendations apply across time budgets and experience levels; the athlete's current availability should determine the schedule.
+This document records the coaching implementation and its evidence limits. The seven steps are implemented and deployed for the primary account; the later priority sections preserve the original rationale and acceptance criteria. The evidence base is the [17 paper takeaways](literature/cycling-training/TAKEAWAYS.md), including their access and methodological limits. The recommendations apply across time budgets and experience levels; the athlete's current availability should determine the schedule.
+
+## Current status — 23 October 2026
+
+The primary home-server checkout, installed skill and runtime helpers use the tested
+coaching/LLM integration. Protocol **11.85**, sync **3.150**, push **0.9** and
+library/catalog **0.9.0** are installed. The full suite passed **1,306 tests locally
+and on home-server**. Native OpenClaw SDK checks verified the typed coaching tool,
+synthetic plan/review persistence, idempotency and selective history retrieval.
+The weekly supervisor is connected to validated review saving before delivery.
+See [deployment evidence and remaining checks](examples/agentic/COACHING_DEPLOYMENT.md)
+and the [LLM implementation record](LLM_UPDATE_PLAN.md).
+
+**Fresh-start cutover remains on hold at the user's request.** A private archive
+of 104 coaching-context/old-plan files has been verified with restore instructions.
+Active personal context and the current conversation remain intact; no fresh agent
+was started and no real managed plan was seeded. The actual state is
+`onboarding_required`. Current goals and availability must come from subsequent
+Telegram onboarding before real managed block reviews can be exercised.
+
+Real-use model judgment, the first actual managed review, remote calendar write
+semantics and trainer/export behavior remain acceptance checks. Passing software
+tests does not establish coaching effectiveness. The secondary account remains
+outside this deployment scope.
 
 ## Implementation steps
 
@@ -12,17 +35,17 @@ Stop after each step and give the athlete a concise report before proceeding to 
 
 | Step | Scope | Completion criterion | Status |
 |---|---|---|---|
-| 1 | Optional wearable data and athlete feedback | Missing overnight HRV/RI, RHR or device sleep does not alone restrict ordinary training/progression; consumers use current feedback without repeated questioning; output distinguishes availability from recovery | Complete in checkout |
-| 2 | Observation quality and readiness review | Add date/coverage/provenance checks, review correlated signal counting, and test health/feedback integration without making wearables mandatory | Complete in checkout |
-| 3 | Athlete-specific planning policy | Replace universal volume, intensity-distribution and session-count requirements; label heuristic thresholds and evidence limits | Complete in checkout |
-| 4 | Workout dose and fitness provenance | Validate complete step durations, template constraints, time budgets and intensity denominators | Complete in checkout |
-| 5 | Persistent plans and prescription revisions | Store objectives, future sessions and immutable prescription snapshots with publication/reconciliation state | Complete in checkout |
-| 6 | Adaptive coaching loop | Use completion, causes of changes, feedback and availability to revise future training; make repeated reviews idempotent | Complete in checkout |
-| 7 | Event specificity and deployment checks | Individualize taper/durability/strength options and verify initialization, updates and the configured external runtime | Repository/server tests and live read-only previews passed; deployment acceptance pending |
+| 1 | Optional wearable data and athlete feedback | Missing overnight HRV/RI, RHR or device sleep does not alone restrict ordinary training/progression; consumers use current feedback without repeated questioning; output distinguishes availability from recovery | Implemented; deployed for primary |
+| 2 | Observation quality and readiness review | Add date/coverage/provenance checks, review correlated signal counting, and test health/feedback integration without making wearables mandatory | Implemented; deployed for primary |
+| 3 | Athlete-specific planning policy | Replace universal volume, intensity-distribution and session-count requirements; label heuristic thresholds and evidence limits | Implemented; deployed for primary |
+| 4 | Workout dose and fitness provenance | Validate complete step durations, template constraints, time budgets and intensity denominators | Implemented; deployed for primary |
+| 5 | Persistent plans and prescription revisions | Store objectives, future sessions and immutable prescription snapshots with publication/reconciliation state | Implemented; deployed for primary |
+| 6 | Adaptive coaching loop | Use completion, causes of changes, feedback and availability to revise future training; make repeated reviews idempotent | Implemented; deployed for primary |
+| 7 | Event specificity and deployment checks | Individualize taper/durability/strength options and verify initialization, updates and the configured external runtime | Primary deployment verified; real-use/calendar/trainer acceptance remains |
 
 **Design requirement:** overnight HRV may be intermittent by choice while RHR is available more often. Sleep comfort takes priority over collecting wearable data. Current self-reported state is useful coaching evidence, not a second-class substitute that must wait for an HRV baseline. Do not require nightly wear, manufacture normal missing values or let favorable feedback erase actual warning signals. Use existing training context and ask only unresolved decision-relevant questions.
 
-Step 1 adds `readiness_decision.input_context` and aligns the protocol, agent/web instructions, skill and pre-workout template. Existing numerical readiness thresholds and health clarification remain unchanged. Step 2 implements observation quality checks and an audit of correlated signals, as described below. Code and documentation in this checkout are not a deployed release; manifests and external installation checks follow separately.
+Step 1 adds `readiness_decision.input_context` and aligns the protocol, agent/web instructions, skill and pre-workout template. Existing numerical readiness thresholds and health clarification remain unchanged. Step 2 implements observation quality checks and an audit of correlated signals, as described below. The dated validation notes below record each step at the time it was completed; the current deployment status above supersedes their earlier installation limits.
 
 **Step 1 validation:** the 10 focused optional-wearable tests pass; the full developer suite passes (947 tests). Cases include alternating measured/unmeasured nights, missing HRV/RI and sleep, missing RHR, no evaluated signals, adverse RHR/sleep, P0/P1 stops and SDNN non-substitution. Synthetic examples and documentation links were checked. Live Telegram/OpenClaw behavior and external deployment have not been tested; enforcement of conversational feedback and clarification still depends on the configured agent following the updated instructions.
 
@@ -60,7 +83,7 @@ Candidate release metadata is protocol **11.85**, sync **3.150**, push **0.9**, 
 
 **Step 7 validation:** all **1,119 developer tests pass**, including 17 focused event/context/distribution tests and 24 adaptive-review tests. The final review suite also checks that late feedback cannot make old executed training a current difficulty pattern. [Context input/output](examples/json-examples/event_context.example.json) and the [saved artifact audit](examples/json-examples/coaching_check_output.example.json) distinguish executed local checks from integration gaps. On 22 October the same full suite passed on the actual `home-server` in **69.892 seconds**, inside a separate temporary candidate folder. Both temporary private stores recovered the same revision across CLI processes and passed permission/integrity checks. Managed previews against both actual calendars succeeded with six HTTP 200 GETs and a guard blocking all HTTP writes. Actual data shape/date, OpenClaw profiles, historical Telegram/tool/model records and existing schedules were inspected read-only. See the [server verification report](examples/agentic/COACHING_DEPLOYMENT.md#server-verification--22-october-2026).
 
-The live installations still use older protocol/producer versions; their schedules do not reference the new review modules. **Candidate deployment acceptance remains pending** for loaded instructions, a controlled Telegram/model exchange, migrated review behavior, API null/upsert/write semantics and trainer export/free-effort mode. The user deferred installation/cleanup. No real calendar write, message, new model call, live configuration/schedule change, commit/push or deployment was performed. Do not call Step 7 fully complete until that remaining evidence is available.
+At the 22 October check, deployment was still pending and no live files were changed. The later primary deployment supersedes that installation limit: the skill/protocol and managed-review bridge are installed and verified, and the scheduled supervisor is wired to the shared save path. Current real-use/calendar/trainer limits are listed above. The secondary installation was not migrated.
 
 ## Current foundation and limits
 
@@ -75,7 +98,7 @@ The repository already describes customized sessions within reusable templates, 
 | Feedback and scheduled reviews | [SECTION_11.md:3271](SECTION_11.md#L3271) specifies feedback loops; [HEARTBEAT_TEMPLATE.md:39](examples/agentic/openclaw/HEARTBEAT_TEMPLATE.md#L39) offers weekly reviews. [SKILL.md:195](SKILL.md#L195) makes automation opt-in. | Persist resulting decisions and revisions. A template does not establish that scheduled reviews run in the user's installation. |
 | Calendar operations | [push.py:489](examples/agentic/push.py#L489) validates basic fields and the optional checked power-prescription catalog; [push.py:857](examples/agentic/push.py#L857) previews before writing. | Retain preview, confirmation and uncertain-write handling; add coaching validation before this boundary. |
 
-The original sync/pull/push paths did not establish a durable, versioned coaching-plan and decision store. Step 5 adds a separate managed `coaching_plan.py` workflow with private persistence and session/day/week capacity validation. Standalone `push.py` still does not validate the complete plan header or journal its writes; physiological suitability and truthful context remain coaching requirements. Actual OpenClaw memory, Telegram delivery, installed schedules and model behavior remain deployment questions. Treat them as integration checks, not capabilities implemented by this repository.
+The original sync/pull/push paths did not establish a durable, versioned coaching-plan and decision store. Step 5 adds a separate managed `coaching_plan.py` workflow with private persistence and session/day/week capacity validation. Standalone `push.py` still does not validate the complete plan header or journal its writes; physiological suitability and truthful context remain coaching requirements. The primary OpenClaw plugins, context policies, delivery supervisor and review schedule integration have since been installed and checked as described in the deployment record. End-to-end model judgment and actual athlete outcomes still require real-use evaluation; external-service capabilities alone do not establish them.
 
 ## Evidence rules for the update
 
@@ -117,7 +140,7 @@ Effort is a rough engineering estimate for one developer familiar with the repos
 
 ## Priority 2 Replace universal planning rules with athlete-specific policy
 
-**Initial finding and current status.** The initial review found universal volume, intensity-ratio and session-count requirements, age/RI-selected block sketches and long-ride gates that could override the athlete's actual goal and capacity. Step 3 replaces these with the athlete-specific policy in [Section 11 B](SECTION_11.md#11-b-ai-training-plan-protocol), contextual [progression evidence](SECTION_11.md#progression-evidence) and optional [library block sketches](examples/workout-library/WORKOUT_REFERENCE.md#4-block-periodisation-sketches). The policy and examples define what the agent should do; runtime enforcement of complete plans is not yet implemented.
+**Initial finding and current status.** The initial review found universal volume, intensity-ratio and session-count requirements, age/RI-selected block sketches and long-ride gates that could override the athlete's actual goal and capacity. Step 3 replaces these with the athlete-specific policy in [Section 11 B](SECTION_11.md#11-b-ai-training-plan-protocol), contextual [progression evidence](SECTION_11.md#progression-evidence) and optional [library block sketches](examples/workout-library/WORKOUT_REFERENCE.md#4-block-periodisation-sketches). The policy and examples define coaching intent. The managed plan path now enforces schema, prescription and session/day/week capacity constraints; the typed coaching bridge supplies current safety/source context. These guards do not establish truthful athlete inputs or optimal training decisions, and standalone push calls do not enforce the whole plan policy.
 
 **Evidence.** [Galán-Rioja](literature/cycling-training/papers/36640771/takeaways.md) finds no consistently superior cycling periodization model. [Rosenblat](literature/cycling-training/papers/39888556/takeaways.md) finds no clear overall polarized-versus-pyramidal winner; a session-goal split is not equivalent to recorded minutes. [Neal](literature/cycling-training/papers/23264537/takeaways.md) supports purposeful training comparisons, with unequal load and unresolved erratum limits; it cannot establish a universal ratio.
 
@@ -135,7 +158,7 @@ Create a compact claim/rule register recording source, population/outcome, evide
 
 **Evidence.** [Galán-Rioja](literature/cycling-training/papers/36640771/takeaways.md) supports evaluating coherent training structure without promising one superior model. The following storage design is engineering and coaching judgment.
 
-**Implemented in Step 5.** The [versioned plan contract and CLI](examples/agentic/COACHING_PLANS.md) store private goals, block intent, dated availability, immutable prescriptions, revisions and publication history. The canonical `coaching_plan.sqlite3` transaction journal replaces the initially proposed independently written `coaching_plan.json`/`coaching_decisions.jsonl` pair: proposal/snapshot commits and pre-send operation records must remain atomic after a crash. JSON remains the interchange/read format. Personal records live in an explicitly configured private directory outside the source/update checkout; nothing discovers or claims access to the athlete's actual deployment.
+**Implemented in Step 5.** The [versioned plan contract and CLI](examples/agentic/COACHING_PLANS.md) store private goals, block intent, dated availability, immutable prescriptions, revisions and publication history. The canonical `coaching_plan.sqlite3` transaction journal replaces the initially proposed independently written `coaching_plan.json`/`coaching_decisions.jsonl` pair: proposal/snapshot commits and pre-send operation records must remain atomic after a crash. JSON remains the interchange/read format. Personal records live in an explicitly configured private directory outside the source/update checkout. The primary deployment now configures that directory and its history reader explicitly; it has not created a real athlete plan.
 
 | Level | Required planning information |
 |---|---|
@@ -157,7 +180,7 @@ Maintain immutable prescription snapshots, including resolved targets and their 
 
 **Evidence.** [Saw](literature/cycling-training/papers/26423706/takeaways.md), [Meeusen](literature/cycling-training/papers/23247672/takeaways.md) and [Manresa-Rocamora](literature/cycling-training/papers/34639599/takeaways.md) support monitoring the athlete's response with limits on automated interpretation. The precise adjustment process below is proposed coaching judgment.
 
-**Changes.** Match completed activities to prescriptions using authoritative links where available; preserve ambiguous matches as unresolved. Retain the existing formal mapping gate for compliance and the separation between adherence, goal attainment and response cost. Ask why a session changed when that answer affects the next recommendation: time, illness, fatigue, equipment and preference require different responses.
+**Implemented in Step 6 and primary runtime integration.** The shared review store, typed coaching tool and scheduled supervisor implement the following contract; synthetic/native SDK checks verify persistence and recovery, while the first real managed review awaits onboarding. Match completed activities to prescriptions using authoritative links where available; preserve ambiguous matches as unresolved. Retain the existing formal mapping gate for compliance and the separation between adherence, goal attainment and response cost. Ask why a session changed when that answer affects the next recommendation: time, illness, fatigue, equipment and preference require different responses.
 
 At each relevant review, choose explicitly among maintaining, progressing, reducing, substituting, rescheduling or requesting context. Record the rationale and the next observation that would support another change. A missed session creates no automatic debt, overload catch-up or FTP reduction. Repeated inability to tolerate a dose triggers review of fitness estimates, recovery, placement and fueling before escalation. Replace diagnostic “overreach” language based solely on an RPE change ([SECTION_11.md:1724](SECTION_11.md#L1724)) with a contextual fatigue response.
 
@@ -177,7 +200,7 @@ Attach source/protocol references and deviations to templates. Preserve unresolv
 
 **Acceptance.** A selected short-interval variant's total duration includes every actual recovery and preparation step. An over-budget session is shortened within permitted variants or replaced with an explained alternative. A ramp-peak percentage cannot silently become the same FTP percentage. Tests cover relative and absolute saved targets, stale fitness estimates, unknown methods and incomplete workout structures. Keep template reuse; new formats require a reviewed library addition rather than unconstrained LLM invention.
 
-## Event-specific improvements (implemented in Step 7; live integration pending)
+## Event-specific improvements (implemented and deployed for primary; real-use validation pending)
 
 **Event preparation and tapering.** The original protocol used fixed taper/CTL budgets and inferred event length from priority. Step 7 replaces those defaults with `event_specific_v1`, [explicit plan context](examples/agentic/EVENT_PREPARATION.md), supplied completed-training evidence, actual duration/demands, rationale and arithmetic against full selected prescriptions. Missing duration remains unknown. [Wang](literature/cycling-training/papers/37163550/takeaways.md) supports useful tapering without a universal subgroup optimum. Tests cover short/long priority events, missing duration, low reference volume and mismatched taper dose. Active readiness/health still applies.
 
@@ -205,5 +228,5 @@ Every implementation slice must align `SECTION_11.md`, both project-instruction 
 
 - The original 2019 HRV full paper and Neal erratum remain unresolved; Little and Saw have full text but no original PDF. The [access list](literature/cycling-training/UNAVAILABLE.md) retains manual-download links. Do not strengthen conclusions until the missing material has been assessed.
 - This collection does not supply complete current illness/injury return guidance, detailed fueling doses, or a full evidence base for heat, altitude and population-specific prescriptions. Review those topics before adding corresponding automated algorithms.
-- Check the actual deployment's data locations, persistence, calendar permissions, OpenClaw scheduling and Telegram interaction against the proposed contracts. External-service support is not proof that the user's installed path preserves plan state or enforces the policy.
+- Primary source paths, persistence, plugin registration, scheduling and bounded readers are verified in the deployment record. Complete the held onboarding and then observe a real Telegram/managed-review cycle; calendar write and trainer/export checks remain separate. External-service support does not establish coaching quality.
 - Stronger claims about coaching effectiveness need prospective evaluation. The immediate deliverable is more traceable, feasible and testable coaching; no paper in this set proves the proposed application as a whole.
