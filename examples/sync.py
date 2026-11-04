@@ -15271,7 +15271,7 @@ class IntervalsSync:
                 print(f"  Could not create update issue: {e}")
     
     # Structure shares interval retention, but not interval/DFA interpretation.
-    STRUCTURE_VERSION = 3
+    STRUCTURE_VERSION = 4
     STRUCTURE_MAX_STEPS = 20
     STRUCTURE_MAX_EFFORTS = 8
 
@@ -15345,6 +15345,14 @@ class IntervalsSync:
                     if (step.get("ramp") or (isinstance(prescribed, dict)
                             and ("start" in prescribed or "end" in prescribed
                                  or prescribed.get("ramp")))):
+                        start, end = target.get("start"), target.get("end")
+                        # A directional linear ramp is not an unordered range.
+                        if (absolute and ("ramp" not in step or type(step["ramp"]) is bool)
+                                and ("ramp" not in target or type(target["ramp"]) is bool)
+                                and set(target) <= {"units", "start", "end", "ramp"}
+                                and self._structure_number(start) and self._structure_number(end)
+                                and 0 <= start <= 3000 and 0 <= end <= 3000):
+                            entry["target_w"] = {"ramp": [start, end]}
                         absolute = False
                     elif "min" in target or "max" in target:
                         low, high = target.get("min"), target.get("max")
@@ -15376,7 +15384,7 @@ class IntervalsSync:
         exactly within each side of a set. No raw atoms are discarded on failure.
         """
         data = [(s.get("duration_s"), s.get("target_w"))
-                if s.get("supported") is not False and not isinstance(s.get("target_w"), list)
+                if s.get("supported") is not False and not isinstance(s.get("target_w"), (list, dict))
                 else (None, None) for s in steps]
         result, i = [], 0
         while i < len(steps):
@@ -15444,6 +15452,10 @@ class IntervalsSync:
                     if isinstance(target, list):
                         target = sum(target) / 2
                     dt = min(b, end) - a
+                    if isinstance(target, dict):
+                        start_w, end_w = target["ramp"]
+                        elapsed = a + dt / 2 - (end - steps[index]["duration_s"])
+                        target = start_w + (end_w - start_w) * elapsed / steps[index]["duration_s"]
                     squared += (value - target) ** 2 * dt
                     observed += dt
                     a += dt
@@ -15485,6 +15497,26 @@ class IntervalsSync:
         return [start, end, means[0], round(sums[0] / 1000, 1) if durations[0] else None,
                 means[1], means[2], *coverage,
                 round(100 * zero / durations[0], 2) if durations[0] else None]
+
+    def _structure_ramp_error(self, step, origin, start, end, times, watts):
+        """Time-weighted error against the trajectory, not its average or range.
+
+        Like metric rows, samples support at most one second forward. The target
+        is evaluated at each observed interval's midpoint, on recording time.
+        """
+        start_w, end_w = step["target_w"]["ramp"]
+        squared, expected, observed = 0.0, 0.0, 0.0
+        for i, t in enumerate(times[:-1]):
+            a, b = max(start, t), min(end, t + 1, times[i + 1])
+            value = watts[i]
+            if b <= a or not self._structure_number(value) or value < 0:
+                continue
+            target = start_w + (end_w - start_w) * ((a + b) / 2 - origin) / step["duration_s"]
+            dt = b - a
+            squared += (value - target) ** 2 * dt
+            expected += target * dt
+            observed += dt
+        return (math.sqrt(squared / observed), expected / observed) if observed else (None, None)
 
     def _build_session_structure(self, act, event, streams, raw_intervals=None,
                                  plan_reason=None):
@@ -15554,11 +15586,20 @@ class IntervalsSync:
                 low_coverage |= work_span > 0 and not adequate
                 incomplete |= clip(end - offset) - clip(cursor - offset) < step["duration_s"]
                 target = step["target_w"]
-                low, high = target if isinstance(target, list) else (target * .95, target * 1.05)
-                agreement = low <= exact[2] <= high if adequate else None
+                ramp_error = None
+                if isinstance(target, dict):
+                    ramp_error, expected_mean = self._structure_ramp_error(
+                        step, cursor, a, b, recorded, values["watts"])
+                    agreement = (ramp_error <= .05 * expected_mean
+                                 if adequate and ramp_error is not None else None)
+                else:
+                    low, high = target if isinstance(target, list) else (target * .95, target * 1.05)
+                    agreement = low <= exact[2] <= high if adequate else None
                 agrees += agreement is True
                 disagrees += agreement is False
                 result = {"target_w": target, "actual": row, "match": agreement}
+                if isinstance(target, dict) and adequate and ramp_error is not None:
+                    result["ramp_rmse_w"] = round(ramp_error, 2)
                 if "repeat" in step:
                     result.update(repeat=step["repeat"], work_s=work_span)
                 if not adequate:
@@ -15626,7 +15667,9 @@ class IntervalsSync:
     @staticmethod
     def _structure_summary(block):
         """Small, self-contained comparison data that can outlive interval detail."""
-        summary = {"method": "plan_match_v2", "status": block["status"]}
+        summary = {"method": "plan_match_v3" if any(
+            isinstance(s.get("target_w"), dict) for s in block.get("steps", []))
+            else "plan_match_v2", "status": block["status"]}
         if block.get("plan"):
             summary["plan"] = dict(block["plan"])
         if block.get("steps"):

@@ -175,7 +175,7 @@ class Structure(unittest.TestCase):
     def test_unsupported_steps_and_missing_total(self):
         cases = [{"distance": 1000}, {"ramp": True}, {"steps": [], "reps": 3},
                  {"power": {"units": "%FTP", "value": 90}}, {"duration": False},
-                 {"power": {"units": "w", "start": 100, "end": 200}}]
+                 {"power": {"units": "w", "start": 100}}]
         for change in cases:
             self.act, self.event, self.streams = inputs()
             self.event["workout_doc"]["steps"][0].update(change)
@@ -183,6 +183,80 @@ class Structure(unittest.TestCase):
         self.act, self.event, self.streams = inputs()
         self.event["workout_doc"].pop("duration")
         self.assertIn("plan_total_mismatch", self.build()["issues"])
+
+    def ramp_inputs(self, start=100, end=180, tail=2):
+        self.act, self.event, _ = inputs()
+        self.act['elapsed_time'] = 3600 + tail
+        self.event['workout_doc'] = {'duration':3600,'steps':[
+            {'duration':600,'ramp':True,'power':{'units':'w','start':start,'end':end}},
+            {'duration':2700,'power':{'units':'w','value':180}},
+            {'duration':300,'power':{'units':'w','value':135}}]}
+        self.streams = {'time':list(range(3601+tail)),
+            'watts':[start+(end-start)*(t+.5)/600 for t in range(600)]+[180]*2700+[135]*(301+tail),
+            'heartrate':[100]*600+[140]*2700+[130]*(301+tail),
+            'cadence':[80]*(3601+tail)}
+
+    def test_ramp_warmup_preserves_exact_steady_block_hr_and_summary(self):
+        self.ramp_inputs();b=self.build()
+        self.assertEqual(b['version'],4);self.assertEqual(b['status'],'followed')
+        self.assertEqual(b['method'],'paired_plan_windows')
+        self.assertEqual(b['steps'][0]['target_w'],{'ramp':[100,180]})
+        self.assertEqual(b['steps'][0]['ramp_rmse_w'],0)
+        self.assertEqual(b['steps'][1]['actual'][:3],[601,3300,180])
+        self.assertEqual(b['steps'][1]['actual'][4],140)
+        self.assertEqual(b['steps'][1]['actual'][6:9],[100,100,100])
+        summary=self.sync._structure_summary(b)
+        self.assertEqual(summary['method'],'plan_match_v3')
+        self.assertEqual(summary['steps'][0][1],{'ramp':[100,180]})
+        self.assertEqual(len(summary['steps']),3)
+
+    def test_ramp_direction_and_constant_zero_are_explicit(self):
+        for start,end in [(180,100),(135,135),(0,0),(0,180)]:
+            with self.subTest(start=start,end=end):
+                self.ramp_inputs(start,end)
+                self.assertEqual(self.build()['status'],'followed')
+
+    def test_same_mean_reversed_or_flat_ramp_is_not_a_waveform_match(self):
+        for reverse in [True,False]:
+            self.ramp_inputs()
+            self.streams['watts'][:600]=list(reversed(self.streams['watts'][:600])) if reverse else [140]*600
+            b=self.build();self.assertEqual(b['status'],'partly_followed')
+            self.assertFalse(b['steps'][0]['match'])
+            self.assertTrue(b['steps'][1]['match']);self.assertEqual(b['steps'][1]['actual'][4],140)
+            self.assertEqual(b['method'],'paired_plan_windows')
+
+    def test_relative_ramps_require_resolved_endpoints_and_absolute_watts_win(self):
+        self.ramp_inputs();first=self.event['workout_doc']['steps'][0]
+        first['power']={'units':'%FTP','start':40,'end':72}
+        self.assertIn('unsupported_steps',self.build()['issues'])
+        first['_power']={'start':100,'end':180}
+        self.assertEqual(self.build()['status'],'followed')
+        first['power']={'units':'w','start':100,'end':180};first['_power']={'start':300,'end':400}
+        self.assertEqual(self.build()['status'],'followed')
+
+    def test_invalid_ramp_endpoints_flags_and_extra_step_keys_fail_closed(self):
+        for change in [{'end':None},{'end':float('nan')},{'start':True},{'end':3001},{'ramp':'yes'},{'value':140}]:
+            self.ramp_inputs();self.event['workout_doc']['steps'][0]['power'].update(change)
+            self.assertIn('unsupported_steps',self.build()['issues'])
+        for change in [{'ramp':'yes'},{'distance':1000}]:
+            self.ramp_inputs();self.event['workout_doc']['steps'][0].update(change)
+            self.assertIn('unsupported_steps',self.build()['issues'])
+
+    def test_ramp_data_coverage_is_independent_and_neighbours_survive(self):
+        self.ramp_inputs();self.streams['watts'][50:90]=[None]*40
+        b=self.build();self.assertIsNone(b['steps'][0]['match'])
+        self.assertNotIn('ramp_rmse_w',b['steps'][0]);self.assertIsNone(b['steps'][0]['actual'][2])
+        self.assertEqual(b['steps'][1]['actual'][4],140)
+        self.ramp_inputs();self.streams['heartrate']=[None]*len(self.streams['time'])
+        b=self.build();self.assertTrue(b['steps'][0]['match']);self.assertIsNone(b['steps'][1]['actual'][4])
+
+    def test_ramp_alignment_and_recording_gap_use_the_existing_timeline(self):
+        self.ramp_inputs();self.streams={k:([v[0]]*3+v if k!='time' else list(range(len(v)+3))) for k,v in self.streams.items()}
+        self.streams['watts'][:3]=[50]*3;self.act['elapsed_time']+=3
+        b=self.build();self.assertEqual(b['offset_s'],3);self.assertEqual(b['status'],'followed')
+        self.assertEqual(b['steps'][1]['actual'][:3],[604,3303,180])
+        self.ramp_inputs();self.streams['time']=[t+10 if t>=1700 else t for t in self.streams['time']];self.act['elapsed_time']+=10
+        b=self.build();self.assertEqual(b['status'],'followed');self.assertEqual(b['steps'][1]['actual'][4],140)
 
     def test_missing_time_or_power_fails_closed(self):
         for key in ("time", "watts"):
@@ -334,7 +408,7 @@ class Cache(unittest.TestCase):
         with mock.patch.object(self.sync, "_fetch_activity_streams", side_effect=fail) as fetch:
             b = self.prepare()
             self.assertEqual(b["cache"]["next_refresh_at"], (NOW + timedelta(hours=2)).isoformat())
-            b["version"] = 0
+            b["version"] = 3
             self.prepare(self.previous(b))
             self.assertEqual(fetch.call_count, 2)
 

@@ -136,7 +136,7 @@ class CoachingRuntime(unittest.TestCase):
         self.runtime.record_feedback({k:source['current_feedback'][k] for k in ['date','state','note','health_clarification']})
         capture=self.runtime.prepare('2026-10-26','2026-10-28')
         writes=len(fx.remote.writes)
-        with mock.patch.object(self.runtime.api.push_module(),'_requests',RefuseEverything()):
+        with mock.patch.object(self.runtime.api.push_module(),'_requests',RefuseEverything()), mock.patch.object(self.runtime.api.push_module(),'datetime',fixtures.fixtures.Clock):
             receipt=self.runtime.save(capture['capture_id'],{k:source[k] for k in ['observations','decisions','candidate_plan']})
         self.assertTrue(receipt['revision_created']);self.assertEqual(len(fx.remote.writes),writes)
         review=self.runtime.context.review_history(self.runtime.cp)['rows'][0]
