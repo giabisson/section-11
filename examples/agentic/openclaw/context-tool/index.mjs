@@ -6,7 +6,7 @@ import {schema,argvFor,executeContext,reportGate,boundedNoticeFilter} from './po
 export default definePluginEntry({id:'section11-context',name:'Section 11 bounded context',
   configSchema:()=>buildJsonPluginConfigSchema(manifest.configSchema),
   register(api){
-    api.registerTool({name:'section11_context',label:'Section 11 context',description:'Batch exact reference reads with operation references (requests array, up to six source/heading pairs), or fresh bounded coaching data, saved intake or exact protocol/library/dossier sections. Follow required_retrieval for deferred facts; intake returns the complete saved onboarding record. Read-only; no shell or arbitrary paths.',parameters:schema,
+    api.registerTool({name:'section11_context',label:'Section 11 context',description:'Batch exact reference reads with operation references (requests array, up to six source/heading pairs), or fresh bounded coaching data, saved intake or exact protocol/library/dossier sections. Follow required_retrieval for deferred facts; intake returns the complete saved onboarding record. Use activity_analysis with one exact activity_id for historical blocks: opt-in account-bound GETs, local deterministic analysis and compact cached results; no raw streams in context. Read-only external access; no shell or arbitrary paths.',parameters:schema,
       async execute(_id,params,signal){
         try{return await executeContext(argvFor(params,api.pluginConfig),signal);}
         catch{return {isError:true,content:[{type:'text',text:'Invalid bounded context request.'}]};}

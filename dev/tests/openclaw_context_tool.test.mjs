@@ -94,3 +94,17 @@ test('quiet notice filter cancels only exact standalone Telegram maintenance not
  assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE},{channelId:'slack'}),undefined);
  assert.equal(boundedNoticeFilter({content:BOUNDED_CONTEXT_NOTICE},{}),undefined);
 });
+
+test('historical analysis accepts one exact ID and no credential or path overrides',async t=>{
+  const args=argvFor({operation:'activity_analysis',activity_id:'i193686489'},config);
+  assert.deepEqual(args,[config.script,'--profile',config.profile,'activity_analysis','--activity-id','i193686489']);
+  for(const p of [{operation:'activity_analysis'},
+    {operation:'activity_analysis',activity_id:'../secret'},
+    {operation:'activity_analysis',activity_id:'i123',path:'/other'},
+    {operation:'activity_analysis',activity_id:'i123',credentials_dir:'/other'}])assert.throws(()=>argvFor(p,config));
+  const deadlines=[];const original=globalThis.setTimeout;
+  t.mock.method(globalThis,'setTimeout',(fn,ms)=>{deadlines.push(ms);return original(fn,ms);});
+  await executeContext(args,undefined,spawnFixture([Buffer.from('{"packet_complete":true}')],0));
+  await executeContext(argvFor({operation:'section',source:'protocol',heading:'activity_analysis'},config),undefined,spawnFixture([Buffer.from('{"packet_complete":true}')],0));
+  assert.deepEqual(deadlines,[60000,15000]);
+});

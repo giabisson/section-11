@@ -466,9 +466,11 @@ Without `--credentials-dir`, legacy discovery is unchanged:
 2. `.sync_config.json` in the working directory
 3. Environment: `ATHLETE_ID`, `INTERVALS_KEY`
 
-This repairs stream retrieval only. It does not add historical interval analysis
-to `section11_context.history_detail`, change detail retention, or establish that
-a similar older workout is an exact matched comparison.
+Raw retrieval is separate from `section11_context.history_detail`. On configured
+OpenClaw installations use the opt-in `activity_analysis` operation for compact
+historical block analysis (see [TASK_CONTEXT.md](openclaw/TASK_CONTEXT.md#opt-in-historical-block-analysis)).
+Neither operation changes normal detail retention or establishes that a similar
+older workout is an exact matched comparison.
 
 No GitHub Actions workflow: `pull.py` is local-execution only. The streams responses can be ~1-3 MB per activity (1Hz over a multi-hour ride), which is fine to handle locally but unsuitable for committing back to a data repo.
 

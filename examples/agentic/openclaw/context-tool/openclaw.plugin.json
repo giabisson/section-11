@@ -1,7 +1,7 @@
 {
   "id": "section11-context",
   "name": "Section 11 bounded context",
-  "description": "Read-only bounded coaching context. No arbitrary paths, shell, network or calendar writes.",
+  "description": "Bounded coaching context with optional account-owned historical activity GETs and a private analysis cache. No arbitrary paths, shell or remote writes.",
   "activation": {
     "onStartup": true
   },

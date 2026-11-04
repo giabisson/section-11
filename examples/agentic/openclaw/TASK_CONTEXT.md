@@ -3,7 +3,7 @@
 Long-term history is available through bounded on-demand monthly, activity and
 managed-review reads; see [source, coverage and refresh contract](LONG_TERM_HISTORY.md).
 
-`context_packet.py` reads current local files for one task, prints a compact JSON projection and exits. It makes no network/model calls, sends no messages, changes no calendar and stores no athlete data. It reads no credentials. It is an alternative **fresh read** of the actual source, not an LLM summary, persistent athlete memory, training algorithm or replacement protocol.
+`context_packet.py` normally reads current local files for one task, prints a compact JSON projection and exits. Routine operations make no network/model calls, send no messages, change no calendar, store no athlete data and read no credentials. The explicitly enabled `activity_analysis` operation is the exception: account-owned API GETs, private credential loading and a bounded local result cache, as documented below. No operation calls a model or mutates remote activities/calendar. It is an alternative **fresh read** of the actual source, not an LLM summary, persistent athlete memory, training algorithm or replacement protocol.
 
 ## What is loaded
 
@@ -148,3 +148,51 @@ The filter preserves health warnings, errors, replies with other text and media.
 Quiet maintenance never means complete conversational recall: recover current
 intake, managed plan and health from the normal fresh readers and ask for genuinely
 missing evidence before advice. Canonical history and write receipts remain saved.
+
+## Opt-in historical block analysis
+
+The primary integration exposes `section11_context` operation `activity_analysis`
+with one `activity_id` matching `i` plus digits. It is disabled unless the private
+context profile has an absolute `activity_analysis_profile` path. Ordinary local
+context reads remain network-free; this one operation performs bounded GETs and
+writes only its own private result cache. No calendar or activity mutations exist.
+
+The owned mode-0600 analysis profile has exactly:
+
+```json
+{"schema_version":1,"install_root":"/absolute/source","data_dir":"/private/data","state_dir":"/private/historical-analysis","facts_store":"/private/history/facts.sqlite3","athlete_id":"i123456"}
+```
+
+Data directory, account and facts store must match the parent context profile.
+The activity must already appear in that account's durable facts or latest mirror.
+Credentials use pull.py's explicit private directory loader, never model arguments,
+working-directory discovery or another account's environment. API hosts/paths and
+stream types are fixed; no arbitrary URLs, paths, dates or code are accepted.
+
+On a miss, at most four GETs retrieve activity, resolved paired event (when present),
+intervals and time/power/HR/cadence streams. There are no automatic retries or
+redirects. Responses are bounded at 16 MB each / 32 MB total; stream arrays at
+100,000 samples each. Fetching has a 48-second budget with short connection/read
+timeouts; the native subprocess has a 60-second bound for this operation only.
+All other context calls retain 15 seconds and exchange admission limits remain.
+
+The existing sync analyzer runs directly, outside the normal detail-retention
+gate. Returned output is at most 8 KiB, with actual elapsed windows, targets,
+measurements, coverage and method/status/issues. No raw streams or source prose
+enter the model context. These results do not supply medical clearance or formal
+adherence. Missing HR stays null. Missing/contradictory pairing stays explicit;
+unpaired intervals/thirds are descriptive, not prescribed main-work roles.
+
+A private atomic result cache holds at most 64 activities. It stores no credentials
+or raw streams. Every hit rechecks activity/event/interval metadata; fingerprints
+also include analyzer/helper code. Changed metadata or six-hour expiry requires
+new streams. Computation and revalidation times, stream reuse, source/stream hashes
+and API-call counts are returned. This is bounded stream reuse, not a guarantee
+against an upstream stream change with unchanged metadata. Failed revalidation
+never substitutes an old cached success. A nonblocking lock prevents duplicate
+fetches; busy/HTTP/authentication/rate-limit/timeout errors return explicit states.
+An unavailable analysis never proves that historical workout data is absent.
+
+Scheduled reports still do not load historical analysis routinely. Retrieve exact
+old detail only when its block comparison is needed. This is data retrieval and
+analysis; automatic similar-session selection/comparison is a separate layer.

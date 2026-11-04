@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fresh, bounded task-specific coaching context. No network or state mutations.
+"""Fresh bounded coaching context, plus opt-in historical GETs/private result cache.
 
 Outputs private athlete data for the configured coach; never publish packets.
 Whole dated rows/Markdown sections are selected, never cut at a character limit.
@@ -89,7 +89,7 @@ def json_source(path, athlete=False):
 def load_profile(path):
     profile, _ = json_source(Path(path).resolve())
     required = {"schema_version", "data_dir", "protocol", "workout_reference", "reports_dir", "dossier", "dossier_sections", "timezone", "source_timezone"}
-    optional = {"long_term_source", "review_store", "coaching_profile", "intake_store", "intake_athlete_id", "tool_packet_bytes"}
+    optional = {"long_term_source", "review_store", "coaching_profile", "intake_store", "intake_athlete_id", "tool_packet_bytes", "activity_analysis_profile"}
     if set(profile)-required-optional or required-set(profile) or profile["schema_version"] != 1:
         fail("invalid_profile")
     for key in ("data_dir", "protocol", "workout_reference", "reports_dir", "dossier"):
@@ -313,7 +313,23 @@ def history_detail(profile, activity_id):
             fail("activity_fact_size_limit")
     return {"status": "available" if found else "not_found", "generation": source["generation"], "generated_at": source["generated_at"],
             "source_path": str(path), "activity": json.loads(found[0]) if found else None,
-            "scope": "Compact source facts only; interval execution/streams and plan intent are separate dependencies."}
+            "scope": "Compact source facts only. Use activity_analysis with this exact activity_id for historical block execution when configured; raw streams and plan intent are separate dependencies."}
+
+
+def activity_analysis(profile, activity_id):
+    if not profile.get('activity_analysis_profile'):
+        return {'status':'unavailable','error_code':'activity_analysis_not_configured'}
+    spec=importlib.util.spec_from_file_location('s11_activity_analysis',Path(__file__).with_name('activity_analysis.py'))
+    helper=importlib.util.module_from_spec(spec);sys.modules[spec.name]=helper;spec.loader.exec_module(helper)
+    config=helper.load_profile(profile['activity_analysis_profile'])
+    # One context tool may never silently acquire another account/data directory.
+    if Path(config['data_dir']).resolve()!=Path(profile['data_dir']).resolve():
+        fail('activity_analysis_data_directory_mismatch')
+    if profile.get('intake_athlete_id') and config['athlete_id']!=profile['intake_athlete_id']:
+        fail('activity_analysis_account_mismatch')
+    if profile.get('long_term_source') and Path(config['facts_store']).resolve()!=Path(profile['long_term_source']).with_name('facts.sqlite3').resolve():
+        fail('activity_analysis_history_mismatch')
+    return helper.analyze(config,activity_id)
 
 
 def markdown_sections(text):
@@ -482,6 +498,7 @@ def encode_tool_packet(packet, profile, command):
     """Atomic wire budget for native tool results; durable sources stay intact."""
     limit=profile.get('tool_packet_bytes',MAX_PACKET_BYTES)
     if command=='long_term':limit=min(limit,8192)
+    if command=='activity_analysis':limit=min(limit,8192)
     value=copy.deepcopy(packet)
     def fits():return len(json.dumps({**value,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())<=limit
     if command=='build' and not fits():
@@ -556,6 +573,8 @@ def main():
     activities.add_argument("--activity-id")
     detail = sub.add_parser("history_detail")
     detail.add_argument("--activity-id", required=True)
+    analysis = sub.add_parser("activity_analysis")
+    analysis.add_argument("--activity-id", required=True)
     review = sub.add_parser("review")
     review.add_argument("--review-id")
     for command in ("headings", "section"):
@@ -581,6 +600,8 @@ def main():
             result = long_term(profile)
         elif args.command == "history_detail":
             result = history_detail(profile, args.activity_id)
+        elif args.command == "activity_analysis":
+            result = activity_analysis(profile, args.activity_id)
         elif args.command == "review":
             result = review_history(profile, args.review_id)
         else:
