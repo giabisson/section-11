@@ -57,7 +57,40 @@ records remain useful evidence; old goals, old conversation summaries and fictio
 examples are not current intentions. Missing HRV/RHR does not block onboarding or
 progression. Never initialize a sample/default plan to make the store look ready.
 
-### Save intake before a plan exists
+### Bounded planning setup
+
+Use `planning_setup` for a plan request after reading the current plan task packet:
+
+```json
+{"operation":"planning_setup","payload":null,"references":[{"source":"protocol","heading":"B"},{"source":"workouts","heading":"AE-1"}]}
+```
+
+Null payload means intake is already saved and unchanged. For explicit changes,
+supply the same complete intake payload contract as `intake`, preserving unrelated
+entries and its current parent revision. The backend saves and verifies intake
+**before** reading plan state or references. The returned `intake_receipt` remains
+successful even if references fail or exceed the wire budget. Check each read's
+status; an intake receipt is not a saved plan or permission to publish. Reference
+failures return bounded candidate titles and no reference bodies. Oversize reads
+are explicitly deferred, never truncated; the receipt is retained. No extra LLM,
+calendar operation, model-budget increase or hidden workout selection occurs.
+
+Planning setup includes the bounded long-term source when configured, so do
+not reread the same monthly history. Its compact plan view preserves every historical
+prescription reference and selected feasibility/goal fields; original revision
+prose/evidence remains in the store and is explicitly deferred. Read state before
+changes depending on that omitted metadata. Normal successful planning fits skill read,
+plan packet, planning_setup, validated propose, and final summary without extra
+state/reference discovery turns. Further essential dependencies still require a
+fresh read or honest deferral within the existing budget.
+
+### Save intake before planning, including active-plan changes
+
+Explicit new or changed goals, availability, equipment and recovery constraints
+authorize faithful private recording, during onboarding or with an active plan.
+Save these first after reading intake, before optional history/reference reads,
+and verify the receipt. Reference retrieval or plan failure must not prevent
+that independent save. Keep the existing plan/history/publication receipts intact.
 
 Explicit answers supplied for onboarding authorize faithful private recording;
 no second permission prompt is needed. First read state, then invoke:

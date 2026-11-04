@@ -70,6 +70,14 @@ export function executeContext(args, signal, spawnImpl=spawn) {
         if(settled)return;
         try {
           const packet=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+          if(code===1&&packet.ok===false&&packet.context_complete===false&&packet.packet_complete===false&&/^[a-z0-9_]{1,96}$/.test(packet.error_code??'')){
+            const error={ok:false,error_code:packet.error_code,context_complete:false,packet_complete:false};
+            const refs=packet.reference_errors;
+            if(Array.isArray(refs)&&refs.length<=6&&refs.every(r=>r&&['protocol','workouts','dossier','report'].includes(r.source)&&typeof r.requested_heading==='string'&&r.requested_heading.length<=200&&Array.isArray(r.candidates)&&r.candidates.length<=12&&r.candidates.every(h=>typeof h==='string'&&h.length<=200))){
+              error.reference_errors=refs.map(({source,requested_heading,candidates})=>({source,requested_heading,candidates}));
+            }
+            if(Buffer.byteLength(JSON.stringify(error))<=16384){finish({isError:true,content:[{type:'text',text:JSON.stringify(error)}]});return;}
+          }
           if(code!==0||packet.packet_complete!==true)throw Error('incomplete');
           finish({content:[{type:'text',text:JSON.stringify(packet)}]});
         }catch{failure();}

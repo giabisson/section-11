@@ -122,7 +122,9 @@ print(json.dumps({'state':r.state_view(),'intake':r.context.intake_context(r.cp,
         other=ctx.build(cp,'plan',now=f.runtime.now());self.assertNotEqual(p['history']['deferred_rows_sha256'],other['history']['deferred_rows_sha256'])
 
     def test_native_wire_budget_defers_intake_without_mutating_sources_or_health(self):
-        f=self.f;f.runtime.save_intake(payload());cp={**f.runtime.cp,'intake_store':str(f.root/'bridge/athlete_intake.sqlite3'),'intake_athlete_id':'i123456','tool_packet_bytes':8192}
+        f=self.f;large=payload()
+        for e in large['entries']:e['text']='x'*800
+        f.runtime.save_intake(large);cp={**f.runtime.cp,'intake_store':str(f.root/'bridge/athlete_intake.sqlite3'),'intake_athlete_id':'i123456','tool_packet_bytes':8192}
         ctx=f.runtime.context;packet=ctx.build(cp,'plan',now=f.runtime.now())
         packet['retrieval']['synthetic_padding']='x'*9000
         original=copy.deepcopy(packet);wire=json.loads(ctx.encode_tool_packet(packet,cp,'build'))

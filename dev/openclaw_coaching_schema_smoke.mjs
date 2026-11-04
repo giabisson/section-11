@@ -35,6 +35,8 @@ export async function verifyInstalledSchema(packageRoot){
  }
  const intake={request_id:'synthetic-intake',parent_revision:null,entries:[{key:'goal',kind:'goal',text:'Synthetic reported objective',observed_on:'2026-10-23',source:'Synthetic message only',valid_from:null,valid_until:null,review_on:'2026-11-01'}],open_questions:[]};
  cases.push({operation:'intake',payload:intake});
+ cases.push({operation:'planning_setup',payload:intake,references:[{source:'protocol',heading:'B'},{source:'workouts',heading:'AE-1'}]});
+ cases.push({operation:'planning_setup',payload:null,references:[{source:'protocol',heading:'B'}]});
  const invalid=[{operation:'feedback',payload:{...feedback,unexpected:true}},
   {operation:'feedback',payload:{...feedback,health_clarification:{compatible:'yes',reason:'Synthetic'}}},
   {operation:'feedback',payload:{...feedback,state:'invented'}},

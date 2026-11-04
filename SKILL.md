@@ -5,6 +5,26 @@ description: Evidence-based endurance coaching protocol (v11.85). Use when analy
 
 # Section 11 - AI Coaching Protocol
 
+
+**Save planning updates first, including an active plan.** Explicitly supplied
+new/changed goals, dated availability, equipment and recovery constraints belong
+in validated intake, not only initial onboarding. After reading saved intake,
+save a complete snapshot preserving unrelated entries and their original dates;
+use the current parent revision, attribute the changes and verify the receipt.
+When planning, prefer `planning_setup` with the complete changed intake `payload`
+(or null if unchanged) and a `references` batch: it saves first and returns its
+receipt, compact managed-plan state, bounded long-term history and references/errors
+in one call. Full prior plan metadata is explicitly deferred; retrieve state if
+a revision depends on it. Do not reread unchanged history in another call. Standalone factual updates use `intake`.
+Do this before optional history/reference retrieval or plan construction. A
+reference failure must not leave explicit athlete changes only in conversation.
+Updating intake neither changes the managed plan nor authorizes calendar writes.
+Reuse already answered current feedback; ask only missing/changed/current-health
+questions. Batch exact reference titles or supported identifiers (`protocol: B`,
+`workouts: AE-1`); dossier titles are exact. A failed batch supplies no bodies:
+use candidate titles to correct it within the same existing budget, not guesses
+or shell diagnostics.
+
 ## File Locations
 
 Data files (`latest.json`, `history.json`, `intervals.json`, `ftp_history.json`, `routes.json`, `saved_workouts.json`, `DOSSIER.md`, `section11/`) live in the athlete's **data directory**: a runtime-accessible location, typically something like `~/training-data/`. HEARTBEAT.md lives in the **agent workspace**: the directory the agent runs from. These may or may not be the same directory.

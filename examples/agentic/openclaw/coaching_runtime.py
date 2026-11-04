@@ -102,16 +102,66 @@ class CoachingRuntime:
         intake=module(Path(__file__).with_name('athlete_intake.py'),'s11_athlete_intake')
         return intake.save(self.state/'athlete_intake.sqlite3',self.athlete,payload,self.today())
 
+    def planning_setup(self, payload, references):
+        # Persistence comes first. Later read/size failures must retain its receipt.
+        if payload is None:
+            intake=self.intake_view()
+            if intake['status']!='available':raise ValueError('saved_intake_required')
+            receipt={'success':True,'revision_id':intake['revision_id'],'unchanged':True,'calendar_writes':0}
+        else:receipt=self.save_intake(payload)
+        result={'success':True,'intake_receipt':receipt,'calendar_writes':0,
+                'scope':'Athlete intent saved/read back independently of planning reads. No plan created or revised; calendar publication still requires exact approval.'}
+        try:
+            state=self.state_view()
+            plan=state.get('plan')
+            result['managed_plan']={k:v for k,v in state.items() if k in ('state','revision_id','is_current','onboarding_stage')}
+            result['managed_plan']['prescription_summaries']={key:{k:v for k,v in item.items() if k in ('session_id','date','duration_minutes','validation_status')}
+                for key,item in state.get('prescription_summaries',{}).items()}
+            if plan:
+                result['managed_plan']['plan']={k:plan[k] for k in ('schema_version','athlete_id','plan_id','planning_policy','goals','sessions') if k in plan}
+                result['managed_plan']['plan']['block']={k:v for k,v in plan['block'].items() if k in ('start_date','end_date','objective','goal_ids','review_date','planned_phase')}
+                result['managed_plan']['plan']['week_summaries']=[{k:w[k] for k in ('start_date','weekly_minutes') if k in w} for w in plan['weeks']]
+                result['managed_plan'].update(full_plan_deferred=True,required_retrieval={'operation':'state'},
+                    scope='Selected intent, weekly capacity and all prescription references. Read state for omitted windows/evidence/publication records before depending on them; parent history remains intact.')
+        except Exception:
+            result['managed_plan']={'state':'unavailable','error_code':'plan_state_read_failed'}
+        if self.cp.get('long_term_source'):
+            try:
+                history=self.context.long_term(self.cp,self.now());self.context.encode(history,8192)
+                result['long_term']=history
+            except Exception:result['long_term']={'status':'unavailable','error_code':'long_term_source_unavailable','scope':'Do not infer zero training or claim this source was reviewed.'}
+        try:
+            result['planning_references']={'status':'available',**self.context.reference_batch(self.cp,references)}
+        except self.context.PacketError as exc:
+            result['planning_references']={'status':'unavailable','error_code':str(exc),'complete':False}
+            if exc.reference_errors:result['planning_references']['reference_errors']=exc.reference_errors
+        except Exception:
+            result['planning_references']={'status':'unavailable','error_code':'reference_source_unavailable','complete':False}
+        limit=min(49152,self.cp.get('tool_packet_bytes',49152))
+        def fits():return len(canonical({**result,'packet_complete':True}).encode())<=limit
+        if not fits():
+            result['planning_references']={'status':'deferred','error_code':'reference_packet_size_limit','complete':False,
+                'required_retrieval':{'operation':'references','requests':references},'scope':'No reference bodies supplied. Intake receipt remains valid; retrieve smaller exact sections.'}
+        if not fits():
+            plan=result['managed_plan'];result['managed_plan']={'state':plan.get('state','unavailable'),
+                'revision_id':plan.get('revision_id'),'details_deferred':True,'required_retrieval':{'operation':'state'}}
+        return result
+
     def state_view(self):
         intake=self.intake_view()
+        instruction=('Read saved intake before questions. Save explicitly changed goals, availability, '
+                     'equipment and recovery constraints through intake FIRST, including active-plan '
+                     'replanning; preserve unchanged entries and verify the receipt. Do this before '
+                     'optional history/reference retrieval so a planning failure cannot lose the request. '
+                     'Ask only missing/changed/current-health questions; no plan does not mean answers were lost.')
         pending={'success':True,'state':'onboarding_required','athlete_id':self.athlete,'plan':None,
                  'onboarding_stage':'intake_saved_plan_pending' if intake['status']=='available' else 'intake_required',
-                 'intake':intake,'instruction':'Read saved intake before asking questions. Save explicit onboarding statements through intake before planning. Ask only missing/current health context; no plan does not mean earlier answers were lost.','calendar_writes':0}
+                 'intake':intake,'instruction':instruction,'calendar_writes':0}
         if not (Path(self.p['store_dir'])/'coaching_plan.sqlite3').is_file():return pending
         store=self.store()
         try:
             if store.latest_id() is None:return pending
-            result=store.summary();result.update(state='active',onboarding_stage='plan_created',intake=intake,calendar_writes=0)
+            result=store.summary();result.update(state='active',onboarding_stage='plan_created',intake=intake,instruction=instruction,calendar_writes=0)
             if result['plan']['athlete_id']!=self.athlete:raise ValueError('plan_account_mismatch')
             return result
         finally:store.close()
@@ -248,11 +298,11 @@ def main():
         raw=sys.stdin.buffer.read(MAX_INPUT+1)
         if len(raw)>MAX_INPUT:raise ValueError('input_size_limit')
         request=json.loads(raw);runtime=CoachingRuntime(load_profile(args.profile))
-        if not isinstance(request,dict) or set(request)-{'operation','payload','start','end','capture_id','draft'}:raise ValueError('invalid_request')
+        if not isinstance(request,dict) or set(request)-{'operation','payload','references','start','end','capture_id','draft'}:raise ValueError('invalid_request')
         op=request['operation']
-        allowed={'state':{'operation'},'intake':{'operation','payload'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
+        allowed={'state':{'operation'},'intake':{'operation','payload'},'planning_setup':{'operation','payload','references'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
         if op not in allowed or set(request)!=allowed[op]:raise ValueError('invalid_operation_fields')
-        result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
+        result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.planning_setup(request['payload'],request['references']) if op=='planning_setup' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
         text=canonical({**result,'packet_complete':True})
         if len(text.encode())>min(49152,runtime.cp.get('tool_packet_bytes',49152)):raise ValueError('output_size_limit_use_narrower_review')
         print(text);return 0

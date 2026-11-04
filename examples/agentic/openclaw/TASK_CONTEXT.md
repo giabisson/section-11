@@ -238,3 +238,38 @@ Do not normalize HR to a common wattage or infer fitness, surgery effects or
 medical clearance from the difference. The LLM may explain the observed result
 briefly but cannot upgrade it to an exact matched or causal comparison. Further
 similar-session search and physiological modeling are outside this operation.
+
+## Reference identifiers and actionable errors
+
+Exact titles take precedence. Protocol `B`, `11B` and `11 B` resolve only to
+`11 B. AI Training Plan Protocol`. Workout IDs such as `AE-1`, `AE-4`, `TH-2`
+and `WU-STD` resolve only to a unique heading beginning with that ID plus colon;
+identifiers are case-insensitive. These are documented identifiers, not fuzzy
+body searches. Dossier headings remain exact. Returned `resolved_heading` and
+source provenance make alias resolution visible. Missing/ambiguous requests fail
+the whole batch; no successful reference bodies are returned alongside failures.
+
+The bounded native transport preserves sanitized backend error codes and bounded
+candidate-heading metadata, marked `isError`, `context_complete:false` and
+`packet_complete:false`. It discards arbitrary output fields and still rejects
+malformed, oversize, incomplete or timed-out results. Use candidates to correct
+a request without another discovery round; do not treat errors as source evidence.
+Budgets and full source/health/publication validation remain unchanged.
+
+Planning packets include save-first guidance. Explicit goal/schedule/setup updates
+must be saved through validated intake before optional history or references,
+including when a managed plan already exists. The complete saved snapshot retains
+unchanged entries and source dates. Recovered state and receipts distinguish
+saved athlete intent from a plan still pending construction or publication.
+
+Planning packets prioritize full intake and readiness/health within the existing
+wire cap. When needed they explicitly defer detailed capability, raw older wellness,
+companion inventory, dossier sections and activity rows; none is treated as absent.
+Capability-dependent advice needs its deferred read. Current three-calendar-day
+wellness rows retain full fields; full readiness/health envelopes are unchanged.
+Use `section11_coaching planning_setup` to combine an authorized intake update
+(or null for unchanged saved intake), compact managed-plan state, bounded long-term
+history and reference reads in one call. Full prior plan prose/evidence is
+explicitly deferred, with a state-read pointer; all historical prescription
+references and selected goal/feasibility fields remain. Saving happens first and its receipt survives failed/deferred reads.
+This reduces sequential tool/model rounds without loosening exchange budgets.

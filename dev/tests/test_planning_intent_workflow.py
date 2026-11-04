@@ -1,0 +1,121 @@
+"""Save-first replanning survives reference errors and wire limits."""
+import copy
+import json
+import unittest
+from unittest import mock
+from datetime import timedelta
+from _harness import REPO_ROOT,load_module_by_path
+import test_coaching_runtime as runtime_fixtures
+import test_context_packet as context_fixtures
+from test_athlete_intake import payload
+
+c=load_module_by_path('s11_planning_references_tests',REPO_ROOT/'examples/agentic/openclaw/context_packet.py')
+
+
+class References(unittest.TestCase):
+    def setUp(self):
+        self.fixture=context_fixtures.ContextPacket();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)
+        self.p=self.fixture.profile
+
+    def test_exact_failed_request_identifiers_resolve_to_full_real_titles(self):
+        p={**self.p,'protocol':str(REPO_ROOT/'SECTION_11.md'),'workout_reference':str(REPO_ROOT/'examples/workout-library/WORKOUT_REFERENCE.md')}
+        result=c.reference_batch(p,[{'source':'protocol','heading':'B'},{'source':'workouts','heading':'AE-1'}])
+        self.assertEqual([r['resolved_heading'] for r in result['references']],
+                         ['11 B. AI Training Plan Protocol','AE-1: Steady-State Endurance (Short)'])
+        self.assertIn('Athlete Context and Planning Intent',result['references'][0]['section']['text'])
+        self.assertLess(len(json.dumps(result).encode()),30000)
+
+    def test_exact_title_wins_and_ambiguous_identifiers_never_guess(self):
+        sections=[{'heading':'B','text':'Exact title','line':1},{'heading':'11 B. AI Training Plan Protocol','text':'Alias','line':2}]
+        self.assertEqual(c.reference_section('protocol',sections,'B')['text'],'Exact title')
+        sections=[{'heading':'AE-1: First','text':'one','line':1},{'heading':'AE-1: Second','text':'two','line':3}]
+        with self.assertRaises(c.PacketError) as err:c.reference_section('workouts',sections,'AE-1')
+        self.assertEqual(len(err.exception.reference_errors[0]['candidates']),2)
+        with self.assertRaises(c.PacketError):c.reference_section('dossier',sections,'AE-1')
+
+    def test_missing_batch_returns_candidates_without_any_successful_bodies(self):
+        with self.assertRaises(c.PacketError) as err:
+            c.reference_batch(self.p,[{'source':'protocol','heading':'Safety'}, {'source':'workouts','heading':'Template'}])
+        e=err.exception
+        self.assertEqual(str(e),'reference_selection_required')
+        self.assertIn('Template A',e.reference_errors[0]['candidates'])
+        self.assertNotIn('Stop rule',json.dumps(e.reference_errors))
+
+    def test_plan_packet_supplies_save_first_order_without_duplicating_long_term(self):
+        with mock.patch.object(c,'long_term') as read:
+            result=c.build(self.p,'plan',now=context_fixtures.NOW)
+        read.assert_not_called()
+        self.assertIn('planning_setup',result['planning_workflow']['first'])
+        self.assertEqual(result['snapshot']['readiness_decision']['priority'],0)
+        self.assertIn('athlete_intake',result)
+        latest=self.fixture.latest
+        latest['derived_metrics']['capability']={'bulky':'C'*16000}
+        self.fixture.write('latest.json',latest)
+        intake={'status':'available','revision_id':'intake-synthetic','entries':[{'key':'goal','kind':'goal','text':'Saved goal '+('G'*7000)}],'open_questions':[]}
+        with mock.patch.object(c,'intake_context',return_value=intake):
+            original=c.build(self.p,'plan',now=context_fixtures.NOW)
+        frozen=json.dumps(original,sort_keys=True)
+        wire=json.loads(c.encode_tool_packet(original,{'tool_packet_bytes':25000},'build'))
+        self.assertEqual(wire['athlete_intake']['entries'],intake['entries'])
+        self.assertEqual(wire['snapshot']['readiness_decision'],original['snapshot']['readiness_decision'])
+        self.assertEqual(wire['snapshot']['health_context'],original['snapshot']['health_context'])
+        self.assertIn('capability_deferred',wire['snapshot'])
+        self.assertEqual(frozen,json.dumps(original,sort_keys=True))
+
+
+
+class PlanningSetup(unittest.TestCase):
+    def setUp(self):
+        self.f=runtime_fixtures.CoachingRuntime();self.f.setUp();self.addCleanup(self.f.doCleanups)
+        (self.f.root/'p.md').write_text('# Protocol\n## 11 B. AI Training Plan Protocol\nValidated plan rules.\n')
+        (self.f.root/'w.md').write_text('# Library\n#### AE-1: Steady-State Endurance (Short)\nReference only.\n')
+        self.f.runtime.save_intake(payload());self.f.propose()
+        self.before=self.f.runtime.state_view()
+
+    def changed(self):
+        p=payload();p.update(request_id='active-plan-update',parent_revision=self.f.runtime.intake_view()['revision_id'])
+        p['entries'][0]['text']='Explicit updated six-week return objective'
+        p['entries'][1]['text']='Explicit updated Mon/Wed one hour, Saturday one to two hours'
+        return p
+
+    def test_active_plan_update_commits_before_bad_reference_and_fresh_next_day_recovers(self):
+        result=self.f.runtime.planning_setup(self.changed(),[{'source':'workouts','heading':'missing'}])
+        self.assertTrue(result['intake_receipt']['success'])
+        self.assertEqual(result['planning_references']['error_code'],'reference_selection_required')
+        self.assertEqual(result['managed_plan']['plan']['sessions'],self.before['plan']['sessions'])
+        self.assertTrue(result['managed_plan']['full_plan_deferred'])
+        self.f.now+=timedelta(days=1)
+        fresh=self.f.runtime.state_view()
+        self.assertEqual(fresh['state'],'active')
+        self.assertIn('active-plan',fresh['instruction'])
+        self.assertEqual(fresh['intake']['revision_id'],result['intake_receipt']['revision_id'])
+        self.assertEqual(fresh['intake']['entries'][0]['text'],'Explicit updated six-week return objective')
+        self.assertEqual(fresh['plan'],self.before['plan'])
+
+    def test_unchanged_setup_reads_plan_and_alias_references_without_new_revision(self):
+        result=self.f.runtime.planning_setup(None,[{'source':'protocol','heading':'B'},{'source':'workouts','heading':'AE-1'}])
+        self.assertTrue(result['intake_receipt']['unchanged'])
+        self.assertEqual(result['intake_receipt']['revision_id'],self.before['intake']['revision_id'])
+        self.assertEqual(result['planning_references']['status'],'available')
+        self.assertNotIn('intake',result['managed_plan'])
+        self.f.runtime.cp['long_term_source']='/private/summary.json'
+        with mock.patch.object(self.f.runtime.context,'long_term',return_value={'status':'available','rows':[]}) as read:
+            result=self.f.runtime.planning_setup(None,[{'source':'workouts','heading':'AE-1'}])
+        read.assert_called_once();self.assertEqual(result['long_term']['status'],'available')
+
+    def test_oversize_read_defers_reference_bodies_without_hiding_successful_save(self):
+        self.f.runtime.cp['tool_packet_bytes']=8192
+        (self.f.root/'p.md').write_text('# Protocol\n## Large\n'+'x'*20000)
+        result=self.f.runtime.planning_setup(self.changed(),[{'source':'protocol','heading':'Large'}])
+        self.assertTrue(result['intake_receipt']['success'])
+        self.assertEqual(result['planning_references']['status'],'deferred')
+        self.assertNotIn('x'*1000,json.dumps(result))
+        self.assertLess(len(json.dumps(result,separators=(',',':')).encode()),8192)
+        self.assertEqual(result['intake_receipt']['revision_id'],self.f.runtime.intake_view()['revision_id'])
+
+    def test_failed_plan_state_read_cannot_erase_intake_receipt(self):
+        with mock.patch.object(self.f.runtime,'state_view',side_effect=ValueError('PRIVATE_CANARY')):
+            result=self.f.runtime.planning_setup(self.changed(),[{'source':'workouts','heading':'AE-1'}])
+        self.assertTrue(result['intake_receipt']['success'])
+        self.assertEqual(result['managed_plan']['state'],'unavailable')
+        self.assertNotIn('PRIVATE_CANARY',json.dumps(result))

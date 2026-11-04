@@ -120,3 +120,15 @@ test('block comparison selectors are typed, bounded and confined to two activiti
  await executeContext(args,undefined,spawnFixture([Buffer.from('{"packet_complete":true}')],0));
  assert.deepEqual(deadlines,[120000]);
 });
+
+test('backend reference errors retain actionable metadata but never partial bodies',async()=>{
+ const error={ok:false,error_code:'reference_selection_required',context_complete:false,packet_complete:false,
+  reference_errors:[{source:'workouts',requested_heading:'AE',candidates:['AE-1: Short'],private:'PRIVATE_CANARY'}],private:'PRIVATE_CANARY'};
+ const out=await executeContext([],undefined,spawnFixture([Buffer.from(JSON.stringify(error))],1));
+ assert.equal(out.isError,true);const body=JSON.parse(out.content[0].text);
+ assert.equal(body.packet_complete,false);assert.equal(body.reference_errors[0].candidates[0],'AE-1: Short');
+ assert(!JSON.stringify(body).includes('PRIVATE_CANARY'));
+ const malformed={...error,error_code:'bad error with PRIVATE_CANARY'};
+ const failed=await executeContext([],undefined,spawnFixture([Buffer.from(JSON.stringify(malformed))],1));
+ assert(!JSON.stringify(failed).includes('PRIVATE_CANARY'));
+});

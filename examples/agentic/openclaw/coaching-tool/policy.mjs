@@ -12,9 +12,14 @@ export function requestFor(params,config){
  for(const key of ['start','end'])if(params[key]!==undefined&&!/^\d{4}-\d{2}-\d{2}$/.test(params[key]))throw Error('invalid_date');
  if(params.capture_id!==undefined&&!/^[a-f0-9]{64}$/.test(params.capture_id))throw Error('invalid_capture');
  for(const key of ['payload','draft'])if(params[key]!==undefined){
-  const value=params[key],spec=operation.properties[key];
+  const value=params[key],spec=params.operation==='planning_setup'&&key==='payload'?operationSchemas.intake.properties.payload:operation.properties[key];
+  if(params.operation==='planning_setup'&&key==='payload'&&value===null)continue;
   if(!value||typeof value!=='object'||Array.isArray(value))throw Error('invalid_object');
   if(!spec?.properties||Object.keys(value).some(k=>!Object.hasOwn(spec.properties,k))||spec.required.some(k=>!Object.hasOwn(value,k)))throw Error('invalid_operation_payload');
+ }
+ if(params.references!==undefined){
+  if(!Array.isArray(params.references)||params.references.length<1||params.references.length>6)throw Error('invalid_references');
+  for(const r of params.references)if(!r||Object.keys(r).some(k=>!['source','heading','task'].includes(k))||!['protocol','workouts','dossier','report'].includes(r.source)||typeof r.heading!=='string'||!r.heading.length||r.heading.length>200||(r.task!==undefined&&(r.source!=='report'||!['morning','weekly','post_workout'].includes(r.task))))throw Error('invalid_reference');
  }
  const body=JSON.stringify(params);if(Buffer.byteLength(body)>2000000)throw Error('input_size_limit');
  return {args:[config.script,'--profile',config.profile],body};

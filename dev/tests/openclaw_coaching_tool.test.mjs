@@ -66,3 +66,11 @@ test('installed OpenClaw conversion and validation preserve write contracts',asy
  const result=await verifyInstalledSchema(process.env.SECTION11_OPENCLAW_PACKAGE);
  assert(result.old_schema_reproduces_failure);assert(result.valid_cases>=10);assert(result.invalid_cases>=5);
 });
+
+test('planning setup combines only validated intake and bounded reference requests',()=>{
+ const args={operation:'planning_setup',payload:null,references:[{source:'protocol',heading:'B'},{source:'workouts',heading:'AE-1'}]};
+ assert.deepEqual(JSON.parse(requestFor(args,config).body),args);
+ for(const patch of [{references:[]},{references:[{source:'protocol',heading:'B',path:'/private'}]},
+   {references:[{source:'workouts',heading:'AE-1',task:'morning'}]},{payload:{arbitrary:true}}])assert.throws(()=>requestFor({...args,...patch},config));
+ assert.throws(()=>requestFor({operation:'intake',payload:null},config));
+});
