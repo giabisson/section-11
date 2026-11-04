@@ -1,5 +1,18 @@
 # Weekly Report Examples
 
+## Default quick example (fictional)
+
+Week: 26 October–1 November
+🔧 Keep next week easy while checking riding tolerance.
+📊 Done: 2 of 3 paired sessions, 1h20m of 2h planned.
+🔎 Duration is confirmed; the response to the second ride is still unknown, so progression is on hold.
+➡️ Next week: maintain the current easy duration; this is a proposal, not a calendar update. No catch-up session.
+❓ Any symptoms later that day or the following morning?
+
+## Extended examples — only when detail is requested
+
+The older examples below illustrate the detailed field catalog, not default message length.
+
 > Anonymized examples using realistic placeholder data.
 > These demonstrate Section 11-compliant weekly report output.
 

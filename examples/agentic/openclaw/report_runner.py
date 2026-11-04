@@ -189,12 +189,30 @@ def cache_ordered_json(value):
     return json.dumps(ordered(value),ensure_ascii=False,separators=(',',':'),allow_nan=False)
 
 
+BRIEF_WORD_TARGETS = {'morning': 120, 'post_workout': 120, 'weekly': 180}
+DETAILED_REPORT_MARKER = '\n## Detailed reference — only on explicit request'
+
+
+def brief_metrics(text, task):
+    """Audit length without truncating health advice or buying another model call."""
+    words=len(text.split())
+    target=BRIEF_WORD_TARGETS[task]
+    return {'report_words':words,'report_word_target':target,
+            'report_over_word_target':words>target,
+            'report_characters':len(text.encode('utf-16-le'))//2}
+
+
 def report_prompt(packet,template,values,managed_contract=None):
     return ('Produce a concise evidence-informed cycling '+packet['task']+' report for Telegram, plain text with short bullets and optional emojis, at most 3400 characters. '
-            'Lead with the decision, explain material uncertainty, preserve full readiness/health safeguards and optional wearables, separate completion, goal attainment and response, and give the next observation. '
+            'QUICK BRIEF DEFAULT: target '+str(BRIEF_WORD_TARGETS[packet['task']])+' words or fewer, normally 4-6 short labelled lines (weekly 5-8). '
+            'Shorter is better when sufficient; never pad to a minimum. Lead with decision/result, then essential session or key result, one reason and next action. Use sparing consistent emojis: ✅ proceed/on target, 🔧 adjust, 🛑 skip/stop, ❓ answer needed. '
+            'At most two supporting numerical observations; prescription targets and essential safety facts are exempt. Omit routine dashboards, priority codes, normal/missing wearable lists, repeated disclaimers and separate completion/goal/response headings. '
+            'Assess completion, goal attainment and response separately internally; keep the structured saved review complete. Unknown response is not positive response. '
+            'Preserve readiness/health safeguards and optional wearables. Pending health clarification leads with Hold/check needed, never a green Go followed by a caveat. Ask only an unanswered decision-changing question. '
+            'Material uncertainty and specific stop rules remain explicit. Extend the word target for essential safety or multiple sessions; never truncate safety text. '
             'Use only the fresh packet below and relevant exact sections through section11_context. Do not use exec, arbitrary files, messages, calendar writes or memory as current data. '
             'For weekly review use each source rollup only for its stated period and label incomplete comparisons. For post-workout use the exact activity ID, never infer interval execution from session averages. '
-            'Apply the current report template below, omitting irrelevant metrics to fit one message. Do not claim unavailable companion sources or managed plan records were reviewed. '
+            'Use the compact default even if an older operator template demands a full dashboard; its evidence/validity rules still apply. Detailed reports are opt-in, not scheduled by default. Do not claim unavailable companion sources or managed plan records were reviewed. '
             'When needed evidence cannot be retrieved with the allowed tool, state the limitation and defer that decision.\n'
             +(managed_contract or '')+
             'Current operator-selected report template:\n'+redact(template,values)+'\n'
@@ -246,6 +264,7 @@ def generate(profile,config,packet,values):
             return 'failed',None,{**metrics,'error_code':'weekly_review_not_saved_no_report_delivery'}
     elif status=='ready' and managed:
         metrics['managed_review_state']='onboarding_required'
+    if status=='ready':metrics.update(brief_metrics(text,packet['task']))
     metrics.update(route=profile.get('_selected_route','baseline'),requested_thinking=config['agents']['entries'].get('main',{}).get('thinkingDefault',config['agents']['defaults'].get('thinkingDefault','medium')))
     return status,text,metrics
 
@@ -254,6 +273,9 @@ def report_template(context,cp,task):
     filename={'morning':'PRE_WORKOUT_REPORT_TEMPLATE.md','weekly':'WEEKLY_REPORT_TEMPLATE.md','post_workout':'POST_WORKOUT_REPORT_TEMPLATE.md'}[task]
     text,source=context.read_source(Path(cp['reports_dir'])/filename)
     if len(text.encode())>context.MAX_PACKET_BYTES:raise ValueError('report_template_too_large')
+    # Keep on-demand field catalogs out of scheduled prompts. Source provenance
+    # still hashes the complete operator-selected file; old custom files work.
+    text=text.split(DETAILED_REPORT_MARKER,1)[0]
     return text,source
 
 

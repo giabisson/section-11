@@ -1,5 +1,17 @@
 # Pre-Workout Report Examples
 
+## Default quick example (fictional)
+
+Morning: Saturday 31 October
+❓ Hold today's ride pending your shoulder check.
+🚴 Planned: 40 min easy indoor, 35 min at 100 W + 5 min at 80 W.
+❓ Any new pain/weakness, changed restrictions, or difficulty supporting yourself and getting on/off without loading the affected shoulder?
+➡️ If compatible with your clinician's restrictions, keep it easy; stop for new pain or weakness.
+
+## Extended examples — only when detail is requested
+
+The older examples below illustrate the detailed field catalog, not default message length.
+
 > Fictional examples showing standard pre-workout report format, not current athlete data.  
 > See `PRE_WORKOUT_REPORT_TEMPLATE.md` for field reference.
 

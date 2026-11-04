@@ -1,5 +1,18 @@
 # Block Report Examples
 
+## Default quick example (fictional)
+
+Block: return to consistent riding
+❓ Maintain the current dose until tolerability is confirmed.
+📊 Done: 8 of 9 paired sessions; one missed due to reported work commitments.
+🔎 Consistency improved, but the last ride's response is unknown; completion alone does not establish readiness to progress.
+➡️ Proposed next block: maintain easy riding within current restrictions, with no catch-up work.
+❓ Check next: symptoms during and the day after the next ride.
+
+## Extended examples — only when detail is requested
+
+The older examples below illustrate the detailed field catalog, not default message length.
+
 > Anonymized examples using realistic placeholder data.
 > These demonstrate Section 11-compliant block report output.
 

@@ -1,5 +1,71 @@
 # Season Report Template
 
+## Default: quick coaching brief
+
+This is the default for Telegram and ordinary reviews. It takes precedence over
+all detailed layouts, field lists and legacy examples below. Detailed reports
+are supplied only when the athlete explicitly asks for detail or particular data.
+Evaluate the evidence fully; display only what changes the decision or helps the
+athlete act. Keep the structured managed review complete when saving it.
+
+- Lead with the decision/result. Use short labelled lines and blank lines; a few
+  consistent emojis aid scanning: ✅ proceed/on target, 🔧 adjust, 🛑 skip/stop,
+  ❓ answer needed. Emoji never replaces the words or conceals uncertainty.
+- Give one concrete reason and next action. Use at most two supporting numerical
+  observations; prescription durations/targets and essential safety facts are
+  exempt. No routine CTL/ATL/TSB/ACWR dashboard, phase codes, priority codes,
+  unavailable-metric lists, repeated disclaimers, or normal wearable statistics.
+- Read fresh evidence and check dates even when not displaying a timestamp.
+  State stale, missing or contradictory evidence only when it limits this decision;
+  defer the affected conclusion. Never interpret absent feedback as a good response.
+- HRV, RHR and overnight device use are optional. Missing wearables alone do not
+  require rest, repeated questions or nightly wear. Ask only unanswered questions
+  that could change the recommendation. Reuse relevant current answers.
+- Preserve P0/P1 stops, illness/injury safeguards and clinician restrictions.
+  An unresolved health check must be in the first decision line (e.g. “❓ Hold
+  today's ride pending your shoulder check”), never a green Go followed by a caveat.
+  Keep a specific stop rule when the health context requires it, without repeating
+  general medical disclaimers. Do not infer recovery or medical clearance from load.
+- Assess completion, goal attainment and response separately internally and in the
+  saved review; combine them naturally in the brief. Do not add three mandatory
+  sections. Disclose unknown execution/response when it limits the conclusion.
+- Whole-ride averages never establish main-set execution. For block claims use
+  the exact activity, verified pairing, structure_summary/session_structure and
+  method/status/issues; planned targets and observed results remain distinct.
+  Broad plan-window agreement is not formal adherence or permission to progress.
+  Interpret EF only with duration ≥20 min and 0 < VI ≤1.05; decoupling only with
+  duration ≥90 min and 0 < VI ≤1.05. Otherwise omit those interpretations.
+- No invented causes or missing-value substitutes. Use source display units and
+  formatted durations. Cite actual saved/published state only after verified receipts;
+  a recommendation is not a calendar write. Missed work creates no catch-up debt.
+- Include each relevant planned session (or each requested completed activity) on
+  a compact line; scheduled post-workout reports cover their exact activity ID.
+  Extend the length target for multiple sessions or essential safety, never truncate
+  a warning. Do not repeat the same point under different labels.
+
+Shorter is better when nothing else affects the decision; never pad to a minimum.
+
+**Length target:** 180–250 words; normally 6–10 short lines.
+
+```text
+Season: [period / goal]
+[✅ / 🔧 / ❓] [supported outcome versus actual goal]
+📊 Training: [one meaningful volume/consistency comparison]
+🔎 Learned: [one or two supported performance/sustainability observations]
+➡️ Next: [focus and reason]
+[❓ Material uncertainty / next observation]
+```
+
+On demand only. Label partial periods and compare like-for-like complete periods.
+Do not infer causal success from a workout library or load trend. Do not invent
+prior training or capability rollups not present in the source.
+
+## Detailed reference — only on explicit request
+
+The following field catalog and extended layout apply only to an explicitly requested
+detailed report. Evidence, validity, freshness and safety rules always apply;
+field-display requirements here do not apply to the quick brief above.
+
 **Structure only: no data. Replace `[placeholders]` with actual values.**
 
 **Data Freshness:** Take every number from a current read of the source that owns it: training metrics and planned sessions from the source JSON file, stable athlete facts (such as a tested bottle quantity) from the current official dossier, athlete-reported values from the athlete's explicit current statement, and external conditions such as weather from their current source (see SECTION_11.md §Output Format Guidelines). Never take a number from memory or an earlier chat. Do not carry forward values from earlier reports or earlier in the conversation. Re-read before quoting.

@@ -4,7 +4,25 @@ Section 11-compliant AI coaching reports follow a layered structure. Each level 
 
 ---
 
-## Report Types & Length Norms
+## Default delivery
+
+**Default coaching reports are quick briefs.** Lead with an explicit decision/result,
+then the session/key result, one reason, next action and at most one focused question.
+Use consistent, sparing emojis (✅ proceed, 🔧 adjust, 🛑 skip/stop, ❓ answer needed)
+and short labelled lines. Morning/post-workout target 80–120 words; weekly 120–180;
+block 150–220; season 180–250. These are targets, not safety truncation limits.
+Use at most two supporting numerical observations, excluding prescription targets
+and essential safety facts. Omit normal dashboards, routine missing-wearable lists,
+priority codes and repeated caveats. Read/check all relevant evidence internally;
+only show limitations that affect the decision. Pending health clarification leads
+with Hold/check needed, never a green Go with a later caveat. Preserve all P0/P1,
+health, optional-wearable, source and validity rules. Assess completion, goal and
+response separately without requiring separate visible sections. Keep validated
+managed reviews complete; concise delivery does not reduce durable evidence.
+Detailed layouts below and legacy examples apply only on an explicit request for
+detail. Use the compact sections at the start of each report template by default.
+
+## Detailed Report Types & Length Norms (only on request)
 
 | Report Type | Trigger | Target Length | Purpose |
 |-------------|---------|---------------|---------|
@@ -50,7 +68,7 @@ For fallback data, the single final attribution uses the actual provider name: "
 
 ---
 
-## Consistency Rules
+## Detailed layout consistency rules (only on request)
 
 All report types share these formatting principles:
 

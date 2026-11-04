@@ -75,6 +75,8 @@ class ManagedGeneration(unittest.TestCase):
         self.assertEqual((status,text),('ready','Synthetic report'))
         self.runtime.save.assert_called_once_with('a'*64,self.artifact['review'],trigger='scheduled')
         self.assertEqual(metrics['managed_review']['review_id'],'one')
+        self.assertEqual(metrics['report_words'],2)
+        self.assertFalse(metrics['report_over_word_target'])
 
     def test_invalid_or_rejected_reviews_never_become_deliverable(self):
         (status,text,_),_=self.generate({'report':'Unsaved report'})

@@ -1,5 +1,17 @@
 # Post-Workout Report Examples
 
+## Default quick example (fictional)
+
+Ride review: Wednesday 4 November
+✅ Completed 60 min; the matched Z2 window was close to target.
+📊 Main block: 45 min averaging 180 W and 137 bpm.
+➡️ Keep the next session as planned pending your response.
+❓ How hard did it feel, and any shoulder symptoms during or after?
+
+## Extended examples — only when detail is requested
+
+The older examples below illustrate the detailed field catalog, not default message length.
+
 > Anonymized examples showing standard post-workout report format.  
 > See `POST_WORKOUT_REPORT_TEMPLATE.md` for field reference. Legacy examples do not supply recorded elevation, so Ascent is omitted. Missing matched-step data is stated explicitly; aggregate numbers are preserved. The fictional field excerpts below illustrate the new producer contract without inventing step actuals for those legacy reports.
 

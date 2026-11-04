@@ -35,6 +35,37 @@ class ReportRunner(unittest.TestCase):
     def run_report(self,packet=None,period='2026-10-22'):
         return self.runner.process(packet or self.packet,period,self.config,[])
 
+    def test_brief_policy_overrides_legacy_dashboard_without_dropping_safety(self):
+        for task in ('morning','post_workout','weekly'):
+            packet={**self.packet,'task':task}
+            prompt=r.report_prompt(packet,'Legacy template: display all metrics',[])
+            self.assertIn('compact default even if an older operator template',prompt)
+            self.assertIn('Pending health clarification leads with Hold',prompt)
+            self.assertIn('Unknown response is not positive response',prompt)
+            self.assertIn('keep the structured saved review complete',prompt)
+            self.assertIn('never truncate safety text',prompt)
+            self.assertIn('❓ answer needed',prompt)
+            self.assertIn('Stable constraints',prompt)
+
+    def test_scheduled_template_excludes_opt_in_catalog_and_preserves_provenance(self):
+        text='Compact with safety'+r.DETAILED_REPORT_MARKER+'\nLONG DASHBOARD'
+        source={'sha256':'complete-file-hash'}
+        context=SimpleNamespace(read_source=lambda p:(text,source),MAX_PACKET_BYTES=49152)
+        brief,provenance=r.report_template(context,{'reports_dir':'/synthetic'},'morning')
+        self.assertEqual(brief,'Compact with safety');self.assertEqual(provenance,source)
+        context.read_source=lambda p:('Unmarked custom operator template',source)
+        self.assertEqual(r.report_template(context,{'reports_dir':'/synthetic'},'weekly')[0],
+                         'Unmarked custom operator template')
+
+    def test_length_audit_does_not_cut_or_regenerate_a_safety_message(self):
+        text=('Keep this essential stop rule. '*30).strip()
+        before=text
+        self.assertTrue(r.brief_metrics(text,'morning')['report_over_word_target'])
+        self.gen.return_value=('ready',text,{'report_over_word_target':True})
+        self.assertEqual(self.run_report()['status'],'delivered')
+        self.assertEqual(self.send.call_args.args[2],before)
+        self.assertEqual(self.gen.call_count,1)
+
     def test_confirmed_delivery_is_required_and_unchanged_evidence_skips_model(self):
         self.assertEqual(self.run_report()['status'],'delivered')
         self.assertEqual(self.run_report()['status'],'unchanged')

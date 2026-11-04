@@ -1,5 +1,79 @@
 # Pre-Workout Report Template
 
+## Default: quick coaching brief
+
+This is the default for Telegram and ordinary reviews. It takes precedence over
+all detailed layouts, field lists and legacy examples below. Detailed reports
+are supplied only when the athlete explicitly asks for detail or particular data.
+Evaluate the evidence fully; display only what changes the decision or helps the
+athlete act. Keep the structured managed review complete when saving it.
+
+- Lead with the decision/result. Use short labelled lines and blank lines; a few
+  consistent emojis aid scanning: ✅ proceed/on target, 🔧 adjust, 🛑 skip/stop,
+  ❓ answer needed. Emoji never replaces the words or conceals uncertainty.
+- Give one concrete reason and next action. Use at most two supporting numerical
+  observations; prescription durations/targets and essential safety facts are
+  exempt. No routine CTL/ATL/TSB/ACWR dashboard, phase codes, priority codes,
+  unavailable-metric lists, repeated disclaimers, or normal wearable statistics.
+- Read fresh evidence and check dates even when not displaying a timestamp.
+  State stale, missing or contradictory evidence only when it limits this decision;
+  defer the affected conclusion. Never interpret absent feedback as a good response.
+- HRV, RHR and overnight device use are optional. Missing wearables alone do not
+  require rest, repeated questions or nightly wear. Ask only unanswered questions
+  that could change the recommendation. Reuse relevant current answers.
+- Preserve P0/P1 stops, illness/injury safeguards and clinician restrictions.
+  An unresolved health check must be in the first decision line (e.g. “❓ Hold
+  today's ride pending your shoulder check”), never a green Go followed by a caveat.
+  Keep a specific stop rule when the health context requires it, without repeating
+  general medical disclaimers. Do not infer recovery or medical clearance from load.
+- Assess completion, goal attainment and response separately internally and in the
+  saved review; combine them naturally in the brief. Do not add three mandatory
+  sections. Disclose unknown execution/response when it limits the conclusion.
+- Whole-ride averages never establish main-set execution. For block claims use
+  the exact activity, verified pairing, structure_summary/session_structure and
+  method/status/issues; planned targets and observed results remain distinct.
+  Broad plan-window agreement is not formal adherence or permission to progress.
+  Interpret EF only with duration ≥20 min and 0 < VI ≤1.05; decoupling only with
+  duration ≥90 min and 0 < VI ≤1.05. Otherwise omit those interpretations.
+- No invented causes or missing-value substitutes. Use source display units and
+  formatted durations. Cite actual saved/published state only after verified receipts;
+  a recommendation is not a calendar write. Missed work creates no catch-up debt.
+- Include each relevant planned session (or each requested completed activity) on
+  a compact line; scheduled post-workout reports cover their exact activity ID.
+  Extend the length target for multiple sessions or essential safety, never truncate
+  a warning. Do not repeat the same point under different labels.
+
+Shorter is better when nothing else affects the decision; never pad to a minimum.
+
+**Length target:** 80–120 words; normally 4–6 short lines.
+
+```text
+Morning: [day/date]
+[✅ Go / 🔧 Modify / 🛑 Skip / ❓ Hold pending check]: [one reason]
+🚴 Today: [session, duration, essential main set/targets; or rest]
+[Only if needed: specific adjustment or stop rule]
+[❓ One focused current-health/availability question, only if unresolved]
+```
+
+Use workout_summary for targets; if null or marked incomplete, use the current
+description/description_preview, labelling a preview as partial. Never invent
+a target or infer step roles from lower power alone.
+
+For rest days, state rest and the next known session, without a readiness
+questionnaire. For an outdoor ride/run include actionable current route/home
+weather only when needed: brief conditions and preparation, material coverage or
+expiry limits, and linked provider/licence attribution. Use matching route/event,
+route_ref, departure/cache_key/brief_id; never substitute home weather for a usable
+route with unavailable weather. Check bands and expiry; don't aggregate raw
+sections or infer safe roads. No weather for indoor sessions or rest days. On
+request use the full weather template for maps and forecast detail.
+
+## Detailed reference — only on explicit request
+
+The following field catalog and extended layout apply only to an explicitly requested
+detailed report. Evidence, validity, freshness and safety rules always apply;
+field-display requirements here do not apply to the quick brief above.
+
 > This template defines the standard output format for pre-workout reports.  
 > Read `latest.json.data_overview` first for companion availability and route/map status. Resolve paths against that latest file's local folder or URL base; for Manual uploads without folders match by filename. Presence alone does not prove AI access. Weather times use local HH:MM from `display_time`; add a zone only when it differs from the athlete's timezone or is a UTC fallback. The Data updated header retains its date, time and zone. Maps and data fields keep their existing zone/offset labels. Use 16-point compass directions, never degrees. Read matching `route_weather_map.pages` before showing them in order, directly after the report text; identify any missing page. Do not offer maps as downloads or ask the user to download/upload them; use the text brief when unavailable.
 > Fields in `[brackets]` are placeholders. Omit fields that don't apply.  

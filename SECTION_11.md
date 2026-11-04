@@ -1207,7 +1207,23 @@ When uncertain, the AI must ask, not assume.
 
 **Adverse results must be stated plainly.** State results against the prescription or acceptance criterion directly. Do not reframe a missed target, poor execution, or failed validation as acceptable by leading with unrelated positives. Positive observations may follow, but must not alter the verdict. Label uncertainty rather than using it to soften the result.
 
-**Post-Workout Report Structure:**
+**Default coaching reports are quick briefs.** Lead with an explicit decision/result,
+then the session/key result, one reason, next action and at most one focused question.
+Use consistent, sparing emojis (✅ proceed, 🔧 adjust, 🛑 skip/stop, ❓ answer needed)
+and short labelled lines. Morning/post-workout target 80–120 words; weekly 120–180;
+block 150–220; season 180–250. These are targets, not safety truncation limits.
+Use at most two supporting numerical observations, excluding prescription targets
+and essential safety facts. Omit normal dashboards, routine missing-wearable lists,
+priority codes and repeated caveats. Read/check all relevant evidence internally;
+only show limitations that affect the decision. Pending health clarification leads
+with Hold/check needed, never a green Go with a later caveat. Preserve all P0/P1,
+health, optional-wearable, source and validity rules. Assess completion, goal and
+response separately without requiring separate visible sections. Keep validated
+managed reviews complete; concise delivery does not reduce durable evidence.
+Detailed layouts below and legacy examples apply only on an explicit request for
+detail. Use the compact sections at the start of each report template by default.
+
+**Detailed Post-Workout Report Structure (only when explicitly requested):**
 
 Reports use a structured line-by-line format per session, not bullet-point summaries. Each report follows this flow:
 
@@ -1250,7 +1266,7 @@ Reports use a structured line-by-line format per session, not bullet-point summa
 
 See **Output Format Guidelines** for full field reference, assessment labels, and report templates.
 
-**Do NOT:**
+**Detailed-report rules (the compact default takes precedence):**
 - Use single-paragraph responses for workout reviews
 - Use bullet-point lists for session data (use structured line-by-line format)
 - Ask follow-up questions when data is complete and metrics are good
@@ -3304,6 +3320,24 @@ Long-term objectives come from the athlete dossier. The **current phase** comes 
 ---
 
 ### Output Format Guidelines
+
+**Default coaching reports are quick briefs.** Lead with an explicit decision/result,
+then the session/key result, one reason, next action and at most one focused question.
+Use consistent, sparing emojis (✅ proceed, 🔧 adjust, 🛑 skip/stop, ❓ answer needed)
+and short labelled lines. Morning/post-workout target 80–120 words; weekly 120–180;
+block 150–220; season 180–250. These are targets, not safety truncation limits.
+Use at most two supporting numerical observations, excluding prescription targets
+and essential safety facts. Omit normal dashboards, routine missing-wearable lists,
+priority codes and repeated caveats. Read/check all relevant evidence internally;
+only show limitations that affect the decision. Pending health clarification leads
+with Hold/check needed, never a green Go with a later caveat. Preserve all P0/P1,
+health, optional-wearable, source and validity rules. Assess completion, goal and
+response separately without requiring separate visible sections. Keep validated
+managed reviews complete; concise delivery does not reduce durable evidence.
+Detailed layouts below and legacy examples apply only on an explicit request for
+detail. Use the compact sections at the start of each report template by default.
+
+**Detailed report field catalog (only on request):**
 
 AI systems should structure athlete reports consistently.  
 See https://github.com/CrankAddict/section-11/tree/main/examples/reports for annotated templates and examples.

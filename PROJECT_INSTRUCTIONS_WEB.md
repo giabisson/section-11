@@ -1,5 +1,24 @@
 # Project Instructions - Web and Connector Platforms
 
+## Coaching message length
+
+**Default coaching reports are quick briefs.** Lead with an explicit decision/result,
+then the session/key result, one reason, next action and at most one focused question.
+Use consistent, sparing emojis (✅ proceed, 🔧 adjust, 🛑 skip/stop, ❓ answer needed)
+and short labelled lines. Morning/post-workout target 80–120 words; weekly 120–180;
+block 150–220; season 180–250. These are targets, not safety truncation limits.
+Use at most two supporting numerical observations, excluding prescription targets
+and essential safety facts. Omit normal dashboards, routine missing-wearable lists,
+priority codes and repeated caveats. Read/check all relevant evidence internally;
+only show limitations that affect the decision. Pending health clarification leads
+with Hold/check needed, never a green Go with a later caveat. Preserve all P0/P1,
+health, optional-wearable, source and validity rules. Assess completion, goal and
+response separately without requiring separate visible sections. Keep validated
+managed reviews complete; concise delivery does not reduce durable evidence.
+Detailed layouts below and legacy examples apply only on an explicit request for
+detail. Use the compact sections at the start of each report template by default.
+
+
 **Scope.** This contract covers sessions where the AI reaches your data through a **connector or authenticated repository, an upload or attachment, or a URL fetch**, but has no runtime-accessible filesystem. Grok (web/app), ChatGPT, Claude, Gemini, Mistral and Perplexity in a browser or app normally sit here.
 
 A connector does not make a session agentic. What separates the two contracts is whether the runtime can reach a filesystem, not whether it can reach your files by some means. If your AI runs on a filesystem it can read (your own machine, a self-hosted box, or a provider-hosted agent computer), use `PROJECT_INSTRUCTIONS_AGENTIC.md`. That routing does not depend on write access; a runtime-filesystem session is agentic even where nothing is writable. For anything outside both scopes, see the platform routing table in `SKILL.md`.

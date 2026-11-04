@@ -1,5 +1,17 @@
 # Season Report Examples
 
+## Default quick example (fictional)
+
+Season: build consistent endurance training
+✅ Training became more consistent across the two complete periods compared.
+🔎 The event goal cannot yet be assessed: no result is recorded.
+➡️ Next: review the event outcome and sustainability before choosing the next block.
+❓ Which parts of the schedule felt manageable?
+
+## Extended examples — only when detail is requested
+
+The older examples below illustrate the detailed field catalog, not default message length.
+
 Two synthetic, anonymized examples demonstrating the Season Report tier. Both render the trailing-12-month annual arc with YoY metrics-only comparison, per v1 design.
 
 **Anchor convention:** YoY anchor is the **last fully completed calendar month** prior to `metadata.last_updated`. Snapshot date `2026-04-28` → anchor month `2026-03`. The current calendar month (April 2026) is excluded from YoY because partial-month-vs-full-month comparison would distort every delta.

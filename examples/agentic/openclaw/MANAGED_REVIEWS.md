@@ -173,6 +173,15 @@ process bound and 48 KiB complete-output limit. Failed/incomplete acknowledgemen
 are explicitly uncertain; recover the saved state before another write. The
 scheduled report's existing read-only tool limit is unchanged.
 
+## Athlete-facing review length
+
+Telegram receives the compact template by default: decision/result, essential
+observation, next action, and only a decision-changing question. Use sparing
+✅/🔧/🛑/❓ cues. Full observations, completion/goal/response distinctions,
+revision lineage, causes and next observation remain in the validated saved
+review; do not dump them all into the message or weaken save validation. Detailed
+analysis is opt-in. A safety limit or unresolved health check stays explicit.
+
 ## Scheduled weekly and block reviews
 
 The existing weekly supervisor keeps its model, schedule, delivery owner, two-call

@@ -224,3 +224,21 @@ confirmed saved intake/feedback/history, complete fresh context, matching manage
 calendar events with no duplicates or pending uncertain operations, and preserved
 original receipts. Usage observations remain a small sample. No live test messages,
 model requests, calendar writes, session resets or secondary-profile changes occurred.
+
+## Compact coaching reports
+
+Scheduled morning/post-workout briefs target at most 120 words; weekly briefs
+target 180. These are soft targets: essential health advice and multiple sessions
+can extend them. No automatic trimming or extra generation call is used to hit a
+word count. Report metrics record `report_words`, `report_word_target`,
+`report_over_word_target` and UTF-16 `report_characters` alongside existing usage
+and latency metrics. For managed weekly output these measure the delivered prose,
+not the full structured review, which is still validated and saved before delivery.
+Compare those counters and actual provider usage over subsequent reports; no
+savings are claimed before measurement.
+
+The scheduled template reader includes only the compact section before the
+explicit detailed-reference marker; provenance still hashes the complete source
+file. Unmarked operator templates remain readable, with the prompt's compact
+policy taking precedence over legacy dashboard layout requirements. Interactive
+and on-demand detailed reads retain the full catalogs and evidence gates.

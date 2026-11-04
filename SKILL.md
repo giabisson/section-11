@@ -160,13 +160,23 @@ Use standardized report formats. Load templates using this precedence:
 4. If not found, check uploaded or attached files
 5. If not found, fetch from: https://raw.githubusercontent.com/CrankAddict/section-11/main/examples/reports/
 
-Templates:
-- **Weather (on request):** Five-day planned-route forecasts/outlooks, preparation and supported comparison: `WEATHER_REPORT_TEMPLATE.md`
-- **Pre-workout:** Grouped status summary, a Today block per session in calendar order, weather directly under outdoor rides and runs only, and a Go/Modify/Skip recommendation followed immediately by interpretation: `PRE_WORKOUT_REPORT_TEMPLATE.md`
-- **Post-workout:** Dated header, one activity block with blank-separated time/context/climbs/power/HR/energy groups, grouped weekly totals, Interpretation and one Tomorrow session per line: `POST_WORKOUT_REPORT_TEMPLATE.md`. Quote the new display fields; activity peaks are descriptive only and never establish FTP, zones or readiness. Keep all existing structure, validity and missing-data rules
-- **Weekly:** Week summary, compliance, phase context: `WEEKLY_REPORT_TEMPLATE.md`
-- **Block:** Mesocycle review, phase progression: `BLOCK_REPORT_TEMPLATE.md`
-- **Brevity rule:** Brief when metrics are normal. Detailed when thresholds are breached or athlete asks "why."
+Templates use their **Default: quick coaching brief** section for ordinary reports;
+the detailed field catalog and extended examples are opt-in. Lead with decision/result,
+then essential session/result, reason and next action. Use short labelled lines and
+sparing ✅/🔧/🛑/❓ emojis. Target morning/post 80–120 words, weekly 120–180,
+block 150–220, season 180–250; extend for essential safety or multiple sessions.
+Omit routine metric dashboards and repeated caveats. Keep health stops and material
+uncertainty explicit; a pending health check leads with Hold, not Go. Optional HRV
+never creates a device-wearing requirement. Full structured managed reviews remain
+required and complete; their database fields need not be printed in Telegram.
+
+- **Weather (on request):** `WEATHER_REPORT_TEMPLATE.md` (full forecast/maps on request).
+- **Pre-workout:** decision, today's prescription, relevant adjustment/check: `PRE_WORKOUT_REPORT_TEMPLATE.md`.
+- **Post-workout:** result, one useful observation and next action: `POST_WORKOUT_REPORT_TEMPLATE.md`.
+- **Weekly:** progress toward goal, completed work and next-week decision: `WEEKLY_REPORT_TEMPLATE.md`.
+- **Block/season:** objective outcome and next focus: `BLOCK_REPORT_TEMPLATE.md`, `SEASON_REPORT_TEMPLATE.md`.
+- Explicitly requested detailed reports retain the evidence gates and field rules
+  in their detailed reference. No automatic full dashboard for a routine threshold breach.
 
 ## Heartbeat Operation
 
