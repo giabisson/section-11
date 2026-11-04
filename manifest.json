@@ -108,7 +108,7 @@
       "hash": "5fc5b86efed8a79b4d93d93114a373141d6de4defb1fb14a73b3d332ee4c6720"
     },
     "examples/agentic/openclaw/MANAGED_REVIEWS.md": {
-      "hash": "6dbc86ae392e6a9813f48609d30e873b55392d448b0ab82a89be60c4b8cee2f9"
+      "hash": "1e6f7a6779ff7bde7f770421bad9d5a99a2bf075b286b47e53309099f4413b5a"
     },
     "examples/agentic/openclaw/MODEL_EFFICIENCY.md": {
       "hash": "1aeb960f8b4ad85087e09758a8e72304560727f16c767df60aae7ad456ba389f"
@@ -186,7 +186,7 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "290629ce9cce1fdd21a910feda961de5a28389bc7efb65f09aeab9506315bce5"
+      "hash": "1056377c272529717788ca888c172260a3f595cd99816ff76e6e164963d22fac"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"

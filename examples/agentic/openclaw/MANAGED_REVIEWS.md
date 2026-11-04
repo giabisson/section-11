@@ -270,3 +270,13 @@ required window and an evidence digest; omitted rows do not imply absent trainin
 or complete coverage. Retrieve the stated history before a prescription or a
 judgment that depends on it. The original byte limit and exact history reader
 remain unchanged; oversized remaining content still fails explicitly.
+
+### Primary tool visibility
+
+A coding tool profile must explicitly include `section11_coaching` through the
+primary agent's `tools.alsoAllow`; manifest metadata alone does not establish
+live-session availability. `enable_primary_coaching_tools` adds only the two
+Section 11 tools for main, preserving all other settings. Verify live
+`tools.effective` after application. Read-only scheduled report configurations
+remove `alsoAllow` and keep their explicit context-only allowlist. No model,
+reasoning, secondary-account or calendar authorization setting is changed.

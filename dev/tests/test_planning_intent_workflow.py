@@ -17,6 +17,16 @@ class References(unittest.TestCase):
         self.fixture=context_fixtures.ContextPacket();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)
         self.p=self.fixture.profile
 
+    def test_primary_profile_explicitly_exposes_persistence_without_model_or_report_changes(self):
+        e=load_module_by_path('s11_planning_tool_access',REPO_ROOT/'examples/agentic/openclaw/efficiency_config.py')
+        config={'tools':{'profile':'coding','alsoAllow':['section11_context']},'agents':{'defaults':{'model':'same'},'entries':{'main':{'model':'sol','thinkingDefault':'medium'},'utility':{'model':'luna'}}}}
+        original=copy.deepcopy(config);out=e.enable_primary_coaching_tools(config)
+        self.assertIn('section11_coaching',out['agents']['entries']['main']['tools']['alsoAllow'])
+        self.assertEqual(config,original);self.assertEqual(out['agents']['entries']['utility'],original['agents']['entries']['utility'])
+        self.assertEqual(out['tools'],original['tools'])
+        self.assertEqual(out['agents']['entries']['main']['model'],'sol')
+        self.assertEqual(e.enable_primary_coaching_tools(out),out)
+
     def test_exact_failed_request_identifiers_resolve_to_full_real_titles(self):
         p={**self.p,'protocol':str(REPO_ROOT/'SECTION_11.md'),'workout_reference':str(REPO_ROOT/'examples/workout-library/WORKOUT_REFERENCE.md')}
         result=c.reference_batch(p,[{'source':'protocol','heading':'B'},{'source':'workouts','heading':'AE-1'}])

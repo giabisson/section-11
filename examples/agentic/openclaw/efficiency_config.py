@@ -4,8 +4,18 @@ import copy
 RECOVERY_HEADING='Section 11 context recovery'
 
 
+def enable_primary_coaching_tools(config):
+    """A coding profile must explicitly include the primary persistence tool."""
+    c=copy.deepcopy(config)
+    tools=c['agents']['entries']['main'].setdefault('tools',{})
+    allow=tools.setdefault('alsoAllow',[])
+    for name in ('section11_context','section11_coaching'):
+        if name not in allow:allow.append(name)
+    return c
+
+
 def configure(config):
-    c=copy.deepcopy(config);defaults=c['agents']['defaults']
+    c=enable_primary_coaching_tools(config);defaults=c['agents']['defaults']
     defaults['contextPruning']={'mode':'cache-ttl','ttl':'5m','tools':{'allow':['section11_context'],'deny':['exec','section11_coaching','write','edit','apply_patch']},
                                'hardClear':{'enabled':True,'placeholder':'[Historical coaching context removed. Read a fresh section11_context packet before using numbers or prescribing.]'}}
     compaction=defaults.setdefault('compaction',{})
