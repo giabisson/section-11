@@ -196,3 +196,45 @@ An unavailable analysis never proves that historical workout data is absent.
 Scheduled reports still do not load historical analysis routinely. Retrieve exact
 old detail only when its block comparison is needed. This is data retrieval and
 analysis; automatic similar-session selection/comparison is a separate layer.
+
+## Explicit two-block comparison
+
+`section11_context` operation `compare_blocks` takes current `activity_id` and
+`reference_activity_id`, plus optional integer `step_index` and
+`reference_step_index` (zero-based, 0–31). It shares the historical-analysis
+opt-in/account binding. Both IDs must be distinct primary-account activities.
+Only these typed arguments are accepted: no URLs, private paths, credentials,
+thresholds or user-supplied measurement snapshots. With selectors omitted it
+returns eligible constant-target windows for explicit selection, never an
+inferred main set or an automatic similarity ranking. No eligible choice is an
+explicit failure. Ramp, range-target, repeated-set, unmeasured and unpaired
+windows cannot be silently substituted for constant-target continuous steps.
+
+It calls the existing analysis helper at most twice, with at most eight API GETs
+and zero model/remote-write calls. Source metadata is revalidated and stream
+caching follows the six-hour policy above. Transport allows at most 120 seconds
+for this operation only; individual analysis fetch budgets remain 48 seconds.
+All other tool/exchange limits remain unchanged. At most 8 KiB is returned,
+containing the selected windows rather than full rides or raw streams.
+
+Power coverage must be at least 95%; HR/cadence deltas additionally require
+positive measurements with at least 95% coverage in both windows. These are
+engineering quality gates, not scientific thresholds. Actual window length and
+prescribed duration are kept separate; transition trimming is not formal failure
+to complete. A shortened cooldown/whole-session `partly_followed` warning is
+retained but does not erase a valid selected main-window comparison. Clipped or
+off-target selected windows remain explicitly flagged. Analyzer versions/code
+must match; ambiguous pairing or invalid timing prevents numeric comparison.
+
+Every delta is **current minus reference**. `workload_match` is `different` or
+`same_at_reported_precision`, determined only by equality of recorded mean power
+and measured duration. Neither is a claim about identical traces or a controlled
+experiment. The result is always `descriptive_only`: show power, duration and HR
+for both sides, actual/planned mismatches, differences in lead-in duration,
+recording device/environment/FTP setting, missing context and source provenance.
+A recording-device difference does not identify the power sensor or trainer app.
+Unknown conditions stay unknown; do not require optional wearable data to compare.
+Do not normalize HR to a common wattage or infer fitness, surgery effects or
+medical clearance from the difference. The LLM may explain the observed result
+briefly but cannot upgrade it to an exact matched or causal comparison. Further
+similar-session search and physiological modeling are outside this operation.

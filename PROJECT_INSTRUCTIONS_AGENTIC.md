@@ -275,6 +275,20 @@ streams for at most six hours; read computed/revalidated times. Unknown pairing
 or coverage is not adherence; broad window agreement does not prove full formal
 completion, response or readiness. Compare actual power, duration and context;
 never silently substitute whole-ride averages or call similar workouts identical.
+For an actual two-ride comparison prefer `compare_blocks` with current
+`activity_id`, `reference_activity_id` and explicit zero-based `step_index` /
+`reference_step_index` from verified detail. Omit selectors to retrieve eligible
+choices; do not guess main-work roles from names or lower/higher targets. This
+operation returns selected observed windows, actual workload differences and
+current-minus-reference deltas. Quote duration, actual power and HR for both
+windows, then the key limitation, in a brief labelled comparison with sparing
+emojis. Honor `workload_match`, coverage and context differences. A descriptive
+HR delta at different power/duration is not HR change at a shared wattage; never
+normalize HR to another power or infer surgery effects, fitness change or clearance.
+Same means/durations at reported precision still do not establish a controlled
+comparison. Missing HR suppresses the HR delta; whole-session averages are never
+a fallback. Keep shortened cooldown/whole-session warnings separate from the
+selected main window. Ineligible/ambiguous selection defers the comparison.
 On retrieval failure, report the explicit limitation; do not inspect credentials,
 probe accounts, retry shell diagnostics or bypass the tool/exchange budget.
 Raw `pull.py --credentials-dir /absolute/operator-configured/data trace ...`

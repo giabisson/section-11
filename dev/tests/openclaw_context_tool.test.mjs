@@ -108,3 +108,15 @@ test('historical analysis accepts one exact ID and no credential or path overrid
   await executeContext(argvFor({operation:'section',source:'protocol',heading:'activity_analysis'},config),undefined,spawnFixture([Buffer.from('{"packet_complete":true}')],0));
   assert.deepEqual(deadlines,[60000,15000]);
 });
+
+test('block comparison selectors are typed, bounded and confined to two activities',async t=>{
+ const p={operation:'compare_blocks',activity_id:'i205776483',reference_activity_id:'i193686489',step_index:1,reference_step_index:1};
+ const args=argvFor(p,config);
+ assert.deepEqual(args,[config.script,'--profile',config.profile,'compare_blocks','--activity-id','i205776483','--reference-activity-id','i193686489','--step-index','1','--reference-step-index','1']);
+ assert.doesNotThrow(()=>argvFor({operation:p.operation,activity_id:p.activity_id,reference_activity_id:p.reference_activity_id},config));
+ for(const changes of [{reference_activity_id:p.activity_id},{reference_activity_id:'../other'},{reference_activity_id:undefined},{step_index:-1},{step_index:32},{step_index:'1'},{step_index:1.5},{path:'/other'}])assert.throws(()=>argvFor({...p,...changes},config));
+ const deadlines=[];const original=globalThis.setTimeout;
+ t.mock.method(globalThis,'setTimeout',(fn,ms)=>{deadlines.push(ms);return original(fn,ms);});
+ await executeContext(args,undefined,spawnFixture([Buffer.from('{"packet_complete":true}')],0));
+ assert.deepEqual(deadlines,[120000]);
+});

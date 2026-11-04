@@ -2,9 +2,10 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 
 export const schema = {type:'object',additionalProperties:false,required:['operation'],properties:{
-  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','activity_analysis','review','headings','section','references']},
+  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','activity_analysis','compare_blocks','review','headings','section','references']},
   task:{type:'string',enum:['morning','weekly','workout','plan','post_workout']},
-  activity_id:{type:'string',maxLength:128},review_id:{type:'string',maxLength:128},start:{type:'string'},end:{type:'string'},
+  activity_id:{type:'string',maxLength:128},reference_activity_id:{type:'string',maxLength:128},
+  step_index:{type:'integer',minimum:0,maximum:31},reference_step_index:{type:'integer',minimum:0,maximum:31},review_id:{type:'string',maxLength:128},start:{type:'string'},end:{type:'string'},
   tier:{type:'string',enum:['daily','weekly','monthly']},
   source:{type:'string',enum:['protocol','workouts','dossier','report']},
   requests:{type:'array',minItems:1,maxItems:6,items:{type:'object',additionalProperties:false,required:['source','heading'],properties:{source:{type:'string',enum:['protocol','workouts','dossier','report']},heading:{type:'string',minLength:1,maxLength:200},task:{type:'string',enum:['morning','weekly','post_workout']}}}},
@@ -15,7 +16,7 @@ export function argvFor(params, config) {
   if (!config || !path.isAbsolute(config.script ?? '') || !path.isAbsolute(config.profile ?? '')) throw Error('invalid_config');
   if (!params || Object.keys(params).some(k=>!Object.hasOwn(schema.properties,k))) throw Error('invalid_params');
   const args=[config.script,'--profile',config.profile];
-  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],activity_analysis:['activity_id'],review:['review_id'],headings:['source','task'],section:['source','task','heading'],references:['requests']};
+  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],activity_analysis:['activity_id'],compare_blocks:['activity_id','reference_activity_id','step_index','reference_step_index'],review:['review_id'],headings:['source','task'],section:['source','task','heading'],references:['requests']};
   const fields=allowed[params.operation];
   if (!fields || Object.keys(params).some(k=>k!=='operation'&&!fields.includes(k))) throw Error('invalid_operation');
   args.push(params.operation);
@@ -30,12 +31,17 @@ export function argvFor(params, config) {
       }
       args.push('--requests-json',JSON.stringify(value));continue;
     }
+    if(['step_index','reference_step_index'].includes(field)){
+      if(!Number.isInteger(value)||value<0||value>31)throw Error('invalid_step_index');
+      args.push('--'+field.replaceAll('_','-'),String(value));continue;
+    }
     const spec=schema.properties[field];
     if(typeof value!=='string'||value.length> (spec.maxLength??128)||value.includes('\0')||(spec.enum&&!spec.enum.includes(value)))throw Error('invalid_value');
     if(['start','end'].includes(field)&&!/^\d{4}-\d{2}-\d{2}$/.test(value))throw Error('invalid_date');
     args.push('--'+field.replaceAll('_','-'),value);
   }
   if(params.operation==='activity_analysis'&&!/^i[1-9][0-9]{0,17}$/.test(params.activity_id??''))throw Error('invalid_activity_id');
+  if(params.operation==='compare_blocks'&&(!/^i[1-9][0-9]{0,17}$/.test(params.activity_id??'')||!/^i[1-9][0-9]{0,17}$/.test(params.reference_activity_id??'')||params.activity_id===params.reference_activity_id))throw Error('two_distinct_activity_ids_required');
   if(params.operation==='references'&&!params.requests)throw Error('references_required');
   if(['build','activities'].includes(params.operation)&&!params.task)throw Error('task_required');
   if(params.operation==='history'&&(!params.start||!params.end))throw Error('dates_required');
@@ -51,7 +57,7 @@ export function executeContext(args, signal, spawnImpl=spawn) {
     const finish=value=>{if(settled)return;settled=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve(value);};
     const failure=()=>finish({isError:true,content:[{type:'text',text:'Context read failed or exceeded its bound; no partial packet supplied.'}]});
     const abort=()=>{child?.kill('SIGKILL');failure();};
-    const timer=setTimeout(abort,args[3]==='activity_analysis'?60000:15000);
+    const timer=setTimeout(abort,args[3]==='compare_blocks'?120000:args[3]==='activity_analysis'?60000:15000);
     if(signal?.aborted){abort();return;}
     signal?.addEventListener('abort',abort,{once:true});
     try {

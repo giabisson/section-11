@@ -316,9 +316,9 @@ def history_detail(profile, activity_id):
             "scope": "Compact source facts only. Use activity_analysis with this exact activity_id for historical block execution when configured; raw streams and plan intent are separate dependencies."}
 
 
-def activity_analysis(profile, activity_id):
+def activity_analysis_source(profile):
     if not profile.get('activity_analysis_profile'):
-        return {'status':'unavailable','error_code':'activity_analysis_not_configured'}
+        return None,None
     spec=importlib.util.spec_from_file_location('s11_activity_analysis',Path(__file__).with_name('activity_analysis.py'))
     helper=importlib.util.module_from_spec(spec);sys.modules[spec.name]=helper;spec.loader.exec_module(helper)
     config=helper.load_profile(profile['activity_analysis_profile'])
@@ -329,7 +329,21 @@ def activity_analysis(profile, activity_id):
         fail('activity_analysis_account_mismatch')
     if profile.get('long_term_source') and Path(config['facts_store']).resolve()!=Path(profile['long_term_source']).with_name('facts.sqlite3').resolve():
         fail('activity_analysis_history_mismatch')
+    return helper,config
+
+
+def activity_analysis(profile, activity_id):
+    helper,config=activity_analysis_source(profile)
+    if helper is None:return {'status':'unavailable','error_code':'activity_analysis_not_configured'}
     return helper.analyze(config,activity_id)
+
+
+def compare_blocks(profile, activity_id, reference_activity_id, step_index=None, reference_step_index=None):
+    helper,config=activity_analysis_source(profile)
+    if helper is None:return {'status':'unavailable','error_code':'activity_analysis_not_configured'}
+    spec=importlib.util.spec_from_file_location('s11_block_comparison',Path(__file__).with_name('block_comparison.py'))
+    comparison=importlib.util.module_from_spec(spec);spec.loader.exec_module(comparison)
+    return comparison.compare(config,activity_id,reference_activity_id,helper.analyze,step_index,reference_step_index)
 
 
 def markdown_sections(text):
@@ -498,7 +512,7 @@ def encode_tool_packet(packet, profile, command):
     """Atomic wire budget for native tool results; durable sources stay intact."""
     limit=profile.get('tool_packet_bytes',MAX_PACKET_BYTES)
     if command=='long_term':limit=min(limit,8192)
-    if command=='activity_analysis':limit=min(limit,8192)
+    if command in ('activity_analysis','compare_blocks'):limit=min(limit,8192)
     value=copy.deepcopy(packet)
     def fits():return len(json.dumps({**value,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())<=limit
     if command=='build' and not fits():
@@ -575,6 +589,11 @@ def main():
     detail.add_argument("--activity-id", required=True)
     analysis = sub.add_parser("activity_analysis")
     analysis.add_argument("--activity-id", required=True)
+    comparison = sub.add_parser('compare_blocks')
+    comparison.add_argument('--activity-id',required=True)
+    comparison.add_argument('--reference-activity-id',required=True)
+    comparison.add_argument('--step-index',type=int)
+    comparison.add_argument('--reference-step-index',type=int)
     review = sub.add_parser("review")
     review.add_argument("--review-id")
     for command in ("headings", "section"):
@@ -602,6 +621,8 @@ def main():
             result = history_detail(profile, args.activity_id)
         elif args.command == "activity_analysis":
             result = activity_analysis(profile, args.activity_id)
+        elif args.command == 'compare_blocks':
+            result = compare_blocks(profile,args.activity_id,args.reference_activity_id,args.step_index,args.reference_step_index)
         elif args.command == "review":
             result = review_history(profile, args.review_id)
         else:
