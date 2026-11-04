@@ -20,7 +20,7 @@
       "hash": "6d32647d81c39c0e06254dc502c951332577c52dc4fd9f57ad2dbe6326d452db"
     },
     "PROJECT_INSTRUCTIONS_AGENTIC.md": {
-      "hash": "5bea180e52bbe3f516af15e55b65333596504d2e374ab5f3f8aebe64329b3e9c"
+      "hash": "338f29db3c0d2097b54c0f940cb4879a292bad20a42d1eef03d18fa03c0c610b"
     },
     "PROJECT_INSTRUCTIONS_WEB.md": {
       "hash": "b3fa0fe66698e16fa06b0ea8ce386e7ab1976bc76f2631dfabb258591fb7c587"
@@ -39,7 +39,7 @@
       "hash": "ab6fdc2649d50752f8770650893db59980355086834ca544a2a4fa6aa40ef91f"
     },
     "SKILL.md": {
-      "hash": "8d881f8eb2ad413f08eb11751bec66661fe4c1ebf97c07f6e4d3aaf28fcdc6c3"
+      "hash": "f9ef3b53d3a741a067edc843b52aba36d273f4b97e64e1c537ed7f3f16d03202"
     },
     "THIRD_PARTY_NOTICES.md": {
       "hash": "2d9fa3fc0fe1477ab66d63f9edebe758f329fcda3f439702bbe5a8ff78b9b53e"
@@ -66,7 +66,7 @@
       "hash": "6511399734d3a7a95a4147079d8c0e72efed5e9a55f1a557a78791e2be079710"
     },
     "examples/agentic/README.md": {
-      "hash": "76b71e730da5425837133c458e02e00c26c46a313af86654475a275a167f666f"
+      "hash": "0673ec0ebbf9cd80e789fe303ef9d5f6ae1d9ee5a6c7cf0f1d43ba93905854bf"
     },
     "examples/agentic/WORKOUT_VALIDATION.md": {
       "hash": "508dfa590e841ee55fbd522c87d154e68e60d7a41470c0bfa3e004359945c0c3"
@@ -225,7 +225,7 @@
       "hash": "1525a971d628383f09fbe2977d1efdb26a78f318e0f46019403f4dee11b6a5e1"
     },
     "examples/agentic/pull.py": {
-      "hash": "0128c6888083f543ed4f4fe2af8e6341960ecdd1b486fc924d527b554eb250f7"
+      "hash": "f67dcee37e84223c45c4dcdb883d65fb89d3a8f6cf02aa31436a40eb16582c86"
     },
     "examples/agentic/push-workout.yml": {
       "hash": "8f11e8abe80bf57550248eeace00a5b9967e814e8fcac2a32dfdc88ef896198d"

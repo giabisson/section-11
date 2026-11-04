@@ -445,11 +445,30 @@ No `--confirm` gate: `pull.py` never modifies anything on the Intervals.icu side
 
 ### Setup
 
-Same credential model as `push.py`:
+For configured agents, use the explicit private data directory, as with `push.py`:
+
+```bash
+python pull.py --credentials-dir /absolute/private/data trace --activity-id i193686489 --types time,watts,heartrate --out /private/output/trace.json
+```
+
+The global `--credentials-dir` option goes **before** `trace` or `units`.
+It loads one complete account pair internally from a private, owned, regular
+`.sync_config.json`; symlink configs, public permissions, incomplete/malformed
+records and mixing CLI credentials are rejected without fallback. It works from
+an unrelated working directory. Never copy keys into commands or the model's
+context, and never search other account directories. Use only the operator's
+configured data directory. The output directory must already exist and be private.
+Keep raw streams outside chat context and summarize the required windows locally.
+
+Without `--credentials-dir`, legacy discovery is unchanged:
 
 1. CLI args: `--athlete-id`, `--api-key`
-2. `.sync_config.json` (the same file `sync.py` and `push.py` use)
+2. `.sync_config.json` in the working directory
 3. Environment: `ATHLETE_ID`, `INTERVALS_KEY`
+
+This repairs stream retrieval only. It does not add historical interval analysis
+to `section11_context.history_detail`, change detail retention, or establish that
+a similar older workout is an exact matched comparison.
 
 No GitHub Actions workflow: `pull.py` is local-execution only. The streams responses can be ~1-3 MB per activity (1Hz over a multi-hour ride), which is fine to handle locally but unsuitable for committing back to a data repo.
 

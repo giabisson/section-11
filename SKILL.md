@@ -150,6 +150,19 @@ Requires a runtime that can execute code or trigger repository actions, with ver
 
 **Verified-write rule.** Apply an approved dossier change only against a location whose write access has actually been verified. Otherwise return the revised file and state plainly that the source was not updated. Never emit a full replacement dossier unless the complete current file is in context; with only an excerpt, return the changed section clearly labelled as a fragment.
 
+
+**On-demand historical streams (configured local execution only).** `history_detail`
+contains compact facts, not historical interval execution. If raw streams are
+needed and the operator configured private local execution, use `pull.py
+--credentials-dir /absolute/operator-configured/data trace --activity-id ID
+--types time,watts,heartrate --out /private/output/trace.json` (global option before
+`trace`). This loads credentials internally from that account's directory regardless
+of working directory. Never inspect/copy credential contents, pass keys in commands,
+probe other account directories, or dump raw streams into context. Missing access
+is a retrieval failure, not proof of missing activity data. Until the dedicated
+historical-analysis tool exists, retrieval and local analysis are separate steps;
+keep exact activity/window identity and comparison limitations explicit.
+
 ## Report Templates
 
 Use standardized report formats. Load templates using this precedence:

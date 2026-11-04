@@ -263,3 +263,16 @@ Use examples/reports/POST_WORKOUT_REPORT_TEMPLATE.md for the complete field set 
 **Context files.** Where a runtime auto-loads a project instruction file, keep it short and point at the real locations rather than pasting the protocol into it. `SECTION_11.md` is far too large to load as context on every turn; the agent should read it as a file.
 
 **Which contract.** Reaching your data only through a connector, an upload, or a URL puts you on `PROJECT_INSTRUCTIONS_WEB.md`, whatever the platform is called.
+
+
+**On-demand historical streams (configured local execution only).** `history_detail`
+contains compact facts, not historical interval execution. If raw streams are
+needed and the operator configured private local execution, use `pull.py
+--credentials-dir /absolute/operator-configured/data trace --activity-id ID
+--types time,watts,heartrate --out /private/output/trace.json` (global option before
+`trace`). This loads credentials internally from that account's directory regardless
+of working directory. Never inspect/copy credential contents, pass keys in commands,
+probe other account directories, or dump raw streams into context. Missing access
+is a retrieval failure, not proof of missing activity data. Until the dedicated
+historical-analysis tool exists, retrieval and local analysis are separate steps;
+keep exact activity/window identity and comparison limitations explicit.

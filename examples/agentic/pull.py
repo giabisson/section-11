@@ -20,6 +20,10 @@ Usage:
   python pull.py units
 
 Credentials (checked in order):
+  Explicit --credentials-dir /absolute/private/data loads the complete account
+  pair from that directory only. It cannot be mixed with CLI credentials and
+  never falls back to another working directory or environment account.
+  Without --credentials-dir, legacy discovery remains:
   1. CLI args: --athlete-id, --api-key
   2. .sync_config.json (same file sync.py and push.py use)
   3. Environment: ATHLETE_ID, INTERVALS_KEY
@@ -50,6 +54,8 @@ Available stream types (verified, may vary by activity):
 import argparse
 import json
 import os
+from pathlib import Path
+import stat
 import sys
 from typing import Optional, Tuple
 
@@ -153,6 +159,37 @@ class IntervalsPull:
 
 def _load_credentials(args) -> Tuple[Optional[str], Optional[str]]:
     """Load credentials from CLI args, config file, or environment."""
+    directory = getattr(args, "credentials_dir", None)
+    if directory is not None:
+        # Same explicit account boundary as push.py. Keep pull.py standalone.
+        try:
+            folder = Path(directory)
+            if not folder.is_absolute() or folder.is_symlink():
+                raise ValueError()
+            if getattr(args, "athlete_id", None) or getattr(args, "api_key", None):
+                raise ValueError()
+            fd = os.open(folder / ".sync_config.json",
+                         os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+            with os.fdopen(fd) as stream:
+                info = os.fstat(stream.fileno())
+                if (not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid()
+                        or info.st_mode & 0o077 or info.st_size > 65536):
+                    raise ValueError()
+                raw = stream.read(65537)
+                if len(raw.encode()) > 65536:
+                    raise ValueError()
+                config = json.loads(raw)
+            athlete, key = config.get("athlete_id"), config.get("intervals_key")
+            if (not isinstance(athlete, str) or not athlete.strip()
+                    or not isinstance(key, str) or not key.strip()):
+                raise ValueError()
+            return athlete, key
+        except (OSError, ValueError, TypeError, AttributeError):
+            raise ValueError(
+                "Explicit credential directory unavailable or invalid; require a "
+                "private owned regular config with a complete account pair. "
+                "No fallback attempted."
+            ) from None
     config = {}
     if os.path.exists(".sync_config.json"):
         try:
@@ -219,6 +256,7 @@ def main():
     )
     parser.add_argument("--athlete-id", help="Intervals.icu athlete ID")
     parser.add_argument("--api-key", help="Intervals.icu API key")
+    parser.add_argument("--credentials-dir", help="Absolute private sync-data directory; loads credentials internally without cwd/environment fallback")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -243,7 +281,10 @@ def main():
 
     args = parser.parse_args()
 
-    athlete_id, api_key = _load_credentials(args)
+    try:
+        athlete_id, api_key = _load_credentials(args)
+    except ValueError as error:
+        _output({"success": False, "error": str(error)})
     if not athlete_id or not api_key:
         _output({
             "success": False,
