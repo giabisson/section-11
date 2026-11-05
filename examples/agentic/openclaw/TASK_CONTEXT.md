@@ -3,7 +3,7 @@
 Long-term history is available through bounded on-demand monthly, activity and
 managed-review reads; see [source, coverage and refresh contract](LONG_TERM_HISTORY.md).
 
-`context_packet.py` normally reads current local files for one task, prints a compact JSON projection and exits. Routine operations make no network/model calls, send no messages, change no calendar, store no athlete data and read no credentials. The explicitly enabled `activity_analysis` operation is the exception: account-owned API GETs, private credential loading and a bounded local result cache, as documented below. No operation calls a model or mutates remote activities/calendar. It is an alternative **fresh read** of the actual source, not an LLM summary, persistent athlete memory, training algorithm or replacement protocol.
+`context_packet.py` normally reads current local files for one task, prints a compact JSON projection and exits. Routine operations make no network/model calls, send no messages, change no calendar, store no athlete data and read no credentials. The configured `workout_inputs` operation also reads owned sport settings (see WORKOUT_INPUTS.md). The explicitly enabled `activity_analysis` operation uses: account-owned API GETs, private credential loading and a bounded local result cache, as documented below. No operation calls a model or mutates remote activities/calendar. It is an alternative **fresh read** of the actual source, not an LLM summary, persistent athlete memory, training algorithm or replacement protocol.
 
 ## What is loaded
 
@@ -326,3 +326,50 @@ and previously blocked feedback were recovered with private preimage/receipt
 backups, immutable history retained and no calendar operations. Exact sessions
 remain dependent on actual available windows and review; no unknown time was
 encoded as zero and no training/medical clearance was invented.
+
+
+## Normal planning must fit the work budget — 5 November 2026
+
+The next primary request hit the ten-operation ceiling while retrieving mandatory
+workout-validation inputs. Its saved intake update succeeded; its requested plan
+revision had not been attempted. A fixed ten-tool cutoff is inadequate for a
+complete multi-session revision. The default and generated primary configuration
+now use 32 operations/10 model attempts (final response reserved), retain the
+300,000 estimated-token guard, and treat ten tools/five calls as nonblocking
+efficiency checkpoints. Provider calls in progress cannot be hard-capped by
+public hooks. Trace/attempt-aware IDs prevent compaction attempts being deduped
+as if they were the same model call.
+
+Both plugins register their owned tools as direct-only. The installed native
+catalog check verifies visible schemas with no Tool Search indirection; new typed
+reads therefore match the existing read-only cache pruning rule. Canonical
+history and write/mixed receipts are untouched.
+
+Actual planning tests also found missing configured power-zone bounds: current
+JSON contains FTP settings but not those bounds. `workout_inputs` returns one
+account-bound sport-settings GET plus the verified selected catalog. It retains
+unknown assessment provenance and supplies no default zone percentages. It also
+explains continuous main-step role work, which was an actual rejected draft
+metadata error. Known local transactional validation errors now return static
+codes/actionable hints and plan_saved:false; arbitrary exceptions remain private
+and uncertain acknowledgements still require recovery. Numeric validation and
+calendar approval are unchanged.
+
+The actual Sol-produced sixteen-session draft was validated with only a technical
+continuous-role correction, then saved/recovered in an isolated store. Its full
+state exceeded the existing 30,000-byte packet cap. State encoding now retains
+the entire plan and publication/prescription summaries, explicitly deferring
+independently retrievable intake when necessary; no arrays/receipts are cut.
+The typed readback fits the original cap. All private test and preimage records
+stay outside this repository. No calendar publication was invoked.
+
+
+Final verification: 1,394 server tests passed; local suite passed with only
+installed-runtime checks skipped. Native SDK tests verify direct tool placement,
+strict-schema preservation, pruning/receipt protection and hard-budget vetoes.
+The configured-settings GET was verified on the primary account. The actual
+Sol draft reached propose without a work-budget block. Its continuous-role error
+was reproduced as a known, rolled-back validation failure; the same draft with
+only that metadata corrected saved all sixteen checked prescriptions and passed
+a fresh typed state read (about 23 KiB), retaining the original 30 KiB cap. No
+model judgment, dose, watts or health restriction was changed by the correction.

@@ -27,7 +27,7 @@ export async function verifyPlanningEntry(packageRoot){
  // The retained former-size reference reproduces the production whole-skill refusal.
  const refused=await read(fs.readFileSync(path.join(root,'SKILL_REFERENCE.md'),'utf8'));
  assert(refused.content.some(b=>b.text?.includes('Skill instructions cannot be partially served')));
- const records=[],budget=exchangeBudget({},r=>records.push(r)),ctx={runId:'synthetic-broker-plan'};
+ const records=[],budget=exchangeBudget({modelCalls:6},r=>records.push(r)),ctx={runId:'synthetic-broker-plan'};
  budget.before_prompt_build({},ctx);
  let model=0,tool=0;
  function turn(){budget.model_call_started({callId:String(++model)},ctx);}

@@ -534,7 +534,7 @@ def encode(packet, limit=MAX_PACKET_BYTES):
 def encode_tool_packet(packet, profile, command):
     """Atomic wire budget for native tool results; durable sources stay intact."""
     limit=profile.get('tool_packet_bytes',MAX_PACKET_BYTES)
-    if command=='long_term':limit=min(limit,8192)
+    if command in ('long_term','workout_inputs'):limit=min(limit,8192)
     if command in ('activity_analysis','compare_blocks'):limit=min(limit,8192)
     value=copy.deepcopy(packet)
     def fits():return len(json.dumps({**value,'packet_complete':True},ensure_ascii=False,separators=(',',':'),allow_nan=False).encode())<=limit
@@ -645,6 +645,9 @@ def main():
     history.add_argument("--tier", choices=("daily","weekly","monthly"), default="daily")
     sub.add_parser("long_term")
     sub.add_parser("intake")
+    inputs=sub.add_parser("workout_inputs")
+    inputs.add_argument("--environment",choices=("indoor","outdoor"),required=True)
+    inputs.add_argument("--templates-json",required=True)
     batch=sub.add_parser("references")
     batch.add_argument("--requests-json",required=True)
     activities=sub.add_parser("activities")
@@ -671,6 +674,14 @@ def main():
         profile = load_profile(args.profile)
         if args.command == "build":
             result = build(profile, args.task, activity_id=args.activity_id)
+        elif args.command == "workout_inputs":
+            if len(args.templates_json)>256:fail('template_selection_size_limit')
+            try:
+                import importlib.util
+                spec=importlib.util.spec_from_file_location('s11_workout_inputs',Path(__file__).with_name('workout_inputs.py'))
+                reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+                result=reader.read(profile,args.environment,json.loads(args.templates_json))
+            except Exception:fail('workout_inputs_unavailable_check_configured_sport_zones_and_catalog')
         elif args.command == "history":
             result = {"weekly":history_weeks,"monthly":history_months,"daily":history_window}[args.tier](profile, date.fromisoformat(args.start), date.fromisoformat(args.end))
         elif args.command == "activities":

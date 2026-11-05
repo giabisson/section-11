@@ -21,6 +21,7 @@ export async function verifyContextPressure(packageRoot){
  const parameters=normalizeOpenAIStrictCompatSchema(contextSchema);
  const referenceArgs={operation:'references',requests:[{source:'protocol',heading:'Synthetic exact heading'}]};
  assert.doesNotThrow(()=>validateToolArguments({name:'section11_context',parameters},{id:'schema-only',name:'section11_context',arguments:referenceArgs}));
+ assert.doesNotThrow(()=>validateToolArguments({name:'section11_context',parameters},{id:'inputs',name:'section11_context',arguments:{operation:'workout_inputs',environment:'indoor',templates:['AE-1','AE-2']}}));
  assert.throws(()=>validateToolArguments({name:'section11_context',parameters},{id:'invalid',name:'section11_context',arguments:{...referenceArgs,requests:[{source:'protocol',heading:'x',path:'/bad'}]}}));
  const makeHooks=await fn('hooks-','createHookRunner');
  const budget=exchangeBudget({modelCalls:3,toolCalls:2,estimatedTokens:100000});

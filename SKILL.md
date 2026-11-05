@@ -5,17 +5,14 @@ description: Endurance cycling coaching (v11.85): training questions, workouts, 
 
 # Section 11 coaching
 
-Read this compact entry in full. `SKILL_REFERENCE.md` contains on-demand platform
-setup, file-source fallbacks, weather and manual CLI details; do not load it for
-an ordinary managed plan. The protocol and relevant workout templates remain the
+Read this entry in full. Use `SKILL_REFERENCE.md` only for setup/manual operations. The protocol and relevant workout templates remain the
 coaching authorities. Examples are fictional, never athlete facts.
 
 ## Managed planning: finish within the exchange budget
 
 When `section11_context` and `section11_coaching` are configured, use them instead
-of shell reads, manual storage discovery or generic setup. Tool Search may hide
-their schemas despite their being enabled. `tool_call` accepts their exact names;
-do not spend calls searching for known names or describing a simple read.
+of shell reads, manual storage discovery or generic setup. Both typed tools are directly visible; call them without search/describe.
+Only on older installs with hidden schemas, use `tool_call` with exact names.
 
 1. For a continuation with unchanged saved goals, call
    `section11_coaching` with
@@ -64,10 +61,12 @@ intake receipt independently if later planning reads fail. Standalone factual
 updates use `intake`. Faithful storage of explicit athlete input is authorized;
 do not request duplicate approval. A feedback note or memory is not intake.
 
-Batch only necessary references (up to six). `protocol: B` and unique workout IDs
+Context batches use `{"operation":"references","requests":[{"source":"workouts","heading":"AE-1"}]}`; setup uses `references`. Batch at most six. `protocol: B` and unique workout IDs
 such as `AE-1` are supported; dossier headings must be exact. On failure use the
 returned candidates, never guess headings. No bodies means not reviewed. Honor
-existing call/token budgets, including discovery and skill reads. Reserve a final
+the token ceiling and hard call limits, including discovery and skill reads.
+Five model calls/ten tools are checkpoints, not stops; finish necessary validation
+and saving, omitting optional work and duplicate reads. Reserve a final
 response; never bypass a blocked tool using shell, retries or delegation. After
 an uncertain write, recover its receipt before retrying.
 
@@ -99,12 +98,14 @@ an uncertain write, recover its receipt before retrying.
   No mandatory weekly hours, 80/20 ratio, demanding-session quota or age-based
   block cycle. Missed sessions create no catch-up debt. Planned phase differs
   from detected phase. Scientific claims follow `COACHING_EVIDENCE.md`.
-- Before prescribing any structured session, load its applicable Workout
-  Reference Library template, including named/saved workouts. Respect its
-  variants and dose constraints. Use schema-1 `coaching_prescription`, actual
-  power-zone bounds, matching denominator and exact-step validation. Unsupported
-  or `not_checked` is not validated; never strip rejected metadata to bypass it.
-  FTP setting dates are not assessment dates. State reference uncertainty.
+- For checked power prescriptions call `section11_context`
+  `{"operation":"workout_inputs","environment":"indoor","templates":["AE-1","AE-2"]}`
+  (choose actual environment/IDs). This reads configured FTP/zone bounds and the
+  checked catalog together. Do not page latest.json for absent zone settings or
+  invent zones/assessment dates. Load the applicable library template, use
+  schema-1 coaching_prescription and compile exact steps. Template constraints,
+  uncertain fitness provenance, health and availability still apply. Never strip
+  rejected metadata; unsupported/not_checked is not validated.
 - Close the loop: prescribe → verify completion and response → adjust. Separate
   adherence, goal attainment and response cost. Record dated feedback, actual
   missed-session causes and maintain/progress/reduce/substitute/reschedule/request
@@ -119,14 +120,12 @@ an uncertain write, recover its receipt before retrying.
 
 ## Historical blocks and selected evidence
 
-Read `structure_summary` for the identified activity; detailed comparisons use
-`activity_analysis` with an exact history activity ID, or `compare_blocks` with
-two exact IDs and verified zero-based step selectors. Omit selectors for eligible
-choices; never guess main-work roles. Read status, pairing, coverage, target vs
+Use `structure_summary`, or `activity_analysis` with an exact history ID.
+`compare_blocks` needs two exact IDs and verified zero-based selectors; omit
+selectors for eligible choices. Never guess main-work roles. Read status, pairing, coverage, target vs
 actual, timestamps/cache age and method limitations. `history_detail` is aggregate
 history, not verified segment detail. No raw streams belong in model context.
-Compare the same observed windows, power, duration and context. Whole-session
-power/NP/HR, WORK labels or thirds cannot substitute for a verified main block.
+Compare the same observed windows, power, duration and context. Whole-ride power/NP/HR, WORK labels or thirds cannot replace a verified block.
 A descriptive HR delta at different workloads is not a controlled fitness test,
 surgery effect or clearance; never normalize HR to another power. Keep shortened
 cooldown warnings separate from an otherwise matched main window. Missing or
@@ -166,5 +165,4 @@ faithful explicit facts use the authorized intake/onboarding exception, other
 changes need exact approval. Never replace a whole dossier from an excerpt.
 Heartbeat is optional configuration, not an athlete record. Follow its opt-in
 schedule; do not create schedules or send messages as a side effect of planning.
-Keep private data outside public repositories. Providers actually used retain
-their own processing/retention terms; Section 11 operates no hosted backend.
+Keep private data out of public repositories; provider retention terms apply.

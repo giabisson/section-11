@@ -309,3 +309,36 @@ They remain estimates; block responses identify which limit was reached.
 Tests replay the actual serial-setup/parallel state-history-feedback branch
 followed by proposal admission. The whole-skill reader and schema conversion
 remain native checks, and partial saves retain independently verifiable receipts.
+
+
+## Planning work budget and direct tools — 5 November 2026
+
+The primary now exposes both coaching tools as `catalogMode:direct-only`. Native
+Tool Search keeps their schemas visible, removing schema-discovery turns and
+wrappers. Context reads keep their real tool name, so existing read-only cache
+pruning applies; coaching writes and receipts remain protected. Old transcripts
+are not rewritten or broadly pruned as generic tool_call results.
+
+Ten tool operations/five model attempts are efficiency checkpoints, not stop
+rules. The primary hard failsafes are 32 actual tool operations and 10 model
+attempts including the reserved final response; the estimated-token ceiling
+remains 300,000. This is a tool-admission guard, not a billed-cost or ChatGPT-quota
+cap: provider requests already underway cannot be cancelled by these hooks.
+Do required validation and persistence, avoid optional diagnostics/unchanged
+reads, and stop honestly if a hard guard fires. Reused model-call IDs on separate
+compaction attempts are counted separately using trace/attempt identity.
+
+For checked power workouts use [workout_inputs](WORKOUT_INPUTS.md) alongside the
+relevant library templates; don't search the large source JSON for absent zone
+settings. Model choices, keyword memory and calendar approval gates are unchanged.
+
+Known local proposal-validation failures have transactional rollback and return
+`plan_saved:false` with a static code and safe correction hint. In particular,
+continuous templates require main-step role `work` even for easy steady endurance;
+role `endurance` is reserved for background riding in complex structures. Unknown
+failures retain the ambiguous-write warning. No backend validation is bypassed.
+
+When a complete multi-session state exceeds the unchanged packet cap, retain the
+whole plan and publication/prescription summaries and explicitly defer the
+independently retrievable intake. Follow `intake.required_retrieval` before using
+those omitted entries. Nothing is removed from the store or transcript.

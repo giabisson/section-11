@@ -119,6 +119,15 @@ class ModelEfficiency(unittest.TestCase):
             self.assertFalse((output/'manifest.json').exists())
             self.assertEqual(list((output/'records').iterdir()),[])
 
+    def test_primary_exchange_budget_allows_planning_without_raising_token_ceiling(self):
+        original=copy.deepcopy(self.config)
+        out=e.configure(self.config)
+        self.assertEqual(out['plugins']['entries']['section11-context']['config']['exchangeBudget'],
+                         {'modelCalls':10,'toolCalls':32,'estimatedTokens':300000})
+        self.assertEqual(out['agents']['entries']['main']['model'],original['agents']['entries']['main']['model'])
+        self.assertEqual(out['channels'],original['channels'])
+        self.assertEqual(self.config,original)
+
     def test_only_readonly_context_results_are_pruned_and_recent_turns_survive(self):
         cfg=e.configure(self.config)['agents']['defaults']
         self.assertEqual(cfg['contextPruning']['tools']['allow'],['section11_context'])

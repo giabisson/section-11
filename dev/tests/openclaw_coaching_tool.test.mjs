@@ -83,3 +83,12 @@ test('planning setup accepts optional dated feedback without relaxing operation 
  assert.throws(()=>requestFor({...args,feedback:{unexpected:true}},config));
  assert.throws(()=>requestFor({operation:'state',feedback:args.feedback},config));
 });
+
+test('known transactional validation failures are actionable; raw exceptions stay private',async()=>{
+ const result=await executeCoaching({args:[],body:'{}'},undefined,fixture(JSON.stringify({success:false,error_code:'plan_validation_failed',validation_code:'continuous_role_or_dose',plan_saved:false,calendar_writes:0,packet_complete:true,private:'PRIVATE_CANARY'}),2));
+ assert.equal(result.isError,true);const body=JSON.parse(result.content[0].text);
+ assert.equal(body.plan_saved,false);assert(body.hint.includes('role work'));
+ assert(!JSON.stringify(result).includes('PRIVATE_CANARY'));
+ const unknown=await executeCoaching({args:[],body:'{}'},undefined,fixture(JSON.stringify({success:false,error_code:'plan_validation_failed',validation_code:'PRIVATE_CANARY',plan_saved:false,calendar_writes:0,packet_complete:true}),2));
+ assert(!JSON.stringify(unknown).includes('PRIVATE_CANARY'));
+});

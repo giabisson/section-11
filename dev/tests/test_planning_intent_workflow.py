@@ -109,6 +109,43 @@ class PlanningSetup(unittest.TestCase):
         self.assertFalse(result['intake_receipt']['success'])
         self.assertEqual(result['planning_reads']['status'],'not_started')
 
+    def test_invalid_continuous_role_returns_safe_code_rolls_back_and_allows_correction(self):
+        plan=copy.deepcopy(self.f.plan)
+        source=json.loads((REPO_ROOT/'examples/json-examples/coaching_plan.example.json').read_text())
+        plan['sessions']=[source['sessions'][1]]
+        plan['revision'].update(parent_revision=self.before['revision_id'],request_id='continuous-role-repair')
+        steps=plan['sessions'][0]['workout']['coaching_prescription']['steps']
+        for step in steps:
+            if step.get('role')=='work':step['role']='endurance'
+        context={'date':'2026-10-29','source':'Synthetic current statement','goals_and_availability':'Synthetic unchanged context'}
+        from test_coaching_plan import Clock
+        push=self.f.runtime.api.push_module()
+        patch=mock.patch.object(push,'datetime',Clock);patch.start();self.addCleanup(patch.stop)
+        patch=mock.patch.object(push._load_workout_validator(),'datetime',Clock);patch.start();self.addCleanup(patch.stop)
+        with self.assertRaises(runtime_fixtures.b.PlanInputError) as error:
+            self.f.runtime.propose({'plan':plan,'current_athlete_context':context})
+        self.assertEqual(str(error.exception),'continuous_role_or_dose')
+        self.assertEqual(self.f.runtime.state_view()['revision_id'],self.before['revision_id'])
+        for step in steps:
+            if step.get('role')=='endurance':step['role']='work'
+        result=self.f.runtime.propose({'plan':plan,'current_athlete_context':context})
+        self.assertTrue(result['success']);self.assertEqual(result['calendar_writes'],0)
+        self.assertTrue(all(r['validation_status']=='checked' for r in self.f.runtime.state_view()['prescription_summaries'].values()))
+
+    def test_large_plan_state_keeps_whole_plan_and_receipts_and_explicitly_defers_intake(self):
+        state=copy.deepcopy(self.before)
+        state['intake']['entries']=[{'key':'synthetic-'+str(i),'text':'Reported synthetic constraint '+('x'*900)} for i in range(22)]
+        state['publication']={'state':'proposed','sessions':[{'session_id':str(i),'receipt':'protected'} for i in range(16)]}
+        frozen=json.dumps(state,sort_keys=True)
+        limit=len(json.dumps(state).encode())-4000
+        raw=runtime_fixtures.b.encode_response(state,{'tool_packet_bytes':limit},'state')
+        wire=json.loads(raw);self.assertTrue(wire['packet_complete'])
+        self.assertEqual(wire['plan'],state['plan']);self.assertEqual(wire['publication'],state['publication'])
+        self.assertTrue(wire['intake']['entries_deferred'])
+        self.assertEqual(wire['intake']['required_retrieval'],{'tool':'section11_context','operation':'intake'})
+        self.assertNotIn('entries',wire['intake']);self.assertLessEqual(len(raw.encode()),limit)
+        self.assertEqual(json.dumps(state,sort_keys=True),frozen)
+
     def changed(self):
         p=payload();p.update(request_id='active-plan-update',parent_revision=self.f.runtime.intake_view()['revision_id'])
         p['entries'][0]['text']='Explicit updated six-week return objective'

@@ -13,3 +13,11 @@ class NativePlanningEntry(unittest.TestCase):
         result=subprocess.run(['node',str(REPO_ROOT/'dev/openclaw_planning_entry_smoke.mjs'),package],capture_output=True,text=True,timeout=60)
         self.assertEqual(result.returncode,0,result.stderr[-2000:])
         self.assertIn('"native_read_verified":true',result.stdout)
+
+    def test_installed_coaching_tools_are_direct_not_catalog_hidden(self):
+        package=os.environ.get('SECTION11_OPENCLAW_PACKAGE')
+        if not package or not Path(package).is_dir():
+            self.skipTest('installed OpenClaw package not configured')
+        result=subprocess.run(['node',str(REPO_ROOT/'dev/openclaw_direct_tools_smoke.mjs'),package],capture_output=True,text=True,timeout=60)
+        self.assertEqual(result.returncode,0,result.stderr[-2000:])
+        self.assertIn('"native_catalog_verified":true',result.stdout)

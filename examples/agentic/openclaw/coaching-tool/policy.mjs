@@ -25,6 +25,15 @@ export function requestFor(params,config){
  return {args:[config.script,'--profile',config.profile],body};
 }
 
+const validationHints={
+ continuous_role_or_dose:'Continuous templates require role work for every main step (including easy endurance). Check total_seconds and work_zones against workout_inputs; preserve dose/targets unless a genuine constraint requires changing them.',
+ template_pattern:'Check the installed template pattern, repetitions, recoveries, cadence and configured zones. Never strip the prescription to bypass validation.',
+ compiled_description:'Omit a caller-rendered description or supply the exact compiler rendering. Keep the structured prescription.',
+ compiled_duration:'Declared duration must equal every expanded step including recoveries; fix metadata or the intended dose explicitly.',
+ stale_parent:'Read the current saved plan and preserve changes before proposing against its actual parent revision.',
+ request_id_conflict:'This request ID belongs to different saved content. Recover its receipt/current state before using a new request ID.',
+};
+
 export function executeCoaching(request,signal,spawnImpl=spawn){
  return new Promise(resolve=>{
   let child,bytes=0,chunks=[],done=false;
@@ -39,7 +48,9 @@ export function executeCoaching(request,signal,spawnImpl=spawn){
    let errors=0;child.stderr.on('data',chunk=>{errors+=chunk.length;if(errors>4096)abort();});
    child.on('error',failure);child.on('close',code=>{
     if(done)return;
-    try{const p=JSON.parse(Buffer.concat(chunks).toString('utf8'));if(code!==0||p.packet_complete!==true||p.success!==true)throw Error('invalid_ack');finish({content:[{type:'text',text:JSON.stringify(p)}]});}catch{failure();}
+    try{const p=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+     if(code===2&&p.packet_complete===true&&p.success===false&&p.error_code==='plan_validation_failed'&&p.plan_saved===false&&p.calendar_writes===0&&Object.hasOwn(validationHints,p.validation_code)){finish({isError:true,content:[{type:'text',text:JSON.stringify({success:false,error_code:p.error_code,validation_code:p.validation_code,plan_saved:false,calendar_writes:0,packet_complete:true,hint:validationHints[p.validation_code]})}]});return;}
+     if(code!==0||p.packet_complete!==true||p.success!==true)throw Error('invalid_ack');finish({content:[{type:'text',text:JSON.stringify(p)}]});}catch{failure();}
    });
   }catch{failure();}
  });

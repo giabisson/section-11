@@ -56,7 +56,7 @@ test('batch references are typed and cannot smuggle paths, nested operations or 
 
 import {exchangeBudget} from '../../examples/agentic/openclaw/context-tool/exchange-budget.mjs';
 test('exchange call ceiling reserves final response; session does not carry budget',()=>{
-  const b=exchangeBudget(),ctx={runId:'a',sessionId:'same'};
+  const b=exchangeBudget({modelCalls:6}),ctx={runId:'a',sessionId:'same'};
   b.before_prompt_build({},ctx);
   for(let i=0;i<5;i++)b.model_call_started({callId:String(i)},ctx);
   assert.equal(b.before_tool_call({toolName:'section11_context',toolCallId:'fifth-stage'},ctx),undefined);
@@ -167,4 +167,40 @@ test('entry skill activity example satisfies the actual required task contract',
  const examples=[...text.matchAll(/`(\{"operation":"activities"[^`]+\})`/g)].map(m=>JSON.parse(m[1]));
  assert(examples.length>0);
  for(const example of examples)assert.doesNotThrow(()=>argvFor(example,config));
+});
+
+
+test('normal multi-workout planning passes old checkpoints but all hard caps remain',()=>{
+ const records=[],b=exchangeBudget({},r=>records.push(r)),ctx={runId:'full-plan'};
+ b.llm_input({systemPrompt:'Bounded synthetic context'},ctx);
+ for(let stage=1;stage<=7;stage++){
+  b.model_call_started({callId:String(stage)},ctx);
+  for(let i=0;i<3;i++)assert.equal(b.before_tool_call({toolName:i===2?'section11_coaching':'read',toolCallId:stage+'-'+i},ctx),undefined);
+ }
+ assert.equal(records.filter(r=>r.kind==='section11_exchange_checkpoint').length,2);
+ assert(records.every(r=>r.kind!=='section11_exchange_block'));
+ for(let i=21;i<32;i++)assert.equal(b.before_tool_call({toolName:'read',toolCallId:'more-'+i},ctx),undefined);
+ assert.equal(b.before_tool_call({toolName:'section11_coaching',toolCallId:'over'},ctx).block,true);
+ const calls=exchangeBudget(),other={runId:'model-cap'};
+ for(let i=0;i<9;i++)calls.model_call_started({callId:String(i)},other);
+ assert.equal(calls.before_tool_call({toolName:'section11_coaching'},other),undefined);
+ calls.model_call_started({callId:'final'},other);
+ assert.equal(calls.before_tool_call({toolName:'section11_coaching'},other).block,true);
+});
+
+
+test('model-call IDs reused after compaction are charged again, not within an attempt',()=>{
+ const records=[],b=exchangeBudget({modelCalls:3},r=>records.push(r)),ctx={runId:'compaction'};
+ b.llm_input({},ctx);b.model_call_started({callId:'same'},ctx);b.model_call_started({callId:'same'},ctx);
+ b.llm_input({},ctx);b.model_call_started({callId:'same'},ctx);b.model_call_started({callId:'same'},ctx);
+ assert.equal(b.before_tool_call({toolName:'section11_context'},ctx),undefined);
+ b.llm_input({},ctx);b.model_call_started({callId:'same'},ctx);
+ assert.equal(b.before_tool_call({toolName:'section11_context'},ctx).block,true);
+ b.llm_output({},ctx);assert.equal(records.find(r=>r.kind==='section11_exchange_attempt').observedModelCalls,3);
+});
+
+test('workout inputs expose only fixed environment and checked template selectors',()=>{
+ const p={operation:'workout_inputs',environment:'indoor',templates:['AE-1','AE-2']};
+ assert.deepEqual(argvFor(p,config),[config.script,'--profile',config.profile,'workout_inputs','--environment','indoor','--templates-json','["AE-1","AE-2"]']);
+ for(const patch of [{environment:undefined},{environment:'auto'},{templates:[]},{templates:['../secret']},{templates:['AE-1','AE-1']},{athlete_id:'i999'},{path:'/secret'}])assert.throws(()=>argvFor({...p,...patch},config));
 });

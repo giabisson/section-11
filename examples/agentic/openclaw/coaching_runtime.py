@@ -22,6 +22,24 @@ from zoneinfo import ZoneInfo
 MAX_INPUT = 2_000_000
 
 
+class PlanInputError(ValueError):
+    """Known local validation failures after the store transaction rolled back."""
+    pass
+
+
+def plan_error_code(message):
+    # Only static codes cross the tool boundary, never arbitrary exception text.
+    markers={
+        'continuous workout violates checked duration/zone constraints':'continuous_role_or_dose',
+        'main-set structure, repetitions, recoveries, cadence or zones violate checked template constraints':'template_pattern',
+        'description differs from compiled steps':'compiled_description',
+        'declared duration_minutes differs':'compiled_duration',
+        'parent_revision is not current':'stale_parent',
+        'request_id was already used for different content':'request_id_conflict',
+    }
+    return next((code for marker,code in markers.items() if marker in message),None)
+
+
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)
 
@@ -224,7 +242,12 @@ class CoachingRuntime:
         plan=json.loads(canonical(plan))
         plan['revision']['evidence'].append({'source':'Current athlete goals/availability; caller-attested: '+context['source'],'as_of':context['date'],'summary':context['goals_and_availability']})
         store=self.store(create=True)
-        try:return {**store.propose(plan),'calendar_writes':0,'publication':'not_requested'}
+        try:
+            try:return {**store.propose(plan),'calendar_writes':0,'publication':'not_requested'}
+            except ValueError as exc:
+                code=plan_error_code(str(exc))
+                if code:raise PlanInputError(code) from None
+                raise
         finally:store.close()
 
     def prepare_scheduled(self, end):
@@ -304,6 +327,22 @@ class CoachingRuntime:
         except (ValueError,OSError,KeyError):return False
 
 
+def encode_response(result, profile, operation):
+    limit=min(49152,profile.get('tool_packet_bytes',49152))
+    def wire(value):return canonical({**value,'packet_complete':True})
+    text=wire(result)
+    if operation=='state' and len(text.encode())>limit and result.get('intake',{}).get('status')=='available':
+        # Keep the complete plan, prescription/publication summaries and receipts.
+        # Intake is independently retrievable; defer it explicitly, never a prefix.
+        value=json.loads(canonical(result));intake=value['intake']
+        value['intake']={key:intake[key] for key in ('status','athlete_id','revision_id') if key in intake}
+        value['intake'].update(entries_deferred=True,required_retrieval={'tool':'section11_context','operation':'intake'},
+            scope='Full intake deferred, not absent. Read it before relying on goals/constraints not established by this plan. Complete managed plan and publication/prescription summaries are retained.')
+        text=wire(value)
+    if len(text.encode())>limit:raise ValueError('output_size_limit_use_narrower_review')
+    return text
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--profile',required=True,type=Path);args=parser.parse_args()
     try:
@@ -315,9 +354,10 @@ def main():
         allowed={'state':{'operation'},'intake':{'operation','payload'},'planning_setup':{'operation','payload','references'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
         if op not in allowed or set(request)-({'feedback'} if op=='planning_setup' else set())!=allowed[op]:raise ValueError('invalid_operation_fields')
         result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.planning_setup(request['payload'],request['references'],request.get('feedback')) if op=='planning_setup' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
-        text=canonical({**result,'packet_complete':True})
-        if len(text.encode())>min(49152,runtime.cp.get('tool_packet_bytes',49152)):raise ValueError('output_size_limit_use_narrower_review')
+        text=encode_response(result,runtime.cp,op)
         print(text);return 0
+    except PlanInputError as exc:
+        print(canonical({'success':False,'error_code':'plan_validation_failed','validation_code':str(exc),'plan_saved':False,'calendar_writes':0,'packet_complete':True}));return 2
     except Exception:
         # Provider/filesystem exceptions can contain credentials or athlete data.
         print('{"success":false,"error":"coaching_operation_failed_refresh_evidence_check_payload_or_private_configuration","packet_complete":false}');return 1

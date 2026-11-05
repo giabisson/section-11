@@ -2,7 +2,8 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 
 export const schema = {type:'object',additionalProperties:false,required:['operation'],properties:{
-  operation:{type:'string',enum:['build','intake','activities','history','long_term','history_detail','activity_analysis','compare_blocks','review','headings','section','references']},
+  operation:{type:'string',enum:['build','workout_inputs','intake','activities','history','long_term','history_detail','activity_analysis','compare_blocks','review','headings','section','references']},
+  environment:{type:'string',enum:['indoor','outdoor']},templates:{type:'array',minItems:1,maxItems:6,items:{type:'string',pattern:'^[A-Z0-9]+-[A-Z0-9]+$'}},
   task:{type:'string',enum:['morning','weekly','workout','plan','post_workout']},
   activity_id:{type:'string',maxLength:128},reference_activity_id:{type:'string',maxLength:128},
   step_index:{type:'integer',minimum:0,maximum:31},reference_step_index:{type:'integer',minimum:0,maximum:31},review_id:{type:'string',maxLength:128},start:{type:'string'},end:{type:'string'},
@@ -16,13 +17,17 @@ export function argvFor(params, config) {
   if (!config || !path.isAbsolute(config.script ?? '') || !path.isAbsolute(config.profile ?? '')) throw Error('invalid_config');
   if (!params || Object.keys(params).some(k=>!Object.hasOwn(schema.properties,k))) throw Error('invalid_params');
   const args=[config.script,'--profile',config.profile];
-  const allowed={build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],activity_analysis:['activity_id'],compare_blocks:['activity_id','reference_activity_id','step_index','reference_step_index'],review:['review_id'],headings:['source','task'],section:['source','task','heading'],references:['requests']};
+  const allowed={workout_inputs:['environment','templates'],build:['task','activity_id'],history:['start','end','tier'],long_term:[],intake:[],activities:['task','activity_id'],history_detail:['activity_id'],activity_analysis:['activity_id'],compare_blocks:['activity_id','reference_activity_id','step_index','reference_step_index'],review:['review_id'],headings:['source','task'],section:['source','task','heading'],references:['requests']};
   const fields=allowed[params.operation];
   if (!fields || Object.keys(params).some(k=>k!=='operation'&&!fields.includes(k))) throw Error('invalid_operation');
   args.push(params.operation);
   for (const field of fields) {
     const value=params[field];
     if (value===undefined) continue;
+    if(field==='templates'){
+      if(!Array.isArray(value)||value.length<1||value.length>6||new Set(value).size!==value.length||value.some(t=>typeof t!=='string'||! /^[A-Z0-9]+-[A-Z0-9]+$/.test(t)))throw Error('invalid_templates');
+      args.push('--templates-json',JSON.stringify(value));continue;
+    }
     if(field==='requests'){
       if(!Array.isArray(value)||value.length<1||value.length>6)throw Error('invalid_batch');
       for(const item of value){
@@ -40,6 +45,7 @@ export function argvFor(params, config) {
     if(['start','end'].includes(field)&&!/^\d{4}-\d{2}-\d{2}$/.test(value))throw Error('invalid_date');
     args.push('--'+field.replaceAll('_','-'),value);
   }
+  if(params.operation==='workout_inputs'&&(!params.environment||!params.templates))throw Error('workout_inputs_fields_required');
   if(params.operation==='activity_analysis'&&!/^i[1-9][0-9]{0,17}$/.test(params.activity_id??''))throw Error('invalid_activity_id');
   if(params.operation==='compare_blocks'&&(!/^i[1-9][0-9]{0,17}$/.test(params.activity_id??'')||!/^i[1-9][0-9]{0,17}$/.test(params.reference_activity_id??'')||params.activity_id===params.reference_activity_id))throw Error('two_distinct_activity_ids_required');
   if(params.operation==='references'&&!params.requests)throw Error('references_required');
