@@ -52,9 +52,11 @@
             "maximum": 40
           },
           "estimatedTokens": {
-            "type": "integer",
-            "minimum": 10000,
-            "maximum": 2000000
+            "description": "Estimated cumulative-token admission guard; 0 keeps telemetry without a token veto. Model/tool call guards remain active.",
+            "oneOf": [
+              { "type": "integer", "const": 0 },
+              { "type": "integer", "minimum": 10000, "maximum": 2000000 }
+            ]
           }
         }
       },

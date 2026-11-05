@@ -70,7 +70,7 @@ class ModelEfficiency(unittest.TestCase):
         self.assertEqual(cfg['agents']['entries']['main']['utilityModel'],'openai/gpt-6-luna@openai:synthetic-profile')
         self.assertEqual(cfg['agents']['defaults']['compaction']['model'],'openai/gpt-6-luna')
         self.assertEqual(cfg['agents']['defaults']['compaction']['memoryFlush']['model'],'openai/gpt-6-luna@openai:synthetic-profile')
-        self.assertEqual(cfg['models']['providers']['openai']['models'][0]['contextTokens'],131072)
+        self.assertEqual(cfg['models']['providers']['openai']['models'][0]['contextTokens'],1050000)
         self.assertEqual(cfg['agents']['defaults']['subagents']['model'],'openai/gpt-6-luna@openai:synthetic-profile')
         self.assertEqual(cfg['agents']['defaults']['modelPolicy']['allow'],['openai/gpt-6.1-sol','openai/gpt-6-luna'])
         self.assertNotIn('gpt-6-astra',json.dumps(cfg));self.assertEqual(cfg['channels'],original['channels']);self.assertEqual(self.config,original)
@@ -120,28 +120,27 @@ class ModelEfficiency(unittest.TestCase):
             self.assertFalse((output/'manifest.json').exists())
             self.assertEqual(list((output/'records').iterdir()),[])
 
-    def test_primary_exchange_budget_allows_planning_without_raising_token_ceiling(self):
+    def test_primary_full_context_keeps_call_guards_without_cumulative_token_veto(self):
         original=copy.deepcopy(self.config)
         out=e.configure(self.config)
         self.assertEqual(out['plugins']['entries']['section11-context']['config']['exchangeBudget'],
-                         {'modelCalls':10,'toolCalls':32,'estimatedTokens':300000})
+                         {'modelCalls':10,'toolCalls':32,'estimatedTokens':0})
         self.assertEqual(out['agents']['entries']['main']['model'],original['agents']['entries']['main']['model'])
         self.assertEqual(out['channels'],original['channels'])
         self.assertEqual(self.config,original)
 
-    def test_only_readonly_context_results_are_pruned_and_recent_turns_survive(self):
+    def test_full_context_disables_early_pruning_but_keeps_native_pressure_safeguards(self):
         cfg=e.configure(self.config)['agents']['defaults']
-        self.assertEqual(cfg['contextPruning']['tools']['allow'],['section11_context'])
+        self.assertEqual(cfg['contextPruning'],{'mode':'off'})
         self.assertEqual(cfg['compaction']['recentTurnsPreserve'],3)
         self.assertFalse(cfg['compaction']['notifyUser'])
         self.assertTrue(e.configure(self.config)['plugins']['entries']['section11-context']['config']['quietBoundedContextNotices'])
         self.assertEqual(cfg['compaction']['qualityGuard'],{'enabled':True,'maxRetries':1})
         self.assertEqual(cfg['compaction']['identifierPolicy'],'strict')
-        self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],262144)
+        self.assertEqual(cfg['compaction']['maxActiveTranscriptBytes'],0)
         self.assertEqual(cfg['compaction']['midTurnPrecheck'],{'enabled':True})
         self.assertEqual(cfg['compaction']['keepRecentTokens'],8192)
         self.assertEqual(e.configure(self.config)['tools']['codeMode'],False)
-        self.assertIn('exec',cfg['contextPruning']['tools']['deny'])
         self.assertEqual(e.configure(e.configure(self.config)),e.configure(self.config))
 
     def test_keyword_memory_is_explicit_primary_only_and_preserves_other_settings(self):

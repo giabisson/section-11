@@ -97,7 +97,8 @@ remain unchanged; oversized remaining content still fails explicitly.
 
 The optional private profile key `tool_packet_bytes` (8,192–49,152 bytes) caps CLI
 responses before OpenClaw can silently trim them. Primary uses 30,000 bytes under
-a 128k working context, whose native live tool cap is 32k characters. A build can
+the full 1,050,000-token Sol working context. The 30,000-byte per-result
+bound remains separate from conversation capacity. A build can
 explicitly defer bulky history, selected dossier sections and intake to their
 existing exact readers. `intake` is an additional read-only operation returning
 the complete account-bound onboarding revision; it accepts no model-selected path.
@@ -402,3 +403,30 @@ typed state retrieval returned the saved sixteen-session revision and all
 checked prescriptions. The summary reflects conversation evidence, so the usual
 fresh-state recovery rule remains essential for changes saved outside Telegram.
 No coaching tools, calendar writes or Telegram deliveries were replayed.
+
+
+## Full primary context — 5 November 2026
+
+The operator explicitly chooses the full supported Sol window. The previous
+131,072-token working cap, 256 KiB active-transcript compaction trigger and
+cache-TTL pruning are superseded: generated primary settings use 1,050,000
+tokens, maxActiveTranscriptBytes:0 and contextPruning.mode:off. The window covers
+the whole prompt and output reservation, not just Telegram conversation text.
+Native pressure checks and Luna safeguard compaction remain for actual capacity
+pressure; no near-limit provider acceptance is inferred from catalog metadata.
+
+The competing cumulative estimated-token veto is explicitly disabled for the
+primary (estimatedTokens:0), while estimates/actual usage telemetry, 32 tool
+operations and ten model attempts remain. Plugin defaults for other accounts
+remain unchanged. Fresh source, health and exact calendar approval rules remain.
+Large capacity does not require loading irrelevant sources or restoring old
+compacted turns, and does not provide indefinite full transcript retention in
+every future prompt. Original transcripts and saved coaching sources remain.
+
+Installed native pressure tests accept a synthetic prompt above the former 131k
+limit, resolve 1,050,000 tokens from the generated configuration and still reject
+an oversized prompt. They verify disabled TTL settings, protected receipt/history
+behavior and independent call guards. One isolated no-tool Sol-medium provider
+smoke request succeeded with the proposed configuration. It was deliberately
+small: maximum-size acceptance and workload quota effects are not measured by
+that request. No message, training save or calendar write was involved.

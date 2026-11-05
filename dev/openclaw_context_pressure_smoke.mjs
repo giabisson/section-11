@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import path from 'node:path';
+import {execFileSync} from 'node:child_process';
 export async function verifyContextPressure(packageRoot){
  const dist=path.join(packageRoot,'dist'),files=await readdir(dist);
  async function fn(prefix,name){
@@ -72,12 +73,20 @@ export async function verifyContextPressure(packageRoot){
  assert.equal(JSON.stringify(messages),original,'canonical transcript must be immutable');
  for(const protectedMessage of [receipt,mixed,...messages.slice(-6)])assert.deepEqual(projected[messages.indexOf(protectedMessage)],protectedMessage);
  const replay=prune({...args,now:2,pruneNewRounds:false});assert.deepEqual(replay,projected,'projection replay must remain stable');
- const info=context({cfg:{models:{providers:{openai:{models:[{id:'gpt-6.1-sol',contextTokens:131072}]}}}},provider:'openai',modelId:'gpt-6.1-sol',modelContextTokens:1050000,modelContextWindow:1050000});
- assert.equal(info.tokens,131072);
- const oversized=[{role:'user',content:'Synthetic request '+('different training context and dated source '.repeat(25000))}];
- const decision=pressure({messages:oversized,systemPrompt:'Synthetic safety instructions',prompt:'',contextTokenBudget:131072,reserveTokens:16384});
+ const root=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
+ const cfg=JSON.parse(execFileSync('python3',['-c',"import json,sys;sys.path.insert(0,sys.argv[1]);from efficiency_config import configure,configure_primary_models;print(json.dumps(configure_primary_models(configure({'agents':{'defaults':{},'entries':{'main':{'model':'openai/gpt-6.1-sol@openai:synthetic'}}}}))))",path.join(root,'examples/agentic/openclaw')],{encoding:'utf8'}));
+ assert.equal(cfg.agents.defaults.compaction.maxActiveTranscriptBytes,0);
+ assert.equal(settings(cfg.agents.defaults.contextPruning),undefined);
+ const info=context({cfg,provider:'openai',modelId:'gpt-6.1-sol',modelContextTokens:1050000,modelContextWindow:1050000});
+ assert.equal(info.tokens,1050000);
+ const intermediate=[{role:'user',content:'Synthetic request '+('different training context and dated source '.repeat(25000))}];
+ const pressureArgs={systemPrompt:'Synthetic safety instructions',prompt:'',contextTokenBudget:info.tokens,reserveTokens:16384};
+ assert.equal(pressure({...pressureArgs,messages:intermediate}).route,'fits','ordinary history above the old 131k cap must fit');
+ assert.notEqual(pressure({...pressureArgs,contextTokenBudget:131072,messages:intermediate}).route,'fits');
+ const oversized=[{role:'user',content:'Synthetic request '+('different training context and dated source '.repeat(250000))}];
+ const decision=pressure({...pressureArgs,messages:oversized});
  assert.notEqual(decision.route,'fits');assert(decision.overflowTokens>0);
- const small=pressure({messages:[{role:'user',content:'Synthetic short request'}],systemPrompt:'Preserve safety and receipts',prompt:'',contextTokenBudget:131072,reserveTokens:16384});assert.equal(small.route,'fits');
+ const small=pressure({...pressureArgs,messages:[{role:'user',content:'Synthetic short request'}]});assert.equal(small.route,'fits');
  return {native_telegram_notice_suppressed:true,native_budget_tool_veto:true,native_read_projection_reduced:true,canonical_transcript_unchanged:true,write_and_mixed_receipts_preserved:true,recent_health_preserved:true,projection_replay_stable:true,effective_context_tokens:info.tokens,oversized_prompt_blocked:true,model_calls:0};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname))console.log(JSON.stringify(await verifyContextPressure(process.argv[2])));

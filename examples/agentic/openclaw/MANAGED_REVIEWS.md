@@ -315,14 +315,15 @@ remain native checks, and partial saves retain independently verifiable receipts
 
 The primary now exposes both coaching tools as `catalogMode:direct-only`. Native
 Tool Search keeps their schemas visible, removing schema-discovery turns and
-wrappers. Context reads keep their real tool name, so existing read-only cache
-pruning applies; coaching writes and receipts remain protected. Old transcripts
+wrappers. Context reads keep their real tool name. Primary TTL pruning is now off under
+the full-context policy; coaching writes and receipts remain protected. Old transcripts
 are not rewritten or broadly pruned as generic tool_call results.
 
 Ten tool operations/five model attempts are efficiency checkpoints, not stop
 rules. The primary hard failsafes are 32 actual tool operations and 10 model
-attempts including the reserved final response; the estimated-token ceiling
-remains 300,000. This is a tool-admission guard, not a billed-cost or ChatGPT-quota
+attempts including the reserved final response. The later full-context choice
+sets estimatedTokens:0: cumulative estimates remain telemetry without blocking
+valid large-context work. This is a tool-admission guard, not a billed-cost or ChatGPT-quota
 cap: provider requests already underway cannot be cancelled by these hooks.
 Do required validation and persistence, avoid optional diagnostics/unchanged
 reads, and stop honestly if a hard guard fires. Reused model-call IDs on separate

@@ -87,6 +87,24 @@ test('estimated token guard and measured usage stay separate; duplicate observed
   assert.throws(()=>exchangeBudget({modelCalls:1}));
 });
 
+test('explicit full-context mode records large repeated inputs without a token veto and retains call guards',()=>{
+ const records=[],b=exchangeBudget({estimatedTokens:0,modelCalls:3,toolCalls:2},r=>records.push(r)),ctx={runId:'full-window'};
+ assert(b.before_prompt_build({},ctx).appendSystemContext.includes('telemetry only'));
+ for(let i=0;i<2;i++){
+  b.llm_input({systemPrompt:'x'.repeat(4200000)},ctx);b.model_call_started({callId:String(i)},ctx);
+  assert.equal(b.before_tool_call({toolName:'section11_context',toolCallId:'read'+i},ctx),undefined);
+ }
+ b.llm_output({usage:{input:100,output:5}},ctx);
+ const measured=records.find(r=>r.kind==='section11_exchange_attempt');
+ assert(measured.estimatedTokens>2000000);assert.equal(measured.actualAttemptUsage.input,100);
+ assert.equal(b.before_tool_call({toolName:'section11_coaching',toolCallId:'third'},ctx).block,true);
+ assert.equal(records.at(-1).cause,'tool_calls');
+ const limited=exchangeBudget({estimatedTokens:0,modelCalls:2}),other={runId:'full-window-model-cap'};
+ limited.model_call_started({callId:'one'},other);limited.model_call_started({callId:'final'},other);
+ assert.equal(limited.before_tool_call({toolName:'section11_coaching'},other).block,true);
+ for(const estimatedTokens of [-1,1,9999,2000001])assert.throws(()=>exchangeBudget({estimatedTokens}));
+});
+
 import {boundedNoticeFilter,BOUNDED_CONTEXT_NOTICE} from '../../examples/agentic/openclaw/context-tool/policy.mjs';
 test('quiet notice filter cancels only exact standalone Telegram maintenance notice',()=>{
  const ctx={channelId:'telegram'};

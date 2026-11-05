@@ -16,16 +16,19 @@ def enable_primary_coaching_tools(config):
 
 def configure(config):
     c=enable_primary_coaching_tools(config);defaults=c['agents']['defaults']
-    defaults['contextPruning']={'mode':'cache-ttl','ttl':'5m','tools':{'allow':['section11_context'],'deny':['exec','section11_coaching','write','edit','apply_patch']},
-                               'hardClear':{'enabled':True,'placeholder':'[Historical coaching context removed. Read a fresh section11_context packet before using numbers or prescribing.]'}}
+    # Operator chooses the full model window. Do not expire historical reads or
+    # compact on a small byte threshold before native token pressure requires it.
+    defaults['contextPruning']={'mode':'off'}
     compaction=defaults.setdefault('compaction',{})
     compaction.update(notifyUser=False,mode='safeguard',identifierPolicy='strict',recentTurnsPreserve=3,
-                      qualityGuard={'enabled':True,'maxRetries':1},maxActiveTranscriptBytes=262144,
+                      qualityGuard={'enabled':True,'maxRetries':1},maxActiveTranscriptBytes=0,
                       keepRecentTokens=8192,midTurnPrecheck={'enabled':True})
     # Direct typed reads remain distinguishable from writes and mixed exec results.
     c.setdefault('tools',{})['codeMode']=False
     c.setdefault('plugins',{}).setdefault('entries',{}).setdefault('section11-context',{}).setdefault('config',{})['quietBoundedContextNotices']=True
-    c.setdefault('plugins',{}).setdefault('entries',{}).setdefault('section11-context',{}).setdefault('config',{})['exchangeBudget']={'modelCalls':10,'toolCalls':32,'estimatedTokens':300000}
+    # Repeated full-window inputs can exceed an exchange token estimate on the
+    # first call. Keep telemetry and call/tool guards without that competing cap.
+    c.setdefault('plugins',{}).setdefault('entries',{}).setdefault('section11-context',{}).setdefault('config',{})['exchangeBudget']={'modelCalls':10,'toolCalls':32,'estimatedTokens':0}
     sections=compaction.setdefault('postCompactionSections',[])
     if RECOVERY_HEADING not in sections:sections.append(RECOVERY_HEADING)
     # This OAuth route supports its session cache key, not API lifetime fields.
@@ -37,7 +40,7 @@ def configure(config):
 
 PRIMARY_MODEL='openai/gpt-6.1-sol'
 UTILITY_MODEL='openai/gpt-6-luna'
-CONTEXT_TOKENS=131072
+CONTEXT_TOKENS=1050000
 
 
 def configure_primary_models(config):
@@ -97,7 +100,7 @@ def configure_keyword_memory(config):
 def recovery_block(context_profile,profile_path,managed_store=None):
     return f'''## {RECOVERY_HEADING}
 
-section11_context and section11_coaching are direct-only native tools: their schemas are already visible. Do not use Tool Search wrappers or schema discovery for them; typed read pruning then works without touching write receipts. For an unchanged saved-plan continuation, do not search for known tools or fetch references one at a time. After the compact skill read, request these independent reads in the same model turn: section11_context {{"operation":"build","task":"plan"}} and section11_coaching {{"operation":"planning_setup","payload":null,"references":[{{"source":"protocol","heading":"B"}},{{"source":"workouts","heading":"AE-1"}}]}}. If Tool Search hides them, tool_call accepts their exact names with those args; describe section11_coaching in that same turn only if its propose schema is needed. Include newly reported dated feedback (state rested/normal/fatigued/weak/symptoms/unknown) in planning_setup.feedback and verify feedback_receipt before optional history work; do not lose athlete feedback when reads fail. Then construct and persist the actual plan through propose, checking its receipt. Do not replace the bundled setup with serial state/reference/history calls. Changed intake must first be read then saved faithfully; never parallelize dependent saves.
+section11_context and section11_coaching are direct-only native tools: their schemas are already visible. Do not use Tool Search wrappers or schema discovery for them. The primary uses the full 1,050,000-token Sol window with TTL pruning and early byte compaction disabled; token estimates remain telemetry, and model/tool call guards still apply. For an unchanged saved-plan continuation, do not search for known tools or fetch references one at a time. After the compact skill read, request these independent reads in the same model turn: section11_context {{"operation":"build","task":"plan"}} and section11_coaching {{"operation":"planning_setup","payload":null,"references":[{{"source":"protocol","heading":"B"}},{{"source":"workouts","heading":"AE-1"}}]}}. If Tool Search hides them, tool_call accepts their exact names with those args; describe section11_coaching in that same turn only if its propose schema is needed. Include newly reported dated feedback (state rested/normal/fatigued/weak/symptoms/unknown) in planning_setup.feedback and verify feedback_receipt before optional history work; do not lose athlete feedback when reads fail. Then construct and persist the actual plan through propose, checking its receipt. Do not replace the bundled setup with serial state/reference/history calls. Changed intake must first be read then saved faithfully; never parallelize dependent saves.
 
 Use direct section11_context and section11_coaching tools for coaching operations; do not wrap typed reads in exec. Mixed exec/write results are deliberately protected, not prunable read data. The primary coaching model is GPT-6.1 Sol at medium; Luna handles utility summarization and explicitly delegated bounded tasks. Never select Astra or use Luna to independently change the training strategy. Tools themselves execute deterministically without an extra model call.
 
