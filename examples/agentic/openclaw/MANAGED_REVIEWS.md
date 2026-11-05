@@ -59,7 +59,9 @@ progression. Never initialize a sample/default plan to make the store look ready
 
 ### Bounded planning setup
 
-Use `planning_setup` for a plan request after reading the current plan task packet:
+For an unchanged saved-plan continuation, call `planning_setup` and a fresh
+`section11_context build(task:plan)` in the same model turn. Null payload does
+not depend on the packet. For changed intake, read the packet first, then save:
 
 ```json
 {"operation":"planning_setup","payload":null,"references":[{"source":"protocol","heading":"B"},{"source":"workouts","heading":"AE-1"}]}
@@ -79,9 +81,11 @@ Planning setup includes the bounded long-term source when configured, so do
 not reread the same monthly history. Its compact plan view preserves every historical
 prescription reference and selected feasibility/goal fields; original revision
 prose/evidence remains in the store and is explicitly deferred. Read state before
-changes depending on that omitted metadata. Normal successful planning fits skill read,
-plan packet, planning_setup, validated propose, and final summary without extra
-state/reference discovery turns. Further essential dependencies still require a
+changes depending on that omitted metadata. The compact entry skill fits OpenClaw's whole-document reader. In Tool Search
+mode, `tool_call` accepts known exact names; request setup, plan packet and (only
+if needed) the coaching `propose` schema in one model turn after the skill read.
+Then propose and verify its persisted receipt. Broker wrappers and nested calls
+both consume tool slots; do not add serial discovery/reference rounds. Further essential dependencies still require a
 fresh read or honest deferral within the existing budget.
 
 ### Save intake before planning, including active-plan changes

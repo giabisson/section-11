@@ -13,6 +13,15 @@ c=load_module_by_path('s11_planning_references_tests',REPO_ROOT/'examples/agenti
 
 
 class References(unittest.TestCase):
+    def test_entry_skill_fits_native_whole_document_read_and_gives_broker_workflow(self):
+        text=(REPO_ROOT/'SKILL.md').read_text()
+        self.assertLessEqual(len(text.splitlines()),200)
+        self.assertLessEqual(len(text.encode()),12000)
+        for required in ('same model turn','tool_call','planning_setup','payload":null',
+                         'propose','P0/P1','immutable','calendar','HRV','SKILL_REFERENCE.md'):
+            self.assertIn(required,text)
+        self.assertTrue((REPO_ROOT/'SKILL_REFERENCE.md').is_file())
+
     def setUp(self):
         self.fixture=context_fixtures.ContextPacket();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)
         self.p=self.fixture.profile

@@ -43,8 +43,8 @@ def targets(root, remote_root, runtime, skill, units, include_runtime=False):
                 expected['unit/'+relative] = {'path': str(units/relative), 'sha256': digest}
         if name == 'examples/training_history.py':
             expected['runtime/training_history.py'] = {'path': str(runtime/'training_history.py'), 'sha256': digest}
-        if name == 'SKILL.md':
-            expected['skill/SKILL.md'] = {'path': str(skill/'SKILL.md'), 'sha256': digest}
+        if name in ('SKILL.md','SKILL_REFERENCE.md'):
+            expected['skill/'+name] = {'path': str(skill/name), 'sha256': digest}
     return expected
 
 

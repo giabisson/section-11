@@ -15,7 +15,7 @@ p=load_module_by_path('s11_primary_parity',REPO_ROOT/'dev/check_primary_parity.p
 class PrimaryParity(unittest.TestCase):
     def test_runtime_skill_and_units_are_checked_alongside_source(self):
         expected=p.targets(REPO_ROOT,Path('/source'),Path('/runtime'),Path('/skill'),Path('/units'),include_runtime=True)
-        for name in ['checkout/examples/agentic/coaching_plan.py','runtime/reporter_entry.py','runtime/context-tool/policy.mjs','runtime/credential-guard/register.mjs','runtime/training_history.py','skill/SKILL.md','unit/section11-history-primary.timer']:
+        for name in ['checkout/examples/agentic/coaching_plan.py','runtime/reporter_entry.py','runtime/context-tool/policy.mjs','runtime/credential-guard/register.mjs','runtime/training_history.py','skill/SKILL.md','skill/SKILL_REFERENCE.md','unit/section11-history-primary.timer']:
             self.assertIn(name,expected)
         self.assertFalse(any(n.endswith('context-primary.json') or n.endswith('report-primary.json') for n in expected))
 

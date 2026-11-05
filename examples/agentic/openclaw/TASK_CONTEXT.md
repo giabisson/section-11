@@ -273,3 +273,26 @@ history and reference reads in one call. Full prior plan prose/evidence is
 explicitly deferred, with a state-read pointer; all historical prescription
 references and selected goal/feasibility fields remain. Saving happens first and its receipt survives failed/deferred reads.
 This reduces sequential tool/model rounds without loosening exchange budgets.
+
+
+## Whole-skill read and planning entry repair — 5 November 2026
+
+The next primary Telegram continuation failed before using the bundled workflow:
+OpenClaw refused the 35,873-byte entry skill as an incomplete whole-document read.
+The coach then described the context tool and fetched AE-1 and protocol B in
+separate model turns; its state read was blocked at the fifth model attempt.
+This was a skill-delivery/control-flow failure, not missing saved intake.
+
+The entry is now under 12 KiB/200 lines with the exact Tool Search call shapes.
+Platform/setup/manual detail remains in SKILL_REFERENCE.md, installed alongside
+the entry and checked by source parity. With unchanged intake, request build(plan),
+planning_setup(null, reference batch) and any needed propose-schema description in
+one model turn. Changed intake still requires its saved snapshot first. Limits,
+models and source/health/publication checks are unchanged. The native regression
+checks the actual installed whole-skill reader and broker/nested-call budget path.
+
+One isolated real Sol-medium continuation recovered saved intent, current data and
+managed state without budget blocks (four observed model attempts). It requested
+a current shoulder/recovery update rather than claiming a plan was saved. No
+production plan, intake or calendar was changed. This verifies the repaired entry
+and retrieval path, not full future coaching quality or a completed six-week plan.
