@@ -42,6 +42,13 @@ setup.
 
 ## Running
 
+With `SECTION11_OPENCLAW_PACKAGE` set to the installed OpenClaw package directory,
+the optional native tests also verify that generated Luna compaction settings
+resolve to the literal model ID and retain the active account authentication.
+They use synthetic configuration and make no provider calls. Test deployments
+with native session compaction separately; schema validation cannot detect every
+runtime model-resolution difference.
+
 `test_openclaw_credential_guard.py` runs ten dependency-free Node tests for credential-file gates, encoded-secret filtering before model replay/persistence, failure behavior and retained delivery metadata. Node is required for these OpenClaw-specific checks. `test_runtime_safety.py` checks private multi-consumer key replacement and a read-only delivery audit against synthetic files and mocked HTTP; no live message is sent.
 
 `test_coaching_release.py` checks explicit taper arithmetic without a required subgroup percentage, unknown event duration, mechanical work versus dietary calories, qualified durability windows, strength tradeoffs and actual new module bytes through fresh initialization/update. It checks publisher/private-record exclusion, installed-path plan/catalog imports and the read-only artifact audit; it does not contact a live runtime.

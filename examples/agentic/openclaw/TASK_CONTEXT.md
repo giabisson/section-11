@@ -373,3 +373,32 @@ was reproduced as a known, rolled-back validation failure; the same draft with
 only that metadata corrected saved all sixteen checked prescriptions and passed
 a fresh typed state read (about 23 KiB), retaining the original 30 KiB cap. No
 model judgment, dose, watts or health restriction was changed by the correction.
+
+## Compaction model identity — 5 November 2026
+
+The primary Telegram session subsequently failed both automatic and manual
+compaction with an unknown Luna model. Luna was available in the installed
+account catalog; the failure was not a missing sign-in or a tool-budget veto.
+OpenClaw 2026.10.6's compaction override parser splits `provider/model` without
+removing an `@profile` suffix, so it tried to resolve that suffix as part of the
+literal model ID. The earlier configuration generator incorrectly reused the
+primary model's credential-pinned spelling for this separate override.
+
+`configure_primary_models` now sets compaction to `openai/gpt-6-luna`, at low
+reasoning, while retaining the primary Sol-medium account pin. Same-provider
+compaction inherits the active authentication profile. An installed-runtime
+regression checks that exact resolver behavior and the generated configuration;
+unit checks alone previously accepted the invalid suffixed spelling. This is a
+configuration workaround, with no edits to installed OpenClaw package files.
+No changes to model allowances, keyword memory, budgets or calendar approval are
+needed. A real native session-compaction check should accompany deployment;
+replaying a failed coaching request is unnecessary to test summarization.
+
+The primary native `sessions compact` retry succeeded using Luna: reported
+active tokens fell from 87,008 to 9,873. All 2,134 original canonical transcript
+events remained byte-identical; only compaction events were appended. The plan,
+intake and feedback stores and secondary configuration were unchanged. Fresh
+typed state retrieval returned the saved sixteen-session revision and all
+checked prescriptions. The summary reflects conversation evidence, so the usual
+fresh-state recovery rule remains essential for changes saved outside Telegram.
+No coaching tools, calendar writes or Telegram deliveries were replayed.

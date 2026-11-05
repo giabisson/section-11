@@ -72,7 +72,10 @@ def configure_primary_models(config):
         model={'id':'gpt-6.1-sol','name':'GPT-6.1 Sol'};models.append(model)
     model.update(contextTokens=CONTEXT_TOKENS,maxTokens=16384)
     compaction=defaults.setdefault('compaction',{})
-    compaction.update(model=UTILITY_MODEL+suffix,thinkingLevel='low')
+    # OpenClaw 2026.10.6 splits this override at '/', but does not strip an
+    # @profile suffix. It inherits the active profile for the same provider;
+    # keep the credential pin on the primary model, not this literal model ID.
+    compaction.update(model=UTILITY_MODEL,thinkingLevel='low')
     compaction.setdefault('memoryFlush',{})['model']=UTILITY_MODEL+suffix
     defaults.setdefault('subagents',{}).update(model=UTILITY_MODEL+suffix,thinking='low')
     return c

@@ -120,7 +120,7 @@
       "hash": "073f51bf599fe7e5d2a9c0084080ec1458cc69d04b82a6212c0f5ca7b2026d38"
     },
     "examples/agentic/openclaw/TASK_CONTEXT.md": {
-      "hash": "e19952287eeb19c587ce7f3a72fe94120e09e4b47425dc1a99a21e4314123ae3"
+      "hash": "ee3736cb80c7cded000ee67f4570c660e6c95c91292a93ed4657a11c89a8d013"
     },
     "examples/agentic/openclaw/TELEMETRY_AND_EVALS.md": {
       "hash": "1ad9c3141723ecfbb9cfc5972e177fcc66bef5c97975fc281f79c960a6715f29"
@@ -192,7 +192,7 @@
       "hash": "0d9a586c44100099f0a58639ea87e70b528e55716073082dc0d98d0cefdfe29b"
     },
     "examples/agentic/openclaw/efficiency_config.py": {
-      "hash": "f4f30d88b5b982b68d649532ccbfa96da5744d168f8dd02009f09bd409efbb8b"
+      "hash": "a7a6f71c321b5b7146cdae3b69a2b322d85754b4fadae099175013c04826ec95"
     },
     "examples/agentic/openclaw/evals/cases.json": {
       "hash": "3304b85f8933f194283d708a6872993d39f829acca067b8f569c4e24b61b9070"
