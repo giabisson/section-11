@@ -30,6 +30,8 @@ export async function verifyContextPressure(packageRoot){
  assert(prompt.appendSystemContext.includes('Exchange work budget'));
  await runner.runModelCallStarted({runId:ctx.runId,callId:'one'},ctx);
  await runner.runModelCallStarted({runId:ctx.runId,callId:'two'},ctx);
+ assert.equal(await runner.runBeforeToolCall({toolName:'section11_context',toolCallId:'allowed-second-stage',params:{}},ctx),undefined);
+ await runner.runModelCallStarted({runId:ctx.runId,callId:'final'},ctx);
  const denied=await runner.runBeforeToolCall({toolName:'section11_coaching',params:{operation:'save'}},ctx);
  assert.equal(denied.block,true,'native runner must honor the tool veto before invoking a write');
  assert.equal(await runner.runBeforeToolCall({toolName:'section11_context',params:{}},{runId:'new-exchange'}),undefined);

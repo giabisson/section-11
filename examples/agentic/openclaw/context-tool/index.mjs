@@ -12,7 +12,7 @@ export default definePluginEntry({id:'section11-context',name:'Section 11 bounde
         catch{return {isError:true,content:[{type:'text',text:'Invalid bounded context request.'}]};}
       }});
     if(api.pluginConfig?.exchangeBudget && api.pluginConfig?.reportMode!==true){
-      const hooks=exchangeBudget(api.pluginConfig.exchangeBudget,record=>api.logger.info(JSON.stringify(record)));
+      const hooks=exchangeBudget(api.pluginConfig.exchangeBudget,record=>(record.kind==='section11_exchange_block'?api.logger.warn:api.logger.info)(JSON.stringify(record)));
       for(const [name,handler] of Object.entries(hooks))api.on(name,handler);
     }
     if(api.pluginConfig?.quietBoundedContextNotices===true)api.on('message_sending',boundedNoticeFilter);

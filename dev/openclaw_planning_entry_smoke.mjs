@@ -30,22 +30,27 @@ export async function verifyPlanningEntry(packageRoot){
  const records=[],budget=exchangeBudget({},r=>records.push(r)),ctx={runId:'synthetic-broker-plan'};
  budget.before_prompt_build({},ctx);
  let model=0,tool=0;
- function turn(){budget.llm_input({systemPrompt:'Synthetic prompt',historyMessages:[]},ctx);budget.model_call_started({callId:String(++model)},ctx);}
- function admitted(name,result={}){
-  const e={toolName:name,toolCallId:String(++tool)};
-  assert.equal(budget.before_tool_call(e,ctx),undefined,`stage ${name} must fit unchanged guard`);
+ function turn(){budget.model_call_started({callId:String(++model)},ctx);}
+ function admitted(name,result={},params={}){
+  const e={toolName:name,toolCallId:String(++tool),params};
+  assert.equal(budget.before_tool_call(e,ctx),undefined,`stage ${name} must fit corrected guard`);
   budget.after_tool_call({...e,result},ctx);
  }
- turn();admitted('tool_call');admitted('skills_read',result);
- // Same model turn: broker wrappers AND nested tools both consume their real slots.
- turn();admitted('tool_call');admitted('section11_context');admitted('tool_call');
- admitted('section11_coaching');admitted('tool_describe');
- turn();admitted('tool_call');admitted('section11_coaching',{success:true,revision_id:'synthetic-only'});
+ function broker(name,result={}){admitted('tool_call',{}, {id:name});admitted(name,result);}
+ budget.llm_input({systemPrompt:'Synthetic prompt',historyMessages:[]},ctx);
+ turn();broker('skills_read',result);
+ turn();broker('section11_context');admitted('tool_describe');
+ turn();broker('section11_coaching');
+ // Replay the actual failed production branch: three calls in parallel, then save.
+ turn();broker('section11_coaching');broker('section11_context');broker('section11_coaching');
+ turn();broker('section11_coaching',{success:true,revision_id:'synthetic-only'});
  turn();budget.llm_output({usage:{input:0,output:0}},ctx);
- assert.equal(records[0].blockedTools,0);assert.equal(records[0].admittedTools,9);
+ const attempt=records.find(r=>r.kind==='section11_exchange_attempt');
+ assert.equal(attempt.blockedTools,0);assert.equal(attempt.admittedTools,8);
+ assert.equal(budget.before_tool_call({toolName:'section11_context'},ctx).block,true,'sixth model call is reserved for final response');
  budget.agent_end({},ctx);
  return {whole_skill_bytes:Buffer.byteLength(current),native_read_verified:true,budget_replay_model_turns:model,
-  budget_replay_tool_admissions:tool,scope:'Deterministic native read and control-flow replay; not live model planning quality.',
+  budget_replay_tool_operations:attempt.admittedTools,budget_replay_dispatcher_calls:attempt.dispatcherCalls,budget_replay_observed_hooks:tool,scope:'Deterministic native read and control-flow replay; not live model planning quality.',
   model_calls:0,messages_sent:0,calendar_writes:0};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))

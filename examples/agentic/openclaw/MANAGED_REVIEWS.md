@@ -67,6 +67,14 @@ not depend on the packet. For changed intake, read the packet first, then save:
 {"operation":"planning_setup","payload":null,"references":[{"source":"protocol","heading":"B"},{"source":"workouts","heading":"AE-1"}]}
 ```
 
+Null payload means intake is already saved and unchanged. Optional `feedback`
+uses the same dated `date/state/note/health_clarification` contract as the standalone
+operation and is saved before optional planning reads. Check `feedback_receipt`
+and the separate `intake_receipt`; either may have committed even if another
+operation failed. `state` supplies `current_feedback` for recovery readback.
+Allowed feedback states are rested/normal/fatigued/weak/symptoms/unknown; current
+comfort never implies new clinical clearance.
+
 Null payload means intake is already saved and unchanged. For explicit changes,
 supply the same complete intake payload contract as `intake`, preserving unrelated
 entries and its current parent revision. The backend saves and verifies intake
@@ -284,3 +292,20 @@ Section 11 tools for main, preserving all other settings. Verify live
 `tools.effective` after application. Read-only scheduled report configurations
 remove `alsoAllow` and keep their explicit context-only allowlist. No model,
 reasoning, secondary-account or calendar authorization setting is changed.
+
+## Budget-accounting repair — 5 November 2026
+
+The core Tool Search dispatcher and its nested Section 11 implementation used to
+consume two slots, so parallel calls could reserve every remaining slot while
+all their implementations were refused. Known native Section 11/skills dispatch
+wrappers now defer admission to their hooked implementation; unknown dispatch
+targets still count normally. Retries and actual operations remain bounded.
+Five tool-producing model attempts fit the configured six-attempt budget; the
+sixth is reserved for the final response. Numeric limits and model policy do
+not increase. Token estimates omit transcript-only details/usage metadata and
+avoid adding nested Section 11 results already replayed by their outer wrapper.
+They remain estimates; block responses identify which limit was reached.
+
+Tests replay the actual serial-setup/parallel state-history-feedback branch
+followed by proposal admission. The whole-skill reader and schema conversion
+remain native checks, and partial saves retain independently verifiable receipts.

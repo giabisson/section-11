@@ -91,6 +91,24 @@ class PlanningSetup(unittest.TestCase):
         self.f.runtime.save_intake(payload());self.f.propose()
         self.before=self.f.runtime.state_view()
 
+    def test_setup_saves_new_feedback_before_optional_reads_and_readback_survives(self):
+        feedback={'date':'2026-10-29','state':'normal','note':'Synthetic shoulder felt fine the next morning; no new clearance','health_clarification':None}
+        with mock.patch.object(self.f.runtime.context,'reference_batch',side_effect=ValueError('PRIVATE_CANARY')):
+            result=self.f.runtime.planning_setup(None,[{'source':'workouts','heading':'AE-1'}],feedback)
+        self.assertTrue(result['feedback_receipt']['success'])
+        self.assertEqual(self.f.runtime.state_view()['current_feedback']['note'],feedback['note'])
+        self.assertEqual(result['planning_references']['status'],'unavailable')
+        self.assertNotIn('PRIVATE_CANARY',json.dumps(result))
+        self.assertEqual(self.f.runtime.state_view()['plan'],self.before['plan'])
+
+    def test_saved_feedback_receipt_survives_independent_intake_failure(self):
+        feedback={'date':'2026-10-29','state':'normal','note':'Synthetic feedback','health_clarification':None}
+        with mock.patch.object(self.f.runtime,'save_intake',side_effect=ValueError('stale parent')):
+            result=self.f.runtime.planning_setup(self.changed(),[{'source':'workouts','heading':'AE-1'}],feedback)
+        self.assertTrue(result['feedback_receipt']['success'])
+        self.assertFalse(result['intake_receipt']['success'])
+        self.assertEqual(result['planning_reads']['status'],'not_started')
+
     def changed(self):
         p=payload();p.update(request_id='active-plan-update',parent_revision=self.f.runtime.intake_view()['revision_id'])
         p['entries'][0]['text']='Explicit updated six-week return objective'

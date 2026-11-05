@@ -8,13 +8,14 @@ export function exchangeBudget(config={},emit=()=>{}){
   function state(e,c){
     // Never use sessionId: a conversation contains many separate exchanges.
     const id=c?.runId??e.runId;if(!id)return;
-    if(!runs.has(id)){if(runs.size>=256)return;runs.set(id,{id,calls:new Set(),tools:new Set(),results:new Set(),contextBytes:0,estimatedTokens:0,blocked:0});}
+    if(!runs.has(id)){if(runs.size>=256)return;runs.set(id,{id,calls:new Set(),tools:new Set(),results:new Set(),contextBytes:0,estimatedTokens:0,blocked:0,dispatches:0});}
     return runs.get(id);
   }
+  const section11Dispatch=e=>e.toolName==='tool_call'&&['section11_context','section11_coaching','skills_read','openclaw:section11-context:section11_context','openclaw:section11-coaching:section11_coaching','openclaw:core:skills_read'].includes(e.params?.id);
   const reason='Exchange work budget reached. Stop tool work and give a concise status with saved write receipts, pending steps and any uncertainty. Do not repeat a write or claim unsaved work succeeded. Continue remaining work only after a new user request.';
   return {
-    before_prompt_build(e,c){state(e,c);return {appendSystemContext:`Exchange work budget: at most ${limits.modelCalls-1} model attempts before a reserved final response, ${limits.toolCalls} tools, target ${limits.estimatedTokens} estimated cumulative tokens including repeated context. For an unchanged saved-plan continuation, after the compact skill read call section11_context build(task:plan) and section11_coaching planning_setup(payload:null,references:[{source:"protocol",heading:"B"},{source:"workouts",heading:"AE-1"}]) in the same model turn; if needed describe the coaching propose schema concurrently. Tool Search tool_call accepts these exact tool names and args without discovery. Then propose the actual plan and verify its receipt; avoid separate serial state/reference reads. For planning requests, persist explicitly changed goals/availability/setup through section11_coaching planning_setup (save-first plus plan state/references) or intake immediately after reading saved intake, even with an active plan; verify the receipt before optional history/reference reads. Batch known relevant references with section11_context references (up to six): exact titles, protocol B or unique workout IDs such as AE-1; never guess dossier headings; do not retrieve unrelated sections. At budget exhaustion stop new work, preserve write receipts, report what is saved and what remains. Never retry blocked tools or bypass limits through exec/delegation. Missing HRV alone is not a reason to stop training.`};},
-    llm_input(e,c){const s=state(e,c);if(s)s.contextBytes=Math.max(s.contextBytes,Buffer.byteLength(JSON.stringify([e.systemPrompt,e.prompt,e.historyMessages,e.tools])));},
+    before_prompt_build(e,c){state(e,c);return {appendSystemContext:`Exchange work budget: at most ${limits.modelCalls-1} model attempts before a reserved final response, ${limits.toolCalls} tools, target ${limits.estimatedTokens} estimated cumulative tokens including repeated context. For an unchanged saved-plan continuation, after the compact skill read call section11_context build(task:plan) and section11_coaching planning_setup(payload:null,references:[{source:"protocol",heading:"B"},{source:"workouts",heading:"AE-1"}]) in the same model turn; if needed describe the coaching propose schema concurrently. Tool Search tool_call accepts these exact tool names and args without discovery. Include newly supplied dated feedback (state rested/normal/fatigued/weak/symptoms/unknown) in planning_setup.feedback so it saves before optional reads; verify feedback_receipt. Then propose the actual plan and verify its receipt; avoid separate serial state/reference reads. For planning requests, persist explicitly changed goals/availability/setup through section11_coaching planning_setup (save-first plus plan state/references) or intake immediately after reading saved intake, even with an active plan; verify the receipt before optional history/reference reads. Batch known relevant references with section11_context references (up to six): exact titles, protocol B or unique workout IDs such as AE-1; never guess dossier headings; do not retrieve unrelated sections. At budget exhaustion stop new work, preserve write receipts, report what is saved and what remains. Never retry blocked tools or bypass limits through exec/delegation. Missing HRV alone is not a reason to stop training.`};},
+    llm_input(e,c){const s=state(e,c);if(s)s.contextBytes=Buffer.byteLength(JSON.stringify([e.systemPrompt,e.prompt,(e.historyMessages??[]).map(m=>({role:m.role,content:m.content,toolName:m.toolName,toolCallId:m.toolCallId})),e.tools]));},
     model_call_started(e,c){const s=state(e,c);if(!s||!e.callId||s.calls.has(e.callId))return;s.calls.add(e.callId);
       // Deliberately labelled estimate, NOT billed tokens or ChatGPT quota.
       // Hooks expose actual normalized usage only at the end of an attempt.
@@ -22,15 +23,23 @@ export function exchangeBudget(config={},emit=()=>{}){
     },
     before_tool_call(e,c){const s=state(e,c);if(!s)return {block:true,blockReason:'Exchange budget requires a stable run identity and available tracking capacity.'};
       const key=e.toolCallId;if(key&&s.tools.has(key))return;
-      if(s.calls.size>=limits.modelCalls-1||s.tools.size>=limits.toolCalls||s.estimatedTokens>=limits.estimatedTokens){s.blocked++;return {block:true,blockReason:reason};}
+      const cause=s.calls.size>limits.modelCalls-1?'model_calls':s.tools.size>=limits.toolCalls?'tool_calls':s.estimatedTokens>=limits.estimatedTokens?'estimated_tokens':null;
+      if(cause){s.blocked++;const record={kind:'section11_exchange_block',cause,observedModelCalls:s.calls.size,admittedTools:s.tools.size,estimatedTokens:s.estimatedTokens,limits};emit(record);return {block:true,blockReason:reason+` [budget=${cause}; model_calls=${s.calls.size}; tool_operations=${s.tools.size}; estimated_tokens=${s.estimatedTokens}]`};}
+      // Native Tool Search wraps these trusted tools in a core dispatcher. Their
+      // nested implementations have the same hooks and own the actual admission.
+      // Other targets/dispatchers still count; no global broker exemption.
+      if(section11Dispatch(e)){s.dispatches++;return;}
       // Parallel calls reserve slots synchronously; already admitted writes finish.
       s.tools.add(key??Symbol('tool'));
     },
-    after_tool_call(e,c){const s=state(e,c);if(!s)return;if(e.toolCallId&&s.results.has(e.toolCallId))return;if(e.toolCallId)s.results.add(e.toolCallId);s.contextBytes+=Buffer.byteLength(JSON.stringify(e.result??null));},
+    after_tool_call(e,c){const s=state(e,c);if(!s)return;if(e.toolCallId&&s.results.has(e.toolCallId))return;if(e.toolCallId)s.results.add(e.toolCallId);// Count only the content visible to the model, once. Native details duplicate
+      // content, and nested Section 11 results are replayed by the outer broker.
+      if(typeof e.toolCallId==='string'&&e.toolCallId.startsWith('tool_call:')&&['section11_context','section11_coaching','skills_read'].includes(e.toolName))return;
+      s.contextBytes+=Buffer.byteLength(JSON.stringify(e.result?.content??e.result??null));},
     llm_output(e,c){const s=state(e,c);if(!s)return;
       // Native usage is attempt aggregate: never add it once per model call.
       const usage={};for(const k of ['input','output','cacheRead','cacheWrite','total'])if(Number.isFinite(e.usage?.[k])&&e.usage[k]>=0)usage[k]=e.usage[k];
-      emit({kind:'section11_exchange_attempt',run:createHash('sha256').update(s.id).digest('hex').slice(0,16),observedModelCalls:s.calls.size,admittedTools:s.tools.size,blockedTools:s.blocked,estimatedTokens:s.estimatedTokens,actualAttemptUsage:usage,limits,scope:'tool-admission guard; provider retries/compaction and final response are not hard-capped'});
+      emit({kind:'section11_exchange_attempt',run:createHash('sha256').update(s.id).digest('hex').slice(0,16),observedModelCalls:s.calls.size,admittedTools:s.tools.size,dispatcherCalls:s.dispatches,blockedTools:s.blocked,estimatedTokens:s.estimatedTokens,actualAttemptUsage:usage,limits,scope:'tool-admission guard; provider retries/compaction and final response are not hard-capped'});
     },
     agent_end(e,c){const id=c?.runId??e.runId;if(id)runs.delete(id);}
   };

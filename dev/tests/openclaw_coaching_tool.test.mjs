@@ -74,3 +74,12 @@ test('planning setup combines only validated intake and bounded reference reques
    {references:[{source:'workouts',heading:'AE-1',task:'morning'}]},{payload:{arbitrary:true}}])assert.throws(()=>requestFor({...args,...patch},config));
  assert.throws(()=>requestFor({operation:'intake',payload:null},config));
 });
+
+
+test('planning setup accepts optional dated feedback without relaxing operation fields',()=>{
+ const args={operation:'planning_setup',payload:null,references:[{source:'protocol',heading:'B'}],feedback:{date:'2026-11-05',state:'normal',note:'Synthetic next-day response',health_clarification:null}};
+ assert.deepEqual(JSON.parse(requestFor(args,config).body),args);
+ assert.doesNotThrow(()=>requestFor({...args,feedback:null},config));
+ assert.throws(()=>requestFor({...args,feedback:{unexpected:true}},config));
+ assert.throws(()=>requestFor({operation:'state',feedback:args.feedback},config));
+});

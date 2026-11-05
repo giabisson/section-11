@@ -81,7 +81,7 @@ export const intakeSchema=object({request_id:id,parent_revision:nullable({type:'
 export const operationSchemas={
  state:object({operation:enumeration(['state'])}),
  intake:object({operation:enumeration(['intake']),payload:intakeSchema}),
- planning_setup:object({operation:enumeration(['planning_setup']),payload:nullable(intakeSchema),references:array(object({source:enumeration(['protocol','workouts','dossier','report']),heading:{type:'string',minLength:1,maxLength:200},task:enumeration(['morning','weekly','post_workout'])},['source','heading']),{minItems:1,maxItems:6})}),
+ planning_setup:object({operation:enumeration(['planning_setup']),payload:nullable(intakeSchema),feedback:nullable(feedbackSchema),references:array(object({source:enumeration(['protocol','workouts','dossier','report']),heading:{type:'string',minLength:1,maxLength:200},task:enumeration(['morning','weekly','post_workout'])},['source','heading']),{minItems:1,maxItems:6})},['operation','payload','references']),
  feedback:object({operation:enumeration(['feedback']),payload:feedbackSchema}),
  propose:object({operation:enumeration(['propose']),payload:proposalSchema}),
  prepare:object({operation:enumeration(['prepare']),start:date,end:date}),
@@ -90,7 +90,7 @@ export const operationSchemas={
 // Keep the provider-facing root an object. Runtime operation matching remains in
 // requestFor/backend; payload alternatives expose both closed, typed contracts.
 export const schema=object({operation:enumeration(Object.keys(operationSchemas)),
- payload:{anyOf:[feedbackSchema,proposalSchema,intakeSchema,{type:'null'}]},references:operationSchemas.planning_setup.properties.references,start:date,end:date,
+ payload:{anyOf:[feedbackSchema,proposalSchema,intakeSchema,{type:'null'}]},references:operationSchemas.planning_setup.properties.references,feedback:nullable(feedbackSchema),start:date,end:date,
  capture_id:operationSchemas.save.properties.capture_id,draft:draftSchema},['operation']);
 
 // Root-local definitions avoid repeating full plans and interval step shapes.

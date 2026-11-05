@@ -8,12 +8,12 @@ export function requestFor(params,config){
  if(!path.isAbsolute(config?.script??'')||!path.isAbsolute(config?.profile??''))throw Error('fixed_paths_required');
  const operation=operationSchemas[params?.operation];
  const fields=operation?Object.keys(operation.properties):undefined;
- if(!fields||Object.keys(params).some(k=>!fields.includes(k))||fields.some(k=>!Object.hasOwn(params,k)))throw Error('invalid_fields');
+ if(!fields||Object.keys(params).some(k=>!fields.includes(k))||operation.required.some(k=>!Object.hasOwn(params,k)))throw Error('invalid_fields');
  for(const key of ['start','end'])if(params[key]!==undefined&&!/^\d{4}-\d{2}-\d{2}$/.test(params[key]))throw Error('invalid_date');
  if(params.capture_id!==undefined&&!/^[a-f0-9]{64}$/.test(params.capture_id))throw Error('invalid_capture');
- for(const key of ['payload','draft'])if(params[key]!==undefined){
-  const value=params[key],spec=params.operation==='planning_setup'&&key==='payload'?operationSchemas.intake.properties.payload:operation.properties[key];
-  if(params.operation==='planning_setup'&&key==='payload'&&value===null)continue;
+ for(const key of ['payload','draft','feedback'])if(params[key]!==undefined){
+  const value=params[key],spec=key==='feedback'?operationSchemas.feedback.properties.payload:params.operation==='planning_setup'&&key==='payload'?operationSchemas.intake.properties.payload:operation.properties[key];
+  if(params.operation==='planning_setup'&&['payload','feedback'].includes(key)&&value===null)continue;
   if(!value||typeof value!=='object'||Array.isArray(value))throw Error('invalid_object');
   if(!spec?.properties||Object.keys(value).some(k=>!Object.hasOwn(spec.properties,k))||spec.required.some(k=>!Object.hasOwn(value,k)))throw Error('invalid_operation_payload');
  }

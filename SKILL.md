@@ -25,6 +25,11 @@ do not spend calls searching for known names or describing a simple read.
    payload is null. If needed, describe `section11_coaching` in that same turn to
    obtain the full `propose` schema. Through Tool Search, each call uses
    `tool_call` with `id` equal to the exact tool name and `args` equal to its input.
+   If the athlete supplied new dated session/health feedback, include it in setup
+   as optional `feedback:{date,state,note,health_clarification}`. State must be
+   `rested|normal|fatigued|weak|symptoms|unknown`; put other wording in note. Use null health
+   clarification unless compatibility was explicitly established). It saves before
+   optional reads; verify `feedback_receipt`. Never postpone feedback until history.
 2. The task packet supplies fresh source/health evidence and saved intake. Setup
    supplies the current managed-plan revision, existing prescription references,
    long-term summary and reference bodies (or explicit retrieval errors).
@@ -32,10 +37,19 @@ do not spend calls searching for known names or describing a simple read.
    coverage, conflicts, health gates and any `required_retrieval` dependencies.
    Do not refetch unchanged sources, reread these references separately or repeat
    intake questions. Read full state only if omitted prior metadata is needed to
-   revise the plan; preserve historical prescription references and receipts.
+   reuse that metadata. A replacement future block uses fresh intake/evidence;
+   old prescriptions/receipts stay in immutable parent history. References outside
+   the new block may be omitted from its session list; never rewrite history.
+   If recent training detail is needed, call the known context inputs directly:
+   `{"operation":"history","start":"YYYY-MM-DD","end":"YYYY-MM-DD","tier":"daily"}`
+   and `{"operation":"activities","task":"plan"}`. Batch independent reads; no describe round
+   is needed for these documented shapes. Choose dates for the actual question.
 3. Build the actual progression from the verified evidence and current request.
    Use `section11_coaching` `propose`, with `payload.current_athlete_context` and
-   the complete schema-1 `payload.plan`. Use the current parent revision and a
+   the complete schema-1 `payload.plan`, including required `weeks` even when
+   `sessions` is empty. Each week needs start_date, weekly_minutes, session_windows,
+   intensity_approach and compromises; `week_summaries` is not that schema. Omit
+   unknown availability instead of representing it as zero. Use the parent and a
    fresh request ID. A framework or intention is not a saved plan. Check the
    successful persisted revision receipt before claiming completion. Give a
    short summary of progression, review/checkpoints and anything pending.

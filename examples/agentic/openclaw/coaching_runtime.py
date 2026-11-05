@@ -102,15 +102,27 @@ class CoachingRuntime:
         intake=module(Path(__file__).with_name('athlete_intake.py'),'s11_athlete_intake')
         return intake.save(self.state/'athlete_intake.sqlite3',self.athlete,payload,self.today())
 
-    def planning_setup(self, payload, references):
+    def planning_setup(self, payload, references, feedback=None):
+        # Persist explicit current feedback before optional planning reads. Its
+        # validation/safety contract is the same as the standalone operation.
+        feedback_receipt=self.record_feedback(feedback) if feedback is not None else None
         # Persistence comes first. Later read/size failures must retain its receipt.
-        if payload is None:
-            intake=self.intake_view()
-            if intake['status']!='available':raise ValueError('saved_intake_required')
-            receipt={'success':True,'revision_id':intake['revision_id'],'unchanged':True,'calendar_writes':0}
-        else:receipt=self.save_intake(payload)
+        try:
+            if payload is None:
+                intake=self.intake_view()
+                if intake['status']!='available':raise ValueError('saved_intake_required')
+                receipt={'success':True,'revision_id':intake['revision_id'],'unchanged':True,'calendar_writes':0}
+            else:receipt=self.save_intake(payload)
+        except Exception:
+            if feedback_receipt is None:raise
+            return {'success':True,'feedback_receipt':feedback_receipt,'current_feedback':self.feedback(),
+                    'intake_receipt':{'success':False,'error_code':'intake_save_or_read_failed'},
+                    'planning_reads':{'status':'not_started'},'calendar_writes':0,
+                    'scope':'Feedback saved; intake/setup failed. Recover current intake before retrying; no plan saved.'}
         result={'success':True,'intake_receipt':receipt,'calendar_writes':0,
                 'scope':'Athlete intent saved/read back independently of planning reads. No plan created or revised; calendar publication still requires exact approval.'}
+        if feedback_receipt is not None:result['feedback_receipt']=feedback_receipt
+        result['current_feedback']=self.feedback()
         try:
             state=self.state_view()
             plan=state.get('plan')
@@ -122,7 +134,7 @@ class CoachingRuntime:
                 result['managed_plan']['plan']['block']={k:v for k,v in plan['block'].items() if k in ('start_date','end_date','objective','goal_ids','review_date','planned_phase')}
                 result['managed_plan']['plan']['week_summaries']=[{k:w[k] for k in ('start_date','weekly_minutes') if k in w} for w in plan['weeks']]
                 result['managed_plan'].update(full_plan_deferred=True,required_retrieval={'operation':'state'},
-                    scope='Selected intent, weekly capacity and all prescription references. Read state for omitted windows/evidence/publication records before depending on them; parent history remains intact.')
+                    scope='Current parent and all prescription references are verified. A replacement future plan using fresh intake/evidence does not need omitted old windows/prose; do not copy unknown old metadata. Read state only when a decision actually depends on it. Past prescriptions remain in immutable parent history; omit references outside the new block, never rewrite them.')
         except Exception:
             result['managed_plan']={'state':'unavailable','error_code':'plan_state_read_failed'}
         if self.cp.get('long_term_source'):
@@ -156,12 +168,12 @@ class CoachingRuntime:
                      'Ask only missing/changed/current-health questions; no plan does not mean answers were lost.')
         pending={'success':True,'state':'onboarding_required','athlete_id':self.athlete,'plan':None,
                  'onboarding_stage':'intake_saved_plan_pending' if intake['status']=='available' else 'intake_required',
-                 'intake':intake,'instruction':instruction,'calendar_writes':0}
+                 'intake':intake,'current_feedback':self.feedback(),'instruction':instruction,'calendar_writes':0}
         if not (Path(self.p['store_dir'])/'coaching_plan.sqlite3').is_file():return pending
         store=self.store()
         try:
             if store.latest_id() is None:return pending
-            result=store.summary();result.update(state='active',onboarding_stage='plan_created',intake=intake,instruction=instruction,calendar_writes=0)
+            result=store.summary();result.update(state='active',onboarding_stage='plan_created',intake=intake,current_feedback=self.feedback(),instruction=instruction,calendar_writes=0)
             if result['plan']['athlete_id']!=self.athlete:raise ValueError('plan_account_mismatch')
             return result
         finally:store.close()
@@ -298,11 +310,11 @@ def main():
         raw=sys.stdin.buffer.read(MAX_INPUT+1)
         if len(raw)>MAX_INPUT:raise ValueError('input_size_limit')
         request=json.loads(raw);runtime=CoachingRuntime(load_profile(args.profile))
-        if not isinstance(request,dict) or set(request)-{'operation','payload','references','start','end','capture_id','draft'}:raise ValueError('invalid_request')
+        if not isinstance(request,dict) or set(request)-{'operation','payload','references','feedback','start','end','capture_id','draft'}:raise ValueError('invalid_request')
         op=request['operation']
         allowed={'state':{'operation'},'intake':{'operation','payload'},'planning_setup':{'operation','payload','references'},'feedback':{'operation','payload'},'propose':{'operation','payload'},'prepare':{'operation','start','end'},'save':{'operation','capture_id','draft'}}
-        if op not in allowed or set(request)!=allowed[op]:raise ValueError('invalid_operation_fields')
-        result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.planning_setup(request['payload'],request['references']) if op=='planning_setup' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
+        if op not in allowed or set(request)-({'feedback'} if op=='planning_setup' else set())!=allowed[op]:raise ValueError('invalid_operation_fields')
+        result=(runtime.state_view() if op=='state' else runtime.save_intake(request['payload']) if op=='intake' else runtime.planning_setup(request['payload'],request['references'],request.get('feedback')) if op=='planning_setup' else runtime.record_feedback(request['payload']) if op=='feedback' else runtime.propose(request['payload']) if op=='propose' else runtime.prepare(request['start'],request['end']) if op=='prepare' else runtime.save(request['capture_id'],request['draft']))
         text=canonical({**result,'packet_complete':True})
         if len(text.encode())>min(49152,runtime.cp.get('tool_packet_bytes',49152)):raise ValueError('output_size_limit_use_narrower_review')
         print(text);return 0

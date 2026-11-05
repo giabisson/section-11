@@ -59,6 +59,8 @@ test('exchange call ceiling reserves final response; session does not carry budg
   const b=exchangeBudget(),ctx={runId:'a',sessionId:'same'};
   b.before_prompt_build({},ctx);
   for(let i=0;i<5;i++)b.model_call_started({callId:String(i)},ctx);
+  assert.equal(b.before_tool_call({toolName:'section11_context',toolCallId:'fifth-stage'},ctx),undefined);
+  b.model_call_started({callId:'final'},ctx);
   assert.equal(b.before_tool_call({toolName:'section11_context'},ctx).block,true);
   assert.equal(b.before_tool_call({toolName:'section11_coaching',params:{operation:'save'}},ctx).block,true);
   assert.equal(b.before_tool_call({toolName:'exec'},ctx).block,true);
@@ -78,8 +80,9 @@ test('estimated token guard and measured usage stay separate; duplicate observed
   b.model_call_started({callId:'one'},ctx);b.model_call_started({callId:'one'},ctx);
   assert.equal(b.before_tool_call({},ctx).block,true);
   b.llm_output({usage:{input:10,cacheRead:100,output:5,total:115}},ctx);
-  assert.equal(records[0].observedModelCalls,1);assert.equal(records[0].actualAttemptUsage.total,115);
-  assert(records[0].estimatedTokens>20000);assert(!JSON.stringify(records).includes('xxxxx'));
+  const attempt=records.find(r=>r.kind==='section11_exchange_attempt');
+  assert.equal(attempt.observedModelCalls,1);assert.equal(attempt.actualAttemptUsage.total,115);
+  assert(attempt.estimatedTokens>20000);assert(!JSON.stringify(records).includes('xxxxx'));
   b.agent_end({},ctx);assert.equal(b.before_tool_call({},ctx),undefined);
   assert.throws(()=>exchangeBudget({modelCalls:1}));
 });
@@ -131,4 +134,37 @@ test('backend reference errors retain actionable metadata but never partial bodi
  const malformed={...error,error_code:'bad error with PRIVATE_CANARY'};
  const failed=await executeContext([],undefined,spawnFixture([Buffer.from(JSON.stringify(malformed))],1));
  assert(!JSON.stringify(failed).includes('PRIVATE_CANARY'));
+});
+
+
+test('native Section 11 broker wrappers do not consume a second operation slot',()=>{
+ const records=[],b=exchangeBudget({toolCalls:2},r=>records.push(r)),ctx={runId:'native-broker'};
+ const broker=(i,id='section11_coaching')=>b.before_tool_call({toolName:'tool_call',toolCallId:'outer'+i,params:{id}},ctx);
+ assert.equal(broker(0),undefined);
+ assert.equal(b.before_tool_call({toolName:'section11_coaching',toolCallId:'tool_call:outer0:section11_coaching:1'},ctx),undefined);
+ assert.equal(broker(1),undefined);
+ assert.equal(b.before_tool_call({toolName:'section11_coaching',toolCallId:'tool_call:outer1:section11_coaching:2'},ctx),undefined);
+ assert.equal(broker(2).block,true);
+ assert.equal(b.before_tool_call({toolName:'section11_context',toolCallId:'direct'},ctx).block,true);
+ assert(records.every(r=>r.cause==='tool_calls'));
+ const other=exchangeBudget({toolCalls:1}),c={runId:'unknown-broker'};
+ assert.equal(other.before_tool_call({toolName:'tool_call',params:{id:'other_plugin'}},c),undefined);
+ assert.equal(other.before_tool_call({toolName:'other_plugin'},c).block,true);
+});
+
+test('token estimate excludes transcript-only duplicates and nested broker results',()=>{
+ const records=[],b=exchangeBudget({},r=>records.push(r)),ctx={runId:'projection'};
+ b.llm_input({historyMessages:[{role:'toolResult',content:[{type:'text',text:'visible'}],details:{duplicate:'x'.repeat(2000000)}}]},ctx);
+ b.after_tool_call({toolName:'section11_context',toolCallId:'tool_call:outer:section11_context:1',result:{content:[{type:'text',text:'nested'.repeat(200000)}]}},ctx);
+ b.after_tool_call({toolName:'tool_call',toolCallId:'outer',result:{content:[{type:'text',text:'once'}],details:{duplicate:'x'.repeat(2000000)}}},ctx);
+ b.model_call_started({callId:'1'},ctx);assert.equal(b.before_tool_call({toolName:'section11_context'},ctx),undefined);
+ b.llm_output({},ctx);assert(records[0].estimatedTokens<20000);
+});
+
+
+test('entry skill activity example satisfies the actual required task contract',()=>{
+ const text=fs.readFileSync(new URL('../../SKILL.md',import.meta.url),'utf8');
+ const examples=[...text.matchAll(/`(\{"operation":"activities"[^`]+\})`/g)].map(m=>JSON.parse(m[1]));
+ assert(examples.length>0);
+ for(const example of examples)assert.doesNotThrow(()=>argvFor(example,config));
 });

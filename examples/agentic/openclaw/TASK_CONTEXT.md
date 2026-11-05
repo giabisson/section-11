@@ -296,3 +296,33 @@ managed state without budget blocks (four observed model attempts). It requested
 a current shoulder/recovery update rather than claiming a plan was saved. No
 production plan, intake or calendar was changed. This verifies the repaired entry
 and retrieval path, not full future coaching quality or a completed six-week plan.
+
+
+## Planning continuation follow-up — 5 November 2026
+
+A subsequent real Telegram turn loaded the compact skill but still failed:
+seven logical operations expanded to dispatcher plus implementation admissions;
+three parallel wrapper calls filled the ten-slot guard before any child could
+run. The feedback attempt was among those refused. The old model boundary also
+refused work on attempt five despite reserving attempt six for final output.
+Known native wrappers now count at their actual operation only, the boundary is
+corrected, and token estimates exclude transcript-only duplicate metadata.
+Feedback can be saved with planning_setup before optional reads, with a separate
+receipt and current-feedback recovery readback. No numeric budget increase or
+model/account/calendar change is involved. The full native regression includes
+the failure branch and a fifth-attempt proposal, rather than only an ideal path.
+
+
+Verification: 1,384 server tests passed, including installed schema conversion
+and native whole-skill/context-pressure checks. An actual Sol-generated proposal
+was reviewed and passed through the installed core Tool Search dispatcher and
+hooked coaching implementation with a simulated fifth-attempt budget state and
+seven earlier logical operations. Save was admitted as operation eight, then independently read
+back from the isolated store. This is a native persistence test, not a claim that
+every model turn automatically produces valid arguments. Explicit feedback enums,
+valid activities(task:plan) examples and required plan weeks are now stated in the
+entry skill; malformed arguments remain rejected. The primary requested block
+and previously blocked feedback were recovered with private preimage/receipt
+backups, immutable history retained and no calendar operations. Exact sessions
+remain dependent on actual available windows and review; no unknown time was
+encoded as zero and no training/medical clearance was invented.

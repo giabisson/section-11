@@ -37,6 +37,8 @@ export async function verifyInstalledSchema(packageRoot){
  cases.push({operation:'intake',payload:intake});
  cases.push({operation:'planning_setup',payload:intake,references:[{source:'protocol',heading:'B'},{source:'workouts',heading:'AE-1'}]});
  cases.push({operation:'planning_setup',payload:null,references:[{source:'protocol',heading:'B'}]});
+ cases.push({operation:'planning_setup',payload:null,feedback,references:[{source:'protocol',heading:'B'}]});
+ cases.push({operation:'planning_setup',payload:null,feedback:null,references:[{source:'protocol',heading:'B'}]});
  const invalid=[{operation:'feedback',payload:{...feedback,unexpected:true}},
   {operation:'feedback',payload:{...feedback,health_clarification:{compatible:'yes',reason:'Synthetic'}}},
   {operation:'feedback',payload:{...feedback,state:'invented'}},
